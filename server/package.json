@@ -1,0 +1,21 @@
+{
+  "name": "toolbox-server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "4.15.3",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.0",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^8.0.0",
+    "knex": "^0.13.0",
+    "morgan": "^1.8.2",
+    "pg": "^7.0.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

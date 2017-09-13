@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node ./server",
+    "client": "node start-client.js"
+  }
+}
