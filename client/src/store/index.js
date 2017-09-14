@@ -17,11 +17,7 @@ const VOTE_ACTIVE = 'VOTE_ACTIVE'
 import gamesJson from '@/assets/json/games'
 import isUndefined from 'lodash/isUndefined'
 
-const socket = io('https://localhost:3001')
-
-socket.on('connect',()=>{
-    console.log('CONNECTED: ' + socket.id)
-})
+const socket = io(process.env.WEBSOCKET_URL)
 
 const store = new Vuex.Store({
     state: {
