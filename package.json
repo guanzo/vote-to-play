@@ -4,7 +4,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon ./server",
+    "server": "set NODE_ENV=development&& nodemon ./server",
     "client": "node start-client.js"
   },
   "dependencies": {}

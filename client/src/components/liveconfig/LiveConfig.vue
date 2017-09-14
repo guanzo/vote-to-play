@@ -1,6 +1,7 @@
 <template>
 	<div class="live-config">
 		<button @click="startVote" class="button">Start a vote</button>
+        <p>Previous voting data will be erased.</p>
 	</div>
 </template>
 

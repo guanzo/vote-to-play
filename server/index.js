@@ -40,7 +40,6 @@ app.use(bodyParser.json());
 
 app.use(logger('dev'));
 
-
 authRouter(app);
 voteRouter(app,server);
 // Express only serves static assets in production

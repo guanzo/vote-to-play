@@ -45,8 +45,9 @@ body {
     font-weight: 300;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height:100%;
+    max-height:100%;
     width:100%;
+    overflow: auto;
 }
 
 </style>

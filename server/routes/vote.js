@@ -30,7 +30,8 @@ var db = require('../db.js')
 
 const STORE = {}
 
-function startVote(channelId, voteType){
+//clear existing vote data
+function startVote(channelId, voteType = 'default'){
     STORE[channelId] = {
         voteType,
         votes: []
@@ -42,12 +43,14 @@ function postVote({channelId, userId, vote, voteType = 'default'}) {
         startVote(channelId,voteType)
 
     let channel = STORE[channelId]
-    if(!channel.votes.find(vote=>vote.userId == userId))
+    
+    if(process.env.NODE_ENV == 'development')
         channel.votes.push({ vote, userId })
-    else
-        console.log('already voted')
+    else if(!channel.votes.find(vote=>vote.userId == userId))
+        channel.votes.push({ vote, userId })
 
 }
+
 
 
 module.exports = (app,server) => {
@@ -55,16 +58,27 @@ module.exports = (app,server) => {
     
     io.on('connection', function (socket) {
         
+        socket.on('join-channel',data=>{
+            let { channelId } = data
+            socket.join(channelId)
+            
+            //there is an ongoing vote
+            if(STORE[channelId])
+                socket.emit(`vote`,STORE[channelId])
+        })
+
+        //only streamers can start a vote
         socket.on('start-vote',data=>{
             let { channelId } = data
             startVote(channelId, data.voteType)
-            socket.emit(`start-vote:${channelId}`,data)
+            socket.to(channelId).emit(`start-vote`,data)
         })
 
         socket.on('vote',data=>{
             postVote(data)
             let { channelId } = data
-            socket.emit(`vote:${channelId}`,STORE[channelId])
+            io.to(channelId).emit(`vote`,STORE[channelId])
+            //socket.emit(`vote`,STORE[channelId])
         })
         
         

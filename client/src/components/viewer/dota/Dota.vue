@@ -35,7 +35,7 @@
                             <i class="fa fa-question-circle" aria-hidden="true"></i>
                         </div>
                         &nbsp;
-                        No Vote Yet
+                        Your Vote
                     </div>
                     <div v-else class="flex-center">
                         <img :src="selectedHero.img">
@@ -51,7 +51,16 @@
                 Vote</button>
             </div>
         </div>
-        <vote-list></vote-list>
+        <vote-results>
+            <template slot="vote" scope="props">
+                <div class="vote-item">
+                    <span class="rank">{{ props.rank + "." }}</span>
+                    <img :src="getHeroImage(props.obj.vote)">
+                    {{ props.obj.vote }} 
+                    <span class="count">{{ props.obj.count }}</span>
+                </div>
+            </template>
+        </vote-results>
     </div>
 </template>
 
@@ -60,12 +69,12 @@
 import axios from 'axios'
 import _ from 'lodash'
 import {VOTE} from '@/store/actions'
-import voteList from './VoteList'
+import voteResults from '../VoteResults'
 
 const DEFAULT_ROLE = 'Roles'
 
 export default {
-    name: 'dota-heroes',
+    name: 'dota',
     data(){
         return {
             query:'',
@@ -83,7 +92,7 @@ export default {
         },
         roles(){
             return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
-        }
+        },
     },
     methods:{
         passesFilter(hero){
@@ -96,10 +105,18 @@ export default {
         },
         vote(){
             this.$store.dispatch(VOTE, { vote: this.selectedHero.name })
+        },
+        getHeroImage(name){
+            console.log(name)
+            let hero = _.find(this.heroes,hero=>{
+                return hero.name.toLowerCase() == name.toLowerCase()
+            })
+            console.log(hero)
+            return hero.img
         }
     },
     components:{
-        voteList
+        voteResults
     }
 }
 </script>
@@ -111,9 +128,12 @@ export default {
 	font-family: 'Cinzel', serif;
     color: #eee;
     display: flex;
+    align-items: flex-start;
 }
 
 .dota-heroes{
+    background: $overlay-background;
+    padding: 10px;
     .images{
         display: flex;
         flex-wrap: wrap;
@@ -158,7 +178,7 @@ export default {
     padding: 5px;
     .default-vote, .your-vote {
         padding: 5px;
-        background: rgba(0,0,0,0.55);
+        background: $overlay-background;
     }
     .default-vote {
         display: flex;
@@ -179,6 +199,22 @@ export default {
         }
     }
     .vote-button {
+        margin-left: auto;
+    }
+}
+
+.vote-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    .rank {
+        width: 30px;
+        text-align: center;
+    }
+    img {
+        margin: 0px 10px;
+    }
+    .count {
         margin-left: auto;
     }
 }

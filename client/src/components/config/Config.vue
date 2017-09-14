@@ -2,6 +2,7 @@
 	<div class="config">
 		<p>
             The content that the viewers vote on is determined by the game that you set in your stream information.
+            <br>
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
         </p>
 	</div>

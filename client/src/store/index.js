@@ -18,13 +18,17 @@ import gamesJson from '@/assets/json/games'
 
 const socket = io('https://localhost:3001')
 
+socket.on('connect',()=>{
+    console.log('CONNECTED: ' + socket.id)
+})
+
 const store = new Vuex.Store({
     state: {
         games: gamesJson.games,
-        selectedGame: '',
+        selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
-        voteStatus: VOTE_INACTIVE,
+        isActiveVote: false,
         voteType: '',
         votes:[]
     },
@@ -44,12 +48,14 @@ const store = new Vuex.Store({
             state.votes = payload.votes;
         },
         [MUTATIONS.START_VOTE]( state ){
-            state.voteStatus = VOTE_ACTIVE
+            state.isActiveVote = true
         },
     },
     actions:{
         [ACTIONS.VOTE]( {state}, payload ){
+            console.log(socket.id + " voting")
             socket.emit('vote',{
+                senderId: socket.id,
                 channelId: state.channelId,
                 vote: payload.vote,
                 userId: state.userId
@@ -60,17 +66,31 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
-            //get the selected game
-            socket.emit('auth-success',{ channelId: payload.channelId })
+            console.log('socket id: ' + socket.id + " joining channel: " + payload.channelId)
+            
             setSocketListeners(payload.channelId)
+
+            //get initial state for stream
+            socket.emit('join-channel',{ 
+                channelId: payload.channelId,
+                senderId: socket.id
+             })
         },
     }
 })
 
 function setSocketListeners(channelId){
-
-    socket.on(`vote:${channelId}`, function (data) {
+    
+    socket.on(`vote`, function (data) {
+        console.log('vote successful')
+        console.log(data)
         store.commit(MUTATIONS.SET_VOTES, data)
+        console.log(store.state)
+    });
+
+    socket.on(`start-vote`, function (data) {
+        console.log('hi')
+        store.commit(MUTATIONS.START_VOTE)
     });
 
 }
