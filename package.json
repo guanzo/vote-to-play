@@ -4,7 +4,8 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node ./server",
+    "server": "nodemon ./server",
     "client": "node start-client.js"
-  }
+  },
+  "dependencies": {}
 }

@@ -34,15 +34,14 @@ module.exports = app => {
 
   // route middleware to verify a token
   apiRoutes.use(function (req, res, next) {
-    console.log(req.headers, 'any token here?')
     // check header or url parameters or post parameters for token
     const token = req.body.token || req.query.token || req.headers.token;
     const secret = new Buffer(process.env.TWITCH_EXTENSION_SECRET, 'base64');
 
     // decode token
     if (token) {
-      console.log(token, 'token is here?')
-      console.log(process.env.TWITCH_EXTENSION_SECRET, 'secret is here');
+      //console.log(token, 'token is here?')
+      //console.log(process.env.TWITCH_EXTENSION_SECRET, 'secret is here');
       // verifies secret and checks exp
       jwt.verify(token, secret, function (err, decoded) {
         if (err) {

@@ -1,38 +1,43 @@
 import axios from 'axios';
+import store from '@/store'
+import { SET_AUTH } from '@/store/mutations'
 
 //https://localhost:3001/api/auth/login
 
 export default function () {
-  if (window.Twitch.ext) {
-
     window.Twitch.ext.onAuthorized(function (auth) {
-      console.log(auth);
-      const url = `https://localhost:3001/api/authenticate`;
-      const config = {
-        headers: {
-          token: auth.token
-        }
-      };
+        axios.defaults.headers.common['Authorization'] = auth.token;
+        
+        store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
+        
+        
+        const url = `https://localhost:3001/api/authenticate`;
+        const config = {
+            headers: {
+                token: auth.token
+            }
+        };
 
-      axios.get(url, config)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        
+        axios.get(url, config)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
     });
 
     window.Twitch.ext.onContext(function (context, contextFields) {
-      console.log(context);
-      console.log(contextFields);
+        console.log(context);
+        console.log(contextFields);
     });
 
     window.Twitch.ext.onError(function (err) {
-      console.error(err);
+        console.error(err);
     });
 
-  }
+    
 
 }

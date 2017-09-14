@@ -1,0 +1,19 @@
+{
+	"games":[
+		{
+			"id": "0",
+			"abbr": "dota",
+			"name": "Dota 2"
+		},
+		{
+			"id": "1",
+			"abbr": "lol",
+			"name": "League of Legends"
+		}
+		,{
+			"id": "2",
+			"abbr": "ow",
+			"name": "Overwatch"
+		}
+	]
+}

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -13,7 +14,10 @@
     "jsonwebtoken": "^8.0.0",
     "knex": "^0.13.0",
     "morgan": "^1.8.2",
-    "pg": "^7.0.2"
+    "pg": "^7.0.2",
+    "socket.io": "^2.0.3",
+    "sqlite": "^2.8.0",
+    "sqlite3": "^3.1.11"
   },
   "scripts": {
     "start": "node server.js"

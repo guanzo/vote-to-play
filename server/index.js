@@ -4,12 +4,16 @@ const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const authRouter = require('./routes/auth');
+const voteRouter = require('./routes/vote');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const cors = require('cors');
 const privateKey = fs.readFileSync('./ssl/key.pem');
 const certificate = fs.readFileSync('./ssl/cert.pem');
+
+//start mysql connection pool
+require('./db.js')
 
 // app.use((req, res, next) => {
 //   console.log('Got request', req.path, req.method);
@@ -20,7 +24,8 @@ const certificate = fs.readFileSync('./ssl/cert.pem');
 // });
 app.use(cors({ credentials: true, origin: true }))
 http.createServer(app).listen(80);
-https
+
+let server = https
   .createServer(
   {
     key: privateKey,
@@ -38,12 +43,13 @@ app.use(logger('dev'));
 
 
 authRouter(app);
+voteRouter(app,server);
 // Express only serves static assets in production
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'));
 // }
 
 app.listen(8081, () => {
-  console.log(process.env.PASSPORT_SECRET, 8081);
-  console.log(`Find the server at: https://localhost:${process.env.PORT || 3001}/`); // eslint-disable-line no-console
+    console.log(process.env.PASSPORT_SECRET, 8081);
+    console.log(`Find the server at: https://localhost:${process.env.PORT || 3001}/`); // eslint-disable-line no-console
 });

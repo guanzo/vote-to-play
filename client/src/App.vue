@@ -1,11 +1,11 @@
 <template>
 	<div id="app">
-		testing
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
+
 export default {
 	name: 'app',
 	data() {
@@ -19,7 +19,6 @@ export default {
 		}
 	},
 	created(){
-		console.log(this.$route)
 	},
 	methods: {
 		testClick() {
@@ -29,7 +28,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+html{
+    background: transparent !important;
+}
+
 html,
 body {
   margin: 0;
@@ -37,23 +41,12 @@ body {
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  color: red;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height:100%;
+    width:100%;
 }
 
-img.splash {
-  width: 200px;
-}
-
-.btn {
-  background: #cc0000;
-  padding: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-}
 </style>

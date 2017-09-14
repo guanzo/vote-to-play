@@ -40,6 +40,11 @@ module.exports = merge(baseWebpackConfig, {
       template: 'liveconfig.html',
       inject: true
     }),
+    new HtmlWebpackPlugin({
+      filename: 'config.html',
+      template: 'config.html',
+      inject: true
+    }),
     new FriendlyErrorsPlugin()
   ]
 })
