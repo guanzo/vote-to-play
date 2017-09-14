@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '@/store'
-import { SET_AUTH } from '@/store/mutations'
+import { SET_AUTH, SET_GAME } from '@/store/mutations'
 
 //https://localhost:3001/api/auth/login
 
@@ -30,14 +30,14 @@ export default function () {
     });
 
     window.Twitch.ext.onContext(function (context, contextFields) {
-        console.log(context);
-        console.log(contextFields);
+        //console.log(context);
+        let game = store.state.selectedGame
+        if(context.game != game)
+            store.commit(SET_GAME, { game: context.game })
     });
 
     window.Twitch.ext.onError(function (err) {
         console.error(err);
     });
-
-    
 
 }

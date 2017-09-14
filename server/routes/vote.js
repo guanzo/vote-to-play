@@ -26,7 +26,7 @@
  * 
  */
 
-
+var db = require('../db.js')
 
 const STORE = {}
 
@@ -67,10 +67,6 @@ module.exports = (app,server) => {
             socket.emit(`vote:${channelId}`,STORE[channelId])
         })
         
-        socket.on('select-game',data=>{
-            let { channelId } = data
-            socket.emit(`select-game:${channelId}`,data)
-        })
         
     });
 

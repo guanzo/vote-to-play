@@ -1,23 +1,18 @@
 <template>
 	<div class="config">
 		<p>
-            Select the game that you will be streaming. <br>
-            You can also change the game in the live configuration panel on your dashboard.
+            The content that the viewers vote on is determined by the game that you set in your stream information.
+            For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
         </p>
-        <select-game></select-game>
 	</div>
 </template>
 
 <script>
 
 import {SET_GAME} from '@/store/mutations'
-import selectGame from '../config-shared/SelectGame'
 
 export default {
 	name: 'config',
-    components:{
-        selectGame
-    }
 }
 </script>
 

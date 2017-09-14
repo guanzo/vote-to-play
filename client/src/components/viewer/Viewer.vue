@@ -22,8 +22,12 @@ export default {
             return this.$store.state.selectedGame
         }
     },
+    created(){
+    },
     components:{
-        dota,
+        'Dota 2': dota,
+        'Overwatch': dota,
+        'League of Legends': dota
     }
 }
 </script>

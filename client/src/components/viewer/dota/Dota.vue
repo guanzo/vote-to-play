@@ -155,6 +155,11 @@ export default {
 
 .vote-bar{
     margin-top: 20px;
+    padding: 5px;
+    .default-vote, .your-vote {
+        padding: 5px;
+        background: rgba(0,0,0,0.55);
+    }
     .default-vote {
         display: flex;
         .image-placeholder{

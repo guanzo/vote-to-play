@@ -21,9 +21,9 @@ const socket = io('https://localhost:3001')
 const store = new Vuex.Store({
     state: {
         games: gamesJson.games,
-        selectedGame: checkForSelectedGame(),
-        channelId: 0,
-        userId: 0,
+        selectedGame: '',
+        channelId: -1,
+        userId: -1,
         voteStatus: VOTE_INACTIVE,
         voteType: '',
         votes:[]
@@ -34,8 +34,6 @@ const store = new Vuex.Store({
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){
             state.selectedGame = payload.game
-
-            localStorage.setItem('selectedGame', payload.game);
         },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.channelId = payload.channelId
@@ -57,14 +55,13 @@ const store = new Vuex.Store({
                 userId: state.userId
             })
         },
-        [ACTIONS.SELECT_GAME]( {state}, { game } ){
-            socket.emit('select-game', { channelId: state.channelId, game })
-        },
         [ACTIONS.START_VOTE]( {state} ){
             socket.emit('start-vote',{ channelId: state.channelId })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
+            //get the selected game
+            socket.emit('auth-success',{ channelId: payload.channelId })
             setSocketListeners(payload.channelId)
         },
     }
@@ -76,16 +73,6 @@ function setSocketListeners(channelId){
         store.commit(MUTATIONS.SET_VOTES, data)
     });
 
-    socket.on(`select-game:${channelId}`, function (data) {
-        store.commit(MUTATIONS.SET_GAME, data)
-    });
-
-}
-
-function checkForSelectedGame(){
-    if (localStorage.getItem('selectedGame') !== null) {
-        return localStorage.getItem('selectedGame')
-    }
 }
 
 export default store
