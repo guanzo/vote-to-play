@@ -1,56 +1,43 @@
 <template>
     <div class="dota">
-        <div class="dota-heroes">
-            <div class="field is-horizontal">
-                <div class="field-body">
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <input v-model="query" class="input" type="text" placeholder="Hero name">
-                        </div>
-                        <div class="control">
-                            <div class="select is-primary">
-                            <select v-model="selectedRole">
-                                <option>{{ DEFAULT_ROLE }}</option>
-                                <option v-for="role in roles" :key="role">{{ role }}</option>
-                            </select>
+        <transition name="fade-vertical">
+            <div v-if="!userSubmittedVote" class="dota-heroes">
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <input v-model="query" class="input" type="text" placeholder="Hero name">
+                            </div>
+                            <div class="control">
+                                <div class="select is-primary">
+                                <select v-model="selectedRole">
+                                    <option>{{ DEFAULT_ROLE }}</option>
+                                    <option v-for="role in roles" :key="role">{{ role }}</option>
+                                </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="images">
-                <div 
-                    v-for="hero in sortedHeroes" 
-                    @click="selectedHero = hero"
-                    class="image-wrapper" 
-                    :key="hero.dname"
-                >
-                    <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img">
-                </div>
-            </div>
-            <div class="vote-bar flex-center">
-                <div class="your-vote">
-                    <div v-if="!selectedHero" class="default-vote">
-                        <div class="image-placeholder flex-center">
-                            <i class="fa fa-question-circle" aria-hidden="true"></i>
-                        </div>
-                        &nbsp;
-                        Your Vote
+                <div class="images">
+                    <div 
+                        v-for="hero in sortedHeroes" 
+                        @click="selectHero(hero)"
+                        class="image-wrapper" 
+                        :key="hero.dname"
+                    >
+                        <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img">
                     </div>
-                    <div v-else class="flex-center">
+                </div>
+                <submit-vote-footer :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
+                    <div v-if="selectedHero" class="flex-center">
                         <img :src="selectedHero.img">
                         &nbsp;
                         {{ selectedHero.name }}
                     </div>
-                </div>
-                <button 
-                    @click="vote()" 
-                    :disabled="!selectedHero" 
-                    class="vote-button button"
-                >
-                Vote</button>
+                </submit-vote-footer>
             </div>
-        </div>
+        </transition>
         <vote-results>
             <template slot="vote" scope="props">
                 <div class="vote-item">
@@ -68,8 +55,9 @@
 
 import axios from 'axios'
 import _ from 'lodash'
-import {VOTE} from '@/store/actions'
 import voteResults from '../VoteResults'
+import submitVoteFooter from '../SubmitVoteFooter'
+import isEmpty from 'lodash/isEmpty'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -80,7 +68,7 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedHero: null
+            selectedHero: {}
         }
     },
     computed:{
@@ -93,6 +81,12 @@ export default {
         roles(){
             return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
         },
+        hasSelectedVote(){
+            return !isEmpty(this.selectedHero);
+        },
+        userSubmittedVote(){
+            return this.$store.getters.userSubmittedVote
+        }
     },
     methods:{
         passesFilter(hero){
@@ -103,20 +97,19 @@ export default {
                 result = result && hero.roles.includes(this.selectedRole)
             return result;
         },
-        vote(){
-            this.$store.dispatch(VOTE, { vote: this.selectedHero.name })
+        selectHero(hero){
+            this.selectedHero = hero
         },
         getHeroImage(name){
-            console.log(name)
             let hero = _.find(this.heroes,hero=>{
                 return hero.name.toLowerCase() == name.toLowerCase()
             })
-            console.log(hero)
             return hero.img
         }
     },
     components:{
-        voteResults
+        voteResults,
+        submitVoteFooter
     }
 }
 </script>
@@ -129,6 +122,8 @@ export default {
     color: #eee;
     display: flex;
     align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .dota-heroes{
@@ -173,13 +168,10 @@ export default {
     }
 }
 
-.vote-bar{
+.submit-vote-footer{
     margin-top: 20px;
     padding: 5px;
-    .default-vote, .your-vote {
-        padding: 5px;
-        background: $overlay-background;
-    }
+    
     .default-vote {
         display: flex;
         .image-placeholder{

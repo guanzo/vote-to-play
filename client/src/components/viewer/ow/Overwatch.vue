@@ -103,7 +103,7 @@ export default {
     }
 }
 
-.vote-bar{
+.submit-vote-footer{
     margin-top: 20px;
     padding: 5px;
     .default-vote, .your-vote {

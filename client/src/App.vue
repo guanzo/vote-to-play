@@ -30,14 +30,16 @@ export default {
 
 <style lang="scss">
 
+@import '~@/style/style.scss';
+
 html{
     background: transparent !important;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #app {

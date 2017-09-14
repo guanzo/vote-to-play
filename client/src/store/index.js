@@ -15,6 +15,7 @@ const VOTE_INACTIVE = 'VOTE_INACTIVE'
 const VOTE_ACTIVE = 'VOTE_ACTIVE'
 
 import gamesJson from '@/assets/json/games'
+import isUndefined from 'lodash/isUndefined'
 
 const socket = io('https://localhost:3001')
 
@@ -49,11 +50,11 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.START_VOTE]( state ){
             state.isActiveVote = true
+            state.votes = []
         },
     },
     actions:{
         [ACTIONS.VOTE]( {state}, payload ){
-            console.log(socket.id + " voting")
             socket.emit('vote',{
                 senderId: socket.id,
                 channelId: state.channelId,
@@ -66,8 +67,6 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
-            console.log('socket id: ' + socket.id + " joining channel: " + payload.channelId)
-            
             setSocketListeners(payload.channelId)
 
             //get initial state for stream
@@ -76,20 +75,21 @@ const store = new Vuex.Store({
                 senderId: socket.id
              })
         },
+    },
+    getters:{
+        userSubmittedVote: state => {
+            return !isUndefined(state.votes.find(vote=>vote.userId == state.userId))
+        }
     }
 })
 
 function setSocketListeners(channelId){
     
-    socket.on(`vote`, function (data) {
-        console.log('vote successful')
-        console.log(data)
+    socket.on(`vote`, data => {
         store.commit(MUTATIONS.SET_VOTES, data)
-        console.log(store.state)
     });
 
-    socket.on(`start-vote`, function (data) {
-        console.log('hi')
+    socket.on(`start-vote`, data => {
         store.commit(MUTATIONS.START_VOTE)
     });
 

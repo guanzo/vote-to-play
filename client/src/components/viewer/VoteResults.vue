@@ -3,15 +3,20 @@
 <div class="vote-list">
     <h4>Results</h4>
     <br>
-    <transition-group name="vote-list" tag="div">
-        <div v-for="(vote,i) in aggregatedVotes" class="vote-list-item" :key="vote.vote">
-            <slot name="vote"
-                :obj="vote"
-                :rank="i+1"
-            >
-            </slot>
+    <transition name="fade" mode="out-in">
+        <transition-group v-if="aggregatedVotes.length" name="vote-list" tag="div">
+            <div v-for="(vote,i) in aggregatedVotes" class="vote-list-item" :key="vote.vote">
+                <slot name="vote"
+                    :obj="vote"
+                    :rank="i+1"
+                >
+                </slot>
+            </div>
+        </transition-group>
+        <div v-else class="has-text-centered">
+            Waiting for votes...
         </div>
-    </transition-group>
+    </transition>
 </div>
 
 </template>
@@ -48,9 +53,10 @@ export default {
 <style lang="scss" scoped>
 
 .vote-list{
-    flex: 1 0 300px;
+    flex: 0 0 300px;
+    position: relative;
     padding: 15px;
-    margin-left: 10px;
+    margin-left: 15px;
     background: $overlay-background;
     h4 {
         text-align: center;
@@ -67,5 +73,6 @@ export default {
 .vote-list-leave-active {
   position: absolute;
 }
+
 
 </style>

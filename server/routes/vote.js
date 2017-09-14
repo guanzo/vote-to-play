@@ -71,7 +71,7 @@ module.exports = (app,server) => {
         socket.on('start-vote',data=>{
             let { channelId } = data
             startVote(channelId, data.voteType)
-            socket.to(channelId).emit(`start-vote`,data)
+            io.to(channelId).emit(`start-vote`,data)
         })
 
         socket.on('vote',data=>{

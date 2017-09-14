@@ -1,15 +1,13 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <span @click="isExpanded = !isExpanded" class="icon">
-                <i class="fa" :class="expandIcon"></i>
-            </span>
-            &nbsp;
-            <img class="logo" src="~@/assets/images/dotavoter-logo.png">
+            <img @click="isExpanded = !isExpanded" class="logo" src="~@/assets/images/dotavoter-logo.png">
         </div>
-        <div class="viewer-body">
-            <component :is="selectedGame"></component>
-        </div>
+        <transition name="fade-vertical">
+            <div v-show="isExpanded" class="viewer-body">
+                <component :is="selectedGame"></component>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -31,17 +29,6 @@ export default {
     },
     computed:{
         ...mapState(['selectedGame','isActiveVote']),
-        expandIcon(){
-            return this.isExpanded ? 'fa-window-close-o' : 'fa-window-maximize'
-        },
-    },
-    watch:{
-        voteStatus(){
-
-        }
-    },
-    created(){
-
     },
     components:{
         'Dota 2': dota,
@@ -68,18 +55,18 @@ export default {
         &:hover{
             opacity: 1;
         }
-        .icon{
-            color: #eee;
-            cursor: pointer;
-        }
         .logo{
             width: 30px;
             height: 30px;
+            cursor: pointer;
         }
     }
     .viewer-body{
         display: flex;
+        
     }
 }
+
+
 
 </style>
