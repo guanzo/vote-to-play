@@ -7,3 +7,7 @@ $overlay-background: rgba(0,0,0,0.55);
     justify-content: center;
     align-items: center;
 }
+
+.overlay-background {
+    background: $overlay-background;
+}

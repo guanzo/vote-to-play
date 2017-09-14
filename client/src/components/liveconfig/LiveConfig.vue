@@ -2,11 +2,15 @@
 	<div class="live-config">
 		<button @click="startVote" class="button">Start a vote</button>
         <p>Previous voting data will be erased.</p>
+        <br>
+        <vote-results class="vote-list">
+        </vote-results>
 	</div>
 </template>
 
 <script>
 import { START_VOTE } from '@/store/actions'
+import voteResults from '@/components/viewer/VoteResults'
 
 export default {
 	name: 'live-config',
@@ -15,6 +19,9 @@ export default {
             this.$store.dispatch(START_VOTE)
         }
     },
+    components:{
+        voteResults
+    }
 }
 </script>
 
@@ -23,6 +30,11 @@ export default {
 
 .live-config{
     padding: 10px;
+    color: #333;
+}
+
+.vote-list {
+    background: white !important;
 }
 
 </style>

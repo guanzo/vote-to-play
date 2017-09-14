@@ -49,6 +49,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     max-height:100%;
     width:100%;
+    color: #eee;
     overflow: auto;
 }
 

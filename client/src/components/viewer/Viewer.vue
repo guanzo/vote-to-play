@@ -1,7 +1,12 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <img @click="isExpanded = !isExpanded" class="logo" src="~@/assets/images/dotavoter-logo.png">
+            <transition name="fade">
+                <div v-if="showExpandTip" class="expand-tip overlay-background">
+                    The broadcaster wants your vote! Click the icon to proceed.
+                </div>
+            </transition>
+            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo.png">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
@@ -24,11 +29,24 @@ export default {
     name: 'viewer',
     data(){
         return {
-            isExpanded: false
+            isExpanded: false,
+            showExpandTip: false,
         }
     },
     computed:{
         ...mapState(['selectedGame','isActiveVote']),
+    },
+    watch:{
+        isActiveVote(){
+            if(this.isActiveVote)
+                this.showExpandTip = true;
+        }
+    },
+    methods:{
+        showUI(){
+            this.isExpanded = !this.isExpanded
+            this.showExpandTip = false;
+        }
     },
     components:{
         'Dota 2': dota,
@@ -49,21 +67,25 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        opacity: 0.35;
-        transition: 0.35s;
-        -webkit-backface-visibility: hidden;
-        &:hover{
-            opacity: 1;
-        }
         .logo{
             width: 30px;
             height: 30px;
             cursor: pointer;
+            opacity: 0.35;
+            transition: 0.35s;
+            -webkit-backface-visibility: hidden;
+            &:hover{
+                opacity: 1;
+            }
         }
     }
     .viewer-body{
         display: flex;
         
+    }
+    .expand-tip {
+        padding: 5px 7.5px;
+        margin-right: 15px;
     }
 }
 

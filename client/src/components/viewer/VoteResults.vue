@@ -1,16 +1,18 @@
 <template>
 
-<div class="vote-list">
+<div class="vote-list overlay-background">
     <h4>Results</h4>
     <br>
     <transition name="fade" mode="out-in">
         <transition-group v-if="aggregatedVotes.length" name="vote-list" tag="div">
-            <div v-for="(vote,i) in aggregatedVotes" class="vote-list-item" :key="vote.vote">
+            <div v-for="(vote,i) in aggregatedVotes"  class="vote-item" :key="vote.vote">
+                <span class="rank">{{ i+1 + "." }}</span>
                 <slot name="vote"
                     :obj="vote"
-                    :rank="i+1"
                 >
                 </slot>
+                {{ vote.vote }} 
+                <span class="count">{{ vote.count }}</span>
             </div>
         </transition-group>
         <div v-else class="has-text-centered">
@@ -57,22 +59,37 @@ export default {
     position: relative;
     padding: 15px;
     margin-left: 15px;
-    background: $overlay-background;
     h4 {
         text-align: center;
     }
 }
 
-.vote-list-item {
+.vote-item {
   transition: all 1s;
 }
-.vote-list-enter, .vote-list-leave-to{
+.vote-enter, .vote-leave-to{
   opacity: 0;
   transform: translateY(30px);
 }
-.vote-list-leave-active {
+.vote-leave-active {
   position: absolute;
 }
 
+
+.vote-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    .rank {
+        width: 30px;
+        text-align: center;
+    }
+    img {
+        margin: 0px 10px;
+    }
+    .count {
+        margin-left: auto;
+    }
+}
 
 </style>

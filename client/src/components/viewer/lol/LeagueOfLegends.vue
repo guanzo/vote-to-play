@@ -108,7 +108,6 @@ export default {
     padding: 5px;
     .default-vote, .your-vote {
         padding: 5px;
-        background: $overlay-background;
     }
     .default-vote {
         display: flex;

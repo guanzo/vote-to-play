@@ -1,7 +1,7 @@
 <template>
     <div class="dota">
         <transition name="fade-vertical">
-            <div v-if="!userSubmittedVote" class="dota-heroes">
+            <div v-if="!userSubmittedVote" class="dota-heroes overlay-background">
                 <div class="field is-horizontal">
                     <div class="field-body">
                         <div class="field is-grouped">
@@ -40,12 +40,7 @@
         </transition>
         <vote-results>
             <template slot="vote" scope="props">
-                <div class="vote-item">
-                    <span class="rank">{{ props.rank + "." }}</span>
-                    <img :src="getHeroImage(props.obj.vote)">
-                    {{ props.obj.vote }} 
-                    <span class="count">{{ props.obj.count }}</span>
-                </div>
+                <img :src="getHeroImage(props.obj.vote)">
             </template>
         </vote-results>
     </div>
@@ -127,7 +122,6 @@ export default {
 }
 
 .dota-heroes{
-    background: $overlay-background;
     padding: 10px;
     .images{
         display: flex;
