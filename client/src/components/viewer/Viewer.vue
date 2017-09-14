@@ -3,7 +3,7 @@
         <div class="viewer-header">
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
-                    The broadcaster wants your vote! Click the icon to proceed.
+                    The broadcaster wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
             <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo.png">
@@ -19,7 +19,7 @@
 <script>
 
 import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
@@ -34,12 +34,17 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','isActiveVote']),
+        ...mapState(['selectedGame','votes']),
+        ...mapGetters(['userSubmittedVote'])
     },
     watch:{
-        isActiveVote(){
-            if(this.isActiveVote)
+        votes(){
+            if(this.votes.length == 0)
                 this.showExpandTip = true;
+        },
+        userSubmittedVote(){
+            if(this.userSubmittedVote)
+                this.showExpandTip = false;
         }
     },
     methods:{

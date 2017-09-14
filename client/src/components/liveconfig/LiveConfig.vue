@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import { START_VOTE } from '@/store/actions'
+import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/viewer/VoteResults'
 
 export default {
 	name: 'live-config',
     methods:{
         startVote(){
-            this.$store.dispatch(START_VOTE)
+            this.$store.dispatch(START_NEW_VOTE)
         }
     },
     components:{

@@ -29,7 +29,6 @@ const store = new Vuex.Store({
         selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
-        isActiveVote: false,
         voteType: '',
         votes:[]
     },
@@ -48,8 +47,7 @@ const store = new Vuex.Store({
             state.voteType = payload.voteType
             state.votes = payload.votes;
         },
-        [MUTATIONS.START_VOTE]( state ){
-            state.isActiveVote = true
+        [MUTATIONS.START_NEW_VOTE]( state, payload ){
             state.votes = []
         },
     },
@@ -62,7 +60,7 @@ const store = new Vuex.Store({
                 userId: state.userId
             })
         },
-        [ACTIONS.START_VOTE]( {state} ){
+        [ACTIONS.START_NEW_VOTE]( {state} ){
             socket.emit('start-vote',{ channelId: state.channelId })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
@@ -90,7 +88,7 @@ function setSocketListeners(channelId){
     });
 
     socket.on(`start-vote`, data => {
-        store.commit(MUTATIONS.START_VOTE)
+        store.commit(MUTATIONS.START_NEW_VOTE)
     });
 
 }
