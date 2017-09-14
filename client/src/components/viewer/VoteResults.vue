@@ -29,6 +29,12 @@ import _ from 'lodash'
 
 export default {
     name: 'vote-list',
+    props:{
+        maxResults: {
+            type: Number,
+            default: 5
+        },
+    },
     computed:{
         channelId(){
             return this.$store.state.channelId
@@ -37,13 +43,12 @@ export default {
             return this.$store.state.votes
         },
         aggregatedVotes(){
-            let maxResults = 5;
             return _(this.userVotes)
                 .countBy('vote')
                 .map((count, vote)=> ({ vote, count }))
                 .sortBy('count')
                 .reverse()
-                .take(maxResults)
+                .take(this.maxResults)
                 .value()
         }
 
@@ -64,14 +69,11 @@ export default {
     }
 }
 
-.vote-item {
-  transition: all 1s;
-}
-.vote-enter, .vote-leave-to{
+.vote-list-enter, .vote-list-leave-to{
   opacity: 0;
   transform: translateY(30px);
 }
-.vote-leave-active {
+.vote-list-leave-active {
   position: absolute;
 }
 
@@ -79,6 +81,7 @@ export default {
 .vote-item{
     display: flex;
     align-items: center;
+    transition: all 1s;
     margin-bottom: 5px;
     .rank {
         width: 30px;

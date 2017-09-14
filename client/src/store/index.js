@@ -9,6 +9,7 @@ import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
 import dota from './modules/dota'
+import ow from './modules/ow'
 import io from 'socket.io-client'
 
 const VOTE_INACTIVE = 'VOTE_INACTIVE'
@@ -22,14 +23,15 @@ const socket = io(process.env.WEBSOCKET_URL)
 const store = new Vuex.Store({
     state: {
         games: gamesJson.games,
-        selectedGame: 'Dota 2',
+        selectedGame: 'Overwatch',
         channelId: -1,
         userId: -1,
         voteType: '',
         votes:[]
     },
     modules:{
-        dota
+        dota,
+        ow
     },
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){

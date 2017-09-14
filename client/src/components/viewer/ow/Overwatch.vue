@@ -1,7 +1,48 @@
 <template>
-    <div class="ow">
-        overwatch
-        <vote-results></vote-results>
+    <div class="overwatch">
+        <transition name="fade-vertical">
+            <div class="overwatch-heroes overlay-background">
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <input v-model="query" class="input" type="text" placeholder="Hero name">
+                            </div>
+                            <div class="control">
+                                <div class="select is-primary">
+                                <select v-model="selectedRole">
+                                    <option>{{ DEFAULT_ROLE }}</option>
+                                    <option v-for="role in roles" :key="role">{{ role }}</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="images">
+                    <div 
+                        v-for="hero in heroes" 
+                        @click="selectHero(hero)"
+                        class="image-wrapper" 
+                        :key="hero.name"
+                    >
+                        <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar">
+                    </div>
+                </div>
+                <submit-vote-footer :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
+                    <div v-if="selectedHero" class="flex-center">
+                        <img :src="selectedHero.avatar">
+                        &nbsp;
+                        {{ selectedHero.name }}
+                    </div>
+                </submit-vote-footer>
+            </div>
+        </transition>
+        <vote-results :maxResults="maxResults">
+            <template slot="vote" scope="props">
+                <img :src="getHeroImage(props.obj.vote)">
+            </template>
+        </vote-results>
     </div>
 </template>
 
@@ -9,47 +50,60 @@
 
 import axios from 'axios'
 import _ from 'lodash'
-import {VOTE} from '@/store/actions'
 import voteResults from '../VoteResults'
+import submitVoteFooter from '../SubmitVoteFooter'
+import isEmpty from 'lodash/isEmpty'
+import changeCase from 'change-case'
 
 const DEFAULT_ROLE = 'Roles'
 
 export default {
-    name: 'ow-heroes',
+    name: 'overwatch',
     data(){
         return {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedHero: null
+            selectedHero: {},
+            maxResults: 3,
         }
     },
     computed:{
         heroes(){
-            return this.$store.state.dota.heroes
-        },
-        sortedHeroes(){
-            return _.sortBy(this.heroes,'dname')
+            return _.sortBy(this.$store.state.ow.heroes,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
+            return _(this.heroes).map(hero=>changeCase.title(hero.type)).uniq().sort().value()
+        },
+        hasSelectedVote(){
+            return !isEmpty(this.selectedHero);
+        },
+        userSubmittedVote(){
+            return this.$store.getters.userSubmittedVote
         }
     },
     methods:{
         passesFilter(hero){
             let result = true;
             if(this.query.length)
-                result = hero.dname.toLowerCase().includes(this.query.toLowerCase())
+                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.roles.includes(this.selectedRole)
+                result = result && hero.type.includes(this.selectedRole)
             return result;
         },
-        vote(){
-            this.$store.dispatch(VOTE, { vote: this.selectedHero.name })
+        selectHero(hero){
+            this.selectedHero = hero
+        },
+        getHeroImage(name){
+            let hero = _.find(this.heroes,hero=>{
+                return hero.name.toLowerCase() == name.toLowerCase()
+            })
+            return hero.avatar
         }
     },
     components:{
-        voteResults
+        voteResults,
+        submitVoteFooter
     }
 }
 </script>
@@ -57,13 +111,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
-.dota{
+.overwatch{
 	font-family: 'Cinzel', serif;
     color: #eee;
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    img {
+        max-height: 100px;
+    }
 }
 
-.dota-heroes{
+.overwatch-heroes{
+    padding: 10px;
     .images{
         display: flex;
         flex-wrap: wrap;
@@ -78,6 +139,7 @@ export default {
 .image-wrapper{
     position: relative;
     transition: .3s all;
+    margin: 3px;
     cursor: pointer;
     &:before {
         box-shadow: 0px 0px 0px 0px $primary inset;
@@ -95,6 +157,8 @@ export default {
         box-shadow: 0px 0px 0px 3px $primary inset;
     }
     img {
+        max-height: 100px;
+        width: auto;
         display: block;
         transition: .3s all;
         &.filtered-out {
@@ -103,34 +167,7 @@ export default {
     }
 }
 
-.submit-vote-footer{
-    margin-top: 20px;
-    padding: 5px;
-    .default-vote, .your-vote {
-        padding: 5px;
-        background: $overlay-background;
-    }
-    .default-vote {
-        display: flex;
-        .image-placeholder{
-            background: grey;
-            width: 60px;
-            height: 30px;
-        }
-    }
-    .your-vote {
-        display: flex;
-        margin-left: auto;
-        font-size: 1.5em;
-        color: white;
-        text-shadow: #000 0px 0px 2px;
-        span {
-            margin-right: 10px;
-        }
-    }
-    .vote-button {
-        margin-left: auto;
-    }
+.submit-vote-img {
 }
 
 </style>

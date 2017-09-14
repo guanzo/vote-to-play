@@ -21,7 +21,7 @@
                 </div>
                 <div class="images">
                     <div 
-                        v-for="hero in sortedHeroes" 
+                        v-for="hero in heroes" 
                         @click="selectHero(hero)"
                         class="image-wrapper" 
                         :key="hero.dname"
@@ -38,7 +38,7 @@
                 </submit-vote-footer>
             </div>
         </transition>
-        <vote-results>
+        <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
                 <img :src="getHeroImage(props.obj.vote)">
             </template>
@@ -63,15 +63,13 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedHero: {}
+            selectedHero: {},
+            maxResults: 10
         }
     },
     computed:{
         heroes(){
-            return this.$store.state.dota.heroes
-        },
-        sortedHeroes(){
-            return _.sortBy(this.heroes,'dname')
+            return _.sortBy(this.$store.state.dota.heroes,'dname')
         },
         roles(){
             return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
@@ -162,47 +160,5 @@ export default {
     }
 }
 
-.submit-vote-footer{
-    margin-top: 20px;
-    padding: 5px;
-    
-    .default-vote {
-        display: flex;
-        .image-placeholder{
-            background: grey;
-            width: 60px;
-            height: 30px;
-        }
-    }
-    .your-vote {
-        display: flex;
-        margin-left: auto;
-        font-size: 1.5em;
-        color: white;
-        text-shadow: #000 0px 0px 2px;
-        span {
-            margin-right: 10px;
-        }
-    }
-    .vote-button {
-        margin-left: auto;
-    }
-}
-
-.vote-item{
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    .rank {
-        width: 30px;
-        text-align: center;
-    }
-    img {
-        margin: 0px 10px;
-    }
-    .count {
-        margin-left: auto;
-    }
-}
 
 </style>

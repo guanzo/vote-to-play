@@ -40,7 +40,7 @@ export default {
                 this.$store.dispatch(VOTE, { vote: this.vote })
                 this.loading = false
                 this.buttonText = 'Success'
-            }, 1000)
+            }, 750)
         },
     }
 }
