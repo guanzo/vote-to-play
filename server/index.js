@@ -12,8 +12,19 @@ const cors = require('cors');
 const path = require('path')
 
 
-const privateKey = fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem'));
-const certificate = fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem'));
+const keyPath;
+const certPath;
+if(process.env.NODE_ENV == 'development'){
+    keyPath = path.resolve(__dirname, 'ssl/key.pem')
+    certPath = path.resolve(__dirname, 'ssl/cert.pem')
+}
+else{
+    keyPath = '/etc/letsencrypt/live/guanzo.io/privkey.pem'
+    certPath = '/etc/letsencrypt/live/guanzo.io/fullchain.pem'
+}
+
+const privateKey = fs.readFileSync(keyPath);
+const certificate = fs.readFileSync(certPath);
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 //require('./data.js')
