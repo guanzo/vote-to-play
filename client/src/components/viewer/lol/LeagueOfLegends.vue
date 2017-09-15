@@ -56,7 +56,7 @@ import isEmpty from 'lodash/isEmpty'
 import { GET_CHAMPIONS } from '@/store/actions'
 
 const DEFAULT_ROLE = 'Roles'
-const IMG_BASE_URL = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
+const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
 
 export default {
     name: 'league-of-legends',

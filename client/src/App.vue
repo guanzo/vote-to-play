@@ -10,32 +10,6 @@ import axios from 'axios'
 
 export default {
 	name: 'app',
-	data() {
-		return {
-			showLogo: false
-		}
-	},
-	computed:{
-		route(){
-			return this.$route
-		}
-	},
-	created(){/*
-        axios.get('https://api.twitch.tv/kraken/users?login=dillonm483',{
-            headers:{
-            'Accept': 'application/vnd.twitchtv.v5+json',
-            'Client-ID':'9p87e0fdl3h6gbn8ijwpdc7xszri8m',
-            'Authorization': 'OAuth rq9petxfbzsucdtlgui6zdpoygab3r'
-        }
-        }).then((response)=>{
-        console.log(response)
-        })*/
-	},
-	methods: {
-		testClick() {
-			this.showLogo = !this.showLogo;
-		}
-	}
 }
 </script>
 
