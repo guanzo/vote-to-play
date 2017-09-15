@@ -16,7 +16,6 @@ import io from 'socket.io-client'
 const VOTE_INACTIVE = 'VOTE_INACTIVE'
 const VOTE_ACTIVE = 'VOTE_ACTIVE'
 
-import gamesJson from '@/assets/json/games'
 import isUndefined from 'lodash/isUndefined'
 
 const socket = io(process.env.SERVER_URL)
@@ -24,7 +23,6 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        games: gamesJson.games,
         selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
