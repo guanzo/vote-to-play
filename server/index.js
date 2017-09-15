@@ -12,7 +12,7 @@ const cors = require('cors');
 const privateKey = fs.readFileSync('./ssl/key.pem');
 const certificate = fs.readFileSync('./ssl/cert.pem');
 
-require('./data.js')
+//require('./data.js')
 
 // app.use((req, res, next) => {
 //   console.log('Got request', req.path, req.method);
