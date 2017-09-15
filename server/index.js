@@ -15,8 +15,9 @@ const path = require('path')
 const privateKey = fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem'));
 const certificate = fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem'));
 
+console.log(process.env)
 console.log("IS PRODUCTION?: " + process.env.IS_PRODUCTION)
-
+console.log("IS PRODUCTION?: " + process.env.NODE_ENV)
 //require('./data.js')
 
 // app.use((req, res, next) => {
