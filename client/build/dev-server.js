@@ -96,8 +96,8 @@ devMiddleware.waitUntilValid(() => {
 var https = require('https');
 var fs = require('fs');
 var options = {
-  key: fs.readFileSync('../ssl/key.pem'),
-  cert: fs.readFileSync('../ssl/cert.pem'),
+  key: fs.readFileSync('../server/ssl/key.pem'),
+  cert: fs.readFileSync('../server/ssl/cert.pem'),
 };
 
 var server = https.createServer(options, app).listen(port);

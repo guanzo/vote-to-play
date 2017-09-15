@@ -15,6 +15,8 @@ const path = require('path')
 const privateKey = fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem'));
 const certificate = fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem'));
 
+console.log("IS PRODUCTION?: " + process.env.IS_PRODUCTION)
+
 //require('./data.js')
 
 // app.use((req, res, next) => {
@@ -35,7 +37,7 @@ let server = https
   },
   app
   )
-  .listen(process.env.PORT || 3001);
+  .listen(process.env.PORT || 443);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -52,5 +54,5 @@ voteRouter(app,server);
 
 app.listen(8081, () => {
     console.log(process.env.PASSPORT_SECRET, 8081);
-    console.log(`Find the server at: https://localhost:${process.env.PORT || 3001}/`); // eslint-disable-line no-console
+    console.log(`Find the server at: https://localhost:${process.env.PORT || 443}/`); // eslint-disable-line no-console
 });
