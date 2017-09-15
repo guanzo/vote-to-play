@@ -15,10 +15,7 @@ const path = require('path')
 const privateKey = fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem'));
 const certificate = fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem'));
 
-console.log(process.env)
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
-console.log("IS PRODUCTION?: " + process.env.IS_PRODUCTION)
-console.log("IS PRODUCTION?: " + process.env.NODE_ENV)
 //require('./data.js')
 
 // app.use((req, res, next) => {
@@ -40,6 +37,8 @@ let server = https
   app
   )
   .listen(process.env.PORT || 443);
+
+app.use(express.static(__dirname+'/public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
