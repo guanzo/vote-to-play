@@ -12,13 +12,12 @@ const cors = require('cors');
 const path = require('path')
 
 
-const keyPath;
-const certPath;
+let keyPath;
+let certPath;
 if(process.env.NODE_ENV == 'development'){
     keyPath = path.resolve(__dirname, 'ssl/key.pem')
     certPath = path.resolve(__dirname, 'ssl/cert.pem')
-}
-else{
+} else{
     keyPath = '/etc/letsencrypt/live/guanzo.io/privkey.pem'
     certPath = '/etc/letsencrypt/live/guanzo.io/fullchain.pem'
 }
