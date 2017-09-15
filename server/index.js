@@ -22,7 +22,7 @@ const certificate = fs.readFileSync('./ssl/cert.pem');
 //   next();
 // });
 app.use(cors({ credentials: true, origin: true }))
-http.createServer(app).listen(80);
+http.createServer(app);
 
 let server = https
   .createServer(

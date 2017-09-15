@@ -1,0 +1,10 @@
+{
+	"apps" :[
+		{
+		  "name": "Vote to play",
+		  "script": "index.js",
+		  "watch": "true",
+		  "ignore_watch": ["node_modules"]
+		}
+	]
+}
