@@ -9,8 +9,11 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const cors = require('cors');
-const privateKey = fs.readFileSync('./ssl/key.pem');
-const certificate = fs.readFileSync('./ssl/cert.pem');
+const path = require('path')
+
+
+const privateKey = fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem'));
+const certificate = fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem'));
 
 //require('./data.js')
 
