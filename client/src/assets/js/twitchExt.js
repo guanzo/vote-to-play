@@ -12,22 +12,12 @@ export default function () {
         
         store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
         
-        
         const url = process.env.SERVER_URL+`/api/authenticate`;
         const config = {
             headers: {
                 token: auth.token
             }
         };
-
-        
-        axios.get(url, config)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
 
     });
 

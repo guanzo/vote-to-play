@@ -1,4 +1,5 @@
 const express = require('express');
+const https = require('https');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 // Middleware to require login/auth
@@ -6,8 +7,8 @@ const jwt = require('jsonwebtoken');
 // const requireLogin = passport.authenticate('local', { session: false });
 module.exports = app => {
   // Initializing route groups
-  const apiRoutes = express.Router();
-  const authRoutes = express.Router();
+  //const apiRoutes = express.Router();
+  //const authRoutes = express.Router();
 
   //=========================
   // Auth Routes
@@ -15,7 +16,7 @@ module.exports = app => {
   //=========================
 
   // Set auth routes as subgroup/middleware to apiRoutes
-  apiRoutes.use(authRoutes);
+  //apiRoutes.use(authRoutes);
 
   // Login route
   // authRoutes.post('/login', (req, res, next) => {
@@ -33,11 +34,12 @@ module.exports = app => {
 
 
   // route middleware to verify a token
-  apiRoutes.use(function (req, res, next) {
+  app.use(function (req, res, next) {
     // check header or url parameters or post parameters for token
-    const token = req.body.token || req.query.token || req.headers.token;
+    console.log('verify token')
+    const token = req.body.token || req.query.token || req.headers.token || req.headers.authorization;
     const secret = new Buffer(process.env.TWITCH_EXTENSION_SECRET, 'base64');
-
+    
     // decode token
     if (token) {
       //console.log(token, 'token is here?')
@@ -73,11 +75,10 @@ module.exports = app => {
 
     }
   });
-
+/*
   apiRoutes.get('/authenticate', (req, res, next) => {
     res.status(200).json({ success: true, token: req.signedToken });
-  });
-
+  });*/
   // Set url for API group routes
-  app.use('/api', apiRoutes);
+  //app.use('/api', apiRoutes);
 };

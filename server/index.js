@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const authRouter = require('./routes/auth');
 const voteRouter = require('./routes/vote');
+const dataRouter = require('./routes/data');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
@@ -25,8 +26,7 @@ if(process.env.NODE_ENV == 'development'){
 const privateKey = fs.readFileSync(keyPath);
 const certificate = fs.readFileSync(certPath);
 
-console.log(process.env)
-console.log(JSON.stringify(process.env.env))
+//console.log(process.env)
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
@@ -47,13 +47,12 @@ if (process.env.NODE_ENV === 'production')
     app.use(express.static(__dirname+'/public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
-
 app.use(logger('dev'));
 
 authRouter(app);
 voteRouter(app,server);
+dataRouter(app)
 
 app.listen(8081, () => {
     console.log(process.env.PASSPORT_SECRET, 8081);

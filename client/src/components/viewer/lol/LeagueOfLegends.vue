@@ -53,7 +53,8 @@ import _ from 'lodash'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
-import { GET_CHAMPIONS } from '@/store/actions'
+import { GET_HEROES } from '@/store/actions'
+import { NS_LOL } from '@/store/modules/lol'
 
 const DEFAULT_ROLE = 'Roles'
 const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
@@ -70,7 +71,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(GET_CHAMPIONS)
+        this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
     },
     computed:{
         champions(){

@@ -53,6 +53,8 @@ import _ from 'lodash'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
+import { GET_HEROES } from '@/store/actions'
+import { NS_DOTA } from '@/store/modules/dota'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -79,7 +81,19 @@ export default {
         },
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
+        },
+        isAuthed(){
+            return this.$store.state.isAuthed;
         }
+    },
+    watch:{
+        isAuthed(){
+            if(this.isAuthed)
+                this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
+        }
+    },
+    created(){
+        
     },
     methods:{
         passesFilter(hero){

@@ -13,15 +13,15 @@ export default new Router({
             component: { template: '<div></div>'}
         },
         {
-            path: '/*/viewer.html',
+            path: '*/viewer.html',
             component: Viewer
         },
         {
-            path: '/*/config.html',
+            path: '*/config.html',
             component: Config
         },
         {
-            path: '/*/liveconfig.html',
+            path: '*/liveconfig.html',
             component: LiveConfig
         },
     ],

@@ -23,8 +23,9 @@ const socket = io(process.env.SERVER_URL)
 
 const store = new Vuex.Store({
     state: {
+        isAuthed: false,
         games: gamesJson.games,
-        selectedGame: 'League of Legends',
+        selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
         voteType: '',
@@ -40,6 +41,7 @@ const store = new Vuex.Store({
             state.selectedGame = payload.game
         },
         [MUTATIONS.SET_AUTH]( state, payload ){
+            state.isAuthed = true;
             state.channelId = payload.channelId
             state.userId = payload.userId
         },
