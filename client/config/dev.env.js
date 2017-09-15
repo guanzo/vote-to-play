@@ -3,5 +3,5 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  SERVER_URL: '"https://guanzo.io:443"'
+  SERVER_URL: '"https://localhost"'
 })
