@@ -28,7 +28,7 @@ const certificate = fs.readFileSync(certPath);
 console.log(process.env)
 console.log(JSON.stringify(process.env.env))
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
-console.log('process.env.NODE_ENV:', process.env.TWITCH_EXTENSION_SECRET);
+console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
 app.use(cors({ credentials: true, origin: true }))
 http.createServer(app);
