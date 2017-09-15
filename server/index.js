@@ -26,7 +26,7 @@ const privateKey = fs.readFileSync(keyPath);
 const certificate = fs.readFileSync(certPath);
 
 console.log(process.env)
-console.log(process.env.env)
+console.log(JSON.stringify(process.env.env))
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 
 app.use(cors({ credentials: true, origin: true }))
