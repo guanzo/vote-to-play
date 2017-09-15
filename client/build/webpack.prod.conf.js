@@ -93,7 +93,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: config.build.config,
-      template: 'onfig.html',
+      template: 'config.html',
       inject: true,
       minify: {
         removeComments: true,

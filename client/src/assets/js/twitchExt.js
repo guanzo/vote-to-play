@@ -13,7 +13,7 @@ export default function () {
         store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
         
         
-        const url = `https://localhost:443/api/authenticate`;
+        const url = process.env.SERVER_URL+`/api/authenticate`;
         const config = {
             headers: {
                 token: auth.token
