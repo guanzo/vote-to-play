@@ -2,9 +2,11 @@ import axios from 'axios';
 import store from '@/store'
 import { SET_AUTH, SET_GAME } from '@/store/mutations'
 
-//https://localhost:3001/api/auth/login
-
 export default function () {
+
+    //uncomment when not testing inside twitch, b/c the socket joins the rooms upon auth
+    //store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
+
     window.Twitch.ext.onAuthorized(function (auth) {
         axios.defaults.headers.common['Authorization'] = auth.token;
         

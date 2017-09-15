@@ -26,8 +26,6 @@
  * 
  */
 
-var db = require('../db.js')
-
 const STORE = {}
 
 //clear existing vote data
@@ -78,7 +76,6 @@ module.exports = (app,server) => {
             postVote(data)
             let { channelId } = data
             io.to(channelId).emit(`vote`,STORE[channelId])
-            //socket.emit(`vote`,STORE[channelId])
         })
         
         

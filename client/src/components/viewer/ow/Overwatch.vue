@@ -1,12 +1,12 @@
 <template>
     <div class="overwatch">
         <transition name="fade-vertical">
-            <div class="overwatch-heroes overlay-background">
+            <div class="overwatch-heroes voter-section overlay-background">
                 <div class="field is-horizontal">
                     <div class="field-body">
                         <div class="field is-grouped">
                             <div class="control">
-                                <input v-model="query" class="input" type="text" placeholder="Hero name">
+                                <input v-model="query" class="input" type="text" placeholder="Search hero name">
                             </div>
                             <div class="control">
                                 <div class="select is-primary">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="images">
+                <div class="image-grid">
                     <div 
                         v-for="hero in heroes" 
                         @click="selectHero(hero)"
@@ -122,19 +122,6 @@ export default {
         max-height: 100px;
     }
 }
-
-.overwatch-heroes{
-    padding: 10px;
-    .images{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    button{
-        float: right;
-    }
-    
-}
-
 
 .image-wrapper{
     position: relative;

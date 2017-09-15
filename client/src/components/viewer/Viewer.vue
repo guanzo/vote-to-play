@@ -6,7 +6,7 @@
                     The broadcaster wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo.png">
+            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
@@ -61,11 +61,37 @@ export default {
 }
 </script>
 
+<style lang="scss">
+
+.voter-section{
+    padding: 10px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+     .image-grid{
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+    button{
+        float: right;
+    }
+    .filter-section {
+        min-height: 40px;
+        margin-bottom: 5px;
+    }
+}
+
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
 .viewer{
     padding: 15px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
     .viewer-header{
         margin-top: 40px;
         margin-bottom: 15px;
@@ -76,7 +102,7 @@ export default {
             width: 30px;
             height: 30px;
             cursor: pointer;
-            opacity: 0.35;
+            opacity: 0.75;
             transition: 0.35s;
             -webkit-backface-visibility: hidden;
             &:hover{
@@ -85,8 +111,8 @@ export default {
         }
     }
     .viewer-body{
+        flex: 1;
         display: flex;
-        
     }
     .expand-tip {
         padding: 5px 7.5px;

@@ -1,7 +1,7 @@
 <template>
     <div class="submit-vote-footer flex-center">
         <div class="your-vote">
-            <div v-if="!hasSelectedVote" class="default-vote">
+            <div v-if="!hasSelectedVote" class="default-vote flex-center">
                 <div class="image-placeholder flex-center">
                     <i class="fa fa-question-circle" aria-hidden="true"></i>
                 </div>
@@ -39,7 +39,6 @@ export default {
             setTimeout(()=>{
                 this.$store.dispatch(VOTE, { vote: this.vote })
                 this.loading = false
-                this.buttonText = 'Success'
             }, 750)
         },
     }
@@ -47,6 +46,24 @@ export default {
 
 </script>
 
+<style lang="scss">
+
+.dota .image-placeholder{
+    width: 60px;
+    height: 30px;
+}
+
+
+.overwatch .image-placeholder{
+    width: 60px;
+    height: 100px;
+}
+
+.league-of-legends .image-placeholder{
+    width: 40px;
+    height: 40px;
+}
+</style>
 
 <style lang="scss" scoped>
 
@@ -55,11 +72,8 @@ export default {
     padding: 5px;
     
     .default-vote {
-        display: flex;
         .image-placeholder{
             background: grey;
-            width: 60px;
-            height: 30px;
         }
     }
     .your-vote {
