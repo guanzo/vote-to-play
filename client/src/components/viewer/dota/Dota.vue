@@ -139,9 +139,6 @@ export default {
     position: relative;
     transition: .3s all;
     cursor: pointer;
-    &:before {
-        box-shadow: 0px 0px 0px 0px $primary inset;
-    }
     &:hover:before {
         box-shadow: 0px 0px 0px 3px #eee inset;
         position: absolute;
@@ -150,9 +147,6 @@ export default {
         width: 100%;
         height: 100%;
         content: "";
-    }
-    &:hover{
-        box-shadow: 0px 0px 0px 3px $primary inset;
     }
     img {
         display: block;

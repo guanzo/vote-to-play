@@ -12,13 +12,6 @@ export default function () {
         
         store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
         
-        const url = process.env.SERVER_URL+`/api/authenticate`;
-        const config = {
-            headers: {
-                token: auth.token
-            }
-        };
-
     });
 
     window.Twitch.ext.onContext(function (context, contextFields) {

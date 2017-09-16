@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import twitchExt from './assets/js/twitchExt';
 import 'bulma'
-import 'font-awesome/css/font-awesome.css';
 
 Vue.config.productionTip = false
 

@@ -174,5 +174,13 @@
     "type": "support",
     "difficulty": 3,
     "description": "LOLSupport"
+  },
+  {
+    "id": "doomfist",
+    "name": "Doomfist",
+    "avatar": "https://blzgdapipro-a.akamaihd.net/hero/doomfist/hero-select-portrait.png",
+    "type": "offense",
+    "difficulty": 3,
+    "description": "Hulk Smash"
   }
 ]

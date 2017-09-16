@@ -3,7 +3,7 @@
         <div class="your-vote">
             <div v-if="!hasSelectedVote" class="default-vote flex-center">
                 <div class="image-placeholder flex-center">
-                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                    &#63;
                 </div>
                 &nbsp;
                 Your Vote

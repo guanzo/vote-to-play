@@ -1,7 +1,7 @@
 <template>
     <div class="overwatch">
         <transition name="fade-vertical">
-            <div class="overwatch-heroes voter-section overlay-background">
+            <div v-if="!userSubmittedVote"  class="overwatch-heroes voter-section overlay-background">
                 <div class="field is-horizontal">
                     <div class="field-body">
                         <div class="field is-grouped">
@@ -54,6 +54,7 @@ import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import changeCase from 'change-case'
+import voterSection from '@/components/viewer/VoterSection'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -103,7 +104,8 @@ export default {
     },
     components:{
         voteResults,
-        submitVoteFooter
+        submitVoteFooter,
+        voterSection
     }
 }
 </script>
@@ -128,9 +130,6 @@ export default {
     transition: .3s all;
     margin: 3px;
     cursor: pointer;
-    &:before {
-        box-shadow: 0px 0px 0px 0px $primary inset;
-    }
     &:hover:before {
         box-shadow: 0px 0px 0px 3px #eee inset;
         position: absolute;
@@ -139,9 +138,6 @@ export default {
         width: 100%;
         height: 100%;
         content: "";
-    }
-    &:hover{
-        box-shadow: 0px 0px 0px 3px $primary inset;
     }
     img {
         max-height: 100px;
