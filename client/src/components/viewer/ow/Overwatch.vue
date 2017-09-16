@@ -1,41 +1,39 @@
 <template>
     <div class="overwatch">
-        <transition name="fade-vertical">
-            <voter-section>
+        <voter-section>
 
-                <div slot="filters" class="field is-grouped">
-                    <div class="control">
-                        <input v-model="query" class="input" type="text" placeholder="Search hero name">
-                    </div>
-                    <div class="control">
-                        <div class="select is-primary">
-                        <select v-model="selectedRole">
-                            <option>{{ DEFAULT_ROLE }}</option>
-                            <option v-for="role in roles" :key="role">{{ role }}</option>
-                        </select>
-                        </div>
+            <div slot="filters" class="field is-grouped">
+                <div class="control">
+                    <input v-model="query" class="input" type="text" placeholder="Search hero name">
+                </div>
+                <div class="control">
+                    <div class="select is-primary">
+                    <select v-model="selectedRole">
+                        <option>{{ DEFAULT_ROLE }}</option>
+                        <option v-for="role in roles" :key="role">{{ role }}</option>
+                    </select>
                     </div>
                 </div>
+            </div>
 
-                <div slot="image-grid-contents"
-                    v-for="hero in heroes" 
-                    @click="selectHero(hero)"
-                    class="image-wrapper" 
-                    :key="hero.name"
-                >
-                    <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar" :alt="hero.name">
+            <div slot="image-grid-contents"
+                v-for="hero in heroes" 
+                @click="selectHero(hero)"
+                class="image-wrapper" 
+                :key="hero.name"
+            >
+                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar" :alt="hero.name">
+            </div>
+
+            <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
+                <div v-if="selectedHero" class="flex-center">
+                    <img :src="selectedHero.avatar" :alt="selectedHero.name">
+                    &nbsp;
+                    {{ selectedHero.name }}
                 </div>
+            </submit-vote-footer>
 
-                <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
-                    <div v-if="selectedHero" class="flex-center">
-                        <img :src="selectedHero.avatar" :alt="selectedHero.name">
-                        &nbsp;
-                        {{ selectedHero.name }}
-                    </div>
-                </submit-vote-footer>
-
-            </voter-section>
-        </transition>
+        </voter-section>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
                 <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">

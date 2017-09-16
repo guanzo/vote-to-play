@@ -1,21 +1,23 @@
 <template>
-    <div v-if="!userSubmittedVote" class="voter-section overlay-background">
-        <div slot="filter-section" class="field is-horizontal">
-            <div class="field-body">
-                <slot name="filters">
-                    No Filters
+    <transition name="fade-vertical">
+        <div v-if="!userSubmittedVote" class="voter-section overlay-background">
+            <div slot="filter-section" class="field is-horizontal">
+                <div class="field-body">
+                    <slot name="filters">
+                        No Filters
+                    </slot>
+                </div>
+            </div>
+            <div class="image-grid">
+                <slot name="image-grid-contents">
+                    No image grid contents
                 </slot>
             </div>
-        </div>
-        <div class="image-grid">
-            <slot name="image-grid-contents">
-                No image grid contents
+            <slot name="submit-vote-footer">
+                No Submit Vote Footer
             </slot>
         </div>
-        <slot name="submit-vote-footer">
-            No Submit Vote Footer
-        </slot>
-    </div>
+    </transition>
 </template>
 
 <script>

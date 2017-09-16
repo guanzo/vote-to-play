@@ -1,6 +1,5 @@
 <template>
     <div class="dota">
-        <transition name="fade-vertical">
             <voter-section>
 
                 <div slot="filters" class="field is-grouped">
@@ -34,7 +33,6 @@
                     </div>
                 </submit-vote-footer>                
             </voter-section>
-        </transition>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
                 <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">

@@ -1,39 +1,37 @@
 <template>
     <div class="league-of-legends">
-        <transition name="fade-vertical">
-            <voter-section>
-                <div slot="filters" class="field is-grouped">
-                    <div class="control">
-                        <input v-model="query" class="input" type="text" placeholder="Search champion name">
-                    </div>
-                    <div class="control">
-                        <div class="select is-primary">
-                        <select v-model="selectedRole">
-                            <option>{{ DEFAULT_ROLE }}</option>
-                            <option v-for="role in roles" :key="role">{{ role }}</option>
-                        </select>
-                        </div>
+        <voter-section>
+            <div slot="filters" class="field is-grouped">
+                <div class="control">
+                    <input v-model="query" class="input" type="text" placeholder="Search champion name">
+                </div>
+                <div class="control">
+                    <div class="select is-primary">
+                    <select v-model="selectedRole">
+                        <option>{{ DEFAULT_ROLE }}</option>
+                        <option v-for="role in roles" :key="role">{{ role }}</option>
+                    </select>
                     </div>
                 </div>
+            </div>
 
-                <div slot="image-grid-contents"
-                    v-for="champion in champions" 
-                    @click="selectChampion(champion)"
-                    class="image-wrapper" 
-                    :key="champion.id"
-                >
-                    <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)" :alt="champion.id">
+            <div slot="image-grid-contents"
+                v-for="champion in champions" 
+                @click="selectChampion(champion)"
+                class="image-wrapper" 
+                :key="champion.id"
+            >
+                <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)" :alt="champion.id">
+            </div>
+
+            <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedChampion.id">
+                <div v-if="selectedChampion" class="flex-center">
+                    <img :src="getChampionImage(selectedChampion.id)" :alt="selectedChampion.id">
+                    &nbsp;
+                    {{ selectedChampion.id }}
                 </div>
-
-                <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedChampion.id">
-                    <div v-if="selectedChampion" class="flex-center">
-                        <img :src="getChampionImage(selectedChampion.id)" :alt="selectedChampion.id">
-                        &nbsp;
-                        {{ selectedChampion.id }}
-                    </div>
-                </submit-vote-footer>
-            </voter-section>
-        </transition>
+            </submit-vote-footer>
+        </voter-section>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
                 <img :src="getChampionImage(props.obj.vote)" :alt="props.obj.vote">
