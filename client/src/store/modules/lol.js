@@ -17,7 +17,6 @@ const lol = {
     },
     actions:{
         [ACTIONS.GET_HEROES]({commit}){
-            console.log("get lol heroes")
             axios.get('https://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json')
             .then((response)=>{
                 commit(MUTATIONS.SET_HEROES,{ data: response.data.data })

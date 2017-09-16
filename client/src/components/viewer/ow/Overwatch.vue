@@ -115,6 +115,9 @@ export default {
     align-items: flex-start;
     justify-content: flex-end;
     width: 100%;
+    .image-wrapper{
+        margin: 3px;
+    }
     img {
         max-height: 100px;
     }

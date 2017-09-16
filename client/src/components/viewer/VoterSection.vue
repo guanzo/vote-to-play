@@ -38,7 +38,6 @@ export default {
     .image-wrapper{
         position: relative;
         transition: .3s all;
-        margin: 3px;
         cursor: pointer;
         &:hover:before {
             box-shadow: 0px 0px 0px 3px #eee inset;

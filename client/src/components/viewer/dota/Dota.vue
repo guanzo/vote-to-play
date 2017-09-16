@@ -127,28 +127,4 @@ export default {
 }
 
 
-
-.image-wrapper{
-    position: relative;
-    transition: .3s all;
-    cursor: pointer;
-    &:hover:before {
-        box-shadow: 0px 0px 0px 3px #eee inset;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-    }
-    img {
-        display: block;
-        transition: .3s all;
-        &.filtered-out {
-            filter: brightness(20%);
-        }
-    }
-}
-
-
 </style>

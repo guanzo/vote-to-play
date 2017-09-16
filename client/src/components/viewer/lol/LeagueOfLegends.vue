@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div slot="image-grid-contents"
                     v-for="champion in champions" 
                     @click="selectChampion(champion)"
