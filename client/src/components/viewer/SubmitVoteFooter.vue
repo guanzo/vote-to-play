@@ -22,7 +22,8 @@
 
 <script>
 
-import { VOTE } from '@/store/actions'
+import _ from 'lodash'
+import { VOTE, START_NEW_VOTE } from '@/store/actions'
 
 export default {
     name: 'submit-vote-footer',
@@ -30,17 +31,74 @@ export default {
     data(){
         return {
             buttonText: 'Vote',
-            loading: false
+            loading: false,
+            //only set true when under twitch review.
+            //only simulates dota heroes. so make sure dota is set in twitch dashbaord
+            isSimulating: true,
+            intervalID: 0,
+            maxSimulationVotes: 500
+        }
+    },
+    computed:{
+        heroes(){
+            return _.sortBy(this.$store.state.dota.heroes,'name')
+        },
+        userId(){
+            return this.$store.state.userId
+        },
+        votes(){
+            return this.$store.state.votes
+        },
+    },
+    created(){
+        
+        if(this.isSimulating)
+            this.intervalID = this.simulateVotes()
+    },
+    watch:{
+        ['votes.length'](){
+            if(!this.isSimulating)
+                return;
+
+            if(this.votes.length >= this.maxSimulationVotes){
+                this.$store.dispatch(START_NEW_VOTE)
+            }else if(this.votes.length == 0){
+                clearInterval(this.intervalID)
+                this.intervalID = this.simulateVotes()
+            }
         }
     },
     methods:{
         submitVote(){
             this.loading = true;
             setTimeout(()=>{
-                this.$store.dispatch(VOTE, { vote: this.vote })
+                this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
                 this.loading = false
             }, 750)
         },
+        simulateVotes(){
+            let votes = this.maxSimulationVotes
+            let heroPool = 25;
+            let intervalID = setInterval(()=>{
+                let userId = this.randomIntFromInterval(0, 100000)
+                let heroIndex = this.randomIntFromInterval(0, heroPool)
+                if(userId == this.userId){
+                    console.log('IT HAPPENED')
+                    return;
+                }
+                if(this.heroes.length == 0)
+                    return;
+                let heroName = this.heroes[heroIndex].name
+                //console.log(i)
+                this.$store.dispatch(VOTE, { vote: heroName, userId  })
+                
+            },1000)
+
+            return intervalID
+        },
+        randomIntFromInterval(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        }
     }
 }
 

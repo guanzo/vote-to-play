@@ -28,12 +28,12 @@
 import _ from 'lodash'
 
 export default {
-    name: 'vote-list',
+    name: 'vote-results',
     props:{
         maxResults: {
             type: Number,
             default: 5
-        },
+        }
     },
     computed:{
         channelId(){

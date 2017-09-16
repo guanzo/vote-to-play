@@ -44,7 +44,7 @@ function postVote({channelId, userId, vote, voteType = 'default'}) {
     
     if(process.env.NODE_ENV == 'development')
         channel.votes.push({ vote, userId })
-    else if(!channel.votes.find(vote=>vote.userId == userId))
+    else if( !channel.votes.find(vote=>vote.userId == userId) )//user can only vote once.
         channel.votes.push({ vote, userId })
 
 }

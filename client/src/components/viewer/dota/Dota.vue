@@ -1,5 +1,5 @@
 <template>
-    <div class="dota">
+    <div v-if="heroes.length" class="dota">
             <voter-section>
 
                 <div slot="filters" class="field is-grouped">

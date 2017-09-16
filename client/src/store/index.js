@@ -2,6 +2,8 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
+import _ from 'lodash'
+import throttledQueue from 'throttled-queue';
 
 Vue.use(Vuex)
 
@@ -20,6 +22,7 @@ import isUndefined from 'lodash/isUndefined'
 
 const socket = io(process.env.SERVER_URL)
 
+ 
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
@@ -57,7 +60,7 @@ const store = new Vuex.Store({
                 senderId: socket.id,
                 channelId: state.channelId,
                 vote: payload.vote,
-                userId: state.userId
+                userId: payload.userId
             })
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
@@ -81,10 +84,16 @@ const store = new Vuex.Store({
     }
 })
 
+let maxCalls = 1000;
+let interval = 1000;
+var throttle = throttledQueue(maxCalls, interval);
+
 function setSocketListeners(channelId){
     
     socket.on(`vote`, data => {
-        store.commit(MUTATIONS.SET_VOTES, data)
+        throttle(function(){
+            store.commit(MUTATIONS.SET_VOTES, data)
+        })
     });
 
     socket.on(`start-vote`, data => {
