@@ -21,6 +21,8 @@ export default {
 <style lang="scss" scoped>
 
 .config {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
     color: #333;
     font-size: 1.25em;
     padding: 15px;

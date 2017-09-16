@@ -1,18 +1,32 @@
 <template>
-
-<div v-if="!userSubmittedVote" class="voter-section overlay-background">
-    <slot name="filter-section"></slot>
-    <slot name="image-grid"></slot>
-    <slot name="submit-vote-footer"></slot>
-</div>
-
+    <div v-if="!userSubmittedVote" class="voter-section overlay-background">
+        <div slot="filter-section" class="field is-horizontal">
+            <div class="field-body">
+                <slot name="filters">
+                    No Filters
+                </slot>
+            </div>
+        </div>
+        <div class="image-grid">
+            <slot name="image-grid-contents">
+                No image grid contents
+            </slot>
+        </div>
+        <slot name="submit-vote-footer">
+            No Submit Vote Footer
+        </slot>
+    </div>
 </template>
 
 <script>
 
 export default {
     name: 'voter-section',
-    props:['userSubmittedVote']
+    computed:{
+        userSubmittedVote(){
+            return this.$store.getters.userSubmittedVote
+        }
+    }
 }
 
 </script>
@@ -36,8 +50,6 @@ export default {
             content: "";
         }
         img {
-            max-height: 100px;
-            width: auto;
             display: block;
             transition: .3s all;
             &.filtered-out {

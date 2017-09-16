@@ -6,7 +6,7 @@
                     The broadcaster wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png">
+            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png" alt="logo">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">

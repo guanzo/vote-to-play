@@ -1,46 +1,44 @@
 <template>
     <div class="overwatch">
         <transition name="fade-vertical">
-            <div v-if="!userSubmittedVote"  class="overwatch-heroes voter-section overlay-background">
-                <div class="field is-horizontal">
-                    <div class="field-body">
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <input v-model="query" class="input" type="text" placeholder="Search hero name">
-                            </div>
-                            <div class="control">
-                                <div class="select is-primary">
-                                <select v-model="selectedRole">
-                                    <option>{{ DEFAULT_ROLE }}</option>
-                                    <option v-for="role in roles" :key="role">{{ role }}</option>
-                                </select>
-                                </div>
-                            </div>
+            <voter-section>
+
+                <div slot="filters" class="field is-grouped">
+                    <div class="control">
+                        <input v-model="query" class="input" type="text" placeholder="Search hero name">
+                    </div>
+                    <div class="control">
+                        <div class="select is-primary">
+                        <select v-model="selectedRole">
+                            <option>{{ DEFAULT_ROLE }}</option>
+                            <option v-for="role in roles" :key="role">{{ role }}</option>
+                        </select>
                         </div>
                     </div>
                 </div>
-                <div class="image-grid">
-                    <div 
-                        v-for="hero in heroes" 
-                        @click="selectHero(hero)"
-                        class="image-wrapper" 
-                        :key="hero.name"
-                    >
-                        <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar">
-                    </div>
+
+                <div slot="image-grid-contents"
+                    v-for="hero in heroes" 
+                    @click="selectHero(hero)"
+                    class="image-wrapper" 
+                    :key="hero.name"
+                >
+                    <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar" :alt="hero.name">
                 </div>
-                <submit-vote-footer :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
+
+                <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
                     <div v-if="selectedHero" class="flex-center">
-                        <img :src="selectedHero.avatar">
+                        <img :src="selectedHero.avatar" :alt="selectedHero.name">
                         &nbsp;
                         {{ selectedHero.name }}
                     </div>
                 </submit-vote-footer>
-            </div>
+
+            </voter-section>
         </transition>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
-                <img :src="getHeroImage(props.obj.vote)">
+                <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
             </template>
         </vote-results>
     </div>
@@ -50,11 +48,11 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import changeCase from 'change-case'
-import voterSection from '@/components/viewer/VoterSection'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -79,9 +77,6 @@ export default {
         hasSelectedVote(){
             return !isEmpty(this.selectedHero);
         },
-        userSubmittedVote(){
-            return this.$store.getters.userSubmittedVote
-        }
     },
     methods:{
         passesFilter(hero){
@@ -89,7 +84,7 @@ export default {
             if(this.query.length)
                 result = hero.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.type.includes(this.selectedRole)
+                result = result && hero.type.toLowerCase().includes(this.selectedRole.toLowerCase())
             return result;
         },
         selectHero(hero){
@@ -125,32 +120,5 @@ export default {
     }
 }
 
-.image-wrapper{
-    position: relative;
-    transition: .3s all;
-    margin: 3px;
-    cursor: pointer;
-    &:hover:before {
-        box-shadow: 0px 0px 0px 3px #eee inset;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-    }
-    img {
-        max-height: 100px;
-        width: auto;
-        display: block;
-        transition: .3s all;
-        &.filtered-out {
-            filter: brightness(20%);
-        }
-    }
-}
-
-.submit-vote-img {
-}
 
 </style>

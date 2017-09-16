@@ -1,46 +1,42 @@
 <template>
     <div class="league-of-legends">
         <transition name="fade-vertical">
-            <div v-if="!userSubmittedVote" class="lol-champions voter-section overlay-background">
-                <div class="filter-section field is-horizontal">
-                    <div class="field-body">
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <input v-model="query" class="input" type="text" placeholder="Search champion name">
-                            </div>
-                            <div class="control">
-                                <div class="select is-primary">
-                                <select v-model="selectedRole">
-                                    <option>{{ DEFAULT_ROLE }}</option>
-                                    <option v-for="role in roles" :key="role">{{ role }}</option>
-                                </select>
-                                </div>
-                            </div>
+            <voter-section>
+                <div slot="filters" class="field is-grouped">
+                    <div class="control">
+                        <input v-model="query" class="input" type="text" placeholder="Search champion name">
+                    </div>
+                    <div class="control">
+                        <div class="select is-primary">
+                        <select v-model="selectedRole">
+                            <option>{{ DEFAULT_ROLE }}</option>
+                            <option v-for="role in roles" :key="role">{{ role }}</option>
+                        </select>
                         </div>
                     </div>
                 </div>
-                <div class="image-grid">
-                    <div 
-                        v-for="champion in champions" 
-                        @click="selectChampion(champion)"
-                        class="image-wrapper" 
-                        :key="champion.id"
-                    >
-                        <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)">
-                    </div>
+                
+                <div slot="image-grid-contents"
+                    v-for="champion in champions" 
+                    @click="selectChampion(champion)"
+                    class="image-wrapper" 
+                    :key="champion.id"
+                >
+                    <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)" :alt="champion.id">
                 </div>
-                <submit-vote-footer :hasSelectedVote="hasSelectedVote" :vote="selectedChampion.id">
+
+                <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedChampion.id">
                     <div v-if="selectedChampion" class="flex-center">
-                        <img :src="getChampionImage(selectedChampion.id)">
+                        <img :src="getChampionImage(selectedChampion.id)" :alt="selectedChampion.id">
                         &nbsp;
                         {{ selectedChampion.id }}
                     </div>
                 </submit-vote-footer>
-            </div>
+            </voter-section>
         </transition>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
-                <img :src="getChampionImage(props.obj.vote)">
+                <img :src="getChampionImage(props.obj.vote)" :alt="props.obj.vote">
             </template>
         </vote-results>
     </div>
@@ -50,6 +46,7 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
@@ -83,9 +80,6 @@ export default {
         hasSelectedVote(){
             return !isEmpty(this.selectedChampion);
         },
-        userSubmittedVote(){
-            return this.$store.getters.userSubmittedVote
-        }
     },
     methods:{
         passesFilter(champion){
@@ -105,13 +99,14 @@ export default {
     },
     components:{
         voteResults,
-        submitVoteFooter
+        submitVoteFooter,
+        voterSection
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 
 .league-of-legends{
 	font-family: 'Cinzel', serif;
@@ -124,28 +119,5 @@ export default {
         max-height: 40px;
     }
 }
-
-.image-wrapper{
-    position: relative;
-    transition: .3s all;
-    cursor: pointer;
-    &:hover:before {
-        box-shadow: 0px 0px 0px 3px #eee inset;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-    }
-    img {
-        display: block;
-        transition: .3s all;
-        &.filtered-out {
-            filter: brightness(20%);
-        }
-    }
-}
-
 
 </style>
