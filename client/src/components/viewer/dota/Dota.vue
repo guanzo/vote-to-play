@@ -80,9 +80,12 @@ export default {
         }
     },
     watch:{
-        isAuthed(){
-            if(this.isAuthed)
-                this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
+        isAuthed: {
+            handler(){
+                if(this.isAuthed)
+                    this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
+            },
+            immediate: true
         }
     },
     methods:{

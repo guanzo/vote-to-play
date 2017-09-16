@@ -29,6 +29,7 @@ const store = new Vuex.Store({
         selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
+        userSubmittedVote: false,
         voteType: '',
         votes:[]
     },
@@ -50,14 +51,28 @@ const store = new Vuex.Store({
             state.voteType = payload.voteType
             state.votes = payload.votes;
         },
+        [ACTIONS.VOTE]( state ){
+            state.userSubmittedVote = true;
+        },
+        [MUTATIONS.ADD_VOTE]( state, payload ){
+            state.votes.push(payload.vote)
+        },
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
+            state.userSubmittedVote = false;
             state.votes = []
         },
     },
     actions:{
-        [ACTIONS.VOTE]( {state}, payload ){
-            socket.emit('vote',{
-                senderId: socket.id,
+        [ACTIONS.VOTE]( {state, commit}, payload ){
+            socket.emit('add-vote',{
+                channelId: state.channelId,
+                vote: payload.vote,
+                userId: payload.userId
+            })
+            commit(ACTIONS.VOTE)
+        },
+        [ACTIONS.SIMULATE_VOTE]( {state, commit}, payload ){
+            socket.emit('add-vote',{
                 channelId: state.channelId,
                 vote: payload.vote,
                 userId: payload.userId
@@ -73,26 +88,24 @@ const store = new Vuex.Store({
             //get initial state for stream
             socket.emit('join-channel',{ 
                 channelId: payload.channelId,
-                senderId: socket.id
              })
         },
     },
-    getters:{
-        userSubmittedVote: state => {
-            return !isUndefined(state.votes.find(vote=>vote.userId == state.userId))
-        }
-    }
 })
 
 let maxCalls = 1000;
-let interval = 1000;
+let interval = 1250;
 var throttle = throttledQueue(maxCalls, interval);
 
 function setSocketListeners(channelId){
     
-    socket.on(`vote`, data => {
+    socket.on(`all-votes`, data => {
+        store.commit(MUTATIONS.SET_VOTES, data)
+    });
+
+    socket.on(`add-vote`, data => {
         throttle(function(){
-            store.commit(MUTATIONS.SET_VOTES, data)
+            store.commit(MUTATIONS.ADD_VOTE, { vote: data})
         })
     });
 

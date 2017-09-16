@@ -34,6 +34,7 @@ module.exports = app => {
 
 
   // route middleware to verify a token
+  
   app.use(function (req, res, next) {
     // check header or url parameters or post parameters for token
     console.log('verify token')
@@ -75,10 +76,5 @@ module.exports = app => {
 
     }
   });
-/*
-  apiRoutes.get('/authenticate', (req, res, next) => {
-    res.status(200).json({ success: true, token: req.signedToken });
-  });*/
-  // Set url for API group routes
-  //app.use('/api', apiRoutes);
+
 };

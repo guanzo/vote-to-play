@@ -60,9 +60,9 @@ module.exports = (app,server) => {
             let { channelId } = data
             socket.join(channelId)
             
-            //there is an ongoing vote
+            //there is an ongoing vote, send entire vote data
             if(STORE[channelId])
-                socket.emit(`vote`,STORE[channelId])
+                socket.emit(`all-votes`,STORE[channelId])
         })
 
         //only streamers can start a vote
@@ -72,10 +72,10 @@ module.exports = (app,server) => {
             io.to(channelId).emit(`start-vote`,data)
         })
 
-        socket.on('vote',data=>{
+        socket.on('add-vote',data=>{
             postVote(data)
-            let { channelId } = data
-            io.to(channelId).emit(`vote`,STORE[channelId])
+            let { channelId, vote, userId } = data
+            io.to(channelId).emit(`add-vote`, { vote } )
         })
         
         

@@ -39,11 +39,11 @@ export default {
         channelId(){
             return this.$store.state.channelId
         },
-        userVotes(){
+        votes(){
             return this.$store.state.votes
         },
         aggregatedVotes(){
-            return _(this.userVotes)
+            return _(this.votes)
                 .countBy('vote')
                 .map((count, vote)=> ({ vote, count }))
                 .sortBy('count')

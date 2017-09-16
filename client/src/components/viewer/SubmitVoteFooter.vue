@@ -23,7 +23,7 @@
 <script>
 
 import _ from 'lodash'
-import { VOTE, START_NEW_VOTE } from '@/store/actions'
+import { VOTE, SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
 
 export default {
     name: 'submit-vote-footer',
@@ -83,16 +83,15 @@ export default {
                 let userId = this.randomIntFromInterval(0, 100000)
                 let heroIndex = this.randomIntFromInterval(0, heroPool)
                 if(userId == this.userId){
-                    console.log('IT HAPPENED')
                     return;
                 }
                 if(this.heroes.length == 0)
                     return;
                 let heroName = this.heroes[heroIndex].name
                 //console.log(i)
-                this.$store.dispatch(VOTE, { vote: heroName, userId  })
+                this.$store.dispatch(SIMULATE_VOTE, { vote: heroName, userId  })
                 
-            },1000)
+            },100)
 
             return intervalID
         },

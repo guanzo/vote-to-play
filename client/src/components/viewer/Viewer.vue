@@ -34,8 +34,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','votes']),
-        ...mapGetters(['userSubmittedVote'])
+        ...mapState(['selectedGame','votes','userSubmittedVote']),
     },
     watch:{
         votes(){
