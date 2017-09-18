@@ -43,6 +43,9 @@ export default {
     computed:{
         ...mapState(['selectedGame','votes','userSubmittedVote']),
     },
+    created(){
+        console.log(this)
+    },
     watch:{
         votes(){
             if(this.votes.length == 0)
@@ -60,10 +63,10 @@ export default {
         }
     },
     components:{
-        TWITCH_NAME_DOTA: dota,
-        TWITCH_NAME_OVERWATCH: overwatch,
-        TWITCH_NAME_LOL: lol,
-        TWITCH_NAME_HEARTHSTONE: hearthstone
+        [TWITCH_NAME_DOTA]: dota,
+        [TWITCH_NAME_OVERWATCH]: overwatch,
+        [TWITCH_NAME_LOL]: lol,
+        [TWITCH_NAME_HEARTHSTONE]: hearthstone
     }
 }
 </script>
