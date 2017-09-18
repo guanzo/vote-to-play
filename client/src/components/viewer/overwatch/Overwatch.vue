@@ -67,7 +67,7 @@ export default {
     },
     computed:{
         heroes(){
-            return _.sortBy(this.$store.state.ow.heroes,'name')
+            return _.sortBy(this.$store.state.overwatch.heroes,'name')
         },
         roles(){
             return _(this.heroes).map(hero=>changeCase.title(hero.type)).uniq().sort().value()

@@ -91,7 +91,7 @@ export default {
                 //console.log(i)
                 this.$store.dispatch(SIMULATE_VOTE, { vote: heroName, userId  })
                 
-            },100)
+            },500)
 
             return intervalID
         },

@@ -11,8 +11,9 @@ import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
 import dota from './modules/dota'
-import ow from './modules/ow'
+import overwatch from './modules/overwatch'
 import lol from './modules/lol'
+import hearthstone from './modules/hearthstone'
 import io from 'socket.io-client'
 
 const VOTE_INACTIVE = 'VOTE_INACTIVE'
@@ -35,8 +36,9 @@ const store = new Vuex.Store({
     },
     modules:{
         dota,
-        ow,
-        lol
+        overwatch,
+        lol,
+        hearthstone
     },
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){

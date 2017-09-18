@@ -23,7 +23,14 @@ import { mapState, mapGetters } from 'vuex'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
-import ow from './ow/Overwatch'
+import overwatch from './overwatch/Overwatch'
+import hearthstone from './hearthstone/Hearthstone'
+
+/** Dynamic component depends on twitch's name for the games */
+const TWITCH_NAME_DOTA = 'Dota 2';
+const TWITCH_NAME_OVERWATCH = 'Overwatch'
+const TWITCH_NAME_LOL = 'League of Legends'
+const TWITCH_NAME_HEARTHSTONE = 'Hearthstone'
 
 export default {
     name: 'viewer',
@@ -53,9 +60,10 @@ export default {
         }
     },
     components:{
-        'Dota 2': dota,
-        'Overwatch': ow,
-        'League of Legends': lol
+        TWITCH_NAME_DOTA: dota,
+        TWITCH_NAME_OVERWATCH: overwatch,
+        TWITCH_NAME_LOL: lol,
+        TWITCH_NAME_HEARTHSTONE: hearthstone
     }
 }
 </script>
