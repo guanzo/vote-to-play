@@ -41,7 +41,7 @@ export default {
             //only simulates dota heroes. so make sure dota is set in twitch dashbaord
             isSimulating: true,
             intervalID: 0,
-            maxSimulationVotes: 250
+            maxSimulationVotes: 200
         }
     },
     computed:{
@@ -136,11 +136,10 @@ export default {
 
 .submit-vote-footer{
     margin-top: 20px;
-    padding: 5px;
     position: relative;
     .default-vote {
         .image-placeholder{
-            background: grey;
+            background: #333;
         }
     }
     .your-vote {

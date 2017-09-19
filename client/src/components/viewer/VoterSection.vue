@@ -33,28 +33,45 @@ export default {
 <style lang="scss">
 
 .voter-section{
-
-    .image-wrapper{
-        position: relative;
-        transition: .3s all;
-        cursor: pointer;
-        &:hover:before {
-            box-shadow: 0px 0px 0px 3px #eee inset;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            content: "";
-        }
-        img {
-            display: block;
+    padding: 15px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+     .image-grid{
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
+        
+        .image-wrapper{
+            position: relative;
             transition: .3s all;
-            &.filtered-out {
-                filter: brightness(20%);
+            cursor: pointer;
+            &:hover:before {
+                box-shadow: 0px 0px 0px 3px #eee inset;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                content: "";
+            }
+            img {
+                display: block;
+                transition: .3s all;
+                &.filtered-out {
+                    filter: brightness(20%);
+                }
             }
         }
     }
+    button{
+        float: right;
+    }
+    .filter-section {
+        min-height: 40px;
+        margin-bottom: 5px;
+    }
+    
 }
 
 </style>

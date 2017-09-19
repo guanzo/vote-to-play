@@ -71,28 +71,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-.voter-section{
-    padding: 10px;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
-     .image-grid{
-        display: flex;
-        flex-wrap: wrap;
-        overflow: auto;
-    }
-    button{
-        float: right;
-    }
-    .filter-section {
-        min-height: 40px;
-        margin-bottom: 5px;
-    }
-}
-
-</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
