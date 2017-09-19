@@ -16,9 +16,6 @@ import lol from './modules/lol'
 import hearthstone from './modules/hearthstone'
 import io from 'socket.io-client'
 
-const VOTE_INACTIVE = 'VOTE_INACTIVE'
-const VOTE_ACTIVE = 'VOTE_ACTIVE'
-
 import isUndefined from 'lodash/isUndefined'
 
 const socket = io(process.env.SERVER_URL)
@@ -27,7 +24,7 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        selectedGame: 'Dota 2',
+        selectedGame: 'Hearthstone',
         channelId: -1,
         userId: -1,
         userSubmittedVote: false,

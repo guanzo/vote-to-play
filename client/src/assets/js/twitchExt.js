@@ -8,6 +8,7 @@ export default function () {
     //store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
 
     window.Twitch.ext.onAuthorized(function (auth) {
+        //adds token to every request sent thru axios
         axios.defaults.headers.common['Authorization'] = auth.token;
         
         store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })

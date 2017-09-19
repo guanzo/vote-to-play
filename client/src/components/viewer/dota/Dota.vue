@@ -25,13 +25,12 @@
                     <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
                 </div>
                 
-                <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
-                    <div v-if="selectedHero" class="flex-center">
-                        <img :src="selectedHero.img" :alt="selectedHero.name">
-                        &nbsp;
-                        {{ selectedHero.name }}
-                    </div>
-                </submit-vote-footer>                
+                <submit-vote-footer slot="submit-vote-footer" 
+                    :hasSelectedVote="hasSelectedVote" 
+                    :voteImage="selectedHero.img" 
+                    :vote="selectedHero.name"
+                >
+                </submit-vote-footer>                 
             </voter-section>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">

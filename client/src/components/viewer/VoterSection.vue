@@ -4,17 +4,14 @@
             <div slot="filter-section" class="field is-horizontal">
                 <div class="field-body">
                     <slot name="filters">
-                        No Filters
                     </slot>
                 </div>
             </div>
             <div class="image-grid">
                 <slot name="image-grid-contents">
-                    No image grid contents
                 </slot>
             </div>
             <slot name="submit-vote-footer">
-                No Submit Vote Footer
             </slot>
         </div>
     </transition>

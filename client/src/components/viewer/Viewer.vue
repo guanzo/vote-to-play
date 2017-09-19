@@ -44,7 +44,7 @@ export default {
         ...mapState(['selectedGame','votes','userSubmittedVote']),
     },
     created(){
-        console.log(this)
+        //console.log(this)
     },
     watch:{
         votes(){
@@ -97,6 +97,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 
+$header-element-size: 35px;
+
 .viewer{
     padding: 15px;
     max-height: 100%;
@@ -109,8 +111,8 @@ export default {
         justify-content: flex-end;
         align-items: center;
         .logo{
-            width: 30px;
-            height: 30px;
+            width: $header-element-size;
+            height: $header-element-size;
             cursor: pointer;
             opacity: 0.75;
             transition: 0.35s;
@@ -125,6 +127,7 @@ export default {
         display: flex;
     }
     .expand-tip {
+        height: $header-element-size;
         padding: 5px 7.5px;
         margin-right: 15px;
     }

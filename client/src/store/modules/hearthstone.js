@@ -1,8 +1,10 @@
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
+export const NS_HEARTHSTONE = 'hearthstone'
+
 const hearthstone = {
     state: { 
-        classes: [
+        heroes: [
             { class: "Druid",   img: IMG_BASE_URL + 'malfurion.jpg'},
             { class: "Hunter",  img: IMG_BASE_URL + 'rexxar.jpg'},
             { class: "Mage",    img: IMG_BASE_URL + 'jaina.jpg'},

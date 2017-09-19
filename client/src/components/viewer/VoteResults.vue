@@ -64,6 +64,8 @@ export default {
     position: relative;
     padding: 15px;
     margin-left: 15px;
+    //transition: 0.5s;
+    //max-height: 100%;
     h4 {
         text-align: center;
     }

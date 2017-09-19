@@ -30,9 +30,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       'process.env': env
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
+      compress: false,
       mangle: false,
       sourceMap: true
     }),

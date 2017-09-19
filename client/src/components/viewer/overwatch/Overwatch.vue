@@ -24,15 +24,13 @@
             >
                 <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar" :alt="hero.name">
             </div>
-
-            <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedHero.name">
-                <div v-if="selectedHero" class="flex-center">
-                    <img :src="selectedHero.avatar" :alt="selectedHero.name">
-                    &nbsp;
-                    {{ selectedHero.name }}
-                </div>
-            </submit-vote-footer>
-
+            
+            <submit-vote-footer slot="submit-vote-footer" 
+                :hasSelectedVote="hasSelectedVote" 
+                :voteImage="selectedHero.avatar" 
+                :vote="selectedHero.name"
+            >
+            </submit-vote-footer>         
         </voter-section>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
@@ -104,7 +102,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 
 .overwatch{
 	font-family: 'Cinzel', serif;

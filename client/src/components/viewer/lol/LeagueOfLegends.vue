@@ -23,13 +23,12 @@
             >
                 <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)" :alt="champion.id">
             </div>
-
-            <submit-vote-footer slot="submit-vote-footer" :hasSelectedVote="hasSelectedVote" :vote="selectedChampion.id">
-                <div v-if="selectedChampion" class="flex-center">
-                    <img :src="getChampionImage(selectedChampion.id)" :alt="selectedChampion.id">
-                    &nbsp;
-                    {{ selectedChampion.id }}
-                </div>
+            
+            <submit-vote-footer slot="submit-vote-footer" 
+                :hasSelectedVote="hasSelectedVote" 
+                :voteImage="getChampionImage(selectedChampion.id)" 
+                :vote="selectedChampion.id"
+            >
             </submit-vote-footer>
         </voter-section>
         <vote-results :maxResults="maxResults">
