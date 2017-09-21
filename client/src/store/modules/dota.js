@@ -6,9 +6,9 @@ import * as ACTIONS from '../actions'
 
 export const NS_DOTA = 'dota'
 
-//'http://cdn.dota2.com/apps/dota2/images/heroes/antimage_sb.png'.
+//'https://cdn.dota2.com/apps/dota2/images/heroes/antimage_sb.png'.
 //filename is hero id + '_' + image suffix type. sb is the small image square
-const IMAGE_CDN = 'http://cdn.dota2.com/apps/dota2/images/heroes/'
+const IMG_BASE_URL = 'https://cdn.dota2.com/apps/dota2/images/heroes/'
 
 const dota = {
     namespaced: true,
@@ -27,7 +27,7 @@ const dota = {
 
                 let heroes = _.map(response.data,(val,id)=>{
                     val.id = id
-                    val.img = IMAGE_CDN + id + `_sb.png`;
+                    val.img = IMG_BASE_URL + id + `_sb.png`;
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

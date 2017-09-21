@@ -32,6 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compress: false,
       mangle: false,
+      output: { beautify: true },
       sourceMap: true
     }),
     // extract css into its own file
