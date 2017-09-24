@@ -119,17 +119,18 @@ export default {
     width: 100%;
     .image-wrapper{
         margin: 3px;
-        height: 160px;
-        width: 100px;
     }
     img {
         height: 100%;
         width: 100%;
         object-fit: cover;
     }
+    
+    .image-placeholder, 
+    .image-wrapper, 
     .vote-item-image-wrapper{
-        height: 160px;
         width: 100px;
+        height: 160px;
     }
     
 }

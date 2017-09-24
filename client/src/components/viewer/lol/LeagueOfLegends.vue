@@ -115,6 +115,10 @@ export default {
     img {
         max-height: 40px;
     }
+    .image-placeholder, .image-wrapper{
+        width: 40px;
+        height: 40px;
+    }
 }
 
 </style>

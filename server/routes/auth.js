@@ -39,7 +39,7 @@ module.exports = app => {
     // check header or url parameters or post parameters for token
     console.log('verify token')
     const token = req.body.token || req.query.token || req.headers.token || req.headers.authorization;
-    const secret = new Buffer(process.env.TWITCH_EXTENSION_SECRET, 'base64');
+    const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
     
     // decode token
     if (token) {

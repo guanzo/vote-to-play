@@ -124,6 +124,11 @@ export default {
     align-items: flex-start;
     justify-content: flex-end;
     width: 100%;
+    
+    .image-placeholder, .image-wrapper{
+        width: 60px;
+        height: 30px;
+    }
 }
 
 

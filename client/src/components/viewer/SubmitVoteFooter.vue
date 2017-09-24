@@ -108,30 +108,6 @@ export default {
 
 </script>
 
-<style lang="scss">
-
-.dota .image-placeholder{
-    width: 60px;
-    height: 30px;
-}
-
-.overwatch .image-placeholder{
-    width: 60px;
-    height: 100px;
-}
-
-.league-of-legends .image-placeholder{
-    width: 40px;
-    height: 40px;
-}
-.hearthstone {
-    .image-placeholder, .vote-image-wrapper{
-        width: 100px;
-        height: 160px;
-    }
-}
-</style>
-
 <style lang="scss" scoped>
 
 .submit-vote-footer{

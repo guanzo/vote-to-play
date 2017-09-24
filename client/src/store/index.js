@@ -24,7 +24,7 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        selectedGame: 'Hearthstone',
+        selectedGame: 'League of Legends',
         channelId: -1,
         userId: -1,
         userSubmittedVote: false,

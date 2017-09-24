@@ -117,6 +117,11 @@ export default {
     img {
         max-height: 100px;
     }
+    
+    .image-placeholder, .image-wrapper{
+        width: 60px;
+        height: 100px;
+    }
 }
 
 
