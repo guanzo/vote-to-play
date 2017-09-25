@@ -2,14 +2,14 @@
     <div class="submit-vote-footer flex-center">
         <div class="your-vote">
             <div v-if="!hasSelectedVote" class="default-vote flex-center">
-                <div class="image-placeholder flex-center">
+                <div class="submit-vote-image-placeholder flex-center">
                     &#63;
                 </div>
                 &nbsp;
                 Your Vote
             </div>
             <div v-else class="flex-center">
-                <div class="vote-image-wrapper flex-center">
+                <div class="submit-vote-image flex-center">
                     <img :src="voteImage" :alt="vote">
                 </div>
                 <span>{{ vote }}</span>
@@ -114,7 +114,7 @@ export default {
     margin-top: 20px;
     position: relative;
     .default-vote {
-        .image-placeholder{
+        .submit-vote-image-placeholder{
             background: #333;
         }
     }
@@ -123,7 +123,7 @@ export default {
         font-size: 1.5em;
         color: white;
         text-shadow: #000 0px 0px 2px;
-        .vote-image-wrapper{
+        .submit-vote-image{
             margin-right: 10px;
         }
     }

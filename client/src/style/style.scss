@@ -3,6 +3,16 @@
     box-sizing: border-box;
 }
 
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-background {
+    background: rgba(0,0,0,0.55);
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: 0.75s;
 }

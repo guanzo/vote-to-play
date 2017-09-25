@@ -6,7 +6,7 @@
 
                 <div slot="image-grid-contents"
                     v-for="hero in heroes" 
-                    @click="selectHero(hero)"
+                    @click="selectVote(hero)"
                     class="image-wrapper" 
                     :key="hero.class"
                 >
@@ -15,8 +15,8 @@
                 
                 <submit-vote-footer slot="submit-vote-footer" 
                     :hasSelectedVote="hasSelectedVote" 
-                    :voteImage="selectedHero.img" 
-                    :vote="selectedHero.class"
+                    :voteImage="selectedVote.img" 
+                    :vote="selectedVote.class"
                 >
                 </submit-vote-footer>                
             </voter-section>
@@ -38,8 +38,6 @@ import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
-import { GET_HEROES } from '@/store/actions'
-import { NS_HEARTHSTONE } from '@/store/modules/hearthstone'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -50,7 +48,7 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedHero: {},
+            selectedVote: {},
             maxResults: 3
         }
     },
@@ -62,20 +60,8 @@ export default {
             return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
         },
         hasSelectedVote(){
-            return !isEmpty(this.selectedHero);
+            return !isEmpty(this.selectedVote);
         },
-        isAuthed(){
-            return this.$store.state.isAuthed;
-        }
-    },
-    watch:{
-        isAuthed: {
-            handler(){
-                if(this.isAuthed)
-                    this.$store.dispatch(NS_HEARTHSTONE+'/'+GET_HEROES)
-            },
-            immediate: true
-        }
     },
     methods:{
         passesFilter(hero){
@@ -86,8 +72,8 @@ export default {
                 result = result && hero.roles.includes(this.selectedRole)
             return result;
         },
-        selectHero(hero){
-            this.selectedHero = hero
+        selectVote(vote){
+            this.selectedVote = vote
         },
         getHeroImage(heroClass){//class is reserve
             let hero = _.find(this.heroes,hero=>{
@@ -126,8 +112,9 @@ export default {
         object-fit: cover;
     }
     
-    .image-placeholder, 
+    .submit-vote-image-placeholder, 
     .image-wrapper, 
+    .submit-vote-image,
     .vote-item-image-wrapper{
         width: 100px;
         height: 160px;

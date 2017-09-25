@@ -16,24 +16,24 @@
             </div>
 
             <div slot="image-grid-contents"
-                v-for="champion in champions" 
-                @click="selectChampion(champion)"
+                v-for="hero in heroes" 
+                @click="selectVote(hero)"
                 class="image-wrapper" 
-                :key="champion.id"
+                :key="hero.id"
             >
-                <img :class="{'filtered-out': !passesFilter(champion)}" :src="getChampionImage(champion.id)" :alt="champion.id">
+                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.id">
             </div>
             
             <submit-vote-footer slot="submit-vote-footer" 
                 :hasSelectedVote="hasSelectedVote" 
-                :voteImage="getChampionImage(selectedChampion.id)" 
-                :vote="selectedChampion.id"
+                :voteImage="selectedVote.img" 
+                :vote="selectedVote.id"
             >
             </submit-vote-footer>
         </voter-section>
         <vote-results :maxResults="maxResults">
             <template slot="vote" scope="props">
-                <img :src="getChampionImage(props.obj.vote)" :alt="props.obj.vote">
+                <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
             </template>
         </vote-results>
     </div>
@@ -51,7 +51,6 @@ import { GET_HEROES } from '@/store/actions'
 import { NS_LOL } from '@/store/modules/lol'
 
 const DEFAULT_ROLE = 'Roles'
-const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
 
 export default {
     name: 'league-of-legends',
@@ -60,7 +59,7 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedChampion: {},
+            selectedVote: {},
             maxResults: 10
         }
     },
@@ -68,30 +67,33 @@ export default {
         this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
     },
     computed:{
-        champions(){
-            return _.sortBy(this.$store.state.lol.champions,'id')
+        heroes(){
+            return _.sortBy(this.$store.state.lol.heroes,'id')
         },
         roles(){
-            return _(this.champions).map(champion=>champion.tags).flatMap().uniq().sort().value()
+            return _(this.heroes).map(hero=>hero.tags).flatMap().uniq().sort().value()
         },
         hasSelectedVote(){
-            return !isEmpty(this.selectedChampion);
+            return !isEmpty(this.selectedVote);
         },
     },
     methods:{
-        passesFilter(champion){
+        passesFilter(hero){
             let result = true;
             if(this.query.length)
-                result = champion.id.toLowerCase().includes(this.query.toLowerCase())
+                result = hero.id.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && champion.tags.includes(this.selectedRole)
+                result = result && hero.tags.includes(this.selectedRole)
             return result;
         },
-        selectChampion(champion){
-            this.selectedChampion = champion
+        selectVote(vote){
+            this.selectedVote = vote
         },
-        getChampionImage(name){
-            return IMG_BASE_URL + `${name}.png`
+        getHeroImage(id){
+            let hero = _.find(this.heroes,hero=>{
+                return hero.id.toLowerCase() == id.toLowerCase()
+            })
+            return hero.img
         }
     },
     components:{
@@ -115,7 +117,8 @@ export default {
     img {
         max-height: 40px;
     }
-    .image-placeholder, .image-wrapper{
+    .submit-vote-image-placeholder, 
+    .image-wrapper{
         width: 40px;
         height: 40px;
     }

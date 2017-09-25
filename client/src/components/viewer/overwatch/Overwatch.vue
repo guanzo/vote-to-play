@@ -18,7 +18,7 @@
 
             <div slot="image-grid-contents"
                 v-for="hero in heroes" 
-                @click="selectHero(hero)"
+                @click="selectVote(hero)"
                 class="image-wrapper" 
                 :key="hero.name"
             >
@@ -27,8 +27,8 @@
             
             <submit-vote-footer slot="submit-vote-footer" 
                 :hasSelectedVote="hasSelectedVote" 
-                :voteImage="selectedHero.avatar" 
-                :vote="selectedHero.name"
+                :voteImage="selectedVote.avatar" 
+                :vote="selectedVote.name"
             >
             </submit-vote-footer>         
         </voter-section>
@@ -59,7 +59,7 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedHero: {},
+            selectedVote: {},
             maxResults: 3,
         }
     },
@@ -71,7 +71,7 @@ export default {
             return _(this.heroes).map(hero=>changeCase.title(hero.type)).uniq().sort().value()
         },
         hasSelectedVote(){
-            return !isEmpty(this.selectedHero);
+            return !isEmpty(this.selectedVote);
         },
     },
     methods:{
@@ -83,8 +83,8 @@ export default {
                 result = result && hero.type.toLowerCase().includes(this.selectedRole.toLowerCase())
             return result;
         },
-        selectHero(hero){
-            this.selectedHero = hero
+        selectVote(vote){
+            this.selectedVote = vote
         },
         getHeroImage(name){
             let hero = _.find(this.heroes,hero=>{
@@ -118,7 +118,7 @@ export default {
         max-height: 100px;
     }
     
-    .image-placeholder, .image-wrapper{
+    .submit-vote-image-placeholder, .image-wrapper{
         width: 60px;
         height: 100px;
     }
