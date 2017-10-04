@@ -60,7 +60,7 @@ export default {
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
             selectedVote: {},
-            maxResults: 10
+            maxResults: 5
         }
     },
     created(){

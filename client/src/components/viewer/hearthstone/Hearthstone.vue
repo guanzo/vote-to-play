@@ -56,9 +56,6 @@ export default {
         heroes(){
             return _.sortBy(this.$store.state.hearthstone.heroes,'class')
         },
-        roles(){
-            return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
-        },
         hasSelectedVote(){
             return !isEmpty(this.selectedVote);
         },
@@ -75,7 +72,7 @@ export default {
         selectVote(vote){
             this.selectedVote = vote
         },
-        getHeroImage(heroClass){//class is reserve
+        getHeroImage(heroClass){//class is reserved word
             let hero = _.find(this.heroes,hero=>{
                 return hero.class.toLowerCase() == heroClass.toLowerCase()
             })

@@ -6,10 +6,6 @@ import * as ACTIONS from '../actions'
 
 export const NS_DOTA = 'dota'
 
-//'https://cdn.dota2.com/apps/dota2/images/heroes/antimage_sb.png'.
-//filename is hero id + '_' + image suffix type. sb is the small image square
-const IMG_BASE_URL = 'https://cdn.dota2.com/apps/dota2/images/heroes/'
-
 const dota = {
     namespaced: true,
     state: { 
@@ -27,7 +23,7 @@ const dota = {
 
                 let heroes = _.map(response.data,(val,id)=>{
                     val.id = id
-                    val.img = IMG_BASE_URL + id + `_sb.png`;
+                    val.img = require("@/assets/images/dota/" + id + `_sb.png`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

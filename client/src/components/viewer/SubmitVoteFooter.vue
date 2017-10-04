@@ -1,5 +1,6 @@
 <template>
-    <div class="submit-vote-footer flex-center">
+    <div class="submit-vote-footer">
+        <span></span><!-- spacing helper -->
         <div class="your-vote">
             <div v-if="!hasSelectedVote" class="default-vote flex-center">
                 <div class="submit-vote-image-placeholder flex-center">
@@ -56,7 +57,6 @@ export default {
         },
     },
     created(){
-        
         if(this.isSimulating)
             this.intervalID = this.simulateVotes()
     },
@@ -113,6 +113,9 @@ export default {
 .submit-vote-footer{
     margin-top: 20px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .default-vote {
         .submit-vote-image-placeholder{
             background: #333;
@@ -126,11 +129,6 @@ export default {
         .submit-vote-image{
             margin-right: 10px;
         }
-    }
-    .vote-button {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
     }
 }
 </style>

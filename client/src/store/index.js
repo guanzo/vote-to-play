@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import _ from 'lodash'
 import throttledQueue from 'throttled-queue';
+import io from 'socket.io-client'
 
 Vue.use(Vuex)
 
@@ -14,13 +15,9 @@ import dota from './modules/dota'
 import overwatch from './modules/overwatch'
 import lol from './modules/lol'
 import hearthstone from './modules/hearthstone'
-import io from 'socket.io-client'
-
-import isUndefined from 'lodash/isUndefined'
 
 const socket = io(process.env.SERVER_URL)
 
- 
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
@@ -28,6 +25,7 @@ const store = new Vuex.Store({
         channelId: -1,
         userId: -1,
         userSubmittedVote: false,
+        userVote: '',
         voteType: '',
         votes:[]
     },
@@ -50,8 +48,9 @@ const store = new Vuex.Store({
             state.voteType = payload.voteType
             state.votes = payload.votes;
         },
-        [ACTIONS.VOTE]( state ){
+        [ACTIONS.VOTE]( state, { vote } ){
             state.userSubmittedVote = true;
+            state.userVote = vote;
         },
         [MUTATIONS.ADD_VOTE]( state, payload ){
             state.votes.push(payload.vote)
@@ -68,7 +67,7 @@ const store = new Vuex.Store({
                 vote: payload.vote,
                 userId: payload.userId
             })
-            commit(ACTIONS.VOTE)
+            commit(ACTIONS.VOTE, { vote: payload.vote })
         },
         [ACTIONS.SIMULATE_VOTE]( {state, commit}, payload ){
             socket.emit('add-vote',{
@@ -101,7 +100,7 @@ function setSocketListeners(channelId){
     socket.on(`all-votes`, data => {
         store.commit(MUTATIONS.SET_VOTES, data)
     });
-
+    
     socket.on(`add-vote`, data => {
         throttle(function(){
             store.commit(MUTATIONS.ADD_VOTE, { vote: data})

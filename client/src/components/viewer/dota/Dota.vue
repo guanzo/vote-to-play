@@ -61,7 +61,7 @@ export default {
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
             selectedVote: {},
-            maxResults: 10
+            maxResults: 5
         }
     },
     computed:{
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 
 .dota{
 	font-family: 'Cinzel', serif;
@@ -125,10 +125,11 @@ export default {
     justify-content: flex-end;
     width: 100%;
     
+    //59x33 is original size.
     .submit-vote-image-placeholder, 
     .image-wrapper{
-        width: 60px;
-        height: 30px;
+        width: 59px;
+        height: 33px;
     }
 }
 
