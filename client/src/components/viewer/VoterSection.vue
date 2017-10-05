@@ -23,7 +23,7 @@ export default {
     name: 'voter-section',
     computed:{
         userSubmittedVote(){
-            return this.$store.state.userSubmittedVote
+            return this.$store.getters.userSubmittedVote
         }
     }
 }

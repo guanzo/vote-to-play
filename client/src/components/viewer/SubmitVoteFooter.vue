@@ -40,7 +40,7 @@ export default {
             loading: false,
             //only set true when under twitch review.
             //only simulates dota heroes. so make sure dota is set in twitch dashbaord
-            isSimulating: true,
+            isSimulating: false,
             intervalID: 0,
             maxSimulationVotes: 200
         }

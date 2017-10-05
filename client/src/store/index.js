@@ -24,7 +24,6 @@ const store = new Vuex.Store({
         selectedGame: 'Overwatch',
         channelId: -1,
         userId: -1,
-        userSubmittedVote: false,
         userVote: '',
         voteType: '',
         votes:[]
@@ -49,11 +48,10 @@ const store = new Vuex.Store({
             state.votes = payload.votes;
         },
         [ACTIONS.VOTE]( state, { vote } ){
-            state.userSubmittedVote = true;
             state.userVote = vote;
         },
         [MUTATIONS.ADD_VOTE]( state, payload ){
-            state.votes.push(payload.vote)
+            state.votes.push(payload.data)
         },
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
             state.userSubmittedVote = false;
@@ -89,6 +87,11 @@ const store = new Vuex.Store({
              })
         },
     },
+    getters:{
+        userSubmittedVote: state => {
+            return !_.isUndefined(state.votes.find(vote=>vote.userId == state.userId))
+        }
+    }
 })
 
 let maxCalls = 1000;
@@ -103,7 +106,7 @@ function setSocketListeners(channelId){
     
     socket.on(`add-vote`, data => {
         throttle(function(){
-            store.commit(MUTATIONS.ADD_VOTE, { vote: data})
+            store.commit(MUTATIONS.ADD_VOTE, { data })
         })
     });
 

@@ -43,9 +43,6 @@ export default {
     computed:{
         ...mapState(['selectedGame','votes','userSubmittedVote']),
     },
-    created(){
-        //console.log(this)
-    },
     watch:{
         votes(){
             if(this.votes.length == 0)
