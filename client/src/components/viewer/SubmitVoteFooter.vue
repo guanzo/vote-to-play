@@ -38,14 +38,14 @@ export default {
         return {
             buttonText: 'Vote',
             loading: false,
-            //only set true when under twitch review.
-            //only simulates dota heroes. so make sure dota is set in twitch dashbaord
-            isSimulating: false,
             intervalID: 0,
             maxSimulationVotes: 200
         }
     },
     computed:{
+        isSimulating(){
+            return this.$store.state.TESTING.isSimulating
+        },
         heroes(){
             return _.sortBy(this.$store.state.dota.heroes,'name')
         },
@@ -79,6 +79,7 @@ export default {
             setTimeout(()=>{
                 this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
                 this.loading = false
+                this.buttonText = "Success"
             }, 750)
         },
         simulateVotes(){
@@ -93,11 +94,9 @@ export default {
                 if(this.heroes.length == 0)
                     return;
                 let heroName = this.heroes[heroIndex].name
-                //console.log(i)
                 this.$store.dispatch(SIMULATE_VOTE, { vote: heroName, userId  })
                 
             },500)
-
             return intervalID
         },
         randomIntFromInterval(min,max){

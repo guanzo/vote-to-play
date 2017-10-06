@@ -26,17 +26,16 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 
 .live-config{
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     font-weight: 300;
     padding: 10px;
     color: #333;
-}
-
-.vote-list {
-    background: white !important;
+    .overlay-background {
+        background: white !important;
+    }
 }
 
 </style>

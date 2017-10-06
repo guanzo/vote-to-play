@@ -34,6 +34,7 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
@@ -53,6 +54,7 @@ export default {
         }
     },
     computed:{
+        ...mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.hearthstone.heroes,'class')
         },
@@ -113,8 +115,8 @@ export default {
     .image-wrapper, 
     .submit-vote-image,
     .vote-item-image-wrapper{
-        width: 100px;
-        height: 160px;
+        width: 75px;
+        height: 120px;
     }
     
 }

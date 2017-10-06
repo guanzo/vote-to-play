@@ -1,5 +1,5 @@
 <template>
-    <div class="league-of-legends">
+    <div v-if="heroes.length" class="league-of-legends">
         <voter-section>
             <div slot="filters" class="field is-grouped">
                 <div class="control">
@@ -43,6 +43,7 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
@@ -67,6 +68,7 @@ export default {
         this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
     },
     computed:{
+        ...mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.lol.heroes,'id')
         },

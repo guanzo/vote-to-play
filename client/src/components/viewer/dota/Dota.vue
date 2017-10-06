@@ -44,6 +44,7 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
@@ -65,6 +66,7 @@ export default {
         }
     },
     computed:{
+        ...mapState(['selectedGame','isAuthed']),
         heroes(){
             return _.sortBy(this.$store.state.dota.heroes,'name')
         },
@@ -74,9 +76,6 @@ export default {
         hasSelectedVote(){
             return !isEmpty(this.selectedVote);
         },
-        isAuthed(){
-            return this.$store.state.isAuthed;
-        }
     },
     watch:{
         isAuthed: {

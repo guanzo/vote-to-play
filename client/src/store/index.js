@@ -16,17 +16,22 @@ import overwatch from './modules/overwatch'
 import lol from './modules/lol'
 import hearthstone from './modules/hearthstone'
 
+const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
+
 const socket = io(process.env.SERVER_URL)
 
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        selectedGame: 'Overwatch',
+        selectedGame: 'Dota 2',
         channelId: -1,
         userId: -1,
-        userVote: '',
-        voteType: '',
-        votes:[]
+        voteType: null,//not used at the moment.
+        votes:[],
+        TESTING:{
+            isSimulating: false && IS_DEVELOPMENT,
+            unlimitedVotes: true && IS_DEVELOPMENT
+        }
     },
     modules:{
         dota,
@@ -47,15 +52,12 @@ const store = new Vuex.Store({
             state.voteType = payload.voteType
             state.votes = payload.votes;
         },
-        [ACTIONS.VOTE]( state, { vote } ){
-            state.userVote = vote;
-        },
         [MUTATIONS.ADD_VOTE]( state, payload ){
             state.votes.push(payload.data)
         },
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
-            state.userSubmittedVote = false;
             state.votes = []
+            state.userVote = null
         },
     },
     actions:{
@@ -65,7 +67,6 @@ const store = new Vuex.Store({
                 vote: payload.vote,
                 userId: payload.userId
             })
-            commit(ACTIONS.VOTE, { vote: payload.vote })
         },
         [ACTIONS.SIMULATE_VOTE]( {state, commit}, payload ){
             socket.emit('add-vote',{
@@ -88,8 +89,21 @@ const store = new Vuex.Store({
         },
     },
     getters:{
-        userSubmittedVote: state => {
-            return !_.isUndefined(state.votes.find(vote=>vote.userId == state.userId))
+        gameIsSupported: state => {
+
+        },
+        userVote: state => {
+            let userVote = state.votes.find(vote=>vote.userId == state.userId)
+            if( !_.isUndefined(userVote) )
+                return userVote.vote
+            else
+                return null;
+        },
+        userSubmittedVote: (state,getters) => {
+            if(state.TESTING.unlimitedVotes)
+                return false
+            else
+                return getters.userVote != null
         }
     }
 })

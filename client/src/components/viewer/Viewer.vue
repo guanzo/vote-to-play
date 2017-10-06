@@ -6,7 +6,7 @@
                     The broadcaster wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="showUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png" alt="logo">
+            <img @click="toggleUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png" alt="logo">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
@@ -41,7 +41,10 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','votes','userSubmittedVote']),
+        ...mapState(['selectedGame','votes']),
+        userSubmittedVote(){
+            return this.$store.getters.userSubmittedVote
+        }
     },
     watch:{
         votes(){
@@ -54,7 +57,7 @@ export default {
         }
     },
     methods:{
-        showUI(){
+        toggleUI(){
             this.isExpanded = !this.isExpanded
             this.showExpandTip = false;
         }
@@ -80,6 +83,7 @@ $header-element-size: 35px;
     display: flex;
     flex-direction: column;
     .viewer-header{
+        height: $header-element-size;
         margin-top: 40px;
         margin-bottom: 15px;
         display: flex;
