@@ -14,6 +14,8 @@ import voteResults from '@/components/viewer/voteresults/VoteResults'
 
 export default {
 	name: 'live-config',
+    created(){
+    },
     methods:{
         startVote(){
             this.$store.dispatch(START_NEW_VOTE)

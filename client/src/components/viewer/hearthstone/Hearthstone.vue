@@ -20,13 +20,7 @@
                 >
                 </submit-vote-footer>                
             </voter-section>
-        <vote-results :maxResults="maxResults">
-            <template slot="vote" scope="props">
-                <div class="vote-item-image-wrapper">
-                    <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
-                </div>
-            </template>
-        </vote-results>
+        <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
@@ -102,7 +96,7 @@ export default {
     align-items: flex-start;
     justify-content: flex-end;
     width: 100%;
-    .image-wrapper{
+    .image-grid .image-wrapper{
         margin: 3px;
     }
     img {
@@ -111,14 +105,14 @@ export default {
         object-fit: cover;
     }
     
-    .submit-vote-image-placeholder, 
-    .image-wrapper, 
-    .submit-vote-image,
-    .vote-item-image-wrapper{
+    .image-wrapper {
         width: 75px;
         height: 120px;
     }
-    
+    .vote-results .image-wrapper {
+        width: 38px;
+        height: 60px;
+    }
 }
 
 

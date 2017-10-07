@@ -3,14 +3,14 @@
         <span></span><!-- spacing helper -->
         <div class="your-vote">
             <div v-if="!hasSelectedVote" class="default-vote flex-center">
-                <div class="submit-vote-image-placeholder flex-center">
+                <div class="image-wrapper flex-center">
                     &#63;
                 </div>
                 &nbsp;
                 Your Vote
             </div>
             <div v-else class="flex-center">
-                <div class="submit-vote-image flex-center">
+                <div class="image-wrapper flex-center">
                     <img :src="voteImage" :alt="vote">
                 </div>
                 <span>{{ vote }}</span>
@@ -116,7 +116,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     .default-vote {
-        .submit-vote-image-placeholder{
+        .image-wrapper{
             background: #333;
         }
     }
@@ -125,7 +125,7 @@ export default {
         font-size: 1.5em;
         color: white;
         text-shadow: #000 0px 0px 2px;
-        .submit-vote-image{
+        .image-wrapper{
             margin-right: 10px;
         }
     }

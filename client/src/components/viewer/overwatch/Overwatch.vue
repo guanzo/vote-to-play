@@ -109,16 +109,19 @@ export default {
     align-items: flex-start;
     justify-content: flex-end;
     width: 100%;
-    .image-wrapper{
+    .image-grid .image-wrapper{
         margin: 3px;
     }
     img {
         max-height: 100px;
     }
-    
-    .submit-vote-image-placeholder, .image-wrapper{
-        width: 60px;
+    .image-wrapper{
+        width: 58px;
         height: 100px;
+    }
+    .vote-results .image-wrapper {
+        width: 29px;
+        height: 50px;
     }
 }
 

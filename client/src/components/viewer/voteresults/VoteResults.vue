@@ -3,59 +3,18 @@
 <div class="vote-results">
     <div class="top-votes overlay-background" ref="topvotes">
         <h4 class="is-size-5"><b>Results</b></h4>
-        <transition name="fade" mode="out-in">
-            <table v-if="topAggregatedVotes.length">
-                <thead>
-                    <tr>
-                        <td>Rank</td>
-                        <td></td>
-                        <td></td>
-                        <td class="has-text-right">Votes</td>
-                    </tr>
-                </thead>
-                <transition-group class="vote-list" name="vote-list" tag="tbody">
-                    <tr v-for="(vote,i) in topAggregatedVotes"  class="vote-item" :key="vote.vote">
-                        <td class="rank">{{ i+1 }}</td>
-                        <td class="vote-image">
-                            <slot name="vote" :obj="vote">
-                                <img :src="getHeroImage(vote.vote)" :alt="vote.vote">
-                            </slot>
-                        </td>
-                        <td>{{ vote.vote }}</td> 
-                        <td class="count">{{ vote.count }}</td> 
-                    </tr>
-                </transition-group>
-            </table>
-            <div v-else class="has-text-centered">
+        <transition name="fade">
+            <vote-table v-if="topAggregatedVotes.length" :votes="topAggregatedVotes"></vote-table>
+            <div v-else style="width: 100%" class="has-text-centered">
                 Waiting for votes...
             </div>
         </transition>
+        
     </div>
     <transition name="fade-vertical">
         <div v-if="userVote" class="user-vote overlay-background">
             <h4 class="is-size-5"><b>Your Vote</b></h4>
-            <table>
-                <thead>
-                    <tr>
-                        <td class="has-text-centered">Rank</td>
-                        <td></td>
-                        <td></td>
-                        <td class="has-text-right">Votes</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="has-text-centered">{{ userAggregatedVote.rank }}</td>
-                        <td class="vote-image">
-                            <slot name="vote" :obj="userAggregatedVote">
-                                <img :src="getHeroImage(userAggregatedVote.vote)" :alt="userAggregatedVote.vote">
-                            </slot>
-                        </td>
-                        <td>{{ userAggregatedVote.vote }} </td>
-                        <td class="has-text-right">{{ userAggregatedVote.count }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <vote-table v-if="userAggregatedVote.length" :votes="userAggregatedVote"></vote-table>
         </div>
     </transition>
 </div>
@@ -65,6 +24,7 @@
 <script>
 
 import _ from 'lodash'
+import voteTable from './VoteTable'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -78,9 +38,6 @@ export default {
     computed:{
         ...mapState(['votes']),
         ...mapGetters(['userVote']),
-        game(){
-            return this.$store.getters.getSelectedGameModule
-        },
         allAggregatedVotes(){
             let totalVotes = this.votes.length;
             return _(this.votes)
@@ -88,15 +45,17 @@ export default {
                 .map((count, vote)=> ({ vote, count, percent: Math.round((count/totalVotes)*100) }))
                 .sortBy('count')
                 .reverse()
+                .map((vote,i)=>{
+                    vote.rank = i + 1;
+                    return vote;
+                })
                 .value()
         },
         topAggregatedVotes(){
             return this.allAggregatedVotes.slice(0, this.maxResults)
         },
         userAggregatedVote(){
-            let rank = _.findIndex(this.allAggregatedVotes, vote=>vote.vote == this.userVote) + 1
-            let result = _(this.allAggregatedVotes).find(vote=>vote.vote == this.userVote)
-            return Object.assign(result, { rank })
+            return this.allAggregatedVotes.filter(vote=>vote.vote == this.userVote)
         }
     },
     watch:{
@@ -118,19 +77,15 @@ export default {
                 el.offsetHeight//force reflow
                 el.style.height = afterHeight+'px'
 
-                
                 el.addEventListener('transitionend',()=>{
                     el.style.height = 'auto'
                 }, { once: true })
             })
 		},
-        getHeroImage(name){
-            let hero = _.find(this.game.heroes,hero=>{
-                return hero.name.toLowerCase() == name.toLowerCase()
-            })
-            return hero.img
-        }
-	}
+	},
+    components:{
+        voteTable
+    }
 }
 
 </script>
@@ -147,6 +102,9 @@ export default {
         text-align: center;
         margin-bottom: 10px;
     }
+    .fade-leave-active {
+        position: absolute;
+    }
 }
 
 .top-votes, .user-vote {
@@ -158,49 +116,6 @@ export default {
     overflow: hidden;
     margin-bottom: 15px;
     transition: height 1s;
-    table {
-        width: 100%;
-        td {
-            padding: 3px;
-        }        
-        tr.vote-item{
-            width: 100%;
-            transition: all 10s;
-            margin-bottom: 5px;
-            td{
-                vertical-align: middle;
-            }
-            .rank {
-                width: 20px;
-                text-align: center;
-            }
-            .count {
-                width: 35px;
-                text-align: right;
-            }
-            img {
-                vertical-align: middle;
-            }
-            .percent {
-                width: 45px;
-                text-align: right;
-            }
-        }
-    }
-}
-
-.user-vote{
-    table {
-        width: 100%;
-    }
-}
-
-.vote-list-enter, .vote-list-leave-to{
-  opacity: 0;
-  transform: translateY(30px);
-}
-.vote-list-leave-active {
-  position: absolute;
 }
 
 

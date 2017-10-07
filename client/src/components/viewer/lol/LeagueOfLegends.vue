@@ -115,7 +115,6 @@ export default {
     img {
         max-height: 40px;
     }
-    .submit-vote-image-placeholder, 
     .image-wrapper{
         width: 40px;
         height: 40px;

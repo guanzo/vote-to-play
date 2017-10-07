@@ -1,18 +1,22 @@
 <template>
-    <table v-if="topAggregatedVotes.length">
+    <table>
         <thead>
             <tr>
-                <td>Rank</td>
+                <td class="rank">Rank</td>
                 <td></td>
                 <td></td>
-                <td class="has-text-right">Votes</td>
+                <td class="count">Votes</td>
             </tr>
         </thead>
-        <transition-group v-if="topAggregatedVotes.length" class="vote-list" name="vote-list" tag="tbody">
-            <tr v-for="(vote,i) in topAggregatedVotes"  class="vote-item" :key="vote.vote">
-                <td class="rank">{{ i+1 }}</td>
-                <td class="vote-image"><slot name="vote" :obj="vote"></slot></td>
-                <td>{{ vote.vote }}</td> 
+        <transition-group class="vote-list" name="vote-list" tag="tbody">
+            <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
+                <td class="rank">{{ vote.rank }}</td>
+                <td>
+                    <div class="image-wrapper">
+                        <img :src="getHeroImage(vote.vote)">
+                    </div>
+                </td>
+                <td class="vote-name">{{ vote.vote }}</td> 
                 <td class="count">{{ vote.count }}</td> 
             </tr>
         </transition-group>
@@ -24,11 +28,63 @@
 export default {
     name:'vote-table',
     props: ['votes'],
+    computed:{
+        game(){
+            return this.$store.getters.getSelectedGameModule
+        },
+    },
+	methods:{
+        getHeroImage(name){
+            if(!this.game)//no images for live config xd
+                return '';
+            let hero = _.find(this.game.heroes,hero=>{
+                return hero.name.toLowerCase() == name.toLowerCase()
+            })
+            return hero.img
+        }
+	},
 }
 
 </script>
 
 <style lang="scss" scoped>
 
+table {
+    width: 100%;
+    td {
+        padding: 3px;
+    }        
+    tr{
+        transition: all 1s;
+        td{
+            vertical-align: middle;
+        }
+        .rank {
+            width: 50px;
+            text-align: center;
+        }
+        .count {
+            text-align: right;
+        }
+        .vote-name {
+            //width: 99%;
+        }
+        img {
+            vertical-align: middle;
+        }
+        .percent {
+            width: 45px;
+            text-align: right;
+        }
+    }
+}
 
+.vote-list-enter, .vote-list-leave-to{
+    opacity: 0;
+    transform: translateY(30px);
+}
+.vote-list-leave-active {
+    width: 320px;
+    position: absolute;
+}
 </style>

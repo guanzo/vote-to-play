@@ -5,7 +5,7 @@ import { SET_AUTH, SET_GAME, SET_STREAMER_NAME } from '@/store/mutations'
 export default function () {
 
     //uncomment when not testing inside twitch, b/c the socket joins the rooms upon auth
-    store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
+    //store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
 
     window.Twitch.ext.onAuthorized(function (auth) {
         //adds token to every request sent thru axios

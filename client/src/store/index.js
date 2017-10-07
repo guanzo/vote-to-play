@@ -23,7 +23,7 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        selectedGame: 'Hearthstone',
+        selectedGame: '',
         streamerName: 'The broadcaster',
         channelId: -1,
         userId: -1,
@@ -31,7 +31,7 @@ const store = new Vuex.Store({
         votes:[],
         TESTING:{
             isSimulating: false && IS_DEVELOPMENT,
-            unlimitedVotes: true && IS_DEVELOPMENT
+            unlimitedVotes: false && IS_DEVELOPMENT
         }
     },
     modules:{
@@ -97,7 +97,11 @@ const store = new Vuex.Store({
 
         },
         getSelectedGameModule: state => {
-            return _.find(state, (val,key)=>_.get(val,'gameName') == state.selectedGame)
+            return _.find(state, (val,key)=>{
+                if(!val || !val.gameName)
+                    return false;
+                return val.gameName == state.selectedGame
+            })
         },
         userVote: state => {
             let userVote = state.votes.find(vote=>vote.userId == state.userId)

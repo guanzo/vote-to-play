@@ -1,37 +1,37 @@
 <template>
     <div v-if="heroes.length" class="dota">
-            <voter-section>
+        <voter-section>
 
-                <div slot="filters" class="field is-grouped">
-                    <div class="control">
-                        <input v-model="query" class="input" type="text" placeholder="Search hero name">
-                    </div>
-                    <div class="control">
-                        <div class="select is-primary">
-                        <select v-model="selectedRole">
-                            <option>{{ DEFAULT_ROLE }}</option>
-                            <option v-for="role in roles" :key="role">{{ role }}</option>
-                        </select>
-                        </div>
+            <div slot="filters" class="field is-grouped">
+                <div class="control">
+                    <input v-model="query" class="input" type="text" placeholder="Search hero name">
+                </div>
+                <div class="control">
+                    <div class="select is-primary">
+                    <select v-model="selectedRole">
+                        <option>{{ DEFAULT_ROLE }}</option>
+                        <option v-for="role in roles" :key="role">{{ role }}</option>
+                    </select>
                     </div>
                 </div>
+            </div>
 
-                <div slot="image-grid-contents"
-                    v-for="hero in heroes" 
-                    @click="selectVote(hero)"
-                    class="image-wrapper" 
-                    :key="hero.name"
-                >
-                    <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
-                </div>
-                
-                <submit-vote-footer slot="submit-vote-footer" 
-                    :hasSelectedVote="hasSelectedVote" 
-                    :voteImage="selectedVote.img" 
-                    :vote="selectedVote.name"
-                >
-                </submit-vote-footer>                 
-            </voter-section>
+            <div slot="image-grid-contents"
+                v-for="hero in heroes" 
+                @click="selectVote(hero)"
+                class="image-wrapper" 
+                :key="hero.name"
+            >
+                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
+            </div>
+            
+            <submit-vote-footer slot="submit-vote-footer" 
+                :hasSelectedVote="hasSelectedVote" 
+                :voteImage="selectedVote.img" 
+                :vote="selectedVote.name"
+            >
+            </submit-vote-footer>                 
+        </voter-section>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -121,7 +121,6 @@ export default {
     width: 100%;
     
     //59x33 is original size.
-    .submit-vote-image-placeholder, 
     .image-wrapper{
         width: 59px;
         height: 33px;
