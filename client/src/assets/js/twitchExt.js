@@ -1,18 +1,18 @@
 import axios from 'axios';
 import store from '@/store'
-import { SET_AUTH, SET_GAME } from '@/store/mutations'
+import { SET_AUTH, SET_GAME, SET_STREAMER_NAME } from '@/store/mutations'
 
 export default function () {
 
     //uncomment when not testing inside twitch, b/c the socket joins the rooms upon auth
-    //store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
+    store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
 
     window.Twitch.ext.onAuthorized(function (auth) {
         //adds token to every request sent thru axios
         axios.defaults.headers.common['Authorization'] = auth.token;
         
         store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
-        
+        getStreamerName(auth.channelId)
     });
 
     window.Twitch.ext.onContext(function (context, contextFields) {
@@ -26,4 +26,16 @@ export default function () {
         console.error(err);
     });
 
+}
+
+function getStreamerName(channelId){
+    
+    axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`,{
+        headers:{
+            'Client-ID':'9p87e0fdl3h6gbn8ijwpdc7xszri8m',
+        }
+    }).then((response)=>{
+        let streamerName = response.data.data[0].display_name;
+        store.commit(SET_STREAMER_NAME, { streamerName })
+    })
 }

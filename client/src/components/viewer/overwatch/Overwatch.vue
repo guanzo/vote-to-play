@@ -22,21 +22,17 @@
                 class="image-wrapper" 
                 :key="hero.name"
             >
-                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.avatar" :alt="hero.name">
+                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
             </div>
             
             <submit-vote-footer slot="submit-vote-footer" 
                 :hasSelectedVote="hasSelectedVote" 
-                :voteImage="selectedVote.avatar" 
+                :voteImage="selectedVote.img" 
                 :vote="selectedVote.name"
             >
             </submit-vote-footer>         
         </voter-section>
-        <vote-results :maxResults="maxResults">
-            <template slot="vote" scope="props">
-                <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
-            </template>
-        </vote-results>
+        <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
@@ -46,7 +42,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
-import voteResults from '../VoteResults'
+import voteResults from '../voteresults/VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import changeCase from 'change-case'
@@ -92,7 +88,7 @@ export default {
             let hero = _.find(this.heroes,hero=>{
                 return hero.name.toLowerCase() == name.toLowerCase()
             })
-            return hero.avatar
+            return hero.img
         }
     },
     components:{

@@ -19,23 +19,19 @@
                 v-for="hero in heroes" 
                 @click="selectVote(hero)"
                 class="image-wrapper" 
-                :key="hero.id"
+                :key="hero.name"
             >
-                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.id">
+                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
             </div>
             
             <submit-vote-footer slot="submit-vote-footer" 
                 :hasSelectedVote="hasSelectedVote" 
                 :voteImage="selectedVote.img" 
-                :vote="selectedVote.id"
+                :vote="selectedVote.name"
             >
             </submit-vote-footer>
         </voter-section>
-        <vote-results :maxResults="maxResults">
-            <template slot="vote" scope="props">
-                <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
-            </template>
-        </vote-results>
+        <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
@@ -45,7 +41,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
-import voteResults from '../VoteResults'
+import voteResults from '../voteresults/VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import { GET_HEROES } from '@/store/actions'
@@ -83,7 +79,7 @@ export default {
         passesFilter(hero){
             let result = true;
             if(this.query.length)
-                result = hero.id.toLowerCase().includes(this.query.toLowerCase())
+                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
                 result = result && hero.tags.includes(this.selectedRole)
             return result;
@@ -91,9 +87,9 @@ export default {
         selectVote(vote){
             this.selectedVote = vote
         },
-        getHeroImage(id){
+        getHeroImage(name){
             let hero = _.find(this.heroes,hero=>{
-                return hero.id.toLowerCase() == id.toLowerCase()
+                return hero.name.toLowerCase() == name.toLowerCase()
             })
             return hero.img
         }

@@ -23,7 +23,8 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         isAuthed: false,
-        selectedGame: 'Dota 2',
+        selectedGame: 'Hearthstone',
+        streamerName: 'The broadcaster',
         channelId: -1,
         userId: -1,
         voteType: null,//not used at the moment.
@@ -42,6 +43,9 @@ const store = new Vuex.Store({
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){
             state.selectedGame = payload.game
+        },
+        [MUTATIONS.SET_STREAMER_NAME]( state, payload ){
+            state.streamerName = payload.streamerName
         },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.isAuthed = true;
@@ -91,6 +95,9 @@ const store = new Vuex.Store({
     getters:{
         gameIsSupported: state => {
 
+        },
+        getSelectedGameModule: state => {
+            return _.find(state, (val,key)=>_.get(val,'gameName') == state.selectedGame)
         },
         userVote: state => {
             let userVote = state.votes.find(vote=>vote.userId == state.userId)

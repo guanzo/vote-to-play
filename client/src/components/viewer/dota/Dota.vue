@@ -32,11 +32,7 @@
                 >
                 </submit-vote-footer>                 
             </voter-section>
-        <vote-results :maxResults="maxResults">
-            <template slot="vote" scope="props">
-                <img :src="getHeroImage(props.obj.vote)" :alt="props.obj.vote">
-            </template>
-        </vote-results>
+        <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
@@ -46,7 +42,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
-import voteResults from '../VoteResults'
+import voteResults from '../voteresults/VoteResults'
 import submitVoteFooter from '../SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import { GET_HEROES } from '@/store/actions'

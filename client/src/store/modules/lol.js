@@ -10,6 +10,9 @@ const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champio
 const lol = {
     namespaced: true,
     state: { 
+        gameName: 'League of Legends',
+        nomenclature: 'champion',
+        maxResults: 5,
         heroes: []
     },
     mutations:{
@@ -23,6 +26,7 @@ const lol = {
             .then((response)=>{
                 
                 let heroes = _.map(response.data.data,(val)=>{
+                    val.name = val.id;
                     val.img = IMG_BASE_URL + val.image.full;
                     return val
                 })

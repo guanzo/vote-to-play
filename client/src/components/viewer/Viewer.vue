@@ -3,7 +3,7 @@
         <div class="viewer-header">
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
-                    The broadcaster wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
+                    {{ streamerName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
             <img @click="toggleUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png" alt="logo">
@@ -20,6 +20,7 @@
 
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
+import { SET_STREAMER_NAME } from '@/store/mutations'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
@@ -27,7 +28,7 @@ import overwatch from './overwatch/Overwatch'
 import hearthstone from './hearthstone/Hearthstone'
 
 /** Dynamic component depends on twitch's name for the games */
-const TWITCH_NAME_DOTA = 'Dota 2';
+const TWITCH_NAME_DOTA = 'Dota 2'
 const TWITCH_NAME_OVERWATCH = 'Overwatch'
 const TWITCH_NAME_LOL = 'League of Legends'
 const TWITCH_NAME_HEARTHSTONE = 'Hearthstone'
@@ -41,10 +42,10 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','votes']),
+        ...mapState(['selectedGame','votes','streamerName']),
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
-        }
+        },
     },
     watch:{
         votes(){

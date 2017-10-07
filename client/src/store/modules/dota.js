@@ -9,6 +9,9 @@ export const NS_DOTA = 'dota'
 const dota = {
     namespaced: true,
     state: { 
+        gameName: 'Dota 2',
+        nomenclature: 'hero',
+        maxResults: 5,
         heroes: []
     },
     mutations:{

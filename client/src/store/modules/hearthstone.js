@@ -4,16 +4,19 @@ export const NS_HEARTHSTONE = 'hearthstone'
 
 const hearthstone = {
     state: { 
+        gameName: 'Hearthstone',
+        nomenclature: 'class',
+        maxResults: 3,
         heroes: [
-            { class: "Druid",   img: IMG_BASE_URL + 'malfurion.jpg'},
-            { class: "Hunter",  img: IMG_BASE_URL + 'rexxar.jpg'},
-            { class: "Mage",    img: IMG_BASE_URL + 'jaina.jpg'},
-            { class: "Paladin", img: IMG_BASE_URL + 'uther.jpg'},
-            { class: "Priest",  img: IMG_BASE_URL + 'anduin.jpg'},
-            { class: "Rogue",   img: IMG_BASE_URL + 'valeera.jpg'},
-            { class: "Shaman",  img: IMG_BASE_URL + 'thrall.jpg'},
-            { class: "Warlock", img: IMG_BASE_URL + 'guldan.jpg'},
-            { class: "Warrior", img: IMG_BASE_URL + 'garrosh.jpg'}
+            { name: "Druid",   img: IMG_BASE_URL + 'malfurion.jpg'},
+            { name: "Hunter",  img: IMG_BASE_URL + 'rexxar.jpg'},
+            { name: "Mage",    img: IMG_BASE_URL + 'jaina.jpg'},
+            { name: "Paladin", img: IMG_BASE_URL + 'uther.jpg'},
+            { name: "Priest",  img: IMG_BASE_URL + 'anduin.jpg'},
+            { name: "Rogue",   img: IMG_BASE_URL + 'valeera.jpg'},
+            { name: "Shaman",  img: IMG_BASE_URL + 'thrall.jpg'},
+            { name: "Warlock", img: IMG_BASE_URL + 'guldan.jpg'},
+            { name: "Warrior", img: IMG_BASE_URL + 'garrosh.jpg'}
         ]
     },
 }
