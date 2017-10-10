@@ -46,8 +46,11 @@ export default {
         isSimulating(){
             return this.$store.state.TESTING.isSimulating
         },
+        game(){
+            return this.$store.getters.getSelectedGameModule
+        },
         heroes(){
-            return _.sortBy(this.$store.state.dota.heroes,'name')
+            return _.sortBy(this.game.heroes,'name')
         },
         userId(){
             return this.$store.state.userId

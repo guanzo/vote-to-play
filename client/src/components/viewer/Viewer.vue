@@ -1,10 +1,7 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <div v-if="IS_DEVELOPMENT" @click="toggleVoteSimulation" class="toggle-vote-simulation">
-                Simulate Votes:
-                <input type="checkbox">
-            </div>
+            <test-util v-if="IS_DEVELOPMENT"></test-util>
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ streamerName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
@@ -24,12 +21,14 @@
 
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { SET_STREAMER_NAME, TOGGLE_VOTE_SIMULATION } from '@/store/mutations'
+import { SET_STREAMER_NAME} from '@/store/mutations'
+import TestUtil from './TestUtil'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
 import overwatch from './overwatch/Overwatch'
 import hearthstone from './hearthstone/Hearthstone'
+import hots from './hots/Hots'
 
 /** Dynamic component depends on twitch's name for the games */
 const TWITCH_NAME_DOTA = 'Dota 2'
@@ -44,12 +43,10 @@ export default {
         return {
             isExpanded: false,
             showExpandTip: false,
-
         }
     },
     computed:{
         ...mapState(['selectedGame','votes','streamerName','TESTING']),
-        isSimulating(){ return this.TESTING.isSimulating },
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
@@ -70,15 +67,14 @@ export default {
             this.isExpanded = !this.isExpanded
             this.showExpandTip = false;
         },
-        toggleVoteSimulation(){
-            this.$store.commit(TOGGLE_VOTE_SIMULATION)
-        }
     },
     components:{
         [TWITCH_NAME_DOTA]: dota,
         [TWITCH_NAME_OVERWATCH]: overwatch,
         [TWITCH_NAME_LOL]: lol,
-        [TWITCH_NAME_HEARTHSTONE]: hearthstone
+        [TWITCH_NAME_HEARTHSTONE]: hearthstone,
+        [TWITCH_NAME_HOTS]: hots,
+        TestUtil
     }
 }
 </script>
@@ -119,8 +115,16 @@ $header-element-size: 35px;
         }
     }
     .viewer-body{
+        font-family: 'Cinzel', serif;
+        color: #eee;
         flex: 1;
         display: flex;
+        > * {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            width: 100%;
+        }
     }
     .expand-tip {
         height: $header-element-size;

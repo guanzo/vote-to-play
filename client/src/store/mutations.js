@@ -9,4 +9,7 @@ export const ADD_VOTE = 'ADD_VOTE'
 export const START_NEW_VOTE = 'START_NEW_VOTE'
 export const SET_HEROES = 'SET_HEROES'
 
+
+//testing
 export const TOGGLE_VOTE_SIMULATION = 'TOGGLE_VOTE_SIMULATION'
+export const SELECT_GAME = 'SELECT_GAME'

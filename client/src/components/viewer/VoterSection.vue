@@ -7,24 +7,69 @@
                     </slot>
                 </div>
             </div>
+
             <div class="image-grid">
                 <slot name="image-grid-contents">
+                    <div v-for="hero in heroes" 
+                        @click="selectVote(hero)"
+                        class="image-wrapper" 
+                        :key="hero.name"
+                    >
+                        <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
+                    </div>
                 </slot>
             </div>
-            <slot name="submit-vote-footer">
-            </slot>
+
+            <submit-vote-footer slot="submit-vote-footer" 
+                :hasSelectedVote="hasSelectedVote" 
+                :voteImage="selectedVote.img" 
+                :vote="selectedVote.name"
+            >
+            </submit-vote-footer> 
         </div>
     </transition>
 </template>
 
 <script>
 
+
+import axios from 'axios'
+import _ from 'lodash'
+import { mapState } from 'vuex'
+import submitVoteFooter from './SubmitVoteFooter'
+import isEmpty from 'lodash/isEmpty'
+import { GET_HEROES } from '@/store/actions'
+import { NS_DOTA } from '@/store/modules/dota'
+
 export default {
     name: 'voter-section',
+    props:['heroes','filteredHeroes'],
+    data(){
+        return {
+            selectedVote: {},
+        }
+    },
     computed:{
+        game(){
+            return this.$store.getters.getSelectedGameModule
+        },
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
-        }
+        },
+        hasSelectedVote(){
+            return !isEmpty(this.selectedVote);
+        },
+    },
+    methods:{
+        passesFilter(hero){
+            return this.filteredHeroes.find(d=>d.name == hero.name)
+        },
+        selectVote(vote){
+            this.selectedVote = vote
+        },
+    },
+    components:{
+        submitVoteFooter,
     }
 }
 
@@ -43,6 +88,7 @@ export default {
         overflow: auto;
         
         .image-wrapper{
+            margin: 2px;
             position: relative;
             transition: .3s all;
             cursor: pointer;

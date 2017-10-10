@@ -70,10 +70,13 @@ export default {
             let beforeHeight = el.clientHeight
             this.$nextTick(()=>{
                 let afterHeight = el.clientHeight
+
+                if(beforeHeight == 0 || afterHeight == 0)
+                    return;
+
                 el.style.height = beforeHeight+'px'
                 el.offsetHeight//force reflow
                 el.style.height = afterHeight+'px'
-
                 el.addEventListener('transitionend',()=>{
                     el.style.height = 'auto'
                 }, { once: true })
@@ -84,7 +87,6 @@ export default {
         voteTable
     }
 }
-
 </script>
 
 <style lang="scss">

@@ -84,15 +84,6 @@ export default {
 //All images must be wrapped with an element with a set dimension, then resized using object-fit
 
 .hearthstone{
-	font-family: 'Cinzel', serif;
-    color: #eee;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 100%;
-    .image-grid .image-wrapper{
-        margin: 3px;
-    }
     img {
         height: 100%;
         width: 100%;

@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="overwatch">
-        <voter-section>
+        <voter-section :heroes="heroes" :filteredHeroes="filteredHeroes">
 
             <div slot="filters" class="field is-grouped">
                 <div class="control">
@@ -15,22 +15,7 @@
                     </div>
                 </div>
             </div>
-
-            <div slot="image-grid-contents"
-                v-for="hero in heroes" 
-                @click="selectVote(hero)"
-                class="image-wrapper" 
-                :key="hero.name"
-            >
-                <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
-            </div>
-            
-            <submit-vote-footer slot="submit-vote-footer" 
-                :hasSelectedVote="hasSelectedVote" 
-                :voteImage="selectedVote.img" 
-                :vote="selectedVote.name"
-            >
-            </submit-vote-footer>         
+        
         </voter-section>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
@@ -43,8 +28,6 @@ import _ from 'lodash'
 import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../voteresults/VoteResults'
-import submitVoteFooter from '../SubmitVoteFooter'
-import isEmpty from 'lodash/isEmpty'
 import changeCase from 'change-case'
 
 const DEFAULT_ROLE = 'Roles'
@@ -56,7 +39,6 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            selectedVote: {},
             maxResults: 3,
         }
     },
@@ -68,12 +50,12 @@ export default {
         roles(){
             return _(this.heroes).map(hero=>changeCase.title(hero.type)).uniq().sort().value()
         },
-        hasSelectedVote(){
-            return !isEmpty(this.selectedVote);
-        },
+        filteredHeroes(){
+            return this.heroes.filter(this.filterHero)
+        }
     },
     methods:{
-        passesFilter(hero){
+        filterHero(hero){
             let result = true;
             if(this.query.length)
                 result = hero.name.toLowerCase().includes(this.query.toLowerCase())
@@ -81,13 +63,9 @@ export default {
                 result = result && hero.type.toLowerCase().includes(this.selectedRole.toLowerCase())
             return result;
         },
-        selectVote(vote){
-            this.selectedVote = vote
-        },
     },
     components:{
         voteResults,
-        submitVoteFooter,
         voterSection
     }
 }
@@ -97,15 +75,6 @@ export default {
 <style lang="scss">
 
 .overwatch{
-	font-family: 'Cinzel', serif;
-    color: #eee;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 100%;
-    .image-grid .image-wrapper{
-        margin: 3px;
-    }
     img {
         max-height: 100px;
     }

@@ -15,6 +15,7 @@ import dota from './modules/dota'
 import overwatch from './modules/overwatch'
 import lol from './modules/lol'
 import hearthstone from './modules/hearthstone'
+import hots from './modules/hots'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
@@ -39,7 +40,8 @@ const store = new Vuex.Store({
         dota,
         overwatch,
         lol,
-        hearthstone
+        hearthstone,
+        hots
     },
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){
@@ -63,8 +65,11 @@ const store = new Vuex.Store({
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
             state.votes = []
         },
-        [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state ){
-            state.TESTING.isSimulating = !state.TESTING.isSimulating
+        [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state, payload ){
+            state.TESTING.isSimulating = payload
+        },
+        [MUTATIONS.SELECT_GAME]( state, payload ){
+            state.selectedGame = payload.game
         } 
     },
     actions:{
@@ -96,6 +101,14 @@ const store = new Vuex.Store({
         },
     },
     getters:{
+        getSupportedGames: state => {
+            return   _(state)
+                    .pickBy((val,key)=>{
+                        return val && !_.isUndefined(val.gameName)
+                    })
+                    .map('gameName')
+                    .value()
+        },
         getSelectedGameModule: state => {
             return _.find(state, (val,key)=>{
                 if(!val || !val.gameName)
