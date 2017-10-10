@@ -10,7 +10,7 @@
                     class="image-wrapper" 
                     :key="hero.name"
                 >
-                    <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
+                    <img :src="hero.img" :alt="hero.name">
                 </div>
                 
                 <submit-vote-footer slot="submit-vote-footer" 

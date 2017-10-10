@@ -15,7 +15,7 @@
                         class="image-wrapper" 
                         :key="hero.name"
                     >
-                        <img :class="{'filtered-out': !passesFilter(hero)}" :src="hero.img" :alt="hero.name">
+                        <img :class="filterClass(hero)" :src="hero.img" :alt="hero.name">
                     </div>
                 </slot>
             </div>
@@ -59,8 +59,16 @@ export default {
         hasSelectedVote(){
             return !isEmpty(this.selectedVote);
         },
+        hasActiveFilter(){
+            return this.filteredHeroes.length < this.heroes.length
+        }
     },
     methods:{
+        filterClass(hero){
+            if(!this.hasActiveFilter)
+                return ''
+            return this.passesFilter(hero) ? 'filtered-in': 'filtered-out'
+        },
         passesFilter(hero){
             return this.filteredHeroes.find(d=>d.name == hero.name)
         },
@@ -106,6 +114,9 @@ export default {
                 transition: .3s all;
                 &.filtered-out {
                     filter: brightness(20%);
+                }
+                &.filtered-in {
+                    box-shadow: 0px 0px 2px 1px white;
                 }
             }
         }
