@@ -2,11 +2,16 @@
 
 <div class="vote-results">
     <div class="top-votes overlay-background" ref="topvotes">
-        <h4 class="is-size-5"><b>Results</b></h4>
+        {{votes}}
         <transition name="fade">
-            <vote-table v-if="topAggregatedVotes.length" :votes="topAggregatedVotes"></vote-table>
-            <div v-else style="width: 100%" class="has-text-centered">
-                Waiting for votes...
+            <div v-if="topAggregatedVotes.length"  key="results" >
+                <h4 class="is-size-5"><b>Results</b></h4>
+                <vote-table :votes="topAggregatedVotes"></vote-table>
+            </div>
+            <div v-else class="no-results" key="noresults">
+                <div>Waiting for votes...</div>
+                <br>
+                <loading></loading>
             </div>
         </transition>
         
@@ -24,6 +29,7 @@
 <script>
 
 import _ from 'lodash'
+import loading from '@/components/Loading'
 import voteTable from './VoteTable'
 import { mapState, mapGetters } from 'vuex'
 
@@ -84,12 +90,13 @@ export default {
 		},
 	},
     components:{
-        voteTable
+        voteTable,
+        loading
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .vote-results{
     flex: 0 0 350px;
@@ -103,6 +110,15 @@ export default {
     }
     .fade-leave-active {
         position: absolute;
+    }
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &.fade-leave-active {
+        width: calc(100% - 30px);
     }
 }
 

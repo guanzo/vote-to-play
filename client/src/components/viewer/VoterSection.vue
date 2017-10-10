@@ -1,6 +1,6 @@
 <template>
     <transition name="fade-vertical">
-        <div v-if="!userSubmittedVote" class="voter-section overlay-background">
+        <div v-if="showUI" class="voter-section overlay-background">
             <div class="filter-section field is-horizontal">
                 <div class="field-body">
                     <slot name="filters">
@@ -33,6 +33,7 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+//import * as d3 from 'd3'
 import { mapState } from 'vuex'
 import submitVoteFooter from './SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
@@ -45,6 +46,7 @@ export default {
     data(){
         return {
             selectedVote: {},
+            transitionDone: false
         }
     },
     computed:{
@@ -59,6 +61,15 @@ export default {
         },
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
+        },
+        showUI(){
+            return !this.userSubmittedVote || !this.transitionDone
+        }
+    },
+    watch:{
+        userSubmittedVote(newVal){
+            if(newVal)
+                this.exitTransition()
         }
     },
     methods:{
@@ -73,6 +84,14 @@ export default {
         selectVote(vote){
             this.selectedVote = vote
         },
+        exitTransition(){
+            /*var images = d3.select('.image-grid').selectAll('.image-wrapper img')
+            console.log(images)
+            images
+                .style('border-radius','50%')
+                .selectAll*/
+                
+        }
     },
     components:{
         submitVoteFooter,

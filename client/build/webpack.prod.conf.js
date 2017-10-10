@@ -28,13 +28,13 @@ var webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
-    }),/*
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: false,
       mangle: false,
       output: { beautify: true },
       sourceMap: true
-    }),*/
+    }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')

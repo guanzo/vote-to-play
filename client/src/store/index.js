@@ -60,6 +60,7 @@ const store = new Vuex.Store({
             state.votes = payload.votes;
         },
         [MUTATIONS.ADD_VOTE]( state, payload ){
+            console.log(payload.data)
             state.votes.push(payload.data)
         },
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
@@ -74,6 +75,7 @@ const store = new Vuex.Store({
     },
     actions:{
         [ACTIONS.VOTE]( {state, commit}, payload ){
+            console.log('vote')
             socket.emit('add-vote',{
                 channelId: state.channelId,
                 vote: payload.vote,
@@ -81,6 +83,7 @@ const store = new Vuex.Store({
             })
         },
         [ACTIONS.SIMULATE_VOTE]( {state, commit}, payload ){
+            console.log('simulate vote')
             socket.emit('add-vote',{
                 channelId: state.channelId,
                 vote: payload.vote,

@@ -29,6 +29,7 @@
 <script>
 
 import _ from 'lodash'
+import { mapState } from 'vuex'
 import { VOTE, SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
 
 export default {
@@ -43,20 +44,15 @@ export default {
         }
     },
     computed:{
+        ...mapState(['userId','votes','TESTING']),
         isSimulating(){
-            return this.$store.state.TESTING.isSimulating
+            return this.TESTING.isSimulating
         },
         game(){
             return this.$store.getters.getSelectedGameModule
         },
         heroes(){
             return _.sortBy(this.game.heroes,'name')
-        },
-        userId(){
-            return this.$store.state.userId
-        },
-        votes(){
-            return this.$store.state.votes
         },
     },
     watch:{
@@ -89,13 +85,14 @@ export default {
         },
         simulateVotes(){
             let votes = this.maxSimulationVotes
-            let heroPool = 25;
+            let heroPool = Math.min(25, this.heroes.length);
             let intervalID = setInterval(()=>{
                 let userId = this.randomIntFromInterval(0, 100000)
                 let heroIndex = this.randomIntFromInterval(0, heroPool)
-                if(userId == this.userId){
+
+                if(userId == this.userId)
                     return;
-                }
+
                 if(this.heroes.length == 0)
                     return;
                 let heroName = this.heroes[heroIndex].name
