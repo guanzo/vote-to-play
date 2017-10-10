@@ -36,6 +36,7 @@ const TWITCH_NAME_DOTA = 'Dota 2'
 const TWITCH_NAME_OVERWATCH = 'Overwatch'
 const TWITCH_NAME_LOL = 'League of Legends'
 const TWITCH_NAME_HEARTHSTONE = 'Hearthstone'
+const TWITCH_NAME_HOTS = 'Heroes of the Storm'
 
 export default {
     name: 'viewer',
