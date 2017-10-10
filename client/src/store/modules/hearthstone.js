@@ -1,6 +1,6 @@
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
-export const NS_HEARTHSTONE = 'hearthstone'
+export const NAMESPACE_HEARTHSTONE = 'hearthstone'
 
 const hearthstone = {
     state: { 

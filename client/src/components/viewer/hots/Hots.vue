@@ -36,7 +36,7 @@ import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NS_HOTS } from '@/store/modules/hots'
+import { NAMESPACE_HOTS } from '@/store/modules/hots'
 
 const DEFAULT_ROLE = 'Group'
 const DEFAULT_SUBROLE = 'Subgroup'
@@ -69,7 +69,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NS_HOTS+'/'+GET_HEROES)
+        this.$store.dispatch(NAMESPACE_HOTS+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){

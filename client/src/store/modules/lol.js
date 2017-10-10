@@ -3,7 +3,7 @@ import _ from 'lodash'
 import * as MUTATIONS from '../mutations'
 import * as ACTIONS from '../actions'
 
-export const NS_LOL = 'lol'
+export const NAMESPACE_LOL = 'lol'
 
 const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
 

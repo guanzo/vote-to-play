@@ -39,7 +39,7 @@ import { mapState } from 'vuex'
 import submitVoteFooter from './SubmitVoteFooter'
 import isEmpty from 'lodash/isEmpty'
 import { GET_HEROES } from '@/store/actions'
-import { NS_DOTA } from '@/store/modules/dota'
+import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
 export default {
     name: 'voter-section',

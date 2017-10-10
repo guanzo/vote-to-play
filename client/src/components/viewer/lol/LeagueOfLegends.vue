@@ -28,7 +28,7 @@ import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NS_LOL } from '@/store/modules/lol'
+import { NAMESPACE_LOL } from '@/store/modules/lol'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -55,7 +55,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
+        this.$store.dispatch(NAMESPACE_LOL+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){

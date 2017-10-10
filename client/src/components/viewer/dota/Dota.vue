@@ -28,7 +28,7 @@ import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NS_DOTA } from '@/store/modules/dota'
+import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -58,7 +58,7 @@ export default {
         isAuthed: {
             handler(){
                 if(this.isAuthed)
-                    this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
+                    this.$store.dispatch(NAMESPACE_DOTA+'/'+GET_HEROES)
             },
             immediate: true
         }

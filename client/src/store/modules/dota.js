@@ -4,7 +4,7 @@ import _ from 'lodash'
 import * as MUTATIONS from '../mutations'
 import * as ACTIONS from '../actions'
 
-export const NS_DOTA = 'dota'
+export const NAMESPACE_DOTA = 'dota'
 
 const dota = {
     namespaced: true,

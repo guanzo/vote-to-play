@@ -3,7 +3,7 @@ import _ from 'lodash'
 import * as MUTATIONS from '../mutations'
 import * as ACTIONS from '../actions'
 
-export const NS_HOTS = 'hots'
+export const NAMESPACE_HOTS = 'hots'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
 
