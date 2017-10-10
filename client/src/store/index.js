@@ -30,6 +30,7 @@ const store = new Vuex.Store({
         voteType: null,//not used at the moment.
         votes:[],
         TESTING:{
+            IS_DEVELOPMENT,
             isSimulating: false && IS_DEVELOPMENT,
             unlimitedVotes: false && IS_DEVELOPMENT
         }

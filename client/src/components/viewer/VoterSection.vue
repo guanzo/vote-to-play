@@ -1,7 +1,7 @@
 <template>
     <transition name="fade-vertical">
         <div v-if="!userSubmittedVote" class="voter-section overlay-background">
-            <div slot="filter-section" class="field is-horizontal">
+            <div class="filter-section field is-horizontal">
                 <div class="field-body">
                     <slot name="filters">
                     </slot>

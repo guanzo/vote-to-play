@@ -1,7 +1,8 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <div @click="toggleVoteSimulation" class="toggle-vote-simulation">
+            <div v-if="IS_DEVELOPMENT" @click="toggleVoteSimulation" class="toggle-vote-simulation">
+                Simulate Votes:
                 <input type="checkbox">
             </div>
             <transition name="fade">
@@ -42,11 +43,13 @@ export default {
         return {
             isExpanded: false,
             showExpandTip: false,
+
         }
     },
     computed:{
         ...mapState(['selectedGame','votes','streamerName','TESTING']),
         isSimulating(){ return this.TESTING.isSimulating },
+        IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
         },
@@ -109,9 +112,8 @@ $header-element-size: 35px;
             }
         }
         .toggle-vote-simulation{
-            width: $header-element-size;
-            height: $header-element-size;
             background: grey;
+            padding: 0px 5px;
             margin-right: 15px;
         }
     }

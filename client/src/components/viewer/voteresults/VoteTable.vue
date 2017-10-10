@@ -8,7 +8,7 @@
                 <td class="count">Votes</td>
             </tr>
         </thead>
-        <transition-group class="vote-list" name="vote-list" tag="tbody">
+        <transition-group class="vote-list" name="vote-list" tag="tbody" v-on:before-leave="beforeLeave">
             <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
                 <td>
@@ -41,6 +41,12 @@ export default {
                 return hero.name.toLowerCase() == name.toLowerCase()
             })
             return hero.img
+        },
+        beforeLeave(tr){
+            //td widths collapse during list-leave b/c of position: absolute.
+            for(var td of tr.children){
+                td.style.width = td.offsetWidth + 'px'
+            }
         }
 	},
 }
