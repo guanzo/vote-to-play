@@ -1,0 +1,72 @@
+<template>
+    <div v-if="IS_DEVELOPMENT" class="test-util">
+        <select v-model="selectedGameVModel">
+            <option v-for="game in games" :key="game">{{ game }}</option>
+        </select>
+        <div class="toggle-vote-simulation">
+            Simulate Votes:
+            <input type="checkbox" v-model="isSimulating">
+        </div>
+    </div>
+</template>
+
+<script>
+
+import { mapState, mapGetters } from 'vuex'
+import { TOGGLE_VOTE_SIMULATION, SELECT_GAME } from '@/store/mutations'
+
+export default {
+    name: 'viewer',
+    data(){
+        return {
+            selectedGameModel: 'Dota 2'
+        }
+    },
+    computed:{
+        ...mapState(['selectedGame','TESTING']),
+        IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
+        games(){
+            return this.$store.getters.getSupportedGames
+        },
+        isSimulating: {
+            get () {
+                return this.TESTING.isSimulating
+            },
+            set (value) {
+                this.$store.commit(TOGGLE_VOTE_SIMULATION, value)
+            }
+        },
+        selectedGameVModel: {
+            get () {
+                return this.$store.state.selectedGame
+            },
+            set (value) {
+                this.$store.commit(SELECT_GAME, { game: value })
+            }
+        },
+    },
+    methods:{
+        toggleVoteSimulation(){
+            this.$store.commit(TOGGLE_VOTE_SIMULATION)
+        }
+    },
+}
+</script>
+
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+
+.test-util{
+    display: flex;
+    > * {
+        margin: 0px 5px;
+    }
+    .toggle-vote-simulation{
+        background: grey;
+        padding: 3px;
+    }
+}
+
+
+</style>
