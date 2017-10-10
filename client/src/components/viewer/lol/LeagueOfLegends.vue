@@ -1,6 +1,7 @@
 <template>
     <div v-if="heroes.length" class="league-of-legends">
         <voter-section>
+            
             <div slot="filters" class="field is-grouped">
                 <div class="control">
                     <input v-model="query" class="input" type="text" placeholder="Search champion name">
@@ -87,12 +88,6 @@ export default {
         selectVote(vote){
             this.selectedVote = vote
         },
-        getHeroImage(name){
-            let hero = _.find(this.heroes,hero=>{
-                return hero.name.toLowerCase() == name.toLowerCase()
-            })
-            return hero.img
-        }
     },
     components:{
         voteResults,

@@ -56,10 +56,6 @@ export default {
             return this.$store.state.votes
         },
     },
-    created(){
-        if(this.isSimulating)
-            this.intervalID = this.simulateVotes()
-    },
     watch:{
         ['votes.length'](){
             if(!this.isSimulating)
@@ -71,6 +67,12 @@ export default {
                 clearInterval(this.intervalID)
                 this.intervalID = this.simulateVotes()
             }
+        },
+        isSimulating(){
+            if(this.isSimulating)
+                this.intervalID = this.simulateVotes()
+            else
+                clearInterval(this.intervalID)
         }
     },
     methods:{

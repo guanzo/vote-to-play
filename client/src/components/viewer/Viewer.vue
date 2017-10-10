@@ -1,6 +1,9 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
+            <div @click="toggleVoteSimulation" class="toggle-vote-simulation">
+                <input type="checkbox">
+            </div>
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ streamerName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
@@ -20,7 +23,7 @@
 
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { SET_STREAMER_NAME } from '@/store/mutations'
+import { SET_STREAMER_NAME, TOGGLE_VOTE_SIMULATION } from '@/store/mutations'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
@@ -42,7 +45,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','votes','streamerName']),
+        ...mapState(['selectedGame','votes','streamerName','TESTING']),
+        isSimulating(){ return this.TESTING.isSimulating },
         userSubmittedVote(){
             return this.$store.getters.userSubmittedVote
         },
@@ -61,6 +65,9 @@ export default {
         toggleUI(){
             this.isExpanded = !this.isExpanded
             this.showExpandTip = false;
+        },
+        toggleVoteSimulation(){
+            this.$store.commit(TOGGLE_VOTE_SIMULATION)
         }
     },
     components:{
@@ -100,6 +107,12 @@ $header-element-size: 35px;
             &:hover{
                 opacity: 1;
             }
+        }
+        .toggle-vote-simulation{
+            width: $header-element-size;
+            height: $header-element-size;
+            background: grey;
+            margin-right: 15px;
         }
     }
     .viewer-body{

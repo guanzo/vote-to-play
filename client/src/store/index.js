@@ -61,8 +61,10 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.START_NEW_VOTE]( state, payload ){
             state.votes = []
-            state.userVote = null
         },
+        [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state ){
+            state.TESTING.isSimulating = !state.TESTING.isSimulating
+        } 
     },
     actions:{
         [ACTIONS.VOTE]( {state, commit}, payload ){
@@ -93,9 +95,6 @@ const store = new Vuex.Store({
         },
     },
     getters:{
-        gameIsSupported: state => {
-
-        },
         getSelectedGameModule: state => {
             return _.find(state, (val,key)=>{
                 if(!val || !val.gameName)

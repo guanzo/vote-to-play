@@ -84,12 +84,6 @@ export default {
         selectVote(vote){
             this.selectedVote = vote
         },
-        getHeroImage(name){
-            let hero = _.find(this.heroes,hero=>{
-                return hero.name.toLowerCase() == name.toLowerCase()
-            })
-            return hero.img
-        }
     },
     components:{
         voteResults,

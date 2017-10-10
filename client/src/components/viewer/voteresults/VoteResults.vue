@@ -64,9 +64,6 @@ export default {
                 this.animateHeight()
         }
     },
-    mounted(){
-        let el = this.$refs.topvotes
-    },
 	methods:{
 		animateHeight(){
 			let el = this.$refs.topvotes
