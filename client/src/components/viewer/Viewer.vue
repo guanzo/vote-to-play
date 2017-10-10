@@ -80,7 +80,7 @@ export default {
 </script>
 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
 
 $header-element-size: 35px;

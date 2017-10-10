@@ -9,15 +9,13 @@
             </div>
 
             <div class="image-grid">
-                <slot name="image-grid-contents">
-                    <div v-for="hero in heroes" 
-                        @click="selectVote(hero)"
-                        class="image-wrapper" 
-                        :key="hero.name"
-                    >
-                        <img :class="filterClass(hero)" :src="hero.img" :alt="hero.name">
-                    </div>
-                </slot>
+                <div v-for="hero in heroes"
+                    @click="selectVote(hero)"
+                    class="image-wrapper" 
+                    :key="hero.name"
+                >
+                    <img :class="filterClass(hero)" :src="hero.img" :alt="hero.name">
+                </div>
             </div>
 
             <submit-vote-footer slot="submit-vote-footer" 

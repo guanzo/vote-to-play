@@ -11,7 +11,7 @@
         <transition-group class="vote-list" name="vote-list" tag="tbody" v-on:before-leave="beforeLeave">
             <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
-                <td>
+                <td class="vote-image">
                     <div class="image-wrapper">
                         <img :src="getHeroImage(vote.vote)">
                     </div>
@@ -71,6 +71,9 @@ table {
         }
         .count {
             text-align: right;
+        }
+        .vote-image {
+            width: 1%;
         }
         .vote-name {
             //width: 99%;

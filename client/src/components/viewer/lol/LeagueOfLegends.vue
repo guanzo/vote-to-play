@@ -22,7 +22,6 @@
 
 <script>
 
-import axios from 'axios'
 import _ from 'lodash'
 import { mapState } from 'vuex'
 import voterSection from '@/components/viewer/VoterSection'
@@ -74,7 +73,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss">
 
 .league-of-legends{
