@@ -48,8 +48,8 @@ export default {
     computed:{
         ...mapState(['selectedGame','votes','streamerName','TESTING']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
-        userSubmittedVote(){
-            return this.$store.getters.userSubmittedVote
+        hasSubmittedVote(){
+            return this.$store.getters.hasSubmittedVote
         },
     },
     watch:{
@@ -57,8 +57,8 @@ export default {
             if(this.votes.length == 0)
                 this.showExpandTip = true;
         },
-        userSubmittedVote(){
-            if(this.userSubmittedVote)
+        hasSubmittedVote(){
+            if(this.hasSubmittedVote)
                 this.showExpandTip = false;
         }
     },

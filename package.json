@@ -7,5 +7,7 @@
     "server": "set NODE_ENV=development&& nodemon ./server",
     "client": "node start-client.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pathfinding": "^0.4.18"
+  }
 }

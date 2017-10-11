@@ -4,9 +4,10 @@
             <option v-for="game in games" :key="game">{{ game }}</option>
         </select>
         <div class="toggle-vote-simulation">
-            Simulate Votes:
+            Simulate Votes: {{isSimulating}}
             <input type="checkbox" v-model="isSimulating">
         </div>
+        <button @click="resetVote">reset vote</button>
     </div>
 </template>
 
@@ -15,6 +16,7 @@
 import { mapState, mapGetters } from 'vuex'
 import { TOGGLE_VOTE_SIMULATION, SELECT_GAME } from '@/store/mutations'
 
+import { START_NEW_VOTE } from '@/store/actions'
 export default {
     name: 'viewer',
     data(){
@@ -48,6 +50,9 @@ export default {
     methods:{
         toggleVoteSimulation(){
             this.$store.commit(TOGGLE_VOTE_SIMULATION)
+        },
+        resetVote(){
+            this.$store.dispatch(START_NEW_VOTE)
         }
     },
 }

@@ -26,7 +26,7 @@ const dota = {
 
                 let heroes = _.map(response.data,(val,id)=>{
                     val.id = id
-                    val.img = require("@/assets/images/dota/" + id + `_sb.png`);
+                    val.img = require("@/assets/images/dota/portraits/" + id + `_sb.png`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

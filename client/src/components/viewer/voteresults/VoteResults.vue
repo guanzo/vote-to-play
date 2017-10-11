@@ -2,7 +2,6 @@
 
 <div class="vote-results">
     <div class="top-votes overlay-background" ref="topvotes">
-        {{votes}}
         <transition name="fade">
             <div v-if="topAggregatedVotes.length"  key="results" >
                 <h4 class="is-size-5"><b>Results</b></h4>
