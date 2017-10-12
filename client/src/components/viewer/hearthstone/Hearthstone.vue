@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="hearthstone">
-        <voter-section :heroes="heroes" :filteredHeroes="heroes"></voter-section>
+        <voter :heroes="heroes" :filteredHeroes="heroes"></voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -9,7 +9,7 @@
 
 import _ from 'lodash'
 import { mapState } from 'vuex'
-import voterSection from '@/components/viewer/VoterSection'
+import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 
 const DEFAULT_ROLE = 'Roles'
@@ -32,7 +32,7 @@ export default {
     },
     components:{
         voteResults,
-        voterSection
+        voter
     }
 }
 </script>

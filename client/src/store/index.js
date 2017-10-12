@@ -30,6 +30,7 @@ const store = new Vuex.Store({
         userId: -1,
         voteType: null,//not used at the moment.
         votes:[],
+        selectedVote:{},
         TESTING:{
             IS_DEVELOPMENT,
             isSimulating: false && IS_DEVELOPMENT,
@@ -70,6 +71,9 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.SELECT_GAME]( state, payload ){
             state.selectedGame = payload.game
+        },
+        [MUTATIONS.SELECT_VOTE]( state, payload ){
+            state.selectedVote = payload.vote
         } 
     },
     actions:{
@@ -128,6 +132,9 @@ const store = new Vuex.Store({
                 return false
             else
                 return getters.userVote != null
+        },
+        hasSelectedVote : state => {
+            return !_.isEmpty(state.selectedVote);
         }
     }
 })

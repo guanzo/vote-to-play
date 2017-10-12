@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="dota">
-        <voter-section :heroes="heroes" :filteredHeroes="filteredHeroes">
+        <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
 
             <div slot="filters" class="field is-grouped">
                 <div class="control">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-        </voter-section>
+        </voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -24,7 +24,7 @@
 
 import _ from 'lodash'
 import { mapState } from 'vuex'
-import voterSection from '@/components/viewer/VoterSection'
+import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
 import { NAMESPACE_DOTA } from '@/store/modules/dota'
@@ -53,6 +53,7 @@ export default {
             return this.heroes.filter(this.filterHero)
         }
     },
+    
     watch:{
         isAuthed: {
             handler(){
@@ -74,7 +75,7 @@ export default {
     },
     components:{
         voteResults,
-        voterSection
+        voter
     }
 }
 </script>
