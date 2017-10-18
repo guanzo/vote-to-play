@@ -15,8 +15,13 @@
 
 import { mapGetters } from 'vuex'
 import { SELECT_VOTE } from '@/store/mutations'
+import Promise from 'bluebird'
 import PF from 'pathfinding'
 import {easeCubicOut,interpolate} from 'd3'
+
+Promise.config({
+    cancellation: true,
+});
 
 export default {
     name:'image-grid',
@@ -45,8 +50,6 @@ export default {
             if(newVal)
                 this.exitTransition()
             else{
-                this.transitionState.isDone = false;
-                this.transitionState.showControls = true;
                 this.$nextTick(()=>{
                     this.classes.forEach(c=>c.traversed = false)
                 })
@@ -67,8 +70,28 @@ export default {
             return this.filteredHeroes.find(d=>d.name == hero.name)
         },
         exitTransition(){
-            this.transitionState.showControls = false;
+            let { width, height} = this.calcGridDimensions();
 
+            let heroIndex = _.findIndex(this.heroes,hero=>this.selectedVote.name == hero.name)
+            let heroCoords = this.getCoordsFromIndex(heroIndex, width)
+
+            var grid = new PF.Grid(width, height); 
+            let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
+
+            let p = this.traverseAnimation(heroNode, grid)
+                .then(()=>new Promise(resolve=>setTimeout(resolve, this.transitionState.splashArtDuration)))
+                .then(()=>{
+                    this.$emit('transition-done')
+                })
+            
+            //streamer can start new vote at any time, need to gracefully stop the animation
+            let unwatch = this.$watch('hasSubmittedVote',()=>{
+                p.cancel()
+                unwatch();
+            })
+
+        },
+        calcGridDimensions(){
             let $grid = this.$el
             let $cell = $grid.firstChild
             //cells have margins on all sides, add to width/height 
@@ -79,44 +102,41 @@ export default {
             
             cellWidth += m*2;
             cellHeight += m*2;
-            let rows = Math.floor(gridHeight/cellHeight)
-            let columns = Math.floor(gridWidth/cellWidth)
-            
-            let heroIndex = _.findIndex(this.heroes,hero=>this.selectedVote.name == hero.name)
-            let heroCoords = this.getCoordsFromIndex(heroIndex, columns)
-            var grid = new PF.Grid(columns,rows); 
-            let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
 
-            this.traverse(heroNode, grid)
-                .then(()=>new Promise(resolve=>setTimeout(resolve, this.transitionState.splashArtDuration)))
-                .then(()=>{
-                    console.log('is done')
-                    this.transitionState.isDone = true
-                })
+            let width = Math.floor(gridWidth/cellWidth)
+            let height = Math.floor(gridHeight/cellHeight)
 
-        },//incrementally traverses grid in an expanding square, starting from selected vote        
-        traverse(startNode, grid){
+            return { width, height }
+        },
+        //incrementally traverses grid in an expanding square, starting from selected vote        
+        traverseAnimation(startNode, grid){
             let self = this;
             
-            return new Promise((resolve)=>{
+            return new Promise((resolve,reject,onCancel)=>{
+
+                var timeoutID;
+                onCancel(()=>{
+                    clearTimeout(timeoutID)
+                })
+
+                //handles the timing of the steps
                 var duration = 1000,
                     startTime = new Date(),
                     elapsed,
                     maxInterval = 200,
                     minInterval = 50,
-                    interpolator = interpolate(maxInterval,minInterval),
-                    progress = 0,
-                    nodesChecked = 0,
-                    gridSize = grid.width * grid.height
-
+                    interpolator = interpolate(maxInterval,minInterval)
+                    
+                //pathfinding
                 var openList = [],
                     diagonalMovement = PF.DiagonalMovement.Always,
-                    neighbors, neighbor, nodes, i, l;
-                // push the start pos into the queue
+                    neighbors, neighbor, nodes, i, l,
+                    gridSize = grid.width * grid.height
+
                 openList.push(startNode);
                 startNode.opened = true;
                 
-                
+                //each step will process a square of neighbors
                 function step(){
                     if(openList.length == 0){
                         resolve()
@@ -144,16 +164,16 @@ export default {
                         openList.push(neighbor);
                         neighbor.opened = true;
                     }
-                    nodesChecked += openList.length;
-                    progress = nodesChecked/self.heroes.length
 
                     var elapsed = new Date() - startTime;
                     var normalizedTime = Math.min(elapsed,duration)/duration
                     var easedTime = easeCubicOut(normalizedTime);
 
-                    setTimeout(step, interpolator(easedTime))
+                    timeoutID = setTimeout(step, interpolator(easedTime))
                 }
+
                 step();
+
             })
         },
         getCoordsFromIndex(i,width){

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bluebird": "^3.5.1",
     "bulma": "^0.5.2",
     "change-case": "^3.0.1",
     "d3": "^4.11.0",

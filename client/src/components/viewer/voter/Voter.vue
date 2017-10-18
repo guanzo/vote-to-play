@@ -14,6 +14,7 @@
                 :heroes="heroes"
                 :filteredHeroes="filteredHeroes"
                 :transitionState="transitionState"
+                @transition-done="transitionDone"
             >
             </image-grid>
             <vote-controls :class="{ 'invisible': !transitionState.showControls }" 
@@ -37,41 +38,52 @@
 import axios from 'axios'
 import _ from 'lodash'
 //import * as d3 from 'd3'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import yourVote from './YourVote'
 import imageGrid from './ImageGrid'
 import voteControls from './voteControls'
 import { GET_HEROES } from '@/store/actions'
 import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
+function defaultTransitionState(){
+    return {
+        showControls: true,
+        isActive: false,
+        isDone: false,
+        splashArtDuration: 5000
+    }
+}
+
 export default {
     name: 'voter',
     props:['heroes','filteredHeroes'],
     data(){
         return {
-            transitionState: {
-                showControls: true,
-                isDone: false,
-                splashArtDuration: 5000
-            }
+            transitionState: defaultTransitionState()
         }
     },
     computed:{
         selectedVote(){
             return this.$store.state.selectedVote
         },
-        hasSelectedVote(){
-            return this.$store.getters.hasSelectedVote
-        },
-        game(){
-            return this.$store.getters.getSelectedGameModule
-        },
-        hasSubmittedVote(){
-            return this.$store.getters.hasSubmittedVote
-        },
+        ...mapGetters(['hasSelectedVote','hasSubmittedVote','game']),
         showUI(){
             return !this.hasSubmittedVote || !this.transitionState.isDone
         },
+    },
+    watch:{
+        hasSubmittedVote(newVal){
+            if(newVal)
+                this.transitionState.showControls = false;
+            else{
+                this.transitionState = defaultTransitionState()
+            }
+        }
+    },
+    methods:{
+        transitionDone(){
+            this.transitionState.isDone = true
+        }
     },
     components:{
         yourVote,
