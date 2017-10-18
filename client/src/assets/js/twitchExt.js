@@ -4,10 +4,11 @@ import { SET_AUTH, SET_GAME, SET_STREAMER_NAME } from '@/store/mutations'
 
 export default function () {
 
-    //uncomment when not testing inside twitch, b/c the socket joins the rooms upon auth
-    
-    if(process.env.NODE_ENV == 'development')
-      store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
+    //testing on localhost window, and not inside twitch iframe
+    //i need to join a room so that i can cast votes locally
+    if(!inIframe() && process.env.NODE_ENV == 'development'){
+        store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
+    }
 
     window.Twitch.ext.onAuthorized(function (auth) {
         //adds token to every request sent thru axios
@@ -28,6 +29,14 @@ export default function () {
         console.error(err);
     });
 
+}
+
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
 }
 
 function getStreamerName(channelId){

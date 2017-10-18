@@ -2,7 +2,7 @@
     <transition name="fade-vertical">
         <div v-show="showUI" class="voter overlay-background">
             <transition name="fade">
-                <div v-if="!transitionState.showControls" class="splash-img-container">
+                <div v-if="!splashTransition.showControls" class="splash-img-container">
                     <img class="splash-img" :src="selectedVote.imgSplash">    
                 </div>
             </transition>
@@ -13,11 +13,11 @@
             <image-grid 
                 :heroes="heroes"
                 :filteredHeroes="filteredHeroes"
-                :transitionState="transitionState"
+                :splashTransition="splashTransition"
                 @transition-done="transitionDone"
             >
             </image-grid>
-            <vote-controls :class="{ 'invisible': !transitionState.showControls }" 
+            <vote-controls :class="{ 'invisible': !splashTransition.showControls }" 
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
             >
@@ -37,7 +37,6 @@
 
 import axios from 'axios'
 import _ from 'lodash'
-//import * as d3 from 'd3'
 import { mapState, mapGetters } from 'vuex'
 import yourVote from './YourVote'
 import imageGrid from './ImageGrid'
@@ -45,7 +44,7 @@ import voteControls from './voteControls'
 import { GET_HEROES } from '@/store/actions'
 import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
-function defaultTransitionState(){
+function splashTransitionDefaults(){
     return {
         showControls: true,
         isActive: false,
@@ -59,7 +58,7 @@ export default {
     props:['heroes','filteredHeroes'],
     data(){
         return {
-            transitionState: defaultTransitionState()
+            splashTransition: splashTransitionDefaults()
         }
     },
     computed:{
@@ -68,21 +67,21 @@ export default {
         },
         ...mapGetters(['hasSelectedVote','hasSubmittedVote','game']),
         showUI(){
-            return !this.hasSubmittedVote || !this.transitionState.isDone
+            return !this.hasSubmittedVote || !this.splashTransition.isDone
         },
     },
     watch:{
         hasSubmittedVote(newVal){
             if(newVal)
-                this.transitionState.showControls = false;
+                this.splashTransition.showControls = false;
             else{
-                this.transitionState = defaultTransitionState()
+                this.splashTransition = splashTransitionDefaults()
             }
         }
     },
     methods:{
         transitionDone(){
-            this.transitionState.isDone = true
+            this.splashTransition.isDone = true
         }
     },
     components:{

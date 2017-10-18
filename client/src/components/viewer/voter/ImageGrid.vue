@@ -25,7 +25,7 @@ Promise.config({
 
 export default {
     name:'image-grid',
-    props:['heroes','filteredHeroes','transitionState'],
+    props:['heroes','filteredHeroes','splashTransition'],
     data(){
         return {
             classes: Array(this.heroes.length).fill().map(d=>({ traversed: false }))
@@ -41,7 +41,7 @@ export default {
         },
         overflow(){
             return {
-                overflow: !this.transitionState.showControls ? 'hidden' : 'auto'
+                overflow: !this.splashTransition.showControls ? 'hidden' : 'auto'
             }
         }
     },
@@ -79,7 +79,7 @@ export default {
             let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
 
             let p = this.traverseAnimation(heroNode, grid)
-                .then(()=>new Promise(resolve=>setTimeout(resolve, this.transitionState.splashArtDuration)))
+                .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.splashArtDuration)))
                 .then(()=>{
                     this.$emit('transition-done')
                 })
@@ -126,7 +126,7 @@ export default {
                     maxInterval = 200,
                     minInterval = 50,
                     interpolator = interpolate(maxInterval,minInterval)
-                    
+
                 //pathfinding
                 var openList = [],
                     diagonalMovement = PF.DiagonalMovement.Always,

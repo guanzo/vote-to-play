@@ -5,6 +5,14 @@
             <br>
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
         </p>
+        <br>
+        <p>
+            Remember, you also get one vote!
+        </p>
+        
+        <br>
+        <br>
+        If you would like to suggest any features, please feel free to email me.
 	</div>
 </template>
 

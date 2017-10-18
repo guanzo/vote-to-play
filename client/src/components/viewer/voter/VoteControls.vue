@@ -14,7 +14,7 @@
 <script>
 
 import _ from 'lodash'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { VOTE, SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
 
 export default {
@@ -30,14 +30,9 @@ export default {
     },
     computed:{
         ...mapState(['userId','votes','TESTING']),
+        ...mapGetters(['getSelectedGameModule','hasSubmittedVote']),
         isSimulating(){
             return this.TESTING.isSimulating
-        },
-        hasSubmittedVote(){
-            return this.$store.getters.hasSubmittedVote
-        },
-        game(){
-            return this.$store.getters.getSelectedGameModule
         },
         heroes(){
             return _.sortBy(this.game.heroes,'name')

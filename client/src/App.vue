@@ -17,7 +17,7 @@ export default {
     },
     watch:{
         
-            //Get Live Channels with Extension Activated
+        //Get Live Channels with Extension Activated
         /*channelId(){
             axios.get(`https://api.twitch.tv/extensions/277964/live_activated_channels`,{
                 headers:{
