@@ -1,5 +1,6 @@
 import axios from 'axios'
 import _ from 'lodash'
+import util from '@/util'
 import * as MUTATIONS from '../mutations'
 import * as ACTIONS from '../actions'
 
@@ -27,7 +28,7 @@ const hots = {
                 let heroes = _.map(response.data,(val)=>{
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
-                    val.imgSplash = require("@/assets/images/hots/splash/" + val.name + `_splash.jpg`);
+                    val.imgSplash = util.getImage("./hots/splash/" + val.name + `_splash.jpg`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

@@ -7,7 +7,7 @@
                     {{ streamerName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="toggleUI" class="logo" src="~@/assets/images/dotavoter-logo-red-sm.png" alt="logo">
+            <img @click="toggleUI" class="logo" src="~@/assets/images/logos/dotavoter-logo-red-sm.png" alt="logo">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">

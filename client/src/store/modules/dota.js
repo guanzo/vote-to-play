@@ -1,10 +1,12 @@
 
 import axios from 'axios'
 import _ from 'lodash'
+import util from '@/util'
 import * as MUTATIONS from '../mutations'
 import * as ACTIONS from '../actions'
 
 export const NAMESPACE_DOTA = 'dota'
+
 
 const dota = {
     namespaced: true,
@@ -26,8 +28,8 @@ const dota = {
 
                 let heroes = _.map(response.data,(val,id)=>{
                     val.id = id
-                    val.img = require("@/assets/images/dota/portraits/" + id + `_sb.png`);
-                    val.imgSplash = require("@/assets/images/dota/splash/" + id + `_splash.jpg`);
+                    val.img = util.getImage("./dota/portraits/" + id + `_sb.png`);
+                    val.imgSplash = util.getImage("./dota/splash/" + id + `_splash.jpg`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })
