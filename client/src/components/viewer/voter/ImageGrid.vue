@@ -2,7 +2,7 @@
     <div class="image-grid" :style="overflow">
         <div v-for="(hero,i) in heroes"
             @click="selectVote(hero)"
-            :class="filterClass(hero)" 
+            :class="[filterClass(hero),classes[i]]" 
             class="image-wrapper" 
             :key="hero.name"
         >
@@ -13,6 +13,7 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
 import { SELECT_VOTE } from '@/store/mutations'
 import PF from 'pathfinding'
 import {easeCubicOut,interpolate} from 'd3'
@@ -20,16 +21,16 @@ import {easeCubicOut,interpolate} from 'd3'
 export default {
     name:'image-grid',
     props:['heroes','filteredHeroes','transitionState'],
+    data(){
+        return {
+            classes: Array(this.heroes.length).fill().map(d=>({ traversed: false }))
+        }
+    },
     computed:{
         selectedVote(){
             return this.$store.state.selectedVote
         },
-        hasSelectedVote(){
-            return this.$store.getters.hasSelectedVote
-        },
-        hasSubmittedVote(){
-            return this.$store.getters.hasSubmittedVote
-        },
+        ...mapGetters(['hasSelectedVote','hasSubmittedVote']),
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
         },
@@ -47,8 +48,7 @@ export default {
                 this.transitionState.isDone = false;
                 this.transitionState.showControls = true;
                 this.$nextTick(()=>{
-                    Array.from(this.$el.querySelectorAll('.image-wrapper'))
-                    .forEach(el=>el.classList.remove('traversed'))
+                    this.classes.forEach(c=>c.traversed = false)
                 })
             }
         }
@@ -74,7 +74,7 @@ export default {
             //cells have margins on all sides, add to width/height 
             let m = parseInt(window.getComputedStyle($cell).margin.replace('px'))
 
-            let { clientWidth: gridWidth, clientWidth: gridHeight } = $grid
+            let { clientWidth: gridWidth, clientHeight: gridHeight } = $grid
             let { offsetWidth: cellWidth, offsetHeight: cellHeight } = $cell;
             
             cellWidth += m*2;
@@ -90,6 +90,7 @@ export default {
             this.traverse(heroNode, grid)
                 .then(()=>new Promise(resolve=>setTimeout(resolve, this.transitionState.splashArtDuration)))
                 .then(()=>{
+                    console.log('is done')
                     this.transitionState.isDone = true
                 })
 
@@ -115,6 +116,7 @@ export default {
                 openList.push(startNode);
                 startNode.opened = true;
                 
+                
                 function step(){
                     if(openList.length == 0){
                         resolve()
@@ -126,10 +128,8 @@ export default {
                         node.closed = true
                         let { x,y } = node
                         let index = self.getIndexFromCoords(x,y,grid.width)
-                        let cell = self.$el.children[index]
-                        if(cell)
-                            cell.classList.add('traversed')
-
+                        if(index < self.classes.length)
+                            self.classes[index].traversed = true;
                     })
                     
                     neighbors = _(nodes).map(node=>grid.getNeighbors(node, diagonalMovement)).flatMap().value();
