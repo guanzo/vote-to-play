@@ -2,8 +2,8 @@
     <transition name="fade-vertical">
         <div v-show="showUI" class="voter overlay-background">
             <transition name="fade">
-                <div v-if="!splashTransition.showControls" class="splash-img-container">
-                    <img class="splash-img" :src="selectedVote.imgSplash">    
+                <div v-show="splashTransition.isActive" class="splash-img-container">
+                    <img class="splash-img" :class="splashTransition.class" :src="selectedVote.imgSplash">    
                 </div>
             </transition>
             <your-vote
@@ -17,11 +17,11 @@
                 @transition-done="transitionDone"
             >
             </image-grid>
-            <vote-controls :class="{ 'invisible': !splashTransition.showControls }" 
+            <vote-controls class="vote-controls" :class="{ 'invisible': splashTransition.isActive }" :style="controlVisibilityDelay"
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
             >
-                <div class="filter-section field is-horizontal">
+                <div class="field is-horizontal">
                     <div class="field-body">
                         <slot name="filters">
                         </slot>
@@ -46,10 +46,9 @@ import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
 function splashTransitionDefaults(){
     return {
-        showControls: true,
         isActive: false,
-        isDone: false,
-        splashArtDuration: 5000
+        class: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
+        duration: 5000
     }
 }
 
@@ -62,27 +61,29 @@ export default {
         }
     },
     computed:{
-        selectedVote(){
-            return this.$store.state.selectedVote
+        ...mapState(['selectedVote']),
+        ...mapGetters(['hasSelectedVote','hasSubmittedVote']),
+        controlVisibilityDelay(){
+            return {
+                'transition-delay': this.splashTransition.isActive ? '0s' : '1s'
+            }
         },
-        ...mapGetters(['hasSelectedVote','hasSubmittedVote','game']),
         showUI(){
-            return !this.hasSubmittedVote || !this.splashTransition.isDone
+            return !this.hasSubmittedVote || this.splashTransition.isActive
         },
     },
     watch:{
         hasSubmittedVote(newVal){
             if(newVal)
-                this.splashTransition.showControls = false;
-            else{
+                this.splashTransition.isActive = true;
+            else
                 this.splashTransition = splashTransitionDefaults()
-            }
         }
     },
     methods:{
         transitionDone(){
-            this.splashTransition.isDone = true
-        }
+            this.splashTransition = splashTransitionDefaults()
+        },
     },
     components:{
         yourVote,
@@ -99,7 +100,7 @@ $shift-amount: 5;
 
 @keyframes shift-to-right{
     from { transform: translateX(0); }
-    to {   transform: translateX($shift-amount*1%); }
+    to {   transform: translateX($shift-amount * 1%); }
 }
 @keyframes shift-to-left{
     from { transform: translateX(0); }
@@ -110,7 +111,9 @@ $shift-amount: 5;
     position: relative;
     padding: 15px;
     max-height: 100%;
+    min-height: 450px;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     .splash-img-container {
         position: absolute;
@@ -123,27 +126,26 @@ $shift-amount: 5;
         img.splash-img{
             position: relative;
             object-fit: cover;
-            right: $shift-amount*1%;
-            width: (100 + $shift-amount)*1% !important;
-            max-width: (100 + $shift-amount)*1% !important;
+            width: (100 + $shift-amount) * 1% !important;
+            max-width: (100 + $shift-amount) * 1% !important;
             max-height: 100% !important;
-            animation: shift-to-right 5s forwards;
+            &.animate-to-right{
+                animation: shift-to-right 5s forwards;
+                right: $shift-amount * 1%;
+            }
+            &.animate-to-left{
+                animation: shift-to-left 5s forwards;
+            }
         }
     }
-    .invisible{
+    .vote-controls{
         transition: .3s;
-        opacity: 0;
-    }
-    button{
-        float: right;
-    }
-    .filter-section {
-        min-height: 40px;
-        margin-bottom: 5px;
+        &.invisible{
+            opacity: 0;
+        }
     }
     
 }
-
 
 .your-vote.shift-left {
     left: $shift-amount*1%;

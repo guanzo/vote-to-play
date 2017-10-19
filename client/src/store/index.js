@@ -113,7 +113,7 @@ const store = new Vuex.Store({
                     .map('gameName')
                     .value()
         },
-        getSelectedGameModule: state => {
+        game: state => {
             return _.find(state, (val,key)=>{
                 if(!val || !val.gameName)
                     return false;

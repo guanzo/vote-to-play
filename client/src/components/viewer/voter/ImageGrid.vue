@@ -39,9 +39,9 @@ export default {
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
         },
-        overflow(){
+        overflow(){//hide scrollbar during animation
             return {
-                overflow: !this.splashTransition.showControls ? 'hidden' : 'auto'
+                'overflow-y': !this.splashTransition.isActive ? 'auto' : 'hidden'
             }
         }
     },
@@ -79,7 +79,7 @@ export default {
             let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
 
             let p = this.traverseAnimation(heroNode, grid)
-                .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.splashArtDuration)))
+                .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.duration)))
                 .then(()=>{
                     this.$emit('transition-done')
                 })
@@ -97,15 +97,15 @@ export default {
             //cells have margins on all sides, add to width/height 
             let m = parseInt(window.getComputedStyle($cell).margin.replace('px'))
 
-            let { clientWidth: gridWidth, clientHeight: gridHeight } = $grid
+            let { clientWidth: gridWidth, scrollHeight: gridHeight } = $grid
             let { offsetWidth: cellWidth, offsetHeight: cellHeight } = $cell;
-            
+           
             cellWidth += m*2;
             cellHeight += m*2;
 
             let width = Math.floor(gridWidth/cellWidth)
             let height = Math.floor(gridHeight/cellHeight)
-
+            
             return { width, height }
         },
         //incrementally traverses grid in an expanding square, starting from selected vote        
@@ -195,7 +195,8 @@ export default {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     .image-wrapper{
         margin: 2px;
         position: relative;

@@ -30,7 +30,7 @@ export default {
     props: ['votes'],
     computed:{
         game(){
-            return this.$store.getters.getSelectedGameModule
+            return this.$store.getters.game
         },
     },
 	methods:{

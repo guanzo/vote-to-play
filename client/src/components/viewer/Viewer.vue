@@ -22,7 +22,7 @@
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
 import { SET_STREAMER_NAME} from '@/store/mutations'
-import TestUtil from './TestUtil'
+import TestUtil from './test/TestUtil'
 import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
