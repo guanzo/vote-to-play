@@ -47,10 +47,8 @@ export default {
     },
     computed:{
         ...mapState(['selectedGame','votes','streamerName','TESTING']),
+        ...mapGetters(['hasSubmittedVote']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
-        hasSubmittedVote(){
-            return this.$store.getters.hasSubmittedVote
-        },
     },
     watch:{
         votes(){
