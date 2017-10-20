@@ -17,6 +17,7 @@
     "change-case": "^3.0.1",
     "d3": "^4.11.0",
     "lodash": "^4.17.4",
+    "pathfinding": "^0.4.18",
     "socket.io": "^2.0.3",
     "throttled-queue": "^1.0.5",
     "vue": "^2.4.2",

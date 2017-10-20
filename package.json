@@ -3,11 +3,10 @@
     "concurrently": "^3.5.0"
   },
   "scripts": {
+    "build": "cd client && npm run build",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "set NODE_ENV=development&& nodemon ./server",
     "client": "node start-client.js"
   },
-  "dependencies": {
-    "pathfinding": "^0.4.18"
-  }
+  "dependencies": {}
 }

@@ -12,7 +12,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['TESTING']),
+        ...mapState(['TESTING','votes']),
         game(){
             return this.$store.getters.game
         },

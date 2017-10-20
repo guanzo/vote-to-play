@@ -1,5 +1,6 @@
 
-let imgContext = require.context('@/assets/images/',true,/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+let imgContext = require.context('@/assets/images/',true,/\.(png|jpe?g|gif|svg)(\?.*)?$/);
+
 
 export default {
     getImage(path, fallback = ''){

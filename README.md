@@ -1,9 +1,7 @@
 # vote-to-play
 A twitch extension that allows viewers to vote on what the streamer should play. 
-Supported games are Dota 2, League of Legends, Overwatch, Hearthstone (basic support, deck customization on the way)
+Supported games are Dota 2, League of Legends, Heroes of the Storm, Overwatch, Hearthstone (basic support, deck customization on the way)
 
-Upcoming games:
--Heroes of the storm.
 
 Have a game suggestion? Leave a comment!
 

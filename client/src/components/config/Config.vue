@@ -7,7 +7,7 @@
         </p>
         <br>
         <p>
-            Remember, you also get one vote!
+            Remember, you also get to vote!
         </p>
         
         <br>

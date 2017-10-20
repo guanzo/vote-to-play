@@ -99,11 +99,22 @@ var webpackConfig = merge(baseWebpackConfig, {
         )
       }
     }),
+    //split image and json files into own chunk
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'assets',
+      chunks: ["app"],
+      minChunks: function (module, count) {
+        return (
+          module.resource &&
+          /\.(png|jpe?g|gif|svg|json)(\?.*)?$/.test(module.resource)
+        )
+      }
+    }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      chunks: ['vendor']
+      chunks: ['vendor','assets']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

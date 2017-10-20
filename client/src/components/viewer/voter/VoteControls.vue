@@ -21,14 +21,14 @@ import { VOTE } from '@/store/actions'
 export default {
     name: 'vote-controls',
     mixins:[VoteSimulation],
-    props:['hasSelectedVote','vote','voteImage'],
+    props:['hasSelectedVote','vote'],
     data(){
         return {
             loading: false,
         }
     },
     computed:{
-        ...mapState(['userId','votes']),
+        ...mapState(['userId']),
         ...mapGetters(['hasSubmittedVote']),
     },
     watch:{
