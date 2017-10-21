@@ -17,7 +17,8 @@ import { mapState, mapGetters } from 'vuex'
 import { SELECT_VOTE } from '@/store/mutations'
 import Promise from 'bluebird'
 import PF from 'pathfinding'
-import {easeCubicOut,interpolate} from 'd3'
+import { easeCubicOut } from 'd3-ease'
+import { interpolate } from 'd3-interpolate'
 
 Promise.config({
     cancellation: true,
@@ -118,7 +119,6 @@ export default {
                 //handles the timing of the steps
                 var duration = 1000,
                     startTime = new Date(),
-                    elapsed,
                     maxInterval = 200,
                     minInterval = 50,
                     interpolator = interpolate(maxInterval,minInterval)

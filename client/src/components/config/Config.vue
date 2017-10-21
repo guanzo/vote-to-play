@@ -18,8 +18,6 @@
 
 <script>
 
-import {SET_GAME} from '@/store/mutations'
-
 export default {
 	name: 'config',
 }

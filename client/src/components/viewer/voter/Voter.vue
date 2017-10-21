@@ -125,7 +125,6 @@ $shift-amount: 5;
     flex-direction: column;
     .splash-img-container {
         position: absolute;
-        display: flex;
         z-index: 0;
         overflow: hidden;
         width:100%;
@@ -137,6 +136,7 @@ $shift-amount: 5;
             object-fit: cover;
             width: (100 + $shift-amount) * 1% !important;
             max-width: (100 + $shift-amount) * 1% !important;
+            height: 100%;
             max-height: 100% !important;
             &.animate-to-right{
                 animation: shift-to-right forwards;

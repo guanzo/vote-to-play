@@ -30,6 +30,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //removes testing module from production bundle
     new webpack.NormalModuleReplacementPlugin(
         /test\/TestUtil/,
@@ -41,7 +42,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         path.join(__dirname,'../src/components/viewer/test/Noop.js')
     ),
     new webpack.optimize.UglifyJsPlugin({
-      compress: false,
+      compress: {
+          dead_code: true,
+          unused: true,
+          side_effects: true
+      },
+      //compress: false,
       mangle: false,
       output: { beautify: true },
       sourceMap: true
@@ -50,7 +56,6 @@ var webpackConfig = merge(baseWebpackConfig, {
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),
-    
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
@@ -58,7 +63,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
-
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
