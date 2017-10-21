@@ -51,6 +51,7 @@ export default {
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
     },
     watch:{
+        //show tip if votes are reset, user may or may not have voted.
         votes(){
             if(this.votes.length == 0)
                 this.showExpandTip = true;

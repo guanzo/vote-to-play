@@ -3,7 +3,7 @@
         <div v-show="showUI" class="voter overlay-background">
             <transition name="fade">
                 <div v-show="splashTransition.isActive" class="splash-img-container">
-                    <img class="splash-img" :class="splashTransition.class" :src="selectedVote.imgSplash">    
+                    <img class="splash-img" :class="splashTransition.class" :style="splashTransition.style" :src="selectedVote.imgSplash">    
                 </div>
             </transition>
             <your-vote
@@ -14,12 +14,13 @@
                 :heroes="heroes"
                 :filteredHeroes="filteredHeroes"
                 :splashTransition="splashTransition"
-                @transition-done="transitionDone"
+                @transition-done="stopSplashTransition"
             >
             </image-grid>
             <vote-controls class="vote-controls" :class="{ 'invisible': splashTransition.isActive }" :style="controlVisibilityDelay"
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
+                @submit-vote="startSplashTransition"
             >
                 <div class="field is-horizontal">
                     <div class="field-body">
@@ -45,10 +46,12 @@ import { GET_HEROES } from '@/store/actions'
 import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
 function splashTransitionDefaults(){
+    let duration = 4000
     return {
         isActive: false,
         class: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
-        duration: 5000
+        style: { 'animation-duration': duration + 'ms' },
+        duration
     }
 }
 
@@ -73,16 +76,17 @@ export default {
         },
     },
     watch:{
-        hasSubmittedVote(newVal){
-            if(newVal)
-                this.splashTransition.isActive = true;
-            else
+        hasSubmittedVote(val){
+            if(!val)
                 this.splashTransition = splashTransitionDefaults()
         }
     },
     methods:{
-        transitionDone(){
-            this.splashTransition = splashTransitionDefaults()
+        startSplashTransition(){
+            this.splashTransition.isActive = true;
+        },
+        stopSplashTransition(){
+            this.splashTransition.isActive = false;
         },
     },
     components:{
@@ -130,11 +134,11 @@ $shift-amount: 5;
             max-width: (100 + $shift-amount) * 1% !important;
             max-height: 100% !important;
             &.animate-to-right{
-                animation: shift-to-right 5s forwards;
+                animation: shift-to-right forwards;
                 right: $shift-amount * 1%;
             }
             &.animate-to-left{
-                animation: shift-to-left 5s forwards;
+                animation: shift-to-left forwards;
             }
         }
     }

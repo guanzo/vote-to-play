@@ -41,6 +41,7 @@ export default {
         submitVote(){
             this.loading = true;
             this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
+            setTimeout(()=>this.$emit('submit-vote'),250)    
         },
     }
 }

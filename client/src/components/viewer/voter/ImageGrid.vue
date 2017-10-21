@@ -13,7 +13,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { SELECT_VOTE } from '@/store/mutations'
 import Promise from 'bluebird'
 import PF from 'pathfinding'
@@ -28,13 +28,12 @@ export default {
     props:['heroes','filteredHeroes','splashTransition'],
     data(){
         return {
-            classes: Array(this.heroes.length).fill().map(d=>({ traversed: false }))
+            classes: this.initialClass(),
+            transitionPromise: null
         }
     },
     computed:{
-        selectedVote(){
-            return this.$store.state.selectedVote
-        },
+        ...mapState(['selectedVote']),
         ...mapGetters(['hasSelectedVote','hasSubmittedVote']),
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
@@ -46,17 +45,20 @@ export default {
         }
     },
     watch:{
-        hasSubmittedVote(newVal){
-            if(newVal)
+        ['splashTransition.isActive'](val){
+            if(val)
                 this.exitTransition()
-            else{
-                this.$nextTick(()=>{
-                    this.classes.forEach(c=>c.traversed = false)
-                })
+            else {
+                //streamer can start new vote at any time, need to stop the animation if it's in the middle
+                this.classes = this.initialClass()
+                this.transitionPromise.cancel()
             }
-        }
+        },
     },
     methods:{
+        initialClass(){
+            return Array(this.heroes.length).fill().map(d=>({ traversed: false }))
+        },
         selectVote(vote){
             this.$store.commit(SELECT_VOTE, { vote })
             this.$emit('select-vote',vote)
@@ -78,18 +80,12 @@ export default {
             var grid = new PF.Grid(width, height); 
             let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
 
-            let p = this.traverseAnimation(heroNode, grid)
-                .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.duration)))
-                .then(()=>{
-                    this.$emit('transition-done')
-                })
-            
-            //streamer can start new vote at any time, need to gracefully stop the animation
-            let unwatch = this.$watch('hasSubmittedVote',()=>{
-                p.cancel()
-                unwatch();
-            })
-
+            this.transitionPromise = 
+                        this.traverseAnimation(heroNode, grid)
+                        .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.duration)))
+                        .then(()=>{
+                            this.$emit('transition-done')
+                        })
         },
         calcGridDimensions(){
             let $grid = this.$el
