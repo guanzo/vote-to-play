@@ -30,6 +30,16 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    //removes testing module from production bundle
+    new webpack.NormalModuleReplacementPlugin(
+        /test\/TestUtil/,
+        path.join(__dirname,'../src/components/viewer/test/Noop.vue')
+    ),
+    //removes testing module from production bundle
+    new webpack.NormalModuleReplacementPlugin(
+        /test\/VoteSimulation/,
+        path.join(__dirname,'../src/components/viewer/test/Noop.js')
+    ),
     new webpack.optimize.UglifyJsPlugin({
       compress: false,
       mangle: false,

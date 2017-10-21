@@ -19,11 +19,8 @@
 
 <script>
 
-import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { SET_STREAMER_NAME} from '@/store/mutations'
 import TestUtil from './test/TestUtil'
-import _ from 'lodash'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
 import overwatch from './overwatch/Overwatch'
@@ -73,7 +70,7 @@ export default {
         [TWITCH_NAME_LOL]: lol,
         [TWITCH_NAME_HEARTHSTONE]: hearthstone,
         [TWITCH_NAME_HOTS]: hots,
-        TestUtil
+        TestUtil,
     }
 }
 </script>

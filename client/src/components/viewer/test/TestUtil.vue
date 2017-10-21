@@ -18,7 +18,7 @@ import { TOGGLE_VOTE_SIMULATION, SELECT_GAME } from '@/store/mutations'
 
 import { START_NEW_VOTE } from '@/store/actions'
 export default {
-    name: 'viewer',
+    name: 'test-util',
     data(){
         return {
             selectedGameModel: 'Dota 2'
