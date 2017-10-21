@@ -3,7 +3,11 @@
         <div v-show="showUI" class="voter overlay-background">
             <transition name="fade">
                 <div v-show="splashTransition.isActive" class="splash-img-container">
-                    <img class="splash-img" :class="splashTransition.class" :style="splashTransition.style" :src="selectedVote.imgSplash">    
+                    <img class="splash-img" 
+                        :class="splashTransition.class" 
+                        :style="splashTransition.style" 
+                        :src="selectedVote.imgSplash"
+                    >    
                 </div>
             </transition>
             <your-vote
@@ -121,6 +125,7 @@ $shift-amount: 5;
     flex-direction: column;
     .splash-img-container {
         position: absolute;
+        display: flex;
         z-index: 0;
         overflow: hidden;
         width:100%;
