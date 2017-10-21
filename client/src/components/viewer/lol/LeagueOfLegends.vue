@@ -2,7 +2,7 @@
     <div v-if="heroes.length" class="league-of-legends">
         <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
             
-            <div slot="filters" class="field is-grouped">
+            <div slot="filters" class="field is-grouped is-grouped-multiline">
                 <div class="control">
                     <input v-model="query" class="input" type="text" placeholder="Search champion name">
                 </div>
