@@ -21,7 +21,7 @@
                 @transition-done="stopSplashTransition"
             >
             </image-grid>
-            <vote-controls class="vote-controls" :class="{ 'invisible': splashTransition.isActive }" :style="controlVisibilityDelay"
+            <vote-controls class="vote-controls" :class="{ 'invisible': splashTransition.isActive }"
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
                 @submit-vote="startSplashTransition"
@@ -68,18 +68,12 @@ export default {
     computed:{
         ...Vuex.mapState(['selectedVote']),
         ...Vuex.mapGetters(['hasSelectedVote','hasSubmittedVote']),
-        controlVisibilityDelay(){
-            return {
-                'transition-delay': this.splashTransition.isActive ? '0s' : '1s'
-            }
-        },
         showUI(){
             return !this.hasSubmittedVote || this.splashTransition.isActive
         },
     },
     watch:{
         hasSubmittedVote(val){
-            console.log('hass submit: ' + val)
             if(!val)
                 this.splashTransition = splashTransitionDefaults()
         }

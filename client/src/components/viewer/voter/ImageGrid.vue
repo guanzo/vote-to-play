@@ -48,7 +48,6 @@ export default {
             else {
                 //streamer can start new vote at any time, need to stop the animation if it's in the middle
                 this.classes = this.initialClass()
-                console.log('hi')
                 this.transitionPromise.cancel()
             }
         },
@@ -81,12 +80,8 @@ export default {
             this.transitionPromise = 
                         this.traverseAnimation(heroNode, grid)
                         .then(()=>new P(resolve=>setTimeout(resolve, this.splashTransition.duration)))
-                        .then(()=>{
-                            this.$emit('transition-done')
-                        })
-                        .catch(err=>{
-                            console.log(err)
-                        })
+                        .then(()=>this.$emit('transition-done'))
+                        .catch(console.log)
         },
         calcGridDimensions(){
             let $grid = this.$el

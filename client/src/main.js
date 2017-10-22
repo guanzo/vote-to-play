@@ -9,8 +9,6 @@ import './assets/js/twitchExt';
 Vue.config.devtools = process.env.NODE_ENV == 'development' ? true : false
 Vue.config.productionTip = false
 
-Vue.use(VueRouter)
-
 new Vue({
   el: '#app',
   router,
