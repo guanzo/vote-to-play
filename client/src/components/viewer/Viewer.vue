@@ -19,7 +19,7 @@
 
 <script>
 
-import { mapState, mapGetters } from 'vuex'
+
 import TestUtil from './test/TestUtil'
 import dota from './dota/Dota'
 import lol from './lol/LeagueOfLegends'
@@ -43,8 +43,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','votes','streamerName','TESTING']),
-        ...mapGetters(['hasSubmittedVote']),
+        ...Vuex.mapState(['selectedGame','votes','streamerName','TESTING']),
+        ...Vuex.mapGetters(['hasSubmittedVote']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
     },
     watch:{

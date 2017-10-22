@@ -1,6 +1,6 @@
 
-import _ from 'lodash'
-import { mapState } from 'vuex'
+
+
 import { SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
 
 export default {
@@ -12,7 +12,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['TESTING','votes']),
+        ...Vuex.mapState(['TESTING','votes']),
         game(){
             return this.$store.getters.game
         },

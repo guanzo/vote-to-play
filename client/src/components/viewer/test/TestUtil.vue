@@ -13,7 +13,7 @@
 
 <script>
 
-import { mapState, mapGetters } from 'vuex'
+
 import { TOGGLE_VOTE_SIMULATION, SELECT_GAME } from '@/store/mutations'
 
 import { START_NEW_VOTE } from '@/store/actions'
@@ -25,7 +25,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame','TESTING']),
+        ...Vuex.mapState(['selectedGame','TESTING']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
         games(){
             return this.$store.getters.getSupportedGames

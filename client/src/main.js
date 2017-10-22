@@ -1,14 +1,16 @@
+
+
+
 import App from './App'
-import Vue from 'vue'
 import router from './router'
 import store from './store'
-import twitchExt from './assets/js/twitchExt';
-import 'bulma'
+import './assets/js/twitchExt';
 
+Vue.config.devtools = process.env.NODE_ENV == 'development' ? true : false
 Vue.config.productionTip = false
 
-Vue.use(twitchExt);
-/* eslint-disable no-new */
+Vue.use(VueRouter)
+
 new Vue({
   el: '#app',
   router,

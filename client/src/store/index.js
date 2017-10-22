@@ -1,13 +1,3 @@
-
-import Vuex from 'vuex'
-import Vue from 'vue'
-import axios from 'axios'
-import _ from 'lodash'
-import throttledQueue from 'throttled-queue';
-import io from 'socket.io-client'
-
-Vue.use(Vuex)
-
 import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 

@@ -12,15 +12,11 @@
 </template>
 
 <script>
-
-import { mapState, mapGetters } from 'vuex'
 import { SELECT_VOTE } from '@/store/mutations'
-import Promise from 'bluebird'
-import PF from 'pathfinding'
-import { easeCubicOut } from 'd3-ease'
-import { interpolate } from 'd3-interpolate'
 
-Promise.config({
+//babel-runtime-transform makes it difficult for bluebird to overload native Promise
+//so just use bluebird alias, P = Promise
+P.config({
     cancellation: true,
 });
 
@@ -34,8 +30,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedVote']),
-        ...mapGetters(['hasSelectedVote','hasSubmittedVote']),
+        ...Vuex.mapState(['selectedVote']),
+        ...Vuex.mapGetters(['hasSelectedVote','hasSubmittedVote']),
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
         },
@@ -52,6 +48,7 @@ export default {
             else {
                 //streamer can start new vote at any time, need to stop the animation if it's in the middle
                 this.classes = this.initialClass()
+                console.log('hi')
                 this.transitionPromise.cancel()
             }
         },
@@ -83,9 +80,12 @@ export default {
 
             this.transitionPromise = 
                         this.traverseAnimation(heroNode, grid)
-                        .then(()=>new Promise(resolve=>setTimeout(resolve, this.splashTransition.duration)))
+                        .then(()=>new P(resolve=>setTimeout(resolve, this.splashTransition.duration)))
                         .then(()=>{
                             this.$emit('transition-done')
+                        })
+                        .catch(err=>{
+                            console.log(err)
                         })
         },
         calcGridDimensions(){
@@ -108,8 +108,8 @@ export default {
         //incrementally traverses grid in an expanding square, starting from selected vote        
         traverseAnimation(startNode, grid){
             let self = this;
-            
-            return new Promise((resolve,reject,onCancel)=>{
+
+            return new P((resolve,reject,onCancel)=>{
 
                 var timeoutID;
                 onCancel(()=>{
@@ -121,7 +121,7 @@ export default {
                     startTime = new Date(),
                     maxInterval = 200,
                     minInterval = 50,
-                    interpolator = interpolate(maxInterval,minInterval)
+                    interpolator = d3.interpolate(maxInterval,minInterval)
 
                 //pathfinding
                 var openList = [],
@@ -131,7 +131,6 @@ export default {
 
                 openList.push(startNode);
                 startNode.opened = true;
-                
                 //each step will process a square of neighbors
                 function step(){
                     if(openList.length == 0){
@@ -163,7 +162,7 @@ export default {
 
                     var elapsed = new Date() - startTime;
                     var normalizedTime = Math.min(elapsed,duration)/duration
-                    var easedTime = easeCubicOut(normalizedTime);
+                    var easedTime = d3.easeCubicOut(normalizedTime);
 
                     timeoutID = setTimeout(step, interpolator(easedTime))
                 }

@@ -13,9 +13,9 @@
 
 <script>
 
-import _ from 'lodash'
+
 import VoteSimulation from '@/components/viewer/test/VoteSimulation'
-import { mapState, mapGetters } from 'vuex'
+
 import { VOTE } from '@/store/actions'
 
 export default {
@@ -28,8 +28,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['userId']),
-        ...mapGetters(['hasSubmittedVote']),
+        ...Vuex.mapState(['userId']),
+        ...Vuex.mapGetters(['hasSubmittedVote']),
     },
     watch:{
         hasSubmittedVote(val){

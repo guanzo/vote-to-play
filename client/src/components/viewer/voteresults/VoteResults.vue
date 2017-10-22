@@ -27,10 +27,10 @@
 
 <script>
 
-import _ from 'lodash'
+
 import loading from '@/components/Loading'
 import voteTable from './VoteTable'
-import { mapState, mapGetters } from 'vuex'
+
 
 export default {
     name: 'vote-results',
@@ -41,8 +41,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['votes']),
-        ...mapGetters(['userVote']),
+        ...Vuex.mapState(['votes']),
+        ...Vuex.mapGetters(['userVote']),
         allAggregatedVotes(){
             let totalVotes = this.votes.length;
             return _(this.votes)

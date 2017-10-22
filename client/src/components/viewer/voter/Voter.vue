@@ -40,9 +40,7 @@
 <script>
 
 
-import axios from 'axios'
-import _ from 'lodash'
-import { mapState, mapGetters } from 'vuex'
+
 import yourVote from './YourVote'
 import imageGrid from './ImageGrid'
 import voteControls from './voteControls'
@@ -68,8 +66,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedVote']),
-        ...mapGetters(['hasSelectedVote','hasSubmittedVote']),
+        ...Vuex.mapState(['selectedVote']),
+        ...Vuex.mapGetters(['hasSelectedVote','hasSubmittedVote']),
         controlVisibilityDelay(){
             return {
                 'transition-delay': this.splashTransition.isActive ? '0s' : '1s'
@@ -81,6 +79,7 @@ export default {
     },
     watch:{
         hasSubmittedVote(val){
+            console.log('hass submit: ' + val)
             if(!val)
                 this.splashTransition = splashTransitionDefaults()
         }

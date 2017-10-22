@@ -22,8 +22,8 @@
 
 <script>
 
-import _ from 'lodash'
-import { mapState } from 'vuex'
+
+
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
@@ -42,7 +42,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame']),
+        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.lol.heroes,'name')
         },

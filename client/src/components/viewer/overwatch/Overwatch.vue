@@ -8,10 +8,10 @@
                 </div>
                 <div class="control">
                     <div class="select is-primary">
-                    <select v-model="selectedRole">
-                        <option>{{ DEFAULT_ROLE }}</option>
-                        <option v-for="role in roles" :key="role">{{ role }}</option>
-                    </select>
+                        <select v-model="selectedRole">
+                            <option>{{ DEFAULT_ROLE }}</option>
+                            <option v-for="role in roles" :key="role">{{ role }}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -23,11 +23,10 @@
 
 <script>
 
-import _ from 'lodash'
-import { mapState } from 'vuex'
+
+
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
-import changeCase from 'change-case'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -42,12 +41,12 @@ export default {
         }
     },
     computed:{
-        ...mapState(['selectedGame']),
+        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.overwatch.heroes,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>changeCase.title(hero.type)).uniq().sort().value()
+            return _(this.heroes).map(hero=>hero.type).uniq().sort().value()
         },
         filteredHeroes(){
             return this.heroes.filter(this.filterHero)
@@ -84,6 +83,9 @@ export default {
     .vote-results .image-wrapper {
         width: 29px;
         height: 50px;
+    }
+    select{
+        text-transform: capitalize;
     }
 }
 
