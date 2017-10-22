@@ -30,7 +30,6 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //removes testing module from production bundle
     new webpack.NormalModuleReplacementPlugin(
         /test\/TestUtil/,
@@ -102,7 +101,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
+    /*new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module, count) {
         // any required modules inside node_modules are extracted to vendor
@@ -114,11 +113,11 @@ var webpackConfig = merge(baseWebpackConfig, {
           ) === 0
         )
       }
-    }),
+    }),*/
     //split image and json files into own chunk
     new webpack.optimize.CommonsChunkPlugin({
       name: 'assets',
-      chunks: ["app"],
+      /*chunks: ["app"],*/
       minChunks: function (module, count) {
         return (
           module.resource &&
@@ -130,7 +129,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      chunks: ['vendor','assets']
+      chunks: ['assets']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
