@@ -32,7 +32,7 @@ export default {
 .your-vote {
     position: relative;
     display: flex;
-    margin-bottom: 20px;
+    padding: 10px 0px;
     justify-content: center;
     font-size: 1.5em;
     color: white;

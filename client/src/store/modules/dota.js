@@ -12,7 +12,7 @@ const dota = {
     namespaced: true,
     state: { 
         gameName: 'Dota 2',
-        nomenclature: 'hero',
+        characterNomenclature: 'hero',
         maxResults: 5,
         heroes: []
     },
@@ -22,8 +22,12 @@ const dota = {
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({commit}){
-            axios.get(process.env.SERVER_URL+'/api/heroes/dota')
+        [ACTIONS.GET_HEROES]({state, commit}){
+            axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
+                headers:{
+                    'Authorization': state.token,
+                }
+            })
             .then((response)=>{
 
                 let heroes = _.map(response.data,(val,id)=>{

@@ -11,7 +11,7 @@ const lol = {
     namespaced: true,
     state: { 
         gameName: 'League of Legends',
-        nomenclature: 'champion',
+        characterNomenclature: 'champion',
         maxResults: 5,
         heroes: []
     },

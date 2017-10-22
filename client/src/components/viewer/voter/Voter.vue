@@ -1,7 +1,7 @@
 <template>
     <transition name="fade-vertical">
         <div v-show="showUI" class="voter overlay-background">
-            <transition name="fade">
+            <transition name="fade" @after-leave="afterSplashLeave">
                 <div v-show="splashTransition.isActive" class="splash-img-container">
                     <img class="splash-img" 
                         :class="splashTransition.class" 
@@ -10,10 +10,10 @@
                     >    
                 </div>
             </transition>
-            <your-vote
+            <voter-header
                 :hasSelectedVote="hasSelectedVote" 
                 :selectedVote="selectedVote"
-            ></your-vote>
+            ></voter-header>
             <image-grid 
                 :heroes="heroes"
                 :filteredHeroes="filteredHeroes"
@@ -21,36 +21,38 @@
                 @transition-done="stopSplashTransition"
             >
             </image-grid>
-            <vote-controls class="vote-controls" :class="{ 'invisible': splashTransition.isActive }"
+            <voter-controls
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
+                :splashTransition="splashTransition"
                 @submit-vote="startSplashTransition"
             >
-                <div class="field is-horizontal">
-                    <div class="field-body">
-                        <slot name="filters">
-                        </slot>
-                    </div>
-                </div>
-            </vote-controls> 
+                <slot name="filters"></slot>
+            </voter-controls> 
         </div>
     </transition>
 </template>
 
 <script>
 
-
-
-import yourVote from './YourVote'
+import voterHeader from './VoterHeader'
 import imageGrid from './ImageGrid'
-import voteControls from './voteControls'
+import voterControls from './voterControls'
 import { GET_HEROES } from '@/store/actions'
 import { NAMESPACE_DOTA } from '@/store/modules/dota'
 
+/**
+ * Intended behavior:
+ * -user submits vote
+ * -vote ui disappears, splash art appears
+ * -after duration, splash art && voter div fades out
+ * -after fade out, vote ui reappears
+ */
 function splashTransitionDefaults(){
     let duration = 4000
     return {
         isActive: false,
+        hideVoteUI: false,
         class: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
         style: { 'animation-duration': duration + 'ms' },
         duration
@@ -81,15 +83,19 @@ export default {
     methods:{
         startSplashTransition(){
             this.splashTransition.isActive = true;
+            this.splashTransition.hideVoteUI = true;
         },
         stopSplashTransition(){
             this.splashTransition.isActive = false;
         },
+        afterSplashLeave(){
+            this.splashTransition.hideVoteUI = false;
+        },
     },
     components:{
-        yourVote,
+        voterHeader,
         imageGrid,
-        voteControls,
+        voterControls,
     }
 }
 
@@ -140,18 +146,7 @@ $shift-amount: 5;
             }
         }
     }
-    .vote-controls{
-        transition: .3s;
-        &.invisible{
-            opacity: 0;
-        }
-    }
     
-}
-
-.your-vote.shift-left {
-    left: $shift-amount*1%;
-    animation: shift-to-left 5s forwards;
 }
 
 </style>

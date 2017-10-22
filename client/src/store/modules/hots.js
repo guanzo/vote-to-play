@@ -12,7 +12,7 @@ const hots = {
     namespaced: true,
     state: { 
         gameName: 'Heroes of the Storm',
-        nomenclature: 'hero',
+        characterNomenclature: 'hero',
         maxResults: 5,
         heroes: []
     },

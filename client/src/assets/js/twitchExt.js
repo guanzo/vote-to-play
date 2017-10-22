@@ -7,11 +7,11 @@ import { SET_AUTH, SET_GAME, SET_STREAMER_NAME } from '@/store/mutations'
 if(!inIframe() && process.env.NODE_ENV == 'development'){
     store.dispatch(SET_AUTH, { channelId: 5, userId: 5 })
 }
+
 window.Twitch.ext.onAuthorized(function (auth) {
     //adds token to every request sent thru axios
-    axios.defaults.headers.common['Authorization'] = auth.token;
     
-    store.dispatch(SET_AUTH, { channelId: auth.channelId, userId: auth.userId })
+    store.dispatch(SET_AUTH, { channelId: auth.channelId, token: auth.token, userId: auth.userId })
     getStreamerName(auth.channelId)
 });
 

@@ -8,7 +8,7 @@ heroes.forEach(hero=>{
 const ow = {
     state: { 
         gameName: 'Overwatch',
-        nomenclature: 'hero',
+        characterNomenclature: 'hero',
         maxResults: 3,
         heroes
     },

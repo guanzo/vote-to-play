@@ -42,13 +42,14 @@ export default {
         }
     },
     watch:{
-        ['splashTransition.isActive'](val){
-            if(val)
+        ['splashTransition.hideVoteUI'](hideVoteUI){
+            if(hideVoteUI)
                 this.exitTransition()
             else {
-                //streamer can start new vote at any time, need to stop the animation if it's in the middle
                 this.classes = this.initialClass()
-                this.transitionPromise.cancel()
+                //streamer can start new vote at any time, need to stop the animation if it's in the middle
+                if(this.transitionPromise.isPending())
+                    this.transitionPromise.cancel()
             }
         },
     },
@@ -185,6 +186,7 @@ export default {
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    padding: 10px 0px;
     overflow-y: auto;
     overflow-x: hidden;
     .image-wrapper{

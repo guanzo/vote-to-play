@@ -8,7 +8,7 @@ export const NAMESPACE_HEARTHSTONE = 'hearthstone'
 const hearthstone = {
     state: { 
         gameName: 'Hearthstone',
-        nomenclature: 'class',
+        characterNomenclature: 'class',
         maxResults: 3,
         heroes: [
              {
