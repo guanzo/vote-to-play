@@ -22,10 +22,10 @@ const dota = {
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({state, commit}){
+        [ACTIONS.GET_HEROES]({state, rootState, commit}){
             axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
                 headers:{
-                    'Authorization': state.token,
+                    'Authorization': rootState.token,
                 }
             })
             .then((response)=>{

@@ -47,7 +47,6 @@ var webpackConfig = merge(baseWebpackConfig, {
           side_effects: true,
           warnings: false
       },
-      //compress: false,
       mangle: false,
       output: { beautify: true },
       sourceMap: true

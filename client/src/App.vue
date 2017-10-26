@@ -16,7 +16,7 @@ export default {
     watch:{
         
         //Get Live Channels with Extension Activated
-        /*channelId(){
+        channelId(){
             axios.get(`https://api.twitch.tv/extensions/277964/live_activated_channels`,{
                 headers:{
                 'Client-ID':'9p87e0fdl3h6gbn8ijwpdc7xszri8m',
@@ -25,7 +25,7 @@ export default {
             }).then((response)=>{
             console.log(response)
             })
-        }*/
+        }
     },
     created(){
         /*
@@ -63,7 +63,7 @@ body {
     color: #eee;
     display: flex; 
     flex-direction: column;
-    max-height:100%;
+    height:100%;
     width:100%;
 
 }

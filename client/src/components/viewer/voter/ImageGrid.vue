@@ -186,7 +186,7 @@ export default {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    padding: 10px 0px;
+    margin: 10px 0px;
     overflow-y: auto;
     overflow-x: hidden;
     .image-wrapper{

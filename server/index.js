@@ -31,17 +31,7 @@ console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
 app.use(cors({ credentials: true, origin: true }))
-http.createServer(app);
-
-let server = https
-  .createServer(
-  {
-    key: privateKey,
-    cert: certificate,
-  },
-  app
-  )
-  .listen(process.env.PORT || 443);
+let server = http.createServer(app);
 
 if (process.env.NODE_ENV === 'production')
     app.use(express.static(__dirname+'/public'));
@@ -54,7 +44,8 @@ authRouter(app);
 voteRouter(app,server);
 dataRouter(app)
 
-app.listen(8081, () => {
-    console.log(process.env.PASSPORT_SECRET, 8081);
-    console.log(`Find the server at: https://localhost:${process.env.PORT || 443}/`); // eslint-disable-line no-console
+let port = 8081
+app.listen(port, () => {
+    console.log(process.env.PASSPORT_SECRET, port);
+    console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
 });

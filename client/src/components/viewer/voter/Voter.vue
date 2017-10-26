@@ -118,7 +118,7 @@ $shift-amount: 5;
     position: relative;
     padding: 15px;
     max-height: 100%;
-    min-height: 450px;
+    min-height: 300px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
