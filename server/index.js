@@ -7,24 +7,8 @@ const authRouter = require('./routes/auth');
 const voteRouter = require('./routes/vote');
 const dataRouter = require('./routes/data');
 const http = require('http');
-const https = require('https');
-const fs = require('fs');
 const cors = require('cors');
 const path = require('path')
-
-
-let keyPath;
-let certPath;
-if(process.env.NODE_ENV == 'development'){
-    keyPath = path.resolve(__dirname, 'ssl/key.pem')
-    certPath = path.resolve(__dirname, 'ssl/cert.pem')
-} else{
-    keyPath = '/etc/letsencrypt/live/guanzo.io/privkey.pem'
-    certPath = '/etc/letsencrypt/live/guanzo.io/fullchain.pem'
-}
-
-const privateKey = fs.readFileSync(keyPath);
-const certificate = fs.readFileSync(certPath);
 
 //console.log(process.env)
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
