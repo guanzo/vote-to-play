@@ -52,7 +52,7 @@ function postVote({channelId, userId, vote, voteType = 'default'}) {
 
 
 module.exports = (app,server) => {
-    var io = require('socket.io')(server, { path: '/api/socket.io' });
+    var io = require('socket.io')(server);
     
     io.on('connection', function (socket) {
         
