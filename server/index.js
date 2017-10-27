@@ -29,7 +29,7 @@ voteRouter(app,server);
 dataRouter(app)
 
 let port = 8081
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(process.env.PASSPORT_SECRET, port);
     console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
 });
