@@ -35,9 +35,8 @@ module.exports = app => {
 
   // route middleware to verify a token
   
-  app.use(function (req, res, next) {
+  app.use('/api',function (req, res, next) {
     // check header or url parameters or post parameters for token
-    console.log('verify token')
     const token = req.body.token || req.query.token || req.headers.token || req.headers.authorization;
     const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
     
