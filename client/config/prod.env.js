@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  SERVER_URL: '"https://guanzo.io"'
+  SERVER_URL: '"https://votetoplay.guanzo.io"'
 }

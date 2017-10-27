@@ -32,8 +32,8 @@ const dota = {
 
                 let heroes = _.map(response.data,(val,id)=>{
                     val.id = id
-                    val.img = util.getImage("./dota/portraits/" + id + `_sb.png`);
-                    val.imgSplash = util.getImage("./dota/splash/" + id + `_splash.jpg`);
+                    val.img = cl.url(`dota/portraits/${id}_sb.png`);
+                    val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

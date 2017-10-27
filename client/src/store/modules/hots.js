@@ -28,7 +28,7 @@ const hots = {
                 let heroes = _.map(response.data,(val)=>{
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
-                    val.imgSplash = util.getImage("./hots/splash/" + val.ImageURL + `_splash.jpg`);
+                    val.imgSplash = cl.url("hots/splash/" + val.ImageURL + `_splash.jpg`);
                     return val
                 })
                 commit(MUTATIONS.SET_HEROES,{ heroes })

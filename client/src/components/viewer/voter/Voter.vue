@@ -2,7 +2,7 @@
     <transition name="fade-vertical">
         <div v-show="showUI" class="voter overlay-background">
             <transition name="fade" @after-leave="afterSplashLeave">
-                <div v-show="splashTransition.isActive" class="splash-img-container">
+                <div v-if="splashTransition.isActive" class="splash-img-container">
                     <img class="splash-img" 
                         :class="splashTransition.class" 
                         :style="splashTransition.style" 

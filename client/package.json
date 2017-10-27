@@ -14,6 +14,7 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.1",
     "bulma": "^0.6.0",
+    "cloudinary-core": "^2.3.0",
     "d3-ease": "^1.0.3",
     "d3-interpolate": "^1.1.5",
     "lodash": "^4.17.4",
