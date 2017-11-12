@@ -1,14 +1,13 @@
 <template>
 	<div class="config">
 		<p>
-            The content that the viewers vote on is determined by the game that you set in your stream information.
+            The content that the viewers vote on is determined by the game that you set in your dashboard.
             <br>
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
+            <br>
         </p>
-        <br>
-        <p>
-            Remember, you also get to vote!
-        </p>
+        <p>You can start new votes on your dashboard.</p>
+        <p>Remember, you also get to vote!</p>
         
         <br>
         <br>
@@ -32,6 +31,9 @@ export default {
     color: #333;
     font-size: 1.25em;
     padding: 15px;
+    p{
+        margin-bottom: 15px;
+    }
 }
 
 </style>
