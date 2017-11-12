@@ -51,6 +51,7 @@ var self = module.exports = {
         channels.updateOne(
             { channelId },
             { 
+                $set: {channelId, channelName},
                 $push: { 
                     //prepend to array
                     voteHistory: { 
@@ -59,6 +60,7 @@ var self = module.exports = {
                     } 
                 }
             },
+            { upsert: true }
         )
     },
     addVote({channelId, vote, userId, voteType = 'default'}) {
@@ -82,8 +84,6 @@ var self = module.exports = {
                     } 
                 }
             },
-            
-            { upsert: true }
         )
     },
     createChannel(channelId){
