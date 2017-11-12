@@ -2,11 +2,9 @@ var db = require('../db.js')
 var ObjectID = require('mongodb').ObjectID
 
 /**
+ * channels document collection
  * 
- * 
- * Schema:
- * 
- * channels = [
+ * [
  *      {
  *          channelId: int,
  *          channelName: string,
@@ -20,13 +18,13 @@ var ObjectID = require('mongodb').ObjectID
         *           ]
  *              }
  *          ]
- *      }
+ *      },
+ *      ...
  * ]
  * 
  * 
  */
 
-const IS_DEVELOPMENT = process.env.NODE_ENV != 'development'
 
 var self = module.exports = {
     //current vote is first element in "voteHistory"
@@ -34,7 +32,13 @@ var self = module.exports = {
         var channels = db.get().collection('channels')
         return channels.findOne({ channelId },{ voteHistory:{ $slice: 1 } })
                        .then(result=>{
-                           return !result ? null : result.voteHistory[0]
+                           //channel document may not exist, if streamer never pressed "start vote"
+                           if(!result){
+                               self.createChannel(channelId)
+                               return null
+                           }
+                           else
+                                return result.voteHistory[0]
                        })
                        .catch(err=>{
                            console.log(err)
@@ -42,28 +46,19 @@ var self = module.exports = {
     },
     startVote({channelId, channelName, voteType = 'default'}){
         var channels = db.get().collection('channels')
-        channels.ensureIndex('channelId')
-
-        var newVote = {
-            _id: new ObjectID(),
-            voteType,
-            votes: [],
-            createdAt: new Date()
-        }
+        channels.createIndex({ channelId: 1 })
 
         channels.updateOne(
             { channelId },
             { 
-                $set: {channelId, channelName},
                 $push: { 
                     //prepend to array
                     voteHistory: { 
-                        $each:[newVote],
+                        $each:[ createNewVote() ],
                         $position: 0
                     } 
                 }
             },
-            { upsert: true }
         )
     },
     addVote({channelId, vote, userId, voteType = 'default'}) {
@@ -90,5 +85,24 @@ var self = module.exports = {
             
             { upsert: true }
         )
+    },
+    createChannel(channelId){
+        var channel = {
+            channelId,
+            voteHistory: [ createNewVote() ],
+            channelName: null
+        }
+        var channels = db.get().collection('channels')
+        channels.insertOne(channel)
     }
+}
+
+function createNewVote(voteType = 'default'){
+    var newVote = {
+        _id: new ObjectID(),
+        voteType,
+        votes: [],
+        createdAt: new Date()
+    }
+    return newVote;
 }
