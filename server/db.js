@@ -1,25 +1,38 @@
 var Promise = require('bluebird');
-var db = require('sqlite');
+var MongoClient = require('mongodb').MongoClient
+, assert = require('assert');
 
-db.open('./votetoplay.sqlite')
-    .then((arg)=>{
-        db.run(`
-            CREATE TABLE IF NOT EXISTS StreamerGames (channelId varchar(100) PRIMARY KEY, game varchar(50));
-        `)
-    })
+// Connection URL
+var url = 'mongodb://localhost:27017/votetoplay';
 
+var state = {
+    db: null,
+}
 
-module.exports = {
-    //set the game that the streamer is playing
-    getStreamerGame(channelId){
-        return db.get(`SELECT game FROM StreamerGames WHERE channelId = $channelId`,{
-            $channelId: channelId,
+exports.connect = function() {
+    if (state.db) return Promise.resolve()
+
+    return MongoClient.connect(url)
+        .then(db=>{
+            state.db = db
         })
-    },
-    setStreamerGame(channelId, game){
-        return db.run(`INSERT OR REPLACE INTO StreamerGames VALUES ($channelId,$game)`,{
-            $channelId: channelId,
-            $game: game
+        .catch((err)=>{
+            console.log(err)
+        })
+}
+
+
+exports.get = function() {
+    return state.db
+}
+
+exports.close = function(done) {
+    if (state.db) {
+        state.db.close(function(err, result) {
+            state.db = null
+            state.mode = null
+            done(err)
         })
     }
 }
+

@@ -4,7 +4,7 @@
             <test-util v-if="IS_DEVELOPMENT"></test-util>
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
-                    {{ streamerName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
+                    {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
             <img @click="toggleUI" class="logo" src="~@/assets/images/logos/dotavoter-logo-red-sm.png" alt="logo">
@@ -43,7 +43,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','votes','streamerName','TESTING']),
+        ...Vuex.mapState(['selectedGame','votes','channelName','TESTING']),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
     },

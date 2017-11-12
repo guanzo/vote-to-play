@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
-const logger = require('morgan');
 const authRouter = require('./routes/auth');
 const voteRouter = require('./routes/vote');
 const dataRouter = require('./routes/data');
@@ -11,8 +10,10 @@ const http = require('http');
 const https = require('https');
 const cors = require('cors');
 const path = require('path')
+var db = require('./db.js')
 
-//console.log(process.env)
+
+//console.log(process.env);
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
@@ -39,13 +40,15 @@ if (process.env.NODE_ENV === 'production'){
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(logger('dev'));
 
 authRouter(app);
 voteRouter(app,server);
 dataRouter(app)
 
-server.listen(port, () => {
-    console.log(process.env.PASSPORT_SECRET, port);
-    console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
-});
+db.connect().then(()=>{
+    server.listen(port, () => {
+        console.log(process.env.PASSPORT_SECRET, port);
+        console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
+    });
+
+})

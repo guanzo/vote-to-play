@@ -14,12 +14,13 @@ const socket = io(process.env.SERVER_URL)
 const store = new Vuex.Store({
     state: {
         selectedGame: '',
-        streamerName: 'The broadcaster',
+        channelName: 'The broadcaster',
         channelId: -1,
         userId: -1,
         voteType: null,//not used at the moment.
         votes:[],
         selectedVote:{},
+        createdAt: null,
         isAuthed: false,
         token: null,
         TESTING:{
@@ -39,8 +40,8 @@ const store = new Vuex.Store({
         [MUTATIONS.SET_GAME]( state, payload ){
             state.selectedGame = payload.game
         },
-        [MUTATIONS.SET_STREAMER_NAME]( state, payload ){
-            state.streamerName = payload.streamerName
+        [MUTATIONS.SET_CHANNEL_NAME]( state, payload ){
+            state.channelName = payload.channelName
         },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.isAuthed = true;
@@ -51,6 +52,7 @@ const store = new Vuex.Store({
         [MUTATIONS.SET_VOTES]( state, payload ){
             state.voteType = payload.voteType
             state.votes = payload.votes;
+            state.createdAt = payload.createdAt
         },
         [MUTATIONS.ADD_VOTE]( state, payload ){
             state.votes.push(payload.data)
@@ -80,11 +82,12 @@ const store = new Vuex.Store({
             socket.emit('add-vote',{
                 channelId: state.channelId,
                 vote: payload.vote,
-                userId: payload.userId
+                userId: payload.userId,
+                isSimulated: true
             })
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
-            socket.emit('start-vote',{ channelId: state.channelId })
+            socket.emit('start-vote',{ channelId: state.channelId, channelName: state.channelName })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)

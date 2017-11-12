@@ -14,8 +14,7 @@
     "https": "^1.0.0",
     "jsonwebtoken": "^8.0.0",
     "knex": "^0.13.0",
-    "morgan": "^1.8.2",
-    "pg": "^7.0.2",
+    "mongodb": "^2.2.33",
     "socket.io": "^2.0.3"
   },
   "scripts": {
