@@ -55,7 +55,7 @@ var self = module.exports = {
                 $push: { 
                     //prepend to array
                     voteHistory: { 
-                        $each:[ createNewVote() ],
+                        $each:[ createNewVoteObj() ],
                         $position: 0
                     } 
                 }
@@ -70,8 +70,8 @@ var self = module.exports = {
         user can only vote once
 
         "voteHistory.0.votes.userId": { $ne: userId }
-        ^ query means iterate thru all objects in first element of voteHistory, 
-        and make sure no userId's are equal to passed in userId
+        ^ means check votes array in first element of voteHistory array
+          unmatch if votes array contains userId
 
         */
         channels.updateOne(
@@ -89,7 +89,7 @@ var self = module.exports = {
     createChannel(channelId){
         var channel = {
             channelId,
-            voteHistory: [ createNewVote() ],
+            voteHistory: [ createNewVoteObj() ],//populate with an empty vote
             channelName: null
         }
         var channels = db.get().collection('channels')
@@ -97,7 +97,7 @@ var self = module.exports = {
     }
 }
 
-function createNewVote(voteType = 'default'){
+function createNewVoteObj(voteType = 'default'){
     var newVote = {
         _id: new ObjectID(),
         voteType,

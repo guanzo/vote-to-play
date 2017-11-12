@@ -80,11 +80,12 @@ export default {
 <style lang="scss" scoped>
 
 //don't cover twitch ui on top and bottom
-$twitch-overlay-ui-size: 40px;
+$twitch-overlay-top-height: 100px;
+$twitch-overlay-bot-height: 80px;
 $header-element-size: 35px;
 
 .viewer{
-    padding: $twitch-overlay-ui-size 15px;
+    padding: $twitch-overlay-top-height 15px $twitch-overlay-bot-height 15px;
     max-height: 100%;
     display: flex;
     flex-direction: column;
