@@ -81,8 +81,7 @@ const store = new Vuex.Store({
             socket.addVote({
                 channelId: state.channelId,
                 vote: payload.vote,
-                userId: payload.userId,
-                isSimulated: true
+                userId: payload.userId
             });
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){

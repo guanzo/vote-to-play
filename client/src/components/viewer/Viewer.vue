@@ -124,6 +124,26 @@ $header-element-size: 35px;
         padding: 5px 7.5px;
         margin-right: 15px;
     }
+    
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    ::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
 }
 
 
