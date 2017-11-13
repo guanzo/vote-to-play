@@ -3,13 +3,13 @@ var MongoClient = require('mongodb').MongoClient
 , assert = require('assert');
 
 // Connection URL
-var url = 'mongodb://localhost:27017/votetoplay';
+var productionUrl = 'mongodb://localhost:27017/votetoplay';
 
 var state = {
     db: null,
 }
 
-exports.connect = function() {
+exports.connect = function(url = productionUrl) {
     if (state.db) return Promise.resolve()
 
     return MongoClient.connect(url)
@@ -26,13 +26,13 @@ exports.get = function() {
     return state.db
 }
 
-exports.close = function(done) {
+exports.close = function() {
     if (state.db) {
-        state.db.close(function(err, result) {
-            state.db = null
-            state.mode = null
-            done(err)
-        })
+        return state.db.close()
+            .then(()=>{
+                state.db = null
+                state.mode = null
+            })
     }
 }
 

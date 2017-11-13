@@ -1,12 +1,15 @@
 {
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "chai": "^4.1.2",
+    "concurrently": "^3.5.0",
+    "mocha": "^4.0.1"
   },
   "scripts": {
     "build": "cd client && npm run build",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "set NODE_ENV=development&& nodemon ./server",
-    "client": "node start-client.js"
+    "start": "concurrently  \"npm run server\" \"npm run client\" ",
+    "server": "set NODE_ENV=development&& nodemon ./server/src",
+    "client": "node start-client.js",
+    "test": "cd server && mocha src/**/*.spec.js --recursive"
   },
   "dependencies": {}
 }

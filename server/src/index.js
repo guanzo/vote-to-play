@@ -25,13 +25,13 @@ let port;
 if (process.env.NODE_ENV === 'production'){
     server = http.createServer(app);
     port = 8081
-    app.use(express.static(__dirname+'/public'));
+    app.use(express.static(__dirname+'../public'));
 }else{
     server = https
         .createServer(
         {//self signed certs
-            key: fs.readFileSync(path.resolve(__dirname, 'ssl/key.pem')),
-            cert: fs.readFileSync(path.resolve(__dirname, 'ssl/cert.pem')),
+            key: fs.readFileSync(path.resolve(__dirname, '../ssl/key.pem')),
+            cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),
         },
         app
         )

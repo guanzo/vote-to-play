@@ -26,29 +26,30 @@ var ObjectID = require('mongodb').ObjectID
  */
 
 
-var self = module.exports = {
+module.exports = {
     //current vote is first element in "voteHistory"
     getCurrentVote(channelId){
         var channels = db.get().collection('channels')
-        return channels.findOne({ channelId },{ voteHistory:{ $slice: 1 } })
-                       .then(result=>{
-                           //channel document may not exist, if streamer never pressed "start vote"
-                           if(!result){
-                               self.createChannel(channelId)
-                               return null
-                           }
-                           else
-                                return result.voteHistory[0]
-                       })
-                       .catch(err=>{
-                           console.log(err)
-                       })
+        return channels
+                .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
+                .then(async result=>{
+                    //channel document may not exist, if streamer never pressed "start vote"
+                    if(!result){
+                        await addChannelDocument(channelId)
+                        return null
+                    }
+                    else
+                        return result.voteHistory[0]
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
     },
     startVote({channelId, channelName, voteType = 'default'}){
         var channels = db.get().collection('channels')
         channels.createIndex({ channelId: 1 })
 
-        channels.updateOne(
+        return channels.updateOne(
             { channelId },
             { 
                 $set: {channelId, channelName},
@@ -86,15 +87,17 @@ var self = module.exports = {
             },
         )
     },
-    createChannel(channelId){
-        var channel = {
-            channelId,
-            voteHistory: [ createNewVoteObj() ],//populate with an empty vote
-            channelName: null
-        }
-        var channels = db.get().collection('channels')
-        channels.insertOne(channel)
+}
+
+
+function addChannelDocument(channelId){
+    var channel = {
+        channelId,
+        voteHistory: [ createNewVoteObj() ],//populate with an empty vote
+        channelName: null
     }
+    var channels = db.get().collection('channels')
+    return channels.insertOne(channel)
 }
 
 function createNewVoteObj(voteType = 'default'){
