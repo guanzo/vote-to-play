@@ -33,17 +33,20 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: 'viewer.html',
-      template: 'viewer.html',
+      template: config.twitchTemplate,
+      title: 'viewer',
       inject: true
     }),
     new HtmlWebpackPlugin({
       filename: 'liveconfig.html',
-      template: 'liveconfig.html',
+      template: config.twitchTemplate,
+      title: 'liveconfig',
       inject: true
     }),
     new HtmlWebpackPlugin({
       filename: 'config.html',
-      template: 'config.html',
+      template: config.twitchTemplate,
+      title: 'config',
       inject: true
     }),
     new FriendlyErrorsPlugin()

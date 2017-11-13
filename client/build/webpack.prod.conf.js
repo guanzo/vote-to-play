@@ -75,7 +75,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: config.build.viewer,
-      template: 'viewer.html',
+      template: config.twitchTemplate,
+      title:"viewer",
       inject: true,
       minify: false,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
@@ -83,7 +84,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: config.build.liveconfig,
-      template: 'liveconfig.html',
+      template: config.twitchTemplate,
+      title:"liveconfig",
       inject: true,
       minify: false,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
@@ -91,7 +93,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: config.build.config,
-      template: 'config.html',
+      template: config.twitchTemplate,
+      title:"config",
       inject: true,
       minify: false,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin

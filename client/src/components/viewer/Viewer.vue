@@ -11,7 +11,7 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <component :is="selectedGame"></component>
+                <game :selectedGame="selectedGame"></game>
             </div>
         </transition>
     </div>
@@ -21,18 +21,7 @@
 
 
 import TestUtil from './test/TestUtil'
-import dota from './dota/Dota'
-import lol from './lol/LeagueOfLegends'
-import overwatch from './overwatch/Overwatch'
-import hearthstone from './hearthstone/Hearthstone'
-import hots from './hots/Hots'
-
-/** Dynamic component depends on twitch's name for the games */
-const TWITCH_NAME_DOTA = 'Dota 2'
-const TWITCH_NAME_OVERWATCH = 'Overwatch'
-const TWITCH_NAME_LOL = 'League of Legends'
-const TWITCH_NAME_HEARTHSTONE = 'Hearthstone'
-const TWITCH_NAME_HOTS = 'Heroes of the Storm'
+import Game from './games/Game'
 
 export default {
     name: 'viewer',
@@ -65,11 +54,7 @@ export default {
         },
     },
     components:{
-        [TWITCH_NAME_DOTA]: dota,
-        [TWITCH_NAME_OVERWATCH]: overwatch,
-        [TWITCH_NAME_LOL]: lol,
-        [TWITCH_NAME_HEARTHSTONE]: hearthstone,
-        [TWITCH_NAME_HOTS]: hots,
+        Game,
         TestUtil,
     }
 }
@@ -113,10 +98,10 @@ $header-element-size: 35px;
         }
     }
     .viewer-body{
-        font-family: 'Cinzel', serif;
         color: #eee;
         flex: 1;
         display: flex;
+        justify-content: flex-end;
         > * {
             display: flex;
             align-items: flex-start;

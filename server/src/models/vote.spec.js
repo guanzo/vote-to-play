@@ -16,6 +16,7 @@ describe('Vote',async ()=>{
     })
     
     describe("getCurrentVote", ()=>{
+        
         describe("channel doesn't exist in db",()=>{
             before(async ()=>{
                 await channels.remove({})
@@ -32,6 +33,7 @@ describe('Vote',async ()=>{
             })
     
         })
+
         describe('channel exists in db',()=>{
             it("gets current vote instance",async ()=>{
                 let currentVote = await voteModule.getCurrentVote(channelId)
@@ -58,17 +60,15 @@ describe('Vote',async ()=>{
     });
 
     describe("addVote", ()=>{
-        let vote = 'axe';
-        it('adds a vote to the most recent vote instance',async ()=>{
-            await voteModule.addVote({ channelId, vote, userId })
+
+        let testAddVote = async ()=>{
+            await voteModule.addVote({ channelId, vote: 'axe', userId })
             let currentVote = await voteModule.getCurrentVote(channelId)
             expect(currentVote.votes).to.have.lengthOf(1)
-        })
-        it('prevents multiple votes from same user',async ()=>{
-            await voteModule.addVote({ channelId, vote, userId })
-            let currentVote = await voteModule.getCurrentVote(channelId)
-            expect(currentVote.votes).to.have.lengthOf(1)
-        })
+        }
+
+        it('adds a vote to the most recent vote instance',testAddVote)
+        it('prevents multiple votes from same user',testAddVote)
     });
 
     after(()=>{

@@ -12,9 +12,9 @@ module.exports = (app,server) => {
             socket.join(channelId)
             
             //there is an ongoing vote, send entire vote data
-            let channelVote = await model.getCurrentVote(channelId);
-            if(channelVote)
-                socket.emit(`all-votes`,channelVote)
+            let currentVote = await model.getCurrentVote(channelId);
+            if(currentVote)
+                socket.emit(`all-votes`,currentVote)
         })
 
         //only streamers can start a vote
