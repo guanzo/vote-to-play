@@ -1,6 +1,7 @@
 import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
+import socket from '@/api/socket'
 import dota from './modules/dota'
 import overwatch from './modules/overwatch'
 import lol from './modules/lol'
@@ -8,8 +9,6 @@ import hearthstone from './modules/hearthstone'
 import hots from './modules/hots'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
-
-const socket = io(process.env.SERVER_URL)
 
 const store = new Vuex.Store({
     state: {
@@ -72,31 +71,26 @@ const store = new Vuex.Store({
     },
     actions:{
         [ACTIONS.VOTE]( {state}, payload ){
-            socket.emit('add-vote',{
+            socket.addVote({
                 channelId: state.channelId,
                 vote: payload.vote,
                 userId: payload.userId
-            })
+            });
         },
         [ACTIONS.SIMULATE_VOTE]( {state}, payload ){
-            socket.emit('add-vote',{
+            socket.addVote({
                 channelId: state.channelId,
                 vote: payload.vote,
                 userId: payload.userId,
                 isSimulated: true
-            })
+            });
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
-            socket.emit('start-vote',{ channelId: state.channelId, channelName: state.channelName })
+            socket.startVote({ channelId: state.channelId, channelName: state.channelName })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
-            setSocketListeners(payload.channelId)
-
-            //get initial state for stream
-            socket.emit('join-channel',{ 
-                channelId: payload.channelId,
-             })
+            socket.joinChannel({ channelId: payload.channelId })
         },
     },
     getters:{
@@ -133,27 +127,5 @@ const store = new Vuex.Store({
         }
     }
 })
-
-let maxCalls = 1000;
-let interval = 1250;
-var throttle = throttledQueue(maxCalls, interval);
-
-function setSocketListeners(channelId){
-    
-    socket.on(`all-votes`, data => {
-        store.commit(MUTATIONS.SET_VOTES, data)
-    });
-    
-    socket.on(`add-vote`, data => {
-        throttle(function(){
-            store.commit(MUTATIONS.ADD_VOTE, { data })
-        })
-    });
-
-    socket.on(`start-vote`, data => {
-        store.commit(MUTATIONS.START_NEW_VOTE)
-    });
-
-}
 
 export default store
