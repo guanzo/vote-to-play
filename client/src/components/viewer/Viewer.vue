@@ -1,13 +1,13 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <test-util v-if="IS_DEVELOPMENT"></test-util>
+            <test-util></test-util>
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="toggleUI" class="logo" src="~@/assets/images/logos/dotavoter-logo-red-sm.png" alt="logo">
+            <img @click="toggleUI" :class="{reveal: showLogo}" class="logo" :src="logoUrl" alt="logo">
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
@@ -29,12 +29,15 @@ export default {
         return {
             isExpanded: false,
             showExpandTip: false,
+            logoUrl: require("@/assets/images/logos/dotavoter-logo-red-sm.png")
         }
     },
     computed:{
         ...Vuex.mapState(['selectedGame','votes','channelName','TESTING']),
         ...Vuex.mapGetters(['hasSubmittedVote']),
-        IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
+        showLogo(){
+            return this.isExpanded || this.showExpandTip
+        }
     },
     watch:{
         //show tip if votes are reset, user may or may not have voted.
@@ -60,7 +63,18 @@ export default {
 }
 </script>
 
+<style lang="scss">
 
+#app{
+    .logo {
+        opacity: 0;
+    }
+    &:hover .logo, .logo.reveal{
+        opacity: 1;
+    }
+}
+
+</style>
 
 <style lang="scss" scoped>
 
@@ -84,12 +98,8 @@ $header-element-size: 35px;
             width: $header-element-size;
             height: $header-element-size;
             cursor: pointer;
-            opacity: 0.75;
             transition: 0.35s;
             -webkit-backface-visibility: hidden;
-            &:hover{
-                opacity: 1;
-            }
         }
         .toggle-vote-simulation{
             background: grey;

@@ -31,7 +31,11 @@ export default {
         var { selectedGame } = context.props
         var gameComponent = gameMap[selectedGame]
         var component = gameComponent ? gameComponent : gameUnsupported
-        return createElement(component)
+        return createElement(component,{
+            props: {
+                selectedGame
+            }
+        })
     },
 }
 
