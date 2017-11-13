@@ -33,6 +33,10 @@ table{
     transform: translateY(15px);
 }
 
+.text-center {
+    text-align: center;
+}
+
 //fix descenders getting cut off in select
 .pure-form select {
     height: 2.35em;

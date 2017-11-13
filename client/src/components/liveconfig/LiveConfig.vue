@@ -1,7 +1,9 @@
 <template>
 	<div class="live-config">
-		<button @click="startVote" class="pure-button">Start a vote</button>
-        <p>Starting a vote will erase previous vote data.</p>
+        <div class="text-center">
+            <button @click="startVote" class="pure-button">Start a vote</button>
+            <p>Starting a vote will<br>erase previous vote data.</p>
+        </div>
         <br>
         <vote-results class="vote-list">
         </vote-results>
