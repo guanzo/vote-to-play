@@ -3,6 +3,11 @@
     box-sizing: border-box;
 }
 
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
@@ -28,3 +33,7 @@
     transform: translateY(15px);
 }
 
+//fix descenders getting cut off in select
+.pure-form select {
+    height: 2.35em;
+}

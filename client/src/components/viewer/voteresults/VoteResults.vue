@@ -4,7 +4,7 @@
     <div class="top-votes overlay-background" ref="topvotes">
         <transition name="fade">
             <div v-if="topAggregatedVotes.length"  key="results" >
-                <h4 class="is-size-5">Results</h4>
+                <div class="header">Results</div>
                 <vote-table :votes="topAggregatedVotes"></vote-table>
             </div>
             <div v-else class="no-results" key="noresults">
@@ -17,7 +17,7 @@
     </div>
     <transition name="fade-vertical">
         <div v-if="userVote" class="user-vote overlay-background">
-            <h4 class="is-size-5">Your Vote</h4>
+            <div class="header">Your Vote</div>
             <vote-table v-if="userAggregatedVote.length" :votes="userAggregatedVote"></vote-table>
         </div>
     </transition>
@@ -103,9 +103,10 @@ export default {
     margin-left: 15px;
     //transition: 0.5s;
     //max-height: 100%;
-    h4 {
+    .header {
         text-align: center;
-        margin-bottom: 10px;
+        margin: 10px 0px;
+        font-size: 1.25em;
     }
     .fade-leave-active {
         position: absolute;

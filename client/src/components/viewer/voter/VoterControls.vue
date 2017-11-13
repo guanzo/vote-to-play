@@ -1,18 +1,16 @@
 <template>
-    <div class="vote-controls" :class="{ 'invisible': splashTransition.hideVoteUI }">
+    <div class="vote-controls pure-form" :class="{ 'invisible': splashTransition.hideVoteUI }">
         <slot>
             <div></div><!-- spacing helper -->
         </slot>
-        <div class="field is-grouped is-grouped-multiline">
-            <div class="control">
-                <button 
-                    @click="submitVote" 
-                    :disabled="!hasSelectedVote" 
-                    class="vote-button button"
-                    :class="{ 'is-loading': loading }"
-                >
-                Vote</button>
-            </div>
+        <div>
+            <button 
+                @click="submitVote" 
+                :disabled="!hasSelectedVote" 
+                class="pure-button button-small"
+                :class="{ 'is-loading': loading }"
+            >
+            Vote</button>
         </div>
     </div>
 </template>
@@ -58,7 +56,7 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .vote-controls{
     min-height: 40px;
@@ -73,6 +71,9 @@ export default {
     }
     select {
         width: 120px;
+    }
+    .button-small {
+        font-size: 85%;
     }
 }
 </style>

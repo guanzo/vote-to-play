@@ -1,6 +1,6 @@
 <template>
 	<div class="live-config">
-		<button @click="startVote" class="button">Start a vote</button>
+		<button @click="startVote" class="pure-button">Start a vote</button>
         <p>Starting a vote will erase previous vote data.</p>
         <br>
         <vote-results class="vote-list">
@@ -33,12 +33,15 @@ export default {
 $scrollbar-width: 17px;
 
 .live-config{
-    padding: 10px;
-    padding-right: 10px + $scrollbar-width;
+    padding: 5px;
     color: #333;
     .overlay-background {
         background: white !important;
     }
+    .vote-list.vote-results {
+        margin-left: 0;
+    }
+
 }
 
 </style>

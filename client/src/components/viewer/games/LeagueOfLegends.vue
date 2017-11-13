@@ -2,18 +2,12 @@
     <div v-if="heroes.length" class="league-of-legends">
         <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
             
-            <div slot="filters" class="field is-grouped is-grouped-multiline">
-                <div class="control">
-                    <input v-model="query" class="input" type="text" placeholder="Search champion name">
-                </div>
-                <div class="control">
-                    <div class="select is-primary">
-                    <select v-model="selectedRole">
-                        <option>{{ DEFAULT_ROLE }}</option>
-                        <option v-for="role in roles" :key="role">{{ role }}</option>
-                    </select>
-                    </div>
-                </div>
+            <div slot="filters">
+                <input v-model="query"placeholder="Search champion name">
+                <select v-model="selectedRole">
+                    <option>{{ DEFAULT_ROLE }}</option>
+                    <option v-for="role in roles" :key="role">{{ role }}</option>
+                </select>
             </div>
         </voter>
         <vote-results :maxResults="maxResults"></vote-results>
