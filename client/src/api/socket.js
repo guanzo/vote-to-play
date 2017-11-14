@@ -7,7 +7,8 @@ var socket;
 export default {
     connect(data){
         socket = io(process.env.SERVER_URL,{ query: data })
-        setListeners(data.channelId)
+        setListeners()
+        socket.emit('join-channel',data)
     },
     addVote(data){
         socket.emit('add-vote',data)
@@ -21,7 +22,7 @@ let maxCalls = 1000;
 let interval = 1250;
 var throttle = throttledQueue(maxCalls, interval);
 
-function setListeners(channelId){
+function setListeners(){
 
     socket.on(`all-votes`, data => {
         store.commit(MUTATIONS.SET_VOTES, data)

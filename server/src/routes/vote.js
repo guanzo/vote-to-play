@@ -19,16 +19,28 @@ function verifyToken(socket,next){
 module.exports = (server) => {
     var io = require('socket.io')(server);
 
-    io.use(verifyToken)
+    //io.use(verifyToken)
 
     io.on('connection', async (socket)=>{
-        var query = socket.handshake.query
+        
+        /* var query = socket.handshake.query
 
         socket.join(query.channelId)
 
         let currentVote = await model.getCurrentVote(query);
         if(currentVote)
             socket.emit(`all-votes`,currentVote)
+         */
+
+        socket.on('join-channel',async data=>{
+            let { channelId, channelName } = data
+            socket.join(channelId)
+
+            let currentVote = await model.getCurrentVote(data);
+            if(currentVote)
+                socket.emit(`all-votes`,currentVote)
+        })
+    
 
         socket.on('add-vote',async data=>{
             let result = await model.addVote(data)
