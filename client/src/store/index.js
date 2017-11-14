@@ -39,13 +39,11 @@ const store = new Vuex.Store({
         [MUTATIONS.SET_GAME]( state, payload ){
             state.selectedGame = payload.game
         },
-        [MUTATIONS.SET_CHANNEL_NAME]( state, payload ){
-            state.channelName = payload.channelName
-        },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.isAuthed = true;
             state.token = payload.token;
             state.channelId = payload.channelId
+            state.channelName = payload.channelName
             state.userId = payload.userId
         },
         [MUTATIONS.SET_VOTES]( state, payload ){
@@ -89,7 +87,7 @@ const store = new Vuex.Store({
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
-            socket.joinChannel({ channelId: payload.channelId })
+            socket.connect(payload)
         },
     },
     getters:{

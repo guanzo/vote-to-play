@@ -84,7 +84,8 @@ export default {
 
 .heroes-of-the-storm{
     img {
-        max-height: 45px;
+        width: 100%;
+        height: auto;
     }
     .image-wrapper{
         width: 45px;

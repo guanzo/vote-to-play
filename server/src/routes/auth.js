@@ -1,6 +1,3 @@
-const express = require('express');
-const https = require('https');
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 // Middleware to require login/auth
 // const requireAuth = passport.authenticate('jwt', { session: false });
@@ -40,11 +37,8 @@ module.exports = app => {
     const token = req.body.token || req.query.token || req.headers.token || req.headers.authorization;
     const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
     
-    // decode token
     if (token) {
-      //console.log(token, 'token is here?')
-      //console.log(process.env.TWITCH_EXTENSION_SECRET, 'secret is here');
-      // verifies secret and checks exp
+        
       jwt.verify(token, secret, function (err, decoded) {
         if (err) {
           console.log(err, 'did not verify')

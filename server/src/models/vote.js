@@ -75,7 +75,7 @@ module.exports = {
           unmatch if votes array contains userId
 
         */
-        channels.updateOne(
+        return channels.updateOne(
             { channelId, "voteHistory.0.votes.userId": { $ne: userId }  },
             { 
                 $push: { 

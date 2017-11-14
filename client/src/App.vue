@@ -14,17 +14,7 @@ export default {
         }
     },
     created(){
-        /*
-        //Get Live Channels with Extension Activated
-        axios.get(`https://api.twitch.tv/extensions/277964/live_activated_channels`,{
-                headers:{
-                'Client-ID':'9p87e0fdl3h6gbn8ijwpdc7xszri8m',
-                //'Authorization': 'OAuth rq9petxfbzsucdtlgui6zdpoygab3r'
-            }
-            }).then((response)=>{
-                console.log(response)
-            })
-        */
+        
     }
 }
 </script>

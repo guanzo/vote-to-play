@@ -25,7 +25,7 @@ let port;
 if (process.env.NODE_ENV === 'production'){
     server = http.createServer(app);
     port = 8081
-    app.use(express.static(__dirname+'../public'));
+    app.use(express.static(path.resolve(__dirname, '../public')));
 }else{
     server = https
         .createServer(
@@ -42,10 +42,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 authRouter(app);
-voteRouter(app,server);
+voteRouter(server);
 dataRouter(app)
 
 db.connect().then(()=>{
+    
     server.listen(port, () => {
         console.log(process.env.PASSPORT_SECRET, port);
         console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console

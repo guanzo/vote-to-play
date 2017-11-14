@@ -72,7 +72,9 @@ export default {
 
 .league-of-legends{
     img {
-        max-height: 40px;
+        width: 100%;
+        height: auto;
+
     }
     .image-wrapper{
         width: 40px;

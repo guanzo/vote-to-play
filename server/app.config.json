@@ -4,7 +4,8 @@
 		  "name": "votetoplay",
 		  "script": "src/index.js",
 		  "watch": "true",
-		  "ignore_watch": ["node_modules"]
+		  "ignore_watch": ["node_modules"],
+          "log_date_format" : "YYYY-MM-DD HH:mm Z"
 		}
 	]
 }

@@ -68,7 +68,8 @@ export default {
 
 .overwatch{
     img {
-        max-height: 100px;
+        width: 100%;
+        height: auto;
     }
     .image-wrapper{
         width: 58px;

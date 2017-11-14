@@ -1,35 +1,53 @@
 var model = require('../models/vote')
+const jwt = require('jsonwebtoken');
 
+function verify(){
 
+}
 
-module.exports = (app,server) => {
+module.exports = (server) => {
     var io = require('socket.io')(server);
-    
-    io.on('connection', function (socket) {
+
+    io.use(function(socket,next){
+        var token = socket.handshake.query.token
+        const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
+
+        if(!token)
+            return next(new Error('no token provided'));
         
-        socket.on('join-channel',async data=>{
-            let { channelId, channelName } = data
-            socket.join(channelId)
+        jwt.verify(token, secret, (err, decoded)=>{
+            if (err)
+                next(new Error('Failed to authenticate token.'));
+            else 
+                next();
+            })
             
-            //there is an ongoing vote, send entire vote data
-            let currentVote = await model.getCurrentVote(channelId);
-            if(currentVote)
-                socket.emit(`all-votes`,currentVote)
-        })
+    })
 
-        //only streamers can start a vote
-        socket.on('start-vote',data=>{
-            model.startVote(data)
-            io.to(data.channelId).emit(`start-vote`,data)
-        })
+    io.on('connection', async (socket)=>{
+        var query = socket.handshake.query
 
-        socket.on('add-vote',data=>{
-            model.addVote(data)
+        socket.join(query.channelId)
+        let currentVote = await model.getCurrentVote(query.channelId);
+        if(currentVote)
+            socket.emit(`all-votes`,currentVote)
+
+        socket.on('add-vote',async data=>{
+            let result = await model.addVote(data)
+            if(result.modifiedCount == 0)
+                return;
+            
             let { channelId, vote, userId } = data
             io.to(channelId).emit(`add-vote`, { vote, userId } )
         })
         
-        
+        if(query.role == 'broadcaster'){
+            //only the streamer can start a vote
+            socket.on('start-vote',data=>{
+                model.startVote(data)
+                io.to(data.channelId).emit(`start-vote`,data)
+            })
+        }
     });
 
 };

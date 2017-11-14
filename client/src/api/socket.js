@@ -2,20 +2,19 @@
 import store from '@/store'
 import * as MUTATIONS from '@/store/mutations'
 
-const socket = io(process.env.SERVER_URL)
+var socket;
 
 export default {
+    connect(data){
+        socket = io(process.env.SERVER_URL,{ query: data })
+        setListeners(data.channelId)
+    },
     addVote(data){
         socket.emit('add-vote',data)
     },
     startVote(data){
         socket.emit('start-vote',data)
-    },
-    //get initial state for stream
-    joinChannel(data){
-        setListeners(data.channelId)
-        socket.emit('join-channel',data)
-    },
+    },    
 }
 
 let maxCalls = 1000;
