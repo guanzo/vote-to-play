@@ -51,13 +51,13 @@ module.exports = (server) => {
             io.to(channelId).emit(`add-vote`, { vote, userId } )
         })
         
-        if(query.role == 'broadcaster'){
+        //if(query.role == 'broadcaster'){
             //only the streamer can start a vote
             socket.on('start-vote',data=>{
                 model.startVote(data)
                 io.to(data.channelId).emit(`start-vote`,data)
             })
-        }
+        //}
     });
 
 };
