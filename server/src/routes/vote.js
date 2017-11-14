@@ -1,34 +1,32 @@
 var model = require('../models/vote')
 const jwt = require('jsonwebtoken');
 
-function verify(){
+function verifyToken(socket,next){
+    var token = socket.handshake.query.token
+    const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
 
+    if(!token)
+        return next(new Error('no token provided'));
+    
+    jwt.verify(token, secret, (err, decoded)=>{
+        if (err)
+            next(new Error('Failed to authenticate token.'));
+        else 
+            next();
+        })
 }
 
 module.exports = (server) => {
     var io = require('socket.io')(server);
 
-    io.use(function(socket,next){
-        var token = socket.handshake.query.token
-        const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
-
-        if(!token)
-            return next(new Error('no token provided'));
-        
-        jwt.verify(token, secret, (err, decoded)=>{
-            if (err)
-                next(new Error('Failed to authenticate token.'));
-            else 
-                next();
-            })
-            
-    })
+    io.use(verifyToken)
 
     io.on('connection', async (socket)=>{
         var query = socket.handshake.query
 
         socket.join(query.channelId)
-        let currentVote = await model.getCurrentVote(query.channelId);
+
+        let currentVote = await model.getCurrentVote(query);
         if(currentVote)
             socket.emit(`all-votes`,currentVote)
 

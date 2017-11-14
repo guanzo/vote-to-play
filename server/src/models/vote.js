@@ -28,19 +28,14 @@ var ObjectID = require('mongodb').ObjectID
 
 module.exports = {
     //current vote is first element in "voteHistory"
-    getCurrentVote(channelId){
+    async getCurrentVote({channelId, channelName}){
         var channels = db.get().collection('channels')
+
+        //ensure channel document exists
+        let result = await addChannelDocument(channelId, channelName);
         return channels
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
-                .then(async result=>{
-                    //channel document may not exist, if streamer never pressed "start vote"
-                    if(!result){
-                        await addChannelDocument(channelId)
-                        return null
-                    }
-                    else
-                        return result.voteHistory[0]
-                })
+                .then(result=>result.voteHistory[0])
                 .catch(err=>{
                     console.log(err)
                 })
@@ -52,7 +47,6 @@ module.exports = {
         return channels.updateOne(
             { channelId },
             { 
-                $set: {channelId, channelName},
                 $push: { 
                     //prepend to array
                     voteHistory: { 
@@ -60,8 +54,7 @@ module.exports = {
                         $position: 0
                     } 
                 }
-            },
-            { upsert: true }
+            }
         )
     },
     addVote({channelId, vote, userId, voteType = 'default'}) {
@@ -90,14 +83,14 @@ module.exports = {
 }
 
 
-function addChannelDocument(channelId){
+function addChannelDocument(channelId,channelName){
     var channel = {
         channelId,
+        channelName,
         voteHistory: [ createNewVoteObj() ],//populate with an empty vote
-        channelName: null
     }
     var channels = db.get().collection('channels')
-    return channels.insertOne(channel)
+    return channels.updateOne({channelId},{ $setOnInsert: channel }, { upsert: true })
 }
 
 function createNewVoteObj(voteType = 'default'){

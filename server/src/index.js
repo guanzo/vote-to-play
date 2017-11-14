@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production'){
 }else{
     server = https
         .createServer(
-        {//self signed certs
+        {   //self signed certs
             key: fs.readFileSync(path.resolve(__dirname, '../ssl/key.pem')),
             cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),
         },
@@ -48,7 +48,6 @@ dataRouter(app)
 db.connect().then(()=>{
     
     server.listen(port, () => {
-        console.log(process.env.PASSPORT_SECRET, port);
         console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
     });
 
