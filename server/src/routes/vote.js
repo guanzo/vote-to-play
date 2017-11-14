@@ -19,18 +19,11 @@ function verifyToken(socket,next){
 module.exports = (server) => {
     var io = require('socket.io')(server);
 
-    //io.use(verifyToken)
+    io.use(verifyToken)
 
     io.on('connection', async (socket)=>{
         
-        /* var query = socket.handshake.query
-
-        socket.join(query.channelId)
-
-        let currentVote = await model.getCurrentVote(query);
-        if(currentVote)
-            socket.emit(`all-votes`,currentVote)
-         */
+        var query = socket.handshake.query
 
         socket.on('join-channel',async data=>{
             let { channelId, channelName } = data
@@ -51,13 +44,12 @@ module.exports = (server) => {
             io.to(channelId).emit(`add-vote`, { vote, userId } )
         })
         
-        //if(query.role == 'broadcaster'){
-            //only the streamer can start a vote
+        if(query.role == 'broadcaster'){
             socket.on('start-vote',data=>{
                 model.startVote(data)
                 io.to(data.channelId).emit(`start-vote`,data)
             })
-        //}
+        }
     });
 
 };
