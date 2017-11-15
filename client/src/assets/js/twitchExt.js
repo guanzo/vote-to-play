@@ -24,12 +24,26 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     })
 });
 
-window.Twitch.ext.onContext(function (context, contextFields) {
-    //console.log(context);
-    let game = store.state.selectedGame
-    if(context.game != game)
-        store.commit(SET_GAME, { game: context.game })
-});
+(function pollSelectedGame(){
+    //10 sec
+    let pollInterval = 10000
+
+    axios.get(`https://api.twitch.tv/kraken/channels/23435553`,{
+        headers:{
+            'Accept': 'application/vnd.twitchtv.v5+json',
+            'Client-ID':'0ms0a4rmjh6b7beixaqndrefsz1dfy',
+        }
+    })
+    .then((response)=>{
+        let game = response.data.game
+        let storeGame = store.state.selectedGame
+        if(game != storeGame)
+            store.commit(SET_GAME, { game })
+        
+        setTimeout(pollSelectedGame,pollInterval)
+    })
+})()
+
 
 window.Twitch.ext.onError(function (err) {
     console.error(err);
