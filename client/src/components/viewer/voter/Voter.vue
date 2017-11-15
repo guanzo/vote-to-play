@@ -1,26 +1,27 @@
 <template>
-    <transition name="fade-vertical">
+    <transition name="fade-vertical" @after-leave="afterUiLeave">
         <div v-show="showUI" class="voter overlay-background">
             <splash 
                 :splashTransition="splashTransition" 
                 :selectedVote="selectedVote"
+                @transition-done="endSplashTransition"
             ></splash>
             <voter-header
                 :hasSelectedVote="hasSelectedVote" 
                 :selectedVote="selectedVote"
+                 :class="invisible"
             ></voter-header>
             <image-grid 
                 :heroes="heroes"
                 :filteredHeroes="filteredHeroes"
-                :splashTransition="splashTransition"
-                @transition-done="stopSplashTransition"
+                 :class="invisible"
             >
             </image-grid>
             <voter-controls
                 :hasSelectedVote="hasSelectedVote" 
                 :vote="selectedVote.name"
-                :splashTransition="splashTransition"
                 @submit-vote="startSplashTransition"
+                 :class="invisible"
             >
                 <slot name="filters"></slot>
             </voter-controls> 
@@ -49,8 +50,9 @@ function splashTransitionDefaults(){
     return {
         isActive: false,
         hideVoteUI: false,
-        class: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
-        style: { 'animation-duration': duration + 'ms' },
+        splashImgIsLoaded: false,
+        splashClass: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
+        splashStyle: { 'animation-duration': duration + 'ms' },
         duration,
     }
 }
@@ -69,21 +71,31 @@ export default {
         showUI(){
             return !this.hasSubmittedVote || this.splashTransition.isActive
         },
+        invisible(){
+            return { 'invisible': this.splashTransition.hideVoteUI }
+        }
     },
     watch:{
         hasSubmittedVote(val){
             if(!val)
                 this.splashTransition = splashTransitionDefaults()
+        },
+        'splashTransition.splashImgIsLoaded'(isLoaded){
+            if(isLoaded)
+                this.splashTransition.hideVoteUI = true;
         }
     },
     methods:{
         startSplashTransition(){
             this.splashTransition.isActive = true;
-            this.splashTransition.hideVoteUI = true;
         },
-        stopSplashTransition(){
-            this.splashTransition.isActive = false;
+        endSplashTransition(){
+            this.splashTransition.isActive = false
         },
+        afterUiLeave(){
+            //prevents vote ui appearing while ui is transitioning out
+            this.splashTransition = splashTransitionDefaults()
+        }
     },
     components:{
         voterHeader,
@@ -107,6 +119,10 @@ export default {
     justify-content: space-between;
     flex-direction: column;
     
+    .invisible{
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
 </style>

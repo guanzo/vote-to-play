@@ -80,6 +80,13 @@
     "description": "Female Jesus"
   },
   {
+    "id": "moi",
+    "name": "Moira",
+    "avatar": "https://d1u1mce87gyfbn.cloudfront.net/hero/moira/hero-select-portrait.png",
+    "type": "support",
+    "difficulty": 1
+  },
+  {
     "id": "pha",
     "name": "Pharah",
     "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000008.png",
@@ -118,6 +125,13 @@
     "type": "offense",
     "difficulty": 1,
     "description": "Cyclop wannabe"
+  },
+  {
+    "id": "som",
+    "name": "Sombra",
+    "avatar": "https://d1u1mce87gyfbn.cloudfront.net/hero/sombra/hero-select-portrait.png",
+    "type": "offense",
+    "difficulty": 1
   },
   {
     "id": "sym",

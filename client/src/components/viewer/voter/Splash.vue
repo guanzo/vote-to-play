@@ -1,10 +1,10 @@
 <template>
-    <transition name="fade" @after-leave="afterSplashLeave">
-        <div v-if="splashTransition.isActive && loadedSplashImg" class="splash-img-container">
+    <transition name="fade">
+        <div v-if="splashTransition.isActive && splashImg" class="splash-img-container">
             <img class="splash-img" 
-                :class="splashTransition.class" 
-                :style="splashTransition.style" 
-                :src="loadedSplashImg"
+                :class="splashTransition.splashClass" 
+                :style="splashTransition.splashStyle" 
+                :src="splashImg"
             >    
         </div>
     </transition>
@@ -17,28 +17,35 @@ export default {
     props:['splashTransition','selectedVote'],
     data(){
         return {
-            loadedSplashImg: null
+            splashImg: null
         }
+    },
+    mounted(){
     },
     watch:{
         'splashTransition.isActive'(isActive){
             if(!isActive){
-                this.loadedSplashImg = null
+                this.splashImg = null
                 return;
             }
 
             var img = new Image();
             img.onload = ()=>{
-                this.loadedSplashImg = img.src
+                this.splashTransition.splashImgIsLoaded = true
+                this.splashImg = img.src
+                this.$nextTick(this.setEndListener)
             };         
             img.src = this.selectedVote.imgSplash;
         }
     },
     methods:{
-        afterSplashLeave(){
-            this.splashTransition.hideVoteUI = false;
-        },
-    },
+        setEndListener(){
+            let el = this.$el.querySelector('img')
+            el.addEventListener('animationend',()=>{
+                this.$emit('transition-done')
+            })
+        }
+    }
 }
 
 </script>

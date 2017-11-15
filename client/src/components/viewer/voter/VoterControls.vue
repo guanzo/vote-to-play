@@ -1,5 +1,5 @@
 <template>
-    <div class="vote-controls pure-form" :class="{ 'invisible': splashTransition.hideVoteUI }">
+    <div class="vote-controls pure-form">
         <slot>
             <div></div><!-- spacing helper -->
         </slot>
@@ -23,7 +23,7 @@ import { VOTE } from '@/store/actions'
 export default {
     name: 'voter-controls',
     mixins:[VoteSimulation],
-    props:['hasSelectedVote','vote','splashTransition'],
+    props:['hasSelectedVote','vote'],
     data(){
         return {
             loading: false,
@@ -64,11 +64,7 @@ export default {
     position: relative;
     display: flex;
     justify-content: space-between;
-    transition: .3s;
-    &.invisible{
-        opacity: 0;
-        pointer-events: none;
-    }
+    transition: .5s;
     select {
         width: 120px;
     }

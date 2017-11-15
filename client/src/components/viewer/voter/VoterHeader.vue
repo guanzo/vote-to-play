@@ -37,6 +37,7 @@ export default {
     font-size: 1.5em;
     color: white;
     text-shadow: #000 0px 0px 2px;
+    transition: .5s;
     .default-vote {
         .image-wrapper{
             background: #333;

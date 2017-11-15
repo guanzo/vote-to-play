@@ -2,7 +2,7 @@
     <div class="image-grid" :style="overflow">
         <div v-for="(hero,i) in heroes"
             @click="selectVote(hero)"
-            :class="[filterClass(hero),classes[i]]" 
+            :class="filterClass(hero)" 
             class="image-wrapper" 
             :key="hero.name"
         >
@@ -14,49 +14,15 @@
 <script>
 import { SELECT_VOTE } from '@/store/mutations'
 
-//babel-runtime-transform makes it difficult for bluebird to overload native Promise
-//so just use bluebird alias, P = Promise
-P.config({
-    cancellation: true,
-});
-
 export default {
     name:'image-grid',
-    props:['heroes','filteredHeroes','splashTransition'],
-    data(){
-        return {
-            classes: this.initialClass(),
-            transitionPromise: null
-        }
-    },
+    props:['heroes','filteredHeroes'],
     computed:{
-        ...Vuex.mapState(['selectedVote']),
-        ...Vuex.mapGetters(['hasSelectedVote','hasSubmittedVote']),
         hasActiveFilter(){
             return this.filteredHeroes.length < this.heroes.length
         },
-        overflow(){//hide scrollbar during animation
-            return {
-                'overflow-y': !this.splashTransition.isActive ? 'auto' : 'hidden'
-            }
-        }
-    },
-    watch:{
-        ['splashTransition.hideVoteUI'](hideVoteUI){
-            if(hideVoteUI)
-                this.exitTransition()
-            else {
-                this.classes = this.initialClass()
-                //streamer can start new vote at any time, need to stop the animation if it's in the middle
-                if(this.transitionPromise.isPending())
-                    this.transitionPromise.cancel()
-            }
-        },
     },
     methods:{
-        initialClass(){
-            return Array(this.heroes.length).fill().map(d=>({ traversed: false }))
-        },
         selectVote(vote){
             this.$store.commit(SELECT_VOTE, { vote })
             this.$emit('select-vote',vote)
@@ -68,112 +34,6 @@ export default {
         },
         passesFilter(hero){
             return this.filteredHeroes.find(d=>d.name == hero.name)
-        },
-        exitTransition(){
-            let { width, height} = this.calcGridDimensions();
-
-            let heroIndex = _.findIndex(this.heroes,hero=>this.selectedVote.name == hero.name)
-            let heroCoords = this.getCoordsFromIndex(heroIndex, width)
-
-            var grid = new PF.Grid(width, height); 
-            let heroNode = grid.getNodeAt(heroCoords.x,heroCoords.y)
-
-            this.transitionPromise = 
-                        this.traverseAnimation(heroNode, grid)
-                        .then(()=>new P(resolve=>setTimeout(resolve, this.splashTransition.duration)))
-                        .then(()=>this.$emit('transition-done'))
-                        .catch(console.log)
-        },
-        calcGridDimensions(){
-            let $grid = this.$el
-            let $cell = $grid.firstChild
-            //cells have margins on all sides, add to width/height 
-            let m = parseInt(window.getComputedStyle($cell).margin.replace('px'))
-
-            let { clientWidth: gridWidth, scrollHeight: gridHeight } = $grid
-            let { offsetWidth: cellWidth, offsetHeight: cellHeight } = $cell;
-           
-            cellWidth += m*2;
-            cellHeight += m*2;
-
-            let width = Math.floor(gridWidth/cellWidth)
-            let height = Math.floor(gridHeight/cellHeight)
-            
-            return { width, height }
-        },
-        //incrementally traverses grid in an expanding square, starting from selected vote        
-        traverseAnimation(startNode, grid){
-            let self = this;
-
-            return new P((resolve,reject,onCancel)=>{
-
-                var timeoutID;
-                onCancel(()=>{
-                    clearTimeout(timeoutID)
-                })
-
-                //handles the timing of the steps
-                var duration = 1000,
-                    startTime = new Date(),
-                    maxInterval = 200,
-                    minInterval = 50,
-                    interpolator = d3.interpolate(maxInterval,minInterval)
-
-                //pathfinding
-                var openList = [],
-                    diagonalMovement = PF.DiagonalMovement.Always,
-                    neighbors, neighbor, nodes, i, l,
-                    gridSize = grid.width * grid.height
-
-                openList.push(startNode);
-                startNode.opened = true;
-                //each step will process a square of neighbors
-                function step(){
-                    if(openList.length == 0){
-                        resolve()
-                        return;
-                    }
-
-                    nodes = openList.splice(0, openList.length);
-                    nodes.forEach(node=>{
-                        node.closed = true
-                        let { x,y } = node
-                        let index = self.getIndexFromCoords(x,y,grid.width)
-                        if(index < self.classes.length)
-                            self.classes[index].traversed = true;
-                    })
-                    
-                    neighbors = _(nodes).map(node=>grid.getNeighbors(node, diagonalMovement)).flatMap().value();
-                    
-                    for (i = 0, l = neighbors.length; i < l; ++i) {
-                        neighbor = neighbors[i];
-
-                        if (neighbor.closed || neighbor.opened) {
-                            continue;
-                        }
-                        
-                        openList.push(neighbor);
-                        neighbor.opened = true;
-                    }
-
-                    var elapsed = new Date() - startTime;
-                    var normalizedTime = Math.min(elapsed,duration)/duration
-                    var easedTime = d3.easeCubicOut(normalizedTime);
-
-                    timeoutID = setTimeout(step, interpolator(easedTime))
-                }
-
-                step();
-
-            })
-        },
-        getCoordsFromIndex(i,width){
-            let x = i%width
-            let y = Math.floor(i/width)
-            return { x, y }
-        },
-        getIndexFromCoords(x,y, width){
-            return x + y*width
         },
     }
 }
@@ -189,6 +49,7 @@ export default {
     margin: 10px 0px;
     overflow-y: auto;
     overflow-x: hidden;
+    transition: .5s;
     .image-wrapper{
         margin: 2px;
         position: relative;
@@ -202,11 +63,6 @@ export default {
         }
         &.filtered-in {
             box-shadow: 0px 0px 2px 1px white;
-        }
-        &.traversed {
-            transition: 1s ease-out;
-            opacity: 0;
-            transform: scale(0);
         }
         &:hover:before {
             box-shadow: 0px 0px 0px 3px #eee inset;

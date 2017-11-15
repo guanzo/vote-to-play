@@ -38,4 +38,6 @@ function setListeners(){
         store.commit(MUTATIONS.START_NEW_VOTE)
     });
 
+    socket.on('error',console.error)
+
 }
