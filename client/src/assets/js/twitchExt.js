@@ -39,7 +39,7 @@ function pollSelectedGame(channelId){
         let game = response.data.game
         let storeGame = store.state.selectedGame
         if(game != storeGame)
-            store.commit(SET_GAME, { game })
+            store.dispatch(SET_GAME, { game })
         
         setTimeout(()=>pollSelectedGame(channelId),pollInterval)
     })

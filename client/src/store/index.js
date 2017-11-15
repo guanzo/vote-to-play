@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     mutations: {
         [MUTATIONS.SET_GAME]( state, payload ){
             state.selectedGame = payload.game
+            state.selectedVote = {}
         },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.isAuthed = true;
@@ -68,6 +69,10 @@ const store = new Vuex.Store({
         } 
     },
     actions:{
+        [MUTATIONS.SET_GAME]( {state,commit}, payload ){
+            commit(MUTATIONS.SET_GAME, payload)
+            socket.startVote({ channelId: state.channelId })
+        },
         [ACTIONS.VOTE]( {state}, payload ){
             socket.addVote({
                 channelId: state.channelId,
@@ -83,7 +88,7 @@ const store = new Vuex.Store({
             });
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
-            socket.startVote({ channelId: state.channelId, channelName: state.channelName })
+            socket.startVote({ channelId: state.channelId })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)

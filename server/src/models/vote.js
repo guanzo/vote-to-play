@@ -40,7 +40,7 @@ module.exports = {
                     console.log(err)
                 })
     },
-    startVote({channelId, channelName, voteType = 'default'}){
+    startVote({channelId, voteType = 'default'}){
         var channels = db.get().collection('channels')
         channels.createIndex({ channelId: 1 })
 
