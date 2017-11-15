@@ -14,7 +14,7 @@
 
 export default {
     name:'splash',
-    props:['splashTransition','selectedVote'],
+    props:['splashTransition','selectedCandidate'],
     data(){
         return {
             splashImg: null
@@ -33,7 +33,7 @@ export default {
                 this.splashImg = img.src
                 this.$nextTick(this.setEndListener)
             };         
-            img.src = this.selectedVote.imgSplash;
+            img.src = this.selectedCandidate.imgSplash;
         }
     },
     methods:{

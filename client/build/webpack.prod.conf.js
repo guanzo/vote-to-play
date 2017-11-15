@@ -28,7 +28,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
+      EXTENSION_CLIENT_ID: JSON.stringify(config.EXTENSION_CLIENT_ID)
     }),
     //removes testing module from production bundle
     new webpack.NormalModuleReplacementPlugin(

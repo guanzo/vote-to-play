@@ -3,7 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NAMESPACE_LOL = 'lol'
+export const NS_LOL = 'lol'
 
 const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
 const IMG_SPLASH_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'

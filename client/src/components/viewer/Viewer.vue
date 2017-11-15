@@ -2,6 +2,7 @@
     <div class="viewer">
         <div class="viewer-header">
             <test-util></test-util>
+            {{ voteType }}
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
@@ -11,7 +12,7 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game-master :selectedGame="selectedGame"></game-master>
+                <game-master :selectedGame="selectedGame" :voteType="voteType"></game-master>
             </div>
         </transition>
     </div>
@@ -33,7 +34,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','votes','channelName','TESTING']),
+        ...Vuex.mapState(['selectedGame','voteType','votes','channelName','TESTING']),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         showLogo(){
             return this.isExpanded || this.showExpandTip

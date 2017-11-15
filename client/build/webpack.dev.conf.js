@@ -21,6 +21,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
+      EXTENSION_CLIENT_ID: JSON.stringify(config.EXTENSION_CLIENT_ID)
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

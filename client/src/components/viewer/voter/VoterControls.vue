@@ -6,7 +6,7 @@
         <div>
             <button 
                 @click="submitVote" 
-                :disabled="!hasSelectedVote" 
+                :disabled="!hasSelectedCandidate" 
                 class="pure-button button-small"
                 :class="{ 'is-loading': loading }"
             >
@@ -23,7 +23,7 @@ import { VOTE } from '@/store/actions'
 export default {
     name: 'voter-controls',
     mixins:[VoteSimulation],
-    props:['hasSelectedVote','hasSubmittedVote','vote'],
+    props:['hasSelectedCandidate','hasSubmittedVote','vote'],
     data(){
         return {
             loading: false,

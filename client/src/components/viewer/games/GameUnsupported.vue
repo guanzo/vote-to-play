@@ -14,7 +14,9 @@
 
 export default {
     name:'game-unsupported',
-    props:['selectedGame']
+    computed:{
+        ...Vuex.mapState(['selectedGame'])
+    }
 }
 
 </script>

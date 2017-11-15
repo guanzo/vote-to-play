@@ -1,10 +1,10 @@
 
 
-import util from '@/util'
+
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NAMESPACE_HOTS = 'hots'
+export const NS_HOTS = 'hots'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
 

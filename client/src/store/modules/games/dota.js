@@ -1,11 +1,11 @@
 
 
 
-import util from '@/util'
+
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NAMESPACE_DOTA = 'dota'
+export const NS_DOTA = 'dota'
 
 
 const dota = {

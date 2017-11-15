@@ -1,7 +1,7 @@
 <template>
 
 <div class="your-vote">
-    <div v-if="!hasSelectedVote" class="default-vote flex-center">
+    <div v-if="!hasSelectedCandidate" class="default-vote flex-center">
         <div class="image-wrapper flex-center">
             <span>?</span>
         </div>
@@ -9,9 +9,9 @@
     </div>
     <div v-else class="flex-center">
         <div class="image-wrapper flex-center">
-            <img :src="selectedVote.img" :alt="selectedVote.img">
+            <img :src="selectedCandidate.img" :alt="selectedCandidate.img">
         </div>
-        <span>{{ selectedVote.name }}</span>
+        <span>{{ selectedCandidate.name }}</span>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
 
 export default {
     name:'your-vote',
-    props:['hasSelectedVote','selectedVote']
+    props:['hasSelectedCandidate','selectedCandidate']
 }
 
 </script>

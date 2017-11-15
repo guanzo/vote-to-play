@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="league-of-legends">
-        <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
             
             <div slot="filters">
                 <input v-model="query"placeholder="Search champion name">
@@ -21,7 +21,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_LOL } from '@/store/modules/games/lol'
+import { NS_LOL } from '@/store/modules/games/lol'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -36,7 +36,6 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.lol.heroes,'name')
         },
@@ -48,7 +47,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NAMESPACE_LOL+'/'+GET_HEROES)
+        this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){

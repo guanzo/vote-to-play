@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="heroes-of-the-storm">
-        <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
             
             <div slot="filters">
                 <input v-model="query"placeholder="Search hero name">
@@ -25,7 +25,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_HOTS } from '@/store/modules/games/hots'
+import { NS_HOTS } from '@/store/modules/games/hots'
 
 const DEFAULT_ROLE = 'Group'
 const DEFAULT_SUBROLE = 'Subgroup'
@@ -43,7 +43,6 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.hots.heroes,'name')
         },
@@ -58,7 +57,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NAMESPACE_HOTS+'/'+GET_HEROES)
+        this.$store.dispatch(NS_HOTS+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){

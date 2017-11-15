@@ -1,10 +1,18 @@
 <template>
 	<div class="live-config">
-        <div class="text-center">
-            <button @click="startVote" class="pure-button">Start a vote</button>
-            <p>Starting a vote will<br>erase previous vote data.</p>
+        <div class="pure-form pure-form-stacked flex-center flex-center-column">
+            <label for="vote-type">Choose vote category</label>
+            <select v-model="selectedVoteType" id="vote-type">
+                <option v-for="voteType in voteTypes" :key="voteType">
+                    {{voteType}}
+                </option>
+            </select>
         </div>
         <br>
+        <div class="text-center">
+            <button @click="startVote" class="pure-button">Start a vote</button>
+            <p><small>Starting a vote clears the current vote.</small></p>
+        </div>
         <vote-results :displayImages="false" :test="'testtesttest'" class="vote-list">
         </vote-results>
 	</div>
@@ -14,9 +22,20 @@
 import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/viewer/voteresults/VoteResults'
 
+import { SET_VOTE_TYPE } from '@/store/mutations'
+
 export default {
 	name: 'live-config',
-    created(){
+    computed:{
+        ...Vuex.mapState(['selectedGame','voteType']),
+        ...Vuex.mapGetters(['game']),
+        voteTypes(){
+            return [this.selectedGame, this.$store.state.allGames.gameName]
+        },
+        selectedVoteType: {
+            get () { return this.$store.state.voteType },
+            set (value) { this.$store.commit(SET_VOTE_TYPE, { voteType: value }) }
+        },
     },
     methods:{
         startVote(){

@@ -14,7 +14,7 @@
 <script>
 
 
-import { TOGGLE_VOTE_SIMULATION, SELECT_GAME } from '@/store/mutations'
+import { TOGGLE_VOTE_SIMULATION, SET_GAME } from '@/store/mutations'
 
 import { START_NEW_VOTE } from '@/store/actions'
 export default {
@@ -43,7 +43,7 @@ export default {
                 return this.$store.state.selectedGame
             },
             set (value) {
-                this.$store.commit(SELECT_GAME, { game: value })
+                this.$store.commit(SET_GAME, { game: value })
             }
         },
     },

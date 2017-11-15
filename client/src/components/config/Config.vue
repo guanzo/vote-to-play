@@ -6,7 +6,7 @@
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
             <br>
         </p>
-        <p>You can start new votes on your dashboard.</p>
+        <p>You can start new votes on your Dashboard - Live.</p>
         <p>Remember, you also get to vote!</p>
         
         <br>

@@ -1,39 +1,38 @@
 <template>
     <div class="image-grid" :style="overflow">
-        <div v-for="(hero,i) in heroes"
-            @click="selectVote(hero)"
-            :class="filterClass(hero)" 
+        <div v-for="(candidate,i) in candidates"
+            @click="selectCandidate(candidate)"
+            :class="filterClass(candidate)" 
             class="image-wrapper" 
-            :key="hero.name"
+            :key="candidate.name"
         >
-            <img :src="hero.img" :alt="hero.name">
+            <img :src="candidate.img" :alt="candidate.name">
         </div>
     </div>
 </template>
 
 <script>
-import { SELECT_VOTE } from '@/store/mutations'
+import { SELECT_CANDIDATE } from '@/store/mutations'
 
 export default {
     name:'image-grid',
-    props:['heroes','filteredHeroes'],
+    props:['candidates','filteredCandidates'],
     computed:{
         hasActiveFilter(){
-            return this.filteredHeroes.length < this.heroes.length
+            return this.filteredCandidates.length < this.candidates.length
         },
     },
     methods:{
-        selectVote(vote){
-            this.$store.commit(SELECT_VOTE, { vote })
-            this.$emit('select-vote',vote)
+        selectCandidate(candidate){
+            this.$store.commit(SELECT_CANDIDATE, { candidate })
         },
-        filterClass(hero){
+        filterClass(candidate){
             if(!this.hasActiveFilter)
                 return ''
-            return this.passesFilter(hero) ? 'filtered-in': 'filtered-out'
+            return this.passesFilter(candidate) ? 'filtered-in': 'filtered-out'
         },
-        passesFilter(hero){
-            return this.filteredHeroes.find(d=>d.name == hero.name)
+        passesFilter(candidate){
+            return this.filteredCandidates.find(d=>d.name == candidate.name)
         },
     }
 }

@@ -3,24 +3,24 @@
         <div v-show="showUI" class="voter overlay-background">
             <splash 
                 :splashTransition="splashTransition" 
-                :selectedVote="selectedVote"
+                :selectedCandidate="selectedCandidate"
                 @transition-done="endSplashTransition"
             ></splash>
             <voter-header
-                :hasSelectedVote="hasSelectedVote" 
-                :selectedVote="selectedVote"
+                :hasSelectedCandidate="hasSelectedCandidate" 
+                :selectedCandidate="selectedCandidate"
                  :class="invisible"
             ></voter-header>
             <image-grid 
-                :heroes="heroes"
-                :filteredHeroes="filteredHeroes"
+                :candidates="candidates"
+                :filteredCandidates="filteredCandidates"
                  :class="invisible"
             >
             </image-grid>
             <voter-controls
-                :hasSelectedVote="hasSelectedVote" 
+                :hasSelectedCandidate="hasSelectedCandidate" 
                 :hasSubmittedVote="hasSubmittedVote"
-                :vote="selectedVote.name"
+                :vote="selectedCandidate.name"
                 @submit-vote="startSplashTransition"
                  :class="invisible"
             >
@@ -36,15 +36,15 @@ import splash from './Splash'
 import voterHeader from './VoterHeader'
 import imageGrid from './ImageGrid'
 import voterControls from './voterControls'
-import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_DOTA } from '@/store/modules/games/dota'
+import { NS_DOTA } from '@/store/modules/games/dota'
 
 /**
  * Intended behavior:
+ * -only works for supported games
  * -user submits vote
  * -vote ui disappears, splash art appears
  * -after duration, splash art && voter div fades out
- * -after fade out, vote ui reappears
+ * -vote ui reappears after the fade out (voter div still hidden)
  */
 function splashTransitionDefaults(){
     let duration = 4000
@@ -60,15 +60,15 @@ function splashTransitionDefaults(){
 
 export default {
     name: 'voter',
-    props:['heroes','filteredHeroes'],
+    props:['candidates','filteredCandidates'],
     data(){
         return {
             splashTransition: splashTransitionDefaults()
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedVote']),
-        ...Vuex.mapGetters(['hasSelectedVote','hasSubmittedVote']),
+        ...Vuex.mapState(['selectedCandidate']),
+        ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
         showUI(){
             return !this.hasSubmittedVote || this.splashTransition.isActive
         },
@@ -88,7 +88,8 @@ export default {
     },
     methods:{
         startSplashTransition(){
-            this.splashTransition.isActive = true;
+            if(this.selectedCandidate.imgSplash)
+                this.splashTransition.isActive = true;
         },
         endSplashTransition(){
             this.splashTransition.isActive = false

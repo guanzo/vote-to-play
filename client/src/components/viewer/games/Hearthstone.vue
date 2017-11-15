@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="hearthstone">
-        <voter :heroes="heroes" :filteredHeroes="heroes"></voter>
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes"></voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -25,7 +25,6 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.hearthstone.heroes,'name')
         },

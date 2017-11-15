@@ -26,13 +26,11 @@ window.Twitch.ext.onAuthorized(async function (auth) {
 });
 
 function pollSelectedGame(channelId){
-    //10 sec
-    let pollInterval = 5000
-
+    let pollInterval = 4000
     axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
         headers:{
             'Accept': 'application/vnd.twitchtv.v5+json',
-            'Client-ID':'0ms0a4rmjh6b7beixaqndrefsz1dfy',
+            'Client-ID':EXTENSION_CLIENT_ID,
         }
     })
     .then((response)=>{
@@ -61,7 +59,7 @@ function inIframe () {
 function getChannelName(channelId){
     return axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`,{
         headers:{
-            'Client-Id':'0ms0a4rmjh6b7beixaqndrefsz1dfy',
+            'Client-Id':EXTENSION_CLIENT_ID,
         }
     }).then((response)=>{
         let channelName = response.data.data[0].display_name;

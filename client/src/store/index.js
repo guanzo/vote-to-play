@@ -7,18 +7,19 @@ import overwatch    from './modules/games/overwatch'
 import lol          from './modules/games/lol'
 import hearthstone  from './modules/games/hearthstone'
 import hots         from './modules/games/hots'
+import allGames         from './modules/games/allGames'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
 const store = new Vuex.Store({
     state: {
-        selectedGame: '',
-        channelName: 'The broadcaster',
         channelId: -1,
+        channelName: 'The broadcaster',
         userId: -1,
-        voteType: null,//not used at the moment.
+        selectedGame: null,
+        voteType: null,//either selectedGame or 'All Games'
         votes:[],
-        selectedVote:{},
+        selectedCandidate:{},
         createdAt: null,
         isAuthed: false,
         token: null,
@@ -33,13 +34,10 @@ const store = new Vuex.Store({
         overwatch,
         lol,
         hearthstone,
-        hots
+        hots,
+        allGames
     },
     mutations: {
-        [MUTATIONS.SET_GAME]( state, payload ){
-            state.selectedGame = payload.game
-            state.selectedVote = {}
-        },
         [MUTATIONS.SET_AUTH]( state, payload ){
             state.isAuthed = true;
             state.token = payload.token;
@@ -47,7 +45,14 @@ const store = new Vuex.Store({
             state.channelName = payload.channelName
             state.userId = payload.userId
         },
-        [MUTATIONS.SET_VOTES]( state, payload ){
+        [MUTATIONS.SET_GAME]( state, { game } ){
+            state.selectedGame = game
+            state.selectedCandidate = {}
+        },
+        [MUTATIONS.SET_VOTE_TYPE]( state, { voteType } ){
+            state.voteType = voteType
+        },
+        [MUTATIONS.SET_CURRENT_VOTE]( state, payload ){
             state.voteType = payload.voteType
             state.votes = payload.votes;
             state.createdAt = payload.createdAt
@@ -55,24 +60,25 @@ const store = new Vuex.Store({
         [MUTATIONS.ADD_VOTE]( state, payload ){
             state.votes.push(payload.data)
         },
-        [MUTATIONS.START_NEW_VOTE]( state ){
+        [MUTATIONS.START_NEW_VOTE]( state, { voteType } ){
             state.votes = []
+            state.voteType = voteType
+        },
+        [MUTATIONS.SELECT_CANDIDATE]( state, { candidate } ){
+            state.selectedCandidate = candidate
         },
         [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state, payload ){
             state.TESTING.isSimulating = payload
         },
-        [MUTATIONS.SELECT_GAME]( state, payload ){
-            state.selectedGame = payload.game
-        },
-        [MUTATIONS.SELECT_VOTE]( state, payload ){
-            state.selectedVote = payload.vote
-        } 
     },
     actions:{
         [MUTATIONS.SET_GAME]( {state,commit}, payload ){
-            //if streamer changes game, need to erase current voting data
+            if(state.selectedGame !== null){
+                //streamer changes game mid broadcast, need to propagate to viewers
+                socket.startVote({ channelId: state.channelId, voteType: payload.game })
+                
+            }
             commit(MUTATIONS.SET_GAME, payload)
-            socket.startVote({ channelId: state.channelId })
         },
         [ACTIONS.VOTE]( {state}, payload ){
             socket.addVote({
@@ -89,7 +95,7 @@ const store = new Vuex.Store({
             });
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
-            socket.startVote({ channelId: state.channelId })
+            socket.startVote({ channelId: state.channelId, voteType: state.voteType })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
@@ -109,7 +115,7 @@ const store = new Vuex.Store({
             return _.find(state, (val,key)=>{
                 if(!val || !val.gameName)
                     return false;
-                return val.gameName == state.selectedGame
+                return val.gameName == state.voteType
             })
         },
         userVote: state => {
@@ -125,8 +131,8 @@ const store = new Vuex.Store({
             else
                 return getters.userVote != null
         },
-        hasSelectedVote : state => {
-            return !_.isEmpty(state.selectedVote);
+        hasSelectedCandidate : state => {
+            return !_.isEmpty(state.selectedCandidate);
         }
     }
 })

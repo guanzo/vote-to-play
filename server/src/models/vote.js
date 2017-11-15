@@ -40,7 +40,7 @@ module.exports = {
                     console.log(err)
                 })
     },
-    startVote({channelId, voteType = 'default'}){
+    startVote({channelId, voteType}){
         var channels = db.get().collection('channels')
         channels.createIndex({ channelId: 1 })
 
@@ -50,14 +50,14 @@ module.exports = {
                 $push: { 
                     //prepend to array
                     voteHistory: { 
-                        $each:[ createNewVoteObj() ],
+                        $each:[ createNewVoteObj(voteType) ],
                         $position: 0
                     } 
                 }
             }
         )
     },
-    addVote({channelId, vote, userId, voteType = 'default'}) {
+    addVote({channelId, vote, userId, voteType}) {
         var channels = db.get().collection('channels')
     
         /*
@@ -93,7 +93,7 @@ function addChannelDocument(channelId,channelName){
     return channels.updateOne({channelId},{ $setOnInsert: channel }, { upsert: true })
 }
 
-function createNewVoteObj(voteType = 'default'){
+function createNewVoteObj(voteType){
     var newVote = {
         _id: new ObjectID(),
         voteType,

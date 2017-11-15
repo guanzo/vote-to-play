@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="overwatch">
-        <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
 
             <div slot="filters">
                 <input v-model="query"placeholder="Search hero name">
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-
-
 
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
@@ -35,7 +33,6 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
         heroes(){
             return _.sortBy(this.$store.state.overwatch.heroes,'name')
         },

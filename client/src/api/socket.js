@@ -25,7 +25,7 @@ var throttle = throttledQueue(maxCalls, interval);
 function setListeners(){
 
     socket.on(`all-votes`, data => {
-        store.commit(MUTATIONS.SET_VOTES, data)
+        store.commit(MUTATIONS.SET_CURRENT_VOTE, data)
     });
     
     socket.on(`add-vote`, data => {
@@ -35,7 +35,7 @@ function setListeners(){
     });
 
     socket.on(`start-vote`, data => {
-        store.commit(MUTATIONS.START_NEW_VOTE)
+        store.commit(MUTATIONS.START_NEW_VOTE, data)
     });
 
     socket.on('error',console.error)

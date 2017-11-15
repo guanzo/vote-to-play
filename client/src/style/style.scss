@@ -12,6 +12,9 @@ table{
     display: flex;
     justify-content: center;
     align-items: center;
+    &.flex-center-column {
+        flex-direction: column;
+    }
 }
 
 .overlay-background {

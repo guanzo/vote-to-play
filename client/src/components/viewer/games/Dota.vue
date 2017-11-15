@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="dota">
-        <voter :heroes="heroes" :filteredHeroes="filteredHeroes">
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
 
             <div slot="filters">
                 <input v-model="query" placeholder="Search hero name">
@@ -16,12 +16,10 @@
 
 <script>
 
-
-
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_DOTA } from '@/store/modules/games/dota'
+import { NS_DOTA } from '@/store/modules/games/dota'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -36,7 +34,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','isAuthed']),
+        ...Vuex.mapState(['isAuthed']),
         heroes(){
             return _.sortBy(this.$store.state.dota.heroes,'name')
         },
@@ -51,8 +49,8 @@ export default {
     watch:{
         isAuthed: {
             handler(){
-                if(this.isAuthed)
-                    this.$store.dispatch(NAMESPACE_DOTA+'/'+GET_HEROES)
+                if(this.isAuthed && !this.heroes.length)
+                    this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
             },
             immediate: true
         }
