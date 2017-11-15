@@ -25,7 +25,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_HOTS } from '@/store/modules/hots'
+import { NAMESPACE_HOTS } from '@/store/modules/games/hots'
 
 const DEFAULT_ROLE = 'Group'
 const DEFAULT_SUBROLE = 'Subgroup'

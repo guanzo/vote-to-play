@@ -5,7 +5,7 @@
             <p>Starting a vote will<br>erase previous vote data.</p>
         </div>
         <br>
-        <vote-results class="vote-list">
+        <vote-results :displayImages="false" :test="'testtesttest'" class="vote-list">
         </vote-results>
 	</div>
 </template>

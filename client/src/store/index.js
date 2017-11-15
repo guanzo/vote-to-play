@@ -1,12 +1,12 @@
 import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
-import socket from '@/api/socket'
-import dota from './modules/dota'
-import overwatch from './modules/overwatch'
-import lol from './modules/lol'
-import hearthstone from './modules/hearthstone'
-import hots from './modules/hots'
+import socket       from '@/api/socket'
+import dota         from './modules/games/dota'
+import overwatch    from './modules/games/overwatch'
+import lol          from './modules/games/lol'
+import hearthstone  from './modules/games/hearthstone'
+import hots         from './modules/games/hots'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 

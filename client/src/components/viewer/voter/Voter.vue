@@ -36,7 +36,7 @@ import voterHeader from './VoterHeader'
 import imageGrid from './ImageGrid'
 import voterControls from './voterControls'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_DOTA } from '@/store/modules/dota'
+import { NAMESPACE_DOTA } from '@/store/modules/games/dota'
 
 /**
  * Intended behavior:

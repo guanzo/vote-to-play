@@ -27,7 +27,7 @@ window.Twitch.ext.onAuthorized(async function (auth) {
 
 function pollSelectedGame(channelId){
     //10 sec
-    let pollInterval = 10000
+    let pollInterval = 5000
 
     axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
         headers:{

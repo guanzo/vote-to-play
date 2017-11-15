@@ -5,7 +5,7 @@
         <transition name="fade">
             <div v-if="topAggregatedVotes.length"  key="results" >
                 <div class="header">Results</div>
-                <vote-table :votes="topAggregatedVotes"></vote-table>
+                <vote-table :votes="topAggregatedVotes" v-bind="$attrs" ></vote-table>
             </div>
             <div v-else class="no-results" key="noresults">
                 <div>Waiting for votes...</div>
@@ -18,7 +18,11 @@
     <transition name="fade-vertical">
         <div v-if="userVote" class="user-vote overlay-background">
             <div class="header">Your Vote</div>
-            <vote-table v-if="userAggregatedVote.length" :votes="userAggregatedVote"></vote-table>
+            <vote-table 
+                v-if="userAggregatedVote.length" 
+                :votes="userAggregatedVote"
+                v-bind="$attrs"
+            ></vote-table>
         </div>
     </transition>
 </div>
@@ -34,6 +38,7 @@ import voteTable from './VoteTable'
 
 export default {
     name: 'vote-results',
+    inheritAttrs: false,
     props:{
         maxResults: {
             type: Number,

@@ -2,8 +2,8 @@
 
 
 import util from '@/util'
-import * as MUTATIONS from '../mutations'
-import * as ACTIONS from '../actions'
+import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
 
 export const NAMESPACE_DOTA = 'dota'
 

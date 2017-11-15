@@ -12,7 +12,7 @@
             <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
                 <td class="vote-image">
-                    <div class="image-wrapper">
+                    <div v-if="displayImages" class="image-wrapper">
                         <img :src="getHeroImage(vote.vote)">
                     </div>
                 </td>
@@ -27,7 +27,14 @@
 
 export default {
     name:'vote-table',
-    props: ['votes'],
+    props: {
+        votes: Array,
+        //not enough room in live config for images
+        displayImages: {
+            type: Boolean,
+            default: true
+        }
+    },
     computed:{
         game(){
             return this.$store.getters.game
@@ -35,8 +42,6 @@ export default {
     },
 	methods:{
         getHeroImage(name){
-            if(!this.game)//no images for live config xd
-                return '';
             let hero = _.find(this.game.heroes,hero=>{
                 return hero.name.toLowerCase() == name.toLowerCase()
             })

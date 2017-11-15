@@ -21,7 +21,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NAMESPACE_LOL } from '@/store/modules/lol'
+import { NAMESPACE_LOL } from '@/store/modules/games/lol'
 
 const DEFAULT_ROLE = 'Roles'
 
