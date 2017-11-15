@@ -72,14 +72,6 @@ const store = new Vuex.Store({
         },
     },
     actions:{
-        [MUTATIONS.SET_GAME]( {state,commit}, payload ){
-            if(state.selectedGame !== null){
-                //streamer changes game mid broadcast, need to propagate to viewers
-                socket.startVote({ channelId: state.channelId, voteType: payload.game })
-                
-            }
-            commit(MUTATIONS.SET_GAME, payload)
-        },
         [ACTIONS.VOTE]( {state}, payload ){
             socket.addVote({
                 channelId: state.channelId,

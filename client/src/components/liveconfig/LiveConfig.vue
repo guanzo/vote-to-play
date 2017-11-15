@@ -24,6 +24,20 @@ import voteResults from '@/components/viewer/voteresults/VoteResults'
 
 import { SET_VOTE_TYPE } from '@/store/mutations'
 
+
+/*
+2 ways to start a vote:
+1. Click "start a vote"
+2. Change game during broadcast 
+    (b/c it would make no sense if current game was Dota, 
+        and you saw league heroes in the vote results)
+
+Vote type is implicitly set by the streamer's set game in twitch.
+Otherwise, vote type is toggled by streamer in live config
+
+Changing a game mid-broadcast will override current selected vote type
+*/
+
 export default {
 	name: 'live-config',
     computed:{
@@ -36,6 +50,16 @@ export default {
             get () { return this.$store.state.voteType },
             set (value) { this.$store.commit(SET_VOTE_TYPE, { voteType: value }) }
         },
+    },
+    watch:{
+        selectedGame(newGame, oldGame){
+            //do not start a vote on page refresh.
+            if(oldGame === null)
+                return;
+
+            this.$store.commit(SET_VOTE_TYPE, { voteType: newGame })
+            this.$store.dispatch(START_NEW_VOTE)
+        }
     },
     methods:{
         startVote(){
