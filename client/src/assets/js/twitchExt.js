@@ -22,13 +22,14 @@ window.Twitch.ext.onAuthorized(async function (auth) {
         userId: auth.userId, 
         role 
     })
+    pollSelectedGame(auth.channelId)
 });
 
-(function pollSelectedGame(){
+function pollSelectedGame(channelId){
     //10 sec
     let pollInterval = 10000
 
-    axios.get(`https://api.twitch.tv/kraken/channels/23435553`,{
+    axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
         headers:{
             'Accept': 'application/vnd.twitchtv.v5+json',
             'Client-ID':'0ms0a4rmjh6b7beixaqndrefsz1dfy',
@@ -40,9 +41,9 @@ window.Twitch.ext.onAuthorized(async function (auth) {
         if(game != storeGame)
             store.commit(SET_GAME, { game })
         
-        setTimeout(pollSelectedGame,pollInterval)
+        setTimeout(()=>pollSelectedGame(channelId),pollInterval)
     })
-})()
+}
 
 
 window.Twitch.ext.onError(function (err) {
