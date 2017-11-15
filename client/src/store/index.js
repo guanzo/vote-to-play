@@ -70,6 +70,7 @@ const store = new Vuex.Store({
     },
     actions:{
         [MUTATIONS.SET_GAME]( {state,commit}, payload ){
+            //if streamer changes game, need to erase current voting data
             commit(MUTATIONS.SET_GAME, payload)
             socket.startVote({ channelId: state.channelId })
         },

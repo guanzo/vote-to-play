@@ -19,6 +19,7 @@
             </image-grid>
             <voter-controls
                 :hasSelectedVote="hasSelectedVote" 
+                :hasSubmittedVote="hasSubmittedVote"
                 :vote="selectedVote.name"
                 @submit-vote="startSplashTransition"
                  :class="invisible"

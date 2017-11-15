@@ -20,8 +20,6 @@ export default {
             splashImg: null
         }
     },
-    mounted(){
-    },
     watch:{
         'splashTransition.isActive'(isActive){
             if(!isActive){

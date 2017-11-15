@@ -23,7 +23,7 @@ import { VOTE } from '@/store/actions'
 export default {
     name: 'voter-controls',
     mixins:[VoteSimulation],
-    props:['hasSelectedVote','vote'],
+    props:['hasSelectedVote','hasSubmittedVote','vote'],
     data(){
         return {
             loading: false,
@@ -31,7 +31,6 @@ export default {
     },
     computed:{
         ...Vuex.mapState(['userId']),
-        ...Vuex.mapGetters(['hasSubmittedVote']),
         allowedToVote(){
             return !this.hasSubmittedVote && !this.loading
         },

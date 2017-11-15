@@ -11,7 +11,7 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game :selectedGame="selectedGame"></game>
+                <game-master :selectedGame="selectedGame"></game-master>
             </div>
         </transition>
     </div>
@@ -21,7 +21,7 @@
 
 
 import TestUtil from './test/TestUtil'
-import Game from './games/Game'
+import GameMaster from './games/GameMaster'
 
 export default {
     name: 'viewer',
@@ -57,7 +57,7 @@ export default {
         },
     },
     components:{
-        Game,
+        GameMaster,
         TestUtil,
     }
 }
