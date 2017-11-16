@@ -40,7 +40,7 @@ export default {
         setEndListener(){
             let el = this.$el.querySelector('img')
             el.addEventListener('animationend',()=>{
-                this.$emit('transition-done')
+                this.$emit('transitionDone')
             })
         }
     }

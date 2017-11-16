@@ -1,7 +1,7 @@
 
 
 export const SET_GAME = 'SET_GAME'
-export const SET_VOTE_TYPE = 'SET_VOTE_TYPE'
+export const SET_VOTE_CATEGORY = 'SET_VOTE_CATEGORY'
 
 export const SET_AUTH = 'SET_AUTH';
 export const SET_CURRENT_VOTE = 'SET_CURRENT_VOTE'
@@ -12,5 +12,6 @@ export const SET_HEROES = 'SET_HEROES'
 export const SELECT_CANDIDATE ='SELECT_CANDIDATE'
 
 export const SET_TOP_TWITCH_GAMES = 'SET_TOP_TWITCH_GAMES'
+export const SET_SEARCHED_GAMES = 'SET_SEARCHED_GAMES'
 //testing
 export const TOGGLE_VOTE_SIMULATION = 'TOGGLE_VOTE_SIMULATION'

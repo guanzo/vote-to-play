@@ -1,42 +1,11 @@
-<template>
-    <transition name="fade-vertical" @after-leave="afterUiLeave">
-        <div v-show="showUI" class="voter overlay-background">
-            <splash 
-                :splashTransition="splashTransition" 
-                :selectedCandidate="selectedCandidate"
-                @transition-done="endSplashTransition"
-            ></splash>
-            <voter-header
-                :hasSelectedCandidate="hasSelectedCandidate" 
-                :selectedCandidate="selectedCandidate"
-                 :class="invisible"
-            ></voter-header>
-            <image-grid 
-                :candidates="candidates"
-                :filteredCandidates="filteredCandidates"
-                 :class="invisible"
-            >
-            </image-grid>
-            <voter-controls
-                :hasSelectedCandidate="hasSelectedCandidate" 
-                :hasSubmittedVote="hasSubmittedVote"
-                :vote="selectedCandidate.name"
-                @submit-vote="startSplashTransition"
-                 :class="invisible"
-            >
-                <slot name="filters"></slot>
-            </voter-controls> 
-        </div>
-    </transition>
-</template>
+
 
 <script>
 
 import splash from './Splash'
-import voterHeader from './VoterHeader'
-import imageGrid from './ImageGrid'
-import voterControls from './voterControls'
-import { NS_DOTA } from '@/store/modules/games/dota'
+import voterHeader from '../VoterHeader'
+import imageGrid from '../ImageGrid'
+import voterControls from '../VoterControls'
 
 /**
  * Intended behavior:
@@ -59,8 +28,42 @@ function splashTransitionDefaults(){
 }
 
 export default {
-    name: 'voter',
+    name: 'hero-voter',
     props:['candidates','filteredCandidates'],
+    render(h){
+        return (
+            <transition name="fade-vertical" onAfterLeave={this.afterUiLeave}>
+                <div v-show={this.showUI} class="voter overlay-background">
+                <splash 
+                    splashTransition={this.splashTransition} 
+                    selectedCandidate={this.selectedCandidate}
+                    onTransitionDone={this.endSplashTransition}
+                ></splash>
+                <voter-header
+                    hasSelectedCandidate={this.hasSelectedCandidate}
+                    selectedCandidate={this.selectedCandidate}
+                    class={this.invisible}
+                ></voter-header>
+                <image-grid 
+                    candidates={this.candidates}
+                    filteredCandidates={this.filteredCandidates}
+                    class={this.invisible}
+                    scopedSlots={this.$scopedSlots}
+                >
+                </image-grid>
+                <voter-controls
+                    hasSelectedCandidate={this.hasSelectedCandidate}
+                    hasSubmittedVote={this.hasSubmittedVote}
+                    vote={this.selectedCandidate.name}
+                    onSubmitVote={this.startSplashTransition}
+                    class={this.invisible} 
+                >
+                 { this.$slots.filters }
+                </voter-controls> 
+                </div>
+            </transition>
+        )
+    },
     data(){
         return {
             splashTransition: splashTransitionDefaults()
@@ -86,6 +89,9 @@ export default {
                 this.splashTransition.hideVoteUI = true;
         }
     },
+    created(){
+        console.log(this)
+    },
     methods:{
         startSplashTransition(){
             if(this.selectedCandidate.imgSplash)
@@ -109,8 +115,7 @@ export default {
 
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
 
 .voter{
     position: relative;

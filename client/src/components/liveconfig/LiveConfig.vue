@@ -2,9 +2,9 @@
 	<div class="live-config">
         <div class="pure-form pure-form-stacked flex-center flex-center-column">
             <label for="vote-type">Choose vote category</label>
-            <select v-model="selectedVoteType" id="vote-type">
-                <option v-for="voteType in voteTypes" :key="voteType">
-                    {{voteType}}
+            <select v-model="selectedVoteCategory" id="vote-type">
+                <option v-for="voteCategory in voteCategorys" :key="voteCategory">
+                    {{voteCategory}}
                 </option>
             </select>
         </div>
@@ -22,7 +22,7 @@
 import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/viewer/voteresults/VoteResults'
 
-import { SET_VOTE_TYPE } from '@/store/mutations'
+import { SET_VOTE_CATEGORY } from '@/store/mutations'
 
 
 /*
@@ -41,14 +41,14 @@ Changing a game mid-broadcast will override current selected vote type
 export default {
 	name: 'live-config',
     computed:{
-        ...Vuex.mapState(['selectedGame','voteType']),
+        ...Vuex.mapState(['selectedGame','voteCategory']),
         ...Vuex.mapGetters(['game']),
-        voteTypes(){
+        voteCategorys(){
             return [this.selectedGame, this.$store.state.allGames.gameName]
         },
-        selectedVoteType: {
-            get () { return this.$store.state.voteType },
-            set (value) { this.$store.commit(SET_VOTE_TYPE, { voteType: value }) }
+        selectedVoteCategory: {
+            get () { return this.$store.state.voteCategory },
+            set (value) { this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value }) }
         },
     },
     watch:{
@@ -57,7 +57,7 @@ export default {
             if(oldGame === null)
                 return;
 
-            this.$store.commit(SET_VOTE_TYPE, { voteType: newGame })
+            this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: newGame })
             this.$store.dispatch(START_NEW_VOTE)
         }
     },

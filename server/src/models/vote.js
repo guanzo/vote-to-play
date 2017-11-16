@@ -10,7 +10,7 @@ var ObjectID = require('mongodb').ObjectID
  *          channelName: string,
  *          voteHistory: [
  *              {
- *                  voteType: '',
+ *                  voteCategory: '',
  *                  createdAt: '',
  *                  votes: [
         *              { vote: axe, userId: U4534434 }
@@ -40,7 +40,7 @@ module.exports = {
                     console.log(err)
                 })
     },
-    startVote({channelId, voteType}){
+    startVote({channelId, voteCategory}){
         var channels = db.get().collection('channels')
         channels.createIndex({ channelId: 1 })
 
@@ -50,14 +50,14 @@ module.exports = {
                 $push: { 
                     //prepend to array
                     voteHistory: { 
-                        $each:[ createNewVoteObj(voteType) ],
+                        $each:[ createNewVoteObj(voteCategory) ],
                         $position: 0
                     } 
                 }
             }
         )
     },
-    addVote({channelId, vote, userId, voteType}) {
+    addVote({channelId, vote, userId, voteCategory}) {
         var channels = db.get().collection('channels')
     
         /*
@@ -93,10 +93,10 @@ function addChannelDocument(channelId,channelName){
     return channels.updateOne({channelId},{ $setOnInsert: channel }, { upsert: true })
 }
 
-function createNewVoteObj(voteType){
+function createNewVoteObj(voteCategory){
     var newVote = {
         _id: new ObjectID(),
-        voteType,
+        voteCategory,
         votes: [],
         createdAt: new Date()
     }

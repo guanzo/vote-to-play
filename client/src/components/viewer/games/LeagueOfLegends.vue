@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="league-of-legends">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+        <hero-voter :candidates="heroes" :filteredCandidates="filteredHeroes">
             
             <div slot="filters">
                 <input v-model="query"placeholder="Search champion name">
@@ -9,7 +9,7 @@
                     <option v-for="role in roles" :key="role">{{ role }}</option>
                 </select>
             </div>
-        </voter>
+        </hero-voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -18,7 +18,7 @@
 
 
 
-import voter from '@/components/viewer/voter/Voter'
+import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
 import { NS_LOL } from '@/store/modules/games/lol'
@@ -47,7 +47,8 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
+        if(!this.heroes.length)
+            this.$store.dispatch(NS_LOL+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){
@@ -61,7 +62,7 @@ export default {
     },
     components:{
         voteResults,
-        voter
+        heroVoter
     }
 }
 </script>
@@ -73,7 +74,6 @@ export default {
     img {
         width: 100%;
         height: auto;
-
     }
     .image-wrapper{
         width: 40px;

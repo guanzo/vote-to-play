@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="hearthstone">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes"></voter>
+        <hero-voter :candidates="heroes" :filteredCandidates="filteredHeroes"></hero-voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -9,7 +9,7 @@
 
 
 
-import voter from '@/components/viewer/voter/Voter'
+import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
 import voteResults from '../voteresults/VoteResults'
 
 const DEFAULT_ROLE = 'Roles'
@@ -31,7 +31,7 @@ export default {
     },
     components:{
         voteResults,
-        voter
+        heroVoter
     }
 }
 </script>

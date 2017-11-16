@@ -25,7 +25,6 @@ export default {
 
 .game-unsupported {
     width: 500px !important;
-    
     padding: 15px;
 }
 

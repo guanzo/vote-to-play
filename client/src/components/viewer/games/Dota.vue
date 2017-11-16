@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="dota">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+        <hero-voter :candidates="heroes" :filteredCandidates="filteredHeroes">
 
             <div slot="filters">
                 <input v-model="query" placeholder="Search hero name">
@@ -9,14 +9,14 @@
                     <option v-for="role in roles" :key="role">{{ role }}</option>
                 </select>
             </div>
-        </voter>
+        </hero-voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
 <script>
 
-import voter from '@/components/viewer/voter/Voter'
+import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
 import { NS_DOTA } from '@/store/modules/games/dota'
@@ -67,7 +67,7 @@ export default {
     },
     components:{
         voteResults,
-        voter
+        heroVoter
     }
 }
 </script>
@@ -76,13 +76,11 @@ export default {
 <style lang="scss">
 
 .dota{
+    
     //59x33 is original size.
     .image-wrapper{
         width: 59px;
         height: 33px;
-    }
-    .image-grid .image-wrapper{
-        margin: 2px;
     }
 }
 

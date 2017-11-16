@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="overwatch">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+        <hero-voter :candidates="heroes" :filteredCandidates="filteredHeroes">
 
             <div slot="filters">
                 <input v-model="query"placeholder="Search hero name">
@@ -10,14 +10,14 @@
                 </select>
             </div>
         
-        </voter>
+        </hero-voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
 
 <script>
 
-import voter from '@/components/viewer/voter/Voter'
+import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
 import voteResults from '../voteresults/VoteResults'
 
 const DEFAULT_ROLE = 'Roles'
@@ -55,7 +55,7 @@ export default {
     },
     components:{
         voteResults,
-        voter
+        heroVoter
     }
 }
 </script>
@@ -71,6 +71,9 @@ export default {
     .image-wrapper{
         width: 58px;
         height: 100px;
+    }
+    .default-vote .image-wrapper {
+        
     }
     .vote-results .image-wrapper {
         width: 29px;

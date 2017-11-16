@@ -17,7 +17,7 @@ const store = new Vuex.Store({
         channelName: 'The broadcaster',
         userId: -1,
         selectedGame: null,
-        voteType: null,//either selectedGame or 'All Games'
+        voteCategory: null,//either selectedGame or 'All Games'
         votes:[],
         selectedCandidate:{},
         createdAt: null,
@@ -49,20 +49,22 @@ const store = new Vuex.Store({
             state.selectedGame = game
             state.selectedCandidate = {}
         },
-        [MUTATIONS.SET_VOTE_TYPE]( state, { voteType } ){
-            state.voteType = voteType
+        [MUTATIONS.SET_VOTE_CATEGORY]( state, { voteCategory } ){
+            state.voteCategory = voteCategory
+            state.selectedCandidate = {}
         },
         [MUTATIONS.SET_CURRENT_VOTE]( state, payload ){
-            state.voteType = payload.voteType
+            state.voteCategory = payload.voteCategory
             state.votes = payload.votes;
             state.createdAt = payload.createdAt
         },
         [MUTATIONS.ADD_VOTE]( state, payload ){
             state.votes.push(payload.data)
         },
-        [MUTATIONS.START_NEW_VOTE]( state, { voteType } ){
+        [MUTATIONS.START_NEW_VOTE]( state, { voteCategory } ){
             state.votes = []
-            state.voteType = voteType
+            state.voteCategory = voteCategory
+            state.selectedCandidate = {}
         },
         [MUTATIONS.SELECT_CANDIDATE]( state, { candidate } ){
             state.selectedCandidate = candidate
@@ -87,7 +89,7 @@ const store = new Vuex.Store({
             });
         },
         [ACTIONS.START_NEW_VOTE]( {state} ){
-            socket.startVote({ channelId: state.channelId, voteType: state.voteType })
+            socket.startVote({ channelId: state.channelId, voteCategory: state.voteCategory })
         },
         [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
             commit(MUTATIONS.SET_AUTH, payload)
@@ -107,7 +109,7 @@ const store = new Vuex.Store({
             return _.find(state, (val,key)=>{
                 if(!val || !val.gameName)
                     return false;
-                return val.gameName == state.voteType
+                return val.gameName == state.voteCategory
             })
         },
         userVote: state => {

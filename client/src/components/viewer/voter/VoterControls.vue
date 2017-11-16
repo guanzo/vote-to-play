@@ -48,7 +48,7 @@ export default {
                 
             this.loading = true;
             this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
-            this.$emit('submit-vote')
+            this.$emit('submitVote')
         },
     }
 }

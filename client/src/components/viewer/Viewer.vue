@@ -2,7 +2,6 @@
     <div class="viewer">
         <div class="viewer-header">
             <test-util></test-util>
-            {{ voteType }}
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
@@ -12,7 +11,7 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game-master :selectedGame="selectedGame" :voteType="voteType"></game-master>
+                <game-master :selectedGame="selectedGame" :voteCategory="voteCategory"></game-master>
             </div>
         </transition>
     </div>
@@ -34,7 +33,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteType','votes','channelName','TESTING']),
+        ...Vuex.mapState(['selectedGame','voteCategory','votes','channelName','TESTING']),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         showLogo(){
             return this.isExpanded || this.showExpandTip
@@ -126,25 +125,6 @@ $header-element-size: 35px;
         margin-right: 15px;
     }
     
-    ::-webkit-scrollbar-track
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
-        background-color: rgba(0,0,0,0.75);
-    }
-
-    ::-webkit-scrollbar
-    {
-        width: 12px;
-        background-color: rgba(0,0,0,0.75);
-    }
-
-    ::-webkit-scrollbar-thumb
-    {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-        background-color: #555;
-    }
 }
 
 

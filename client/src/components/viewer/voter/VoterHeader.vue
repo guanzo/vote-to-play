@@ -1,17 +1,17 @@
 <template>
 
-<div class="your-vote">
+<div class="voter-header">
     <div v-if="!hasSelectedCandidate" class="default-vote flex-center">
         <div class="image-wrapper flex-center">
-            <span>?</span>
+            <div>?</div>
         </div>
-        <span>Your Vote</span>
+        <div>Your Vote</div>
     </div>
     <div v-else class="flex-center">
         <div class="image-wrapper flex-center">
             <img :src="selectedCandidate.img" :alt="selectedCandidate.img">
         </div>
-        <span>{{ selectedCandidate.name }}</span>
+        <div>{{ selectedCandidate.name }}</div>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
 <script>
 
 export default {
-    name:'your-vote',
+    name:'voter-header',
     props:['hasSelectedCandidate','selectedCandidate']
 }
 
@@ -29,7 +29,7 @@ export default {
 <style lang="scss" scoped>
 
 
-.your-vote {
+.voter-header {
     position: relative;
     display: flex;
     padding: 10px 0px;

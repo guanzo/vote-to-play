@@ -1,7 +1,7 @@
 <script>
 
 import allGames from './AllGames'
-import gameUnsupported from './GameUnsupported'
+import unsupported from './Unsupported'
 import dota from './Dota'
 import lol from './LeagueOfLegends'
 import overwatch from './Overwatch'
@@ -29,16 +29,16 @@ const gameMap = {
 //or a notification if the game isn't supported
 export default {
     functional: true,
-    props:['selectedGame','voteType'],
+    props:['selectedGame','voteCategory'],
     render(createElement, context){
-        var { selectedGame, voteType } = context.props
+        var { selectedGame, voteCategory } = context.props
         var component;
-        if(voteType == ALL_GAMES)
+        if(voteCategory == ALL_GAMES)
             component = allGames
         else if(gameMap[selectedGame])
             component = gameMap[selectedGame]
         else
-            component = gameUnsupported
+            component = unsupported
             
         return createElement(component)
     },
