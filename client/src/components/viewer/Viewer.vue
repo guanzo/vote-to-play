@@ -108,10 +108,10 @@ $header-element-size: 35px;
         }
     }
     .viewer-body{
-        color: #eee;
         flex: 1;
         display: flex;
         justify-content: flex-end;
+        overflow: hidden;
         > * {
             display: flex;
             align-items: flex-start;

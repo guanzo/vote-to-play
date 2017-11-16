@@ -19,8 +19,11 @@ export default {
         isSimulating(){
             return this.TESTING.isSimulating
         },
-        heroes(){
-            return _.sortBy(this.game.heroes,'name')
+        candidates(){
+            if(this.game.heroes)
+                return this.game.heroes
+            else
+                return this.game.topGames
         },
     },
     watch:{
@@ -45,18 +48,18 @@ export default {
     methods:{
         simulateVotes(){
             let votes = this.maxSimulationVotes
-            let heroPool = Math.min(25, this.heroes.length);
+            let candidatePool = Math.min(25, this.candidates.length);
             let intervalID = setInterval(()=>{
                 let userId = this.randomIntFromInterval(0, 100000)
-                let heroIndex = this.randomIntFromInterval(0, heroPool)
+                let candidateIndex = this.randomIntFromInterval(0, candidatePool)
 
                 if(userId == this.userId)
                     return;
 
-                if(this.heroes.length == 0)
+                if(this.candidates.length == 0)
                     return;
-                let heroName = this.heroes[heroIndex].name
-                this.$store.dispatch(SIMULATE_VOTE, { vote: heroName, userId  })
+                let candidateName = this.candidates[candidateIndex].name
+                this.$store.dispatch(SIMULATE_VOTE, { vote: candidateName, userId  })
                 
             },500)
             return intervalID

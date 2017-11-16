@@ -37,25 +37,27 @@ export default {
                     <Splash 
                         splashTransition={this.splashTransition} 
                         selectedCandidate={this.selectedCandidate}
+
                         onTransitionDone={this.endSplashTransition}
                     ></Splash>
                     <VoterHeader
                         hasSelectedCandidate={this.hasSelectedCandidate}
                         selectedCandidate={this.selectedCandidate}
-                        class={this.invisible}
+                        class={this.isInvisible}
                     ></VoterHeader>
                     <ImageGrid 
                         candidates={this.candidates}
                         filteredCandidates={this.filteredCandidates}
-                        class={this.invisible}
+                        class={this.isInvisible}
                         scopedSlots={this.$scopedSlots}
                     ></ImageGrid>
                     <VoterControls
                         hasSelectedCandidate={this.hasSelectedCandidate}
                         hasSubmittedVote={this.hasSubmittedVote}
                         vote={this.selectedCandidate.name}
+                        class={this.isInvisible} 
+
                         onSubmitVote={this.startSplashTransition}
-                        class={this.invisible} 
                     >
                     { this.$slots.filters }
                     </VoterControls> 
@@ -74,7 +76,7 @@ export default {
         showUI(){
             return !this.hasSubmittedVote || this.splashTransition.isActive
         },
-        invisible(){
+        isInvisible(){
             return { 'invisible': this.splashTransition.hideVoteUI }
         }
     },
@@ -112,9 +114,19 @@ export default {
     padding: 15px;
     max-height: 100%;
     min-height: 300px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    grid-row-gap: 15px;
+    /* grid-template:
+        auto "header" auto
+        auto "main" auto
+        auto "footer" auto
+        / auto auto auto; */
     
     .invisible{
         opacity: 0;

@@ -56,17 +56,11 @@ $duration: 10s;
   100% {filter: hue-rotate(360deg)}
 }
 
-// Just some styles to get everything centred.
-body {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-}
 
 // Set the rotation to '-135deg' to get a heart shaped loading indicator. 😘
 .loading {
   position: relative;
+  margin: 15px;
   width: $square * 3;
   height: $square * 3;
   transform: rotate(45deg);

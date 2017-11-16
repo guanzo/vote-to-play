@@ -58,8 +58,7 @@ export default {
 <style lang="scss">
 
 .vote-controls{
-    min-height: 40px;
-    padding-top: 10px;
+    grid-area: footer;
     position: relative;
     display: flex;
     justify-content: space-between;

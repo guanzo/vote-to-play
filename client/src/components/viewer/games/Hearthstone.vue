@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="hearthstone">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes"></voter>
+        <voter :candidates="heroes" :filteredCandidates="heroes"></voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -49,6 +49,10 @@ export default {
         object-fit: cover;
     }
     
+    .voter-header .image-wrapper{
+        width: 56px;
+        height: 90px;
+    }
     .image-wrapper {
         width: 75px;
         height: 120px;

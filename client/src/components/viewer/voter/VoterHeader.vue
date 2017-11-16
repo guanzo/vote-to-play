@@ -30,9 +30,9 @@ export default {
 
 
 .voter-header {
+    grid-area: header;
     position: relative;
     display: flex;
-    padding: 10px 0px;
     justify-content: center;
     font-size: 1.5em;
     color: white;

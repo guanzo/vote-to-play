@@ -72,8 +72,9 @@ export default {
         width: 58px;
         height: 100px;
     }
-    .default-vote .image-wrapper {
-        
+    .voter-header .image-wrapper{
+        width: 43px;
+        height: 75px;
     }
     .vote-results .image-wrapper {
         width: 29px;

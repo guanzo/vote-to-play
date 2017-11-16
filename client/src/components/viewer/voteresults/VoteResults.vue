@@ -9,7 +9,6 @@
             </div>
             <div v-else class="no-results" key="noresults">
                 <div>Waiting for votes...</div>
-                <br>
                 <loading></loading>
             </div>
         </transition>

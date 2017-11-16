@@ -20,7 +20,9 @@
 
 <script>
 import { SELECT_CANDIDATE } from '@/store/mutations'
-
+/**
+ * candidates may or may not be filterable
+ */
 export default {
     name:'image-grid',
     props:['candidates','filteredCandidates'],
@@ -54,10 +56,10 @@ export default {
 <style lang="scss" scoped>
 
 .image-grid{
+    grid-area: main;
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    margin: 10px 0px;
     overflow-y: auto;
     overflow-x: hidden;
     transition: .5s;
