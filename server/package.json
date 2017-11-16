@@ -18,7 +18,7 @@
     "socket.io": "^2.0.3"
   },
   "scripts": {
-    "start": "node src/",
+    "start": "nodemon src/",
     "test": "mocha src/**/*.spec.js --recursive"
   }
 }

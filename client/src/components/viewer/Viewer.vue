@@ -20,7 +20,7 @@
 <script>
 
 
-import TestUtil from './test/TestUtil'
+import TestUtil from './testgui/TestUtil'
 import GameMaster from './games/GameMaster'
 
 export default {
