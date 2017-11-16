@@ -60,6 +60,12 @@ table{
     border-spacing: 0;
 }
 
+.ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
@@ -67,6 +73,13 @@ table{
     &.flex-center-column {
         flex-direction: column;
     }
+}
+
+.absolute-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .text-center {

@@ -2,10 +2,10 @@
 
 <script>
 
-import splash from './Splash'
-import voterHeader from '../VoterHeader'
-import imageGrid from '../ImageGrid'
-import voterControls from '../VoterControls'
+import Splash from './Splash'
+import VoterHeader from './VoterHeader'
+import ImageGrid from './ImageGrid'
+import VoterControls from './VoterControls'
 
 /**
  * Intended behavior:
@@ -28,38 +28,37 @@ function splashTransitionDefaults(){
 }
 
 export default {
-    name: 'hero-voter',
+    name: 'voter',
     props:['candidates','filteredCandidates'],
-    render(h){
+    render(h){//using jsx in order to pass scoped slot from this parent to this child
         return (
             <transition name="fade-vertical" onAfterLeave={this.afterUiLeave}>
                 <div v-show={this.showUI} class="voter overlay-background">
-                <splash 
-                    splashTransition={this.splashTransition} 
-                    selectedCandidate={this.selectedCandidate}
-                    onTransitionDone={this.endSplashTransition}
-                ></splash>
-                <voter-header
-                    hasSelectedCandidate={this.hasSelectedCandidate}
-                    selectedCandidate={this.selectedCandidate}
-                    class={this.invisible}
-                ></voter-header>
-                <image-grid 
-                    candidates={this.candidates}
-                    filteredCandidates={this.filteredCandidates}
-                    class={this.invisible}
-                    scopedSlots={this.$scopedSlots}
-                >
-                </image-grid>
-                <voter-controls
-                    hasSelectedCandidate={this.hasSelectedCandidate}
-                    hasSubmittedVote={this.hasSubmittedVote}
-                    vote={this.selectedCandidate.name}
-                    onSubmitVote={this.startSplashTransition}
-                    class={this.invisible} 
-                >
-                 { this.$slots.filters }
-                </voter-controls> 
+                    <Splash 
+                        splashTransition={this.splashTransition} 
+                        selectedCandidate={this.selectedCandidate}
+                        onTransitionDone={this.endSplashTransition}
+                    ></Splash>
+                    <VoterHeader
+                        hasSelectedCandidate={this.hasSelectedCandidate}
+                        selectedCandidate={this.selectedCandidate}
+                        class={this.invisible}
+                    ></VoterHeader>
+                    <ImageGrid 
+                        candidates={this.candidates}
+                        filteredCandidates={this.filteredCandidates}
+                        class={this.invisible}
+                        scopedSlots={this.$scopedSlots}
+                    ></ImageGrid>
+                    <VoterControls
+                        hasSelectedCandidate={this.hasSelectedCandidate}
+                        hasSubmittedVote={this.hasSubmittedVote}
+                        vote={this.selectedCandidate.name}
+                        onSubmitVote={this.startSplashTransition}
+                        class={this.invisible} 
+                    >
+                    { this.$slots.filters }
+                    </VoterControls> 
                 </div>
             </transition>
         )
@@ -89,9 +88,6 @@ export default {
                 this.splashTransition.hideVoteUI = true;
         }
     },
-    created(){
-        console.log(this)
-    },
     methods:{
         startSplashTransition(){
             if(this.selectedCandidate.imgSplash)
@@ -105,12 +101,6 @@ export default {
             this.splashTransition = splashTransitionDefaults()
         }
     },
-    components:{
-        voterHeader,
-        imageGrid,
-        voterControls,
-        splash
-    }
 }
 
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div v-if="heroes.length" class="heroes-of-the-storm">
-        <hero-voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
             
             <div slot="filters">
                 <input v-model="query"placeholder="Search hero name">
@@ -13,7 +13,7 @@
                     <option v-for="role in subroles" :key="role">{{ role }}</option>
                 </select>
             </div>
-        </hero-voter>
+        </voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -22,7 +22,7 @@
 
 
 
-import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
+import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
 import { NS_HOTS } from '@/store/modules/games/hots'
@@ -74,7 +74,7 @@ export default {
     },
     components:{
         voteResults,
-        heroVoter
+        voter
     }
 }
 </script>

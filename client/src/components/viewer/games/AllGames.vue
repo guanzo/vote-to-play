@@ -1,19 +1,19 @@
 <template>
 
 <div class="all-games">
-    <hero-voter class="voter-all-games" :candidates="candidates" :filteredCandidates="candidates">
+    <voter class="voter-all-games" :candidates="candidates" :filteredCandidates="candidates">
         <div class="game" slot-scope="{ candidate }" slot="candidate">
             <div class="image-wrapper candidate">
                 <img :src="candidate.img">
             </div>
             <div class="game-name">
-                <div>{{ candidate.name }}</div>
+                <div class="ellipsis">{{ candidate.name }}</div>
             </div>
         </div>
         <div slot="filters">
             <input v-model="query" placeholder="Search games">
         </div>
-    </hero-voter>
+    </voter>
     <vote-results :maxResults="maxResults"></vote-results>
 </div>
 
@@ -21,8 +21,7 @@
 
 <script> 
 
-import heroVoter from '@/components/viewer/voter/herovoter/HeroVoter'
-import gameVoter from '@/components/viewer/voter/gamevoter/GameVoter'
+import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_TOP_TWITCH_GAMES } from '@/store/actions'
 import { NS_ALLGAMES } from '@/store/modules/games/allGames'
@@ -31,19 +30,23 @@ const TWITCH_SEARCH_URL = 'https://api.twitch.tv/kraken/search/games'
 
 import { SET_SEARCHED_GAMES } from '@/store/mutations'
 
+/*
+If no query, show popular games, else show games that match query
+*/
+
 export default {
     name: 'all-games',
     data(){
         return {
             query:'',
             maxResults: 5,
-            engine: null
+            engine: null,
         }
     },
     computed:{
         ...Vuex.mapState(NS_ALLGAMES,['topGames','searchedGames']),
         candidates(){
-            return this.searchedGames.length ? this.searchedGames : this.topGames
+            return this.query.length ? this.searchedGames : this.topGames
         }
     },
     watch:{
@@ -79,7 +82,10 @@ export default {
                                 'Client-ID': EXTENSION_CLIENT_ID
                             }
                         })
-                        .then(res=>res.data.games)
+                        .then(res=>{
+                            let games = res.data.games
+                            return games !== null ? games : []
+                        })
                 }
             },
         });
@@ -92,10 +98,7 @@ export default {
             if(!this.engine)//wait for ajax
                 return;
             if(query.length == 0)
-                this.$store.commit(NS_ALLGAMES+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
-            let minLength = 2;
-            if(query.length <= minLength)
-                return;
+                return this.$store.commit(NS_ALLGAMES+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
             var maxResults = 10;
             this.engine.search(query,this.syncCallback,this.asyncCallback)
         },
@@ -110,13 +113,13 @@ export default {
         },
     },
     components:{
-        heroVoter,
+        voter,
         voteResults,
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .all-games{
     
@@ -134,6 +137,7 @@ export default {
     }
     .voter-all-games{
         overflow: hidden;
+        flex: 1; //ensure always full width, so the div doesn't jump around when querying
         .game{
             display: flex;
             flex-direction: column;
@@ -143,11 +147,6 @@ export default {
             margin: 3px;
             .game-name {
                 max-width: 100%;
-                > div {
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                }
             }
         }
     }

@@ -1,14 +1,19 @@
 <template>
-    <div class="image-grid candidate-pool" :style="overflow">
-        <div v-for="(candidate,i) in candidates"
-            @click="selectCandidate(candidate)"
-            :key="candidate.name"
-        >
-            <slot :candidate="candidate" name="candidate">
-                <div class="image-wrapper candidate" :class="filterClass(candidate)" >
-                    <img :src="candidate.img" :alt="candidate.name">
-                </div>
-            </slot>
+    <div class="image-grid candidate-pool" :style="justify">
+        <template v-if="candidates.length">
+            <div v-for="(candidate,i) in candidates"
+                @click="selectCandidate(candidate)"
+                :key="candidate.name"
+            >
+                <slot :candidate="candidate" name="candidate">
+                    <div class="image-wrapper candidate" :class="filterClass(candidate)" >
+                        <img :src="candidate.img" :alt="candidate.name">
+                    </div>
+                </slot>
+            </div>
+        </template>
+        <div v-else class="flex-center">
+            No Results
         </div>
     </div>
 </template>
@@ -23,6 +28,11 @@ export default {
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
         },
+        justify(){
+            return {
+                'justify-content': this.candidates.length ? 'start' : 'center'
+            }
+        }
     },
     methods:{
         selectCandidate(candidate){

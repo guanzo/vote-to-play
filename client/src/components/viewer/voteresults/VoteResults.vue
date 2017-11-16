@@ -31,10 +31,8 @@
 
 <script>
 
-
 import loading from '@/components/Loading'
 import voteTable from './VoteTable'
-
 
 export default {
     name: 'vote-results',
@@ -52,7 +50,7 @@ export default {
             let totalVotes = this.votes.length;
             return _(this.votes)
                 .countBy('vote')
-                .map((count, vote)=> ({ vote, count, percent: Math.round((count/totalVotes)*100) }))
+                .map((count, vote)=> ({ vote, count, /* percent: Math.round((count/totalVotes)*100) */ }))
                 .sortBy('count')
                 .reverse()
                 .map((vote,i)=>{

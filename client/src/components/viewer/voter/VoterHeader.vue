@@ -11,7 +11,7 @@
         <div class="image-wrapper flex-center">
             <img :src="selectedCandidate.img" :alt="selectedCandidate.img">
         </div>
-        <div>{{ selectedCandidate.name }}</div>
+        <div class="ellipsis">{{ selectedCandidate.name }}</div>
     </div>
 </div>
 
@@ -38,10 +38,16 @@ export default {
     color: white;
     text-shadow: #000 0px 0px 2px;
     transition: .5s;
+    > * {
+        max-width: 100%;
+    }
     .default-vote {
         .image-wrapper{
             background: #333;
         }
+    }
+    .ellipsis{
+        flex: 1;
     }
     .image-wrapper{
         margin-right: 10px;

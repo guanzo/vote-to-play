@@ -12,8 +12,8 @@
             <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
                 <td class="vote-image">
-                    <div v-if="displayImages" class="image-wrapper">
-                        <img :src="getHeroImage(vote.vote)">
+                    <div v-if="displayImages && getImage(vote.vote)" class="image-wrapper">
+                        <img :src="getImage(vote.vote)">
                     </div>
                 </td>
                 <td class="vote-name">{{ vote.vote }}</td> 
@@ -41,11 +41,11 @@ export default {
         },
     },
 	methods:{
-        getHeroImage(name){
+        getImage(name){
             let hero = _.find(this.game.heroes,hero=>{
                 return hero.name.toLowerCase() == name.toLowerCase()
             })
-            return hero.img
+            return hero ? hero.img : ''
         },
         beforeLeave(tr){
             //td widths collapse during list-leave b/c of position: absolute.
