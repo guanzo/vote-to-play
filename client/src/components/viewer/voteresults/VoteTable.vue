@@ -12,8 +12,8 @@
             <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
                 <td class="vote-image">
-                    <div v-if="displayImages && getImage(vote.vote)" class="image-wrapper">
-                        <img :src="getImage(vote.vote)">
+                    <div v-if="displayImages" class="image-wrapper">
+                        <img :src="getHeroImage(vote.vote)">
                     </div>
                 </td>
                 <td class="vote-name">{{ vote.vote }}</td> 
@@ -41,7 +41,10 @@ export default {
         },
     },
 	methods:{
-        getImage(name){
+        //only support images for supported games, not "All Games"
+        getHeroImage(name){
+            if(!this.game.heroes)
+                return '';
             let hero = _.find(this.game.heroes,hero=>{
                 return hero.name.toLowerCase() == name.toLowerCase()
             })

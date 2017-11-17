@@ -14,7 +14,7 @@
             <input v-model="query" placeholder="Search games">
         </div>
     </voter>
-    <vote-results :maxResults="maxResults"></vote-results>
+    <vote-results :displayImages="false"  :maxResults="maxResults"></vote-results>
 </div>
 
 </template>
@@ -32,6 +32,8 @@ import { SET_SEARCHED_GAMES } from '@/store/mutations'
 
 /*
 If no query, show popular games, else show games that match query
+
+too much work to display images for any game..
 */
 
 export default {
