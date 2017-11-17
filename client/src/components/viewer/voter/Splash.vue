@@ -5,7 +5,10 @@
                 :class="splashTransition.splashClass" 
                 :style="splashTransition.splashStyle" 
                 :src="splashImg"
-            >    
+            >
+            <div v-if="selectedCandidate.title" class="hero-title">
+                {{ selectedCandidate.title }}
+            </div>
         </div>
     </transition>
 </template>
@@ -82,6 +85,15 @@ $shift-amount: 5;
         &.animate-to-left{
             animation: shift-to-left forwards;
         }
+    }
+    .hero-title{
+        color: white;
+        font-size: 1.5em;
+        text-shadow: #000 0px 0px 2px;
+        position: absolute;
+        bottom: 15px;
+        left:50%;
+        transform: translate(-50%, 0%);
     }
 }
 
