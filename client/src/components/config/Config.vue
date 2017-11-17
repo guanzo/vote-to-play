@@ -2,13 +2,13 @@
 	<div class="config">
         <p>Thanks for installing Vote to Play!</p>
         <p>
-            If you want viewers to votes on game characters, make sure you set the game in your stream information.
+            If you want viewers to vote on game characters, make sure you set the game in your stream information.
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch.
         </p>
 		<p>
             If you want viewers to vote on games, select "All Games" as the vote type, and click "Start a Vote".
         </p>
-        <p>You can do all this on your Dashboard - Live. Changing the game will also trigger a vote</p>
+        <p>You can do all this on your Dashboard - Live. Changing the game will also trigger a vote.</p>
         <p>Remember, you also get to vote!</p>
         
         <br>
