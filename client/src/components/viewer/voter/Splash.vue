@@ -89,7 +89,7 @@ $shift-amount: 5;
     .hero-title{
         color: white;
         font-size: 1.5em;
-        text-shadow: #000 0px 0px 2px;
+        text-shadow: #000 0px 0px 3px;
         position: absolute;
         bottom: 15px;
         left:50%;
