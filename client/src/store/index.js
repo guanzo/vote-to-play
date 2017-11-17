@@ -7,6 +7,7 @@ import overwatch    from './modules/games/overwatch'
 import lol          from './modules/games/lol'
 import hearthstone  from './modules/games/hearthstone'
 import hots         from './modules/games/hots'
+import battlerite   from './modules/games/battlerite'
 import allGames         from './modules/games/allGames'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
@@ -132,6 +133,7 @@ const store = new Vuex.Store({
         lol,
         hearthstone,
         hots,
+        battlerite,
         allGames
     },
     mutations,

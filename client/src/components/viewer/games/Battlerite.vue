@@ -1,9 +1,9 @@
 <template>
-    <div v-if="heroes.length" class="dota">
+    <div v-if="heroes.length" class="battlerite">
         <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
 
             <div slot="filters">
-                <input v-model="query" placeholder="Search hero name">
+                <input v-model="query" placeholder="Search champion name">
                 <select v-model="selectedRole">
                     <option>{{ DEFAULT_ROLE }}</option>
                     <option v-for="role in roles" :key="role">{{ role }}</option>
@@ -19,12 +19,12 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '../voteresults/VoteResults'
 import { GET_HEROES } from '@/store/actions'
-import { NS_DOTA } from '@/store/modules/games/dota'
+import { NS_BR } from '@/store/modules/games/battlerite'
 
-const DEFAULT_ROLE = 'Roles'
+const DEFAULT_ROLE = 'Class'
 
 export default {
-    name: 'dota',
+    name: 'battlerite',
     data(){
         return {
             query:'',
@@ -34,26 +34,19 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['isAuthed']),
         heroes(){
-            return _.sortBy(this.$store.state.dota.heroes,'name')
+            return _.sortBy(this.$store.state.battlerite.heroes,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
+            return _(this.heroes).map(hero=>hero.class).uniq().sort().value()
         },
         filteredHeroes(){
             return this.heroes.filter(this.filterHero)
         }
     },
-    
-    watch:{
-        isAuthed: {
-            handler(){
-                if(this.isAuthed && !this.heroes.length)
-                    this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
-            },
-            immediate: true
-        }
+    created(){
+        if(!this.heroes.length)
+            this.$store.dispatch(NS_BR+'/'+GET_HEROES)
     },
     methods:{
         filterHero(hero){
@@ -61,7 +54,7 @@ export default {
             if(this.query.length)
                 result = hero.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.roles.includes(this.selectedRole)
+                result = result && hero.class == this.selectedRole
             return result;
         },
     },
@@ -75,15 +68,20 @@ export default {
 
 <style lang="scss">
 
-.dota{
+.battlerite{
     img {
         width: 100%;
         height: auto;
     }
-    //59x33 is original size.
     .image-wrapper{
-        width: 59px;
-        height: 33px;
+        width: 125px;
+        height: 68px;
+    } 
+    .splash-img-container img.splash-img{
+        object-fit: contain;
+    }
+    select{
+        text-transform: capitalize;
     }
 }
 

@@ -7,6 +7,7 @@ import lol from './LeagueOfLegends'
 import overwatch from './Overwatch'
 import hearthstone from './Hearthstone'
 import hots from './Hots'
+import battlerite from './Battlerite'
 
 import { ALL_GAMES } from '@/store/modules/games/allGames'
 
@@ -16,6 +17,7 @@ const TWITCH_NAME_OVERWATCH = 'Overwatch'
 const TWITCH_NAME_LOL = 'League of Legends'
 const TWITCH_NAME_HEARTHSTONE = 'Hearthstone'
 const TWITCH_NAME_HOTS = 'Heroes of the Storm'
+const TWITCH_NAME_BATTLERITE = 'Battlerite'
 
 const gameMap = {
     [TWITCH_NAME_DOTA]: dota,
@@ -23,6 +25,7 @@ const gameMap = {
     [TWITCH_NAME_LOL]: lol,
     [TWITCH_NAME_HEARTHSTONE]: hearthstone,
     [TWITCH_NAME_HOTS]: hots,
+    [TWITCH_NAME_BATTLERITE]: battlerite
 }
 
 //functional component that returns the game view,
