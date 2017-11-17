@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
