@@ -5,7 +5,10 @@ import { SET_AUTH, SET_GAME } from '@/store/mutations'
 //testing on localhost window, and not inside twitch iframe
 //i need to join a room so that i can cast votes locally
 if(!inIframe() && process.env.NODE_ENV == 'development'){
-    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, channelName: 'guanzo' })
+    let token = process.env.TOKEN
+    let role = 'broadcaster'
+    console.log(token)
+    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
 }
 
 window.Twitch.ext.onAuthorized(async function (auth) {
@@ -14,7 +17,7 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var payload = JSON.parse(window.atob(parts[1]));
     var role = payload.role
     let channelName = await getChannelName(auth.channelId)
-    
+
     store.dispatch(SET_AUTH, { 
         channelId: auth.channelId, 
         channelName, 

@@ -11,23 +11,39 @@ module.exports = function (config) {
     // 1. install corresponding karma launcher
     //    http://karma-runner.github.io/0.13/config/browsers.html
     // 2. add it to the `browsers` array below.
-    browsers: ['PhantomJS'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
-    reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    singleRun: true,
+    browsers: ['ChromeHeadless'],
+    frameworks: ['mocha', 'sinon-chai'],
+    reporters: ['spec'],
+    files: [
+        //'https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js',
+        '../../static/js/lodash.min.js',
+        '../../static/js/cloudinary-core.min.js',
+        '../../static/js/init-cloudinary.js',
+        '../../static/js/axios.min.js',
+        '../../static/js/bloodhound.min.js',
+        '../../static/js/d3-ease.min.js',
+        '../../static/js/d3-interpolate.min.js',
+        '../../static/js/socket.io.js',
+        '../../static/js/throttled-queue.min.js',
+        '../../static/js/vue.runtime.min.js',
+        '../../static/js/vue-router.min.js',
+        '../../static/js/vuex.min.js',
+        './index.js'
+    ],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true
-    },
+    },/* 
     coverageReporter: {
       dir: './coverage',
       reporters: [
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
       ]
-    }
+    } */
   })
 }

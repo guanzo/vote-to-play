@@ -7,14 +7,9 @@
 <script>
 
 export default {
-	name: 'app',
-    computed:{
-        channelId(){
-            return this.$store.state.channelId
-        }
-    },
+    name: 'app',
     created(){
-        
+        //console.log(this)
     }
 }
 </script>
@@ -23,12 +18,9 @@ export default {
 
 @import '~@/style/style.scss';
 
-html{
-    background: transparent !important;
-}
-
 html,
 body {
+    background: transparent !important;
     margin: 0;
     padding: 0;
     height: 100%;

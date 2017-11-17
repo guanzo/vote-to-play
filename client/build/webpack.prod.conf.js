@@ -81,11 +81,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         : config.build.index,
       template: 'index.html',
       inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
+      minify: false,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
@@ -94,11 +90,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         template: config.twitchTemplate,
         title:"viewer",
         inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-        },
+        minify: false,
         chunksSortMode: 'dependency'
       }),
       new HtmlWebpackPlugin({
@@ -106,11 +98,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         template: config.twitchTemplate,
         title:"liveconfig",
         inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-        },
+        minify: false,
         chunksSortMode: 'dependency'
       }),
       new HtmlWebpackPlugin({
@@ -118,11 +106,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         template: config.twitchTemplate,
         title:"config",
         inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-        },
+        minify: false,
         chunksSortMode: 'dependency'
       }),
     // keep module.id stable when vender modules does not change

@@ -36,6 +36,8 @@ export default {
             }
         }
     },
+    created(){
+    },
     methods:{
         selectCandidate(candidate){
             this.$store.commit(SELECT_CANDIDATE, { candidate })

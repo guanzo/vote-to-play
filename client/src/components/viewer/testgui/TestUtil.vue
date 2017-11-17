@@ -14,7 +14,7 @@
 <script>
 
 
-import { TOGGLE_VOTE_SIMULATION, SET_VOTE_CATEGORY } from '@/store/mutations'
+import { TOGGLE_VOTE_SIMULATION, SET_GAME, SET_VOTE_CATEGORY } from '@/store/mutations'
 
 import { START_NEW_VOTE } from '@/store/actions'
 export default {
@@ -40,9 +40,10 @@ export default {
         },
         selectedGameVModel: {
             get () {
-                return this.$store.state.voteType
+                return this.$store.state.voteCategory
             },
             set (value) {
+                this.$store.commit(SET_GAME, { game: value })
                 this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value })
             }
         },

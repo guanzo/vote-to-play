@@ -1,15 +1,15 @@
 {
-  "name": "testvuecli",
-  "version": "1.0.0",
-  "description": "A Vue.js project",
+  "name": "votetoplay",
+  "version": "1.4.0",
+  "description": "A twitch extension that allows viewers to vote",
   "author": "eric guan <guanzo91@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --https --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
+    "test": "npm run unit",
     "build": "node build/build.js"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
+    "dotenv-webpack": "^1.5.4",
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
@@ -43,6 +44,7 @@
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
     "karma": "^1.4.1",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.2",
