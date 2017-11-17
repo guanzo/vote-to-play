@@ -92,7 +92,7 @@ export const actions = {
 }
 
 export const getters = {
-    getSupportedGames: state => {
+    supportedGames: state => {
         return   _(state)
                 .pickBy((val,key)=>{
                     return val && !_.isUndefined(val.gameName)

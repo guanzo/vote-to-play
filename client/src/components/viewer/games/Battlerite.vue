@@ -77,9 +77,15 @@ export default {
         width: 125px;
         height: 68px;
     } 
+    
+    .vote-results .image-wrapper {
+        width: 62px;
+        height: 34px;
+    }
     .splash-img-container img.splash-img{
         object-fit: contain;
     }
+
     select{
         text-transform: capitalize;
     }

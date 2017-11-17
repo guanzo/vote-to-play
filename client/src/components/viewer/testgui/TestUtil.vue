@@ -28,7 +28,7 @@ export default {
         ...Vuex.mapState(['selectedGame','TESTING']),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
         games(){
-            return [...this.$store.getters.getSupportedGames, 'Unsupported']
+            return [...this.$store.getters.supportedGames, 'Unsupported']
         },
         isSimulating: {
             get () {

@@ -10,7 +10,7 @@ export const BOX_ART_HEIGHT = 100;
 const allGames = {
     namespaced: true,
     state:{
-        gameName: ALL_GAMES,
+        gameName: ALL_GAMES,//backward compatibility issues
         topGames:[],
         searchedGames:[]
     },

@@ -23,8 +23,11 @@ export default {
 
 <style lang="scss">
 
-.game-unsupported {
+.viewer .game-unsupported {
     width: 500px !important;
+}
+
+.game-unsupported {
     padding: 15px;
 }
 

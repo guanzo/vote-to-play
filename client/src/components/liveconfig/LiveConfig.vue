@@ -9,19 +9,22 @@
             </select>
         </div>
         <br>
-        <div class="text-center">
-            <button @click="startVote" class="pure-button">Start a vote</button>
-            <p><small>Starting a vote clears the current vote.</small></p>
+        <div v-if="showVoteResults">
+            <div class="text-center">
+                <button @click="startVote" class="pure-button start-vote">Start a vote</button>
+                <p><small>Starting a vote clears the current vote.</small></p>
+            </div>
+            <vote-results :displayImages="false" class="vote-list">
+            </vote-results>
         </div>
-        <vote-results :displayImages="false" :test="'testtesttest'" class="vote-list">
-        </vote-results>
+        <unsupported v-else></unsupported>
 	</div>
 </template>
 
 <script>
 import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/viewer/voteresults/VoteResults'
-
+import unsupported from '@/components/viewer/games/Unsupported'
 import { SET_VOTE_CATEGORY } from '@/store/mutations'
 
 
@@ -39,17 +42,28 @@ Changing a game mid-broadcast will override current selected vote type
 */
 
 export default {
-	name: 'live-config',
+    name: 'live-config',
+    data(){
+        return {
+            allGames: this.$store.state.allGames.gameName
+        }
+    },
     computed:{
         ...Vuex.mapState(['selectedGame','voteCategory']),
-        ...Vuex.mapGetters(['game']),
+        ...Vuex.mapGetters(['supportedGames']),
         voteCategorys(){
-            return [this.selectedGame, this.$store.state.allGames.gameName]
+            return [this.selectedGame, this.allGames]
         },
         selectedVoteCategory: {
             get () { return this.$store.state.voteCategory },
             set (value) { this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value }) }
         },
+        gameIsSupported(){
+            return this.supportedGames.includes(this.selectedGame)
+        },
+        showVoteResults(){
+            return this.gameIsSupported || this.selectedVoteCategory == this.allGames
+        }
     },
     watch:{
         selectedGame(newGame, oldGame){
@@ -67,7 +81,8 @@ export default {
         }
     },
     components:{
-        voteResults
+        voteResults,
+        unsupported
     }
 }
 </script>
