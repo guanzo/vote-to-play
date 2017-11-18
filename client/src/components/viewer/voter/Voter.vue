@@ -4,7 +4,7 @@
 
 import Splash from './Splash'
 import VoterHeader from './VoterHeader'
-import ImageGrid from './ImageGrid'
+import CandidateGrid from './CandidateGrid'
 import VoterControls from './VoterControls'
 
 import splashTransition from './SplashTransition'
@@ -27,12 +27,12 @@ export default {
                         selectedCandidate={this.selectedCandidate}
                         class={this.isInvisible}
                     ></VoterHeader>
-                    <ImageGrid 
+                    <CandidateGrid 
                         candidates={this.candidates}
                         filteredCandidates={this.filteredCandidates}
                         class={this.isInvisible}
                         scopedSlots={this.$scopedSlots}
-                    ></ImageGrid>
+                    ></CandidateGrid>
                     <VoterControls
                         hasSelectedCandidate={this.hasSelectedCandidate}
                         hasSubmittedVote={this.hasSubmittedVote}

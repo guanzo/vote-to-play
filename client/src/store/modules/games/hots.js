@@ -12,26 +12,26 @@ const hots = {
     namespaced: true,
     state: { 
         gameName: 'Heroes of the Storm',
-        characterNomenclature: 'hero',
+        candidateNomenclature: 'hero',
         maxResults: 5,
-        heroes: []
+        candidates: []
     },
     mutations:{
-        [MUTATIONS.SET_HEROES](state, { heroes }){
-            state.heroes = heroes
+        [MUTATIONS.SET_CANDIDATES](state, { candidates }){
+            state.candidates = candidates
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({commit}){
+        [ACTIONS.GET_CANDIDATES]({commit}){
             axios.get('https://api.hotslogs.com/Public/Data/Heroes')
             .then((response)=>{
-                let heroes = _.map(response.data,(val)=>{
+                let candidates = _.map(response.data,(val)=>{
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
                     val.imgSplash = cl.url("hots/splash/" + val.ImageURL + `_splash.jpg`);
                     return val
                 })
-                commit(MUTATIONS.SET_HEROES,{ heroes })
+                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }
     }

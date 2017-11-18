@@ -13,7 +13,7 @@
                 <td class="rank">{{ vote.rank }}</td>
                 <td class="vote-image">
                     <div v-if="displayImages" class="image-wrapper">
-                        <img :src="getHeroImage(vote.vote)">
+                        <img :src="getCandidateImage(vote.vote)">
                     </div>
                 </td>
                 <td class="vote-name">{{ vote.vote }}</td> 
@@ -41,13 +41,11 @@ export default {
         },
     },
 	methods:{
-        getHeroImage(name){
-            if(!this.game.heroes)
-                return '';
-            let hero = _.find(this.game.heroes,hero=>{
-                return hero.name.toLowerCase() == name.toLowerCase()
+        getCandidateImage(name){
+            let candidate = _.find(this.game.candidates,candidate=>{
+                return candidate.name.toLowerCase() == name.toLowerCase()
             })
-            return hero ? hero.img : ''
+            return candidate ? candidate.img : ''
         },
         beforeLeave(tr){
             //td widths collapse during list-leave b/c of position: absolute.

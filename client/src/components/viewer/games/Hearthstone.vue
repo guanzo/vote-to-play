@@ -1,6 +1,6 @@
 <template>
-    <div v-if="heroes.length" class="hearthstone">
-        <voter :candidates="heroes" :filteredCandidates="heroes"></voter>
+    <div v-if="candidates.length" class="hearthstone">
+        <voter :candidates="candidates" :filteredCandidates="candidates"></voter>
         <vote-results :maxResults="maxResults"></vote-results>
     </div>
 </template>
@@ -10,23 +10,17 @@
 
 
 import voter from '@/components/viewer/voter/Voter'
-import voteResults from '../voteresults/VoteResults'
-
-const DEFAULT_ROLE = 'Roles'
-
+import voteResults from '@/components/voteresults/VoteResults'
 export default {
     name: 'hearthstone',
     data(){
         return {
-            query:'',
-            DEFAULT_ROLE,
-            selectedRole: DEFAULT_ROLE,
             maxResults: 3
         }
     },
     computed:{
-        heroes(){
-            return _.sortBy(this.$store.state.hearthstone.heroes,'name')
+        candidates(){
+            return _.sortBy(this.$store.state.hearthstone.candidates,'name')
         },
     },
     components:{

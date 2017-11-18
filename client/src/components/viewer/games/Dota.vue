@@ -1,6 +1,6 @@
 <template>
-    <div v-if="heroes.length" class="dota">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+    <div class="dota">
+        <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
 
             <div slot="filters">
                 <input v-model="query" placeholder="Search hero name">
@@ -17,8 +17,8 @@
 <script>
 
 import voter from '@/components/viewer/voter/Voter'
-import voteResults from '../voteresults/VoteResults'
-import { GET_HEROES } from '@/store/actions'
+import voteResults from '@/components/voteresults/VoteResults'
+import { GET_CANDIDATES } from '@/store/actions'
 import { NS_DOTA } from '@/store/modules/games/dota'
 
 const DEFAULT_ROLE = 'Roles'
@@ -35,33 +35,33 @@ export default {
     },
     computed:{
         ...Vuex.mapState(['isAuthed']),
-        heroes(){
-            return _.sortBy(this.$store.state.dota.heroes,'name')
+        candidates(){
+            return _.sortBy(this.$store.state.dota.candidates,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.roles).flatMap().uniq().sort().value()
+            return _(this.candidates).map(d=>d.roles).flatMap().uniq().sort().value()
         },
-        filteredHeroes(){
-            return this.heroes.filter(this.filterHero)
+        filteredCandidates(){
+            return this.candidates.filter(this.filterCandidate)
         }
     },
     
     watch:{
         isAuthed: {
             handler(){
-                if(this.isAuthed && !this.heroes.length)
-                    this.$store.dispatch(NS_DOTA+'/'+GET_HEROES)
+                if(this.isAuthed && !this.candidates.length)
+                    this.$store.dispatch(NS_DOTA+'/'+GET_CANDIDATES)
             },
             immediate: true
         }
     },
     methods:{
-        filterHero(hero){
+        filterCandidate(candidate){
             let result = true;
             if(this.query.length)
-                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
+                result = candidate.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.roles.includes(this.selectedRole)
+                result = result && candidate.roles.includes(this.selectedRole)
             return result;
         },
     },

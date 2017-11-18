@@ -1,6 +1,6 @@
 <template>
-    <div v-if="heroes.length" class="battlerite">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+    <div v-if="candidates.length" class="battlerite">
+        <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
 
             <div slot="filters">
                 <input v-model="query" placeholder="Search champion name">
@@ -17,8 +17,8 @@
 <script>
 
 import voter from '@/components/viewer/voter/Voter'
-import voteResults from '../voteresults/VoteResults'
-import { GET_HEROES } from '@/store/actions'
+import voteResults from '@/components/voteresults/VoteResults'
+import { GET_CANDIDATES } from '@/store/actions'
 import { NS_BR } from '@/store/modules/games/battlerite'
 
 const DEFAULT_ROLE = 'Class'
@@ -34,27 +34,27 @@ export default {
         }
     },
     computed:{
-        heroes(){
-            return _.sortBy(this.$store.state.battlerite.heroes,'name')
+        candidates(){
+            return _.sortBy(this.$store.state.battlerite.candidates,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.class).uniq().sort().value()
+            return _(this.candidates).map(d=>d.class).uniq().sort().value()
         },
-        filteredHeroes(){
-            return this.heroes.filter(this.filterHero)
+        filteredCandidates(){
+            return this.candidates.filter(this.filterCandidate)
         }
     },
     created(){
-        if(!this.heroes.length)
-            this.$store.dispatch(NS_BR+'/'+GET_HEROES)
+        if(!this.candidates.length)
+            this.$store.dispatch(NS_BR+'/'+GET_CANDIDATES)
     },
     methods:{
-        filterHero(hero){
+        filterCandidate(candidate){
             let result = true;
             if(this.query.length)
-                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
+                result = candidate.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.class == this.selectedRole
+                result = result && candidate.class == this.selectedRole
             return result;
         },
     },

@@ -8,17 +8,17 @@ const dota = {
     namespaced: true,
     state: { 
         gameName: 'Dota 2',
-        characterNomenclature: 'hero',
+        candidateNomenclature: 'hero',
         maxResults: 5,
-        heroes: []
+        candidates: []
     },
     mutations:{
-        [MUTATIONS.SET_HEROES](state,{ heroes }){
-            state.heroes = heroes
+        [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
+            state.candidates = candidates
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({state, rootState, commit}){
+        [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
             axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
                 headers:{
                     'Authorization': rootState.token,
@@ -26,12 +26,12 @@ const dota = {
             })
             .then((response)=>{
 
-                let heroes = _.map(response.data,(val,id)=>{
+                let candidates = _.map(response.data,(val,id)=>{
                     val.img = cl.url(`dota/portraits/${id}_sb.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val
                 })
-                commit(MUTATIONS.SET_HEROES,{ heroes })
+                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }
     }

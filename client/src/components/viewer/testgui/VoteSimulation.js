@@ -20,8 +20,8 @@ export default {
             return this.TESTING.isSimulating
         },
         candidates(){
-            if(this.game.heroes)
-                return this.game.heroes
+            if(this.game.candidates)
+                return this.game.candidates
             else
                 return this.game.topGames
         },

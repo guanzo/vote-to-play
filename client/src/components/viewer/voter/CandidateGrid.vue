@@ -1,5 +1,5 @@
 <template>
-    <div class="image-grid candidate-pool" :style="justify">
+    <div class="candidate-grid candidate-pool" :style="justify">
         <template v-if="candidates.length">
             <div v-for="(candidate,i) in candidates"
                 @click="selectCandidate(candidate)"
@@ -24,7 +24,7 @@ import { SELECT_CANDIDATE } from '@/store/mutations'
  * candidates may or may not be filterable
  */
 export default {
-    name:'image-grid',
+    name:'candidate-grid',
     props:['candidates','filteredCandidates'],
     computed:{
         hasActiveFilter(){
@@ -57,7 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 
-.image-grid{
+.candidate-grid{
     grid-area: main;
     position: relative;
     display: flex;

@@ -92,7 +92,7 @@ export const actions = {
 }
 
 export const getters = {
-    supportedGames: state => {
+    supportedGames(state){
         return   _(state)
                 .pickBy((val,key)=>{
                     return val && !_.isUndefined(val.gameName)
@@ -100,27 +100,27 @@ export const getters = {
                 .map('gameName')
                 .value()
     },
-    game: state => {
+    game(state){
         return _.find(state, (val,key)=>{
             if(!val || !val.gameName)
                 return false;
             return val.gameName == state.voteCategory
         })
     },
-    userVote: state => {
+    userVote(state){
         let userVote = state.votes.find(vote=>vote.userId == state.userId)
         if( !_.isUndefined(userVote) )
             return userVote.vote
         else
             return null;
     },
-    hasSubmittedVote: (state,getters) => {
+    hasSubmittedVote(state,getters){
         if(state.TESTING.unlimitedVotes)
             return false
         else
             return getters.userVote != null
     },
-    hasSelectedCandidate : state => {
+    hasSelectedCandidate (state){
         return !_.isEmpty(state.selectedCandidate);
     }
 }
@@ -134,7 +134,7 @@ const store = new Vuex.Store({
         hearthstone,
         hots,
         battlerite,
-        allGames
+        allGames,
     },
     mutations,
     actions,

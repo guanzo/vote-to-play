@@ -6,7 +6,7 @@
                 :style="splashTransition.splashStyle" 
                 :src="splashImg"
             >
-            <div v-if="selectedCandidate.title" class="hero-title">
+            <div v-if="selectedCandidate.title" class="candidate-title">
                 {{ selectedCandidate.title }}
             </div>
         </div>
@@ -89,7 +89,7 @@ $shift-amount: 5;
             animation: shift-to-left forwards;
         }
     }
-    .hero-title{
+    .candidate-title{
         color: white;
         font-size: 1.5em;
         text-shadow: #000 0px 0px 3px;

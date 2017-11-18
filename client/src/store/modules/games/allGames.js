@@ -39,7 +39,9 @@ const allGames = {
         }
     },
     getters:{
-
+        test(state){
+            return state
+        }
     }
 }
 //twitch allows you to give custom dimensions

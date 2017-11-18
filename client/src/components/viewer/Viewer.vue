@@ -76,7 +76,7 @@ export default {
 
 </style>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 //don't cover twitch ui on top and bottom
 $twitch-overlay-top-height: 100px;
@@ -125,6 +125,30 @@ $header-element-size: 35px;
         margin-right: 15px;
     }
     
+    .overlay-background {
+        background: rgba(0,0,0,0.75);
+    }
+    
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    ::-webkit-scrollbar
+    {
+        width: 8px;
+        height: 8px;
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
 }
 
 

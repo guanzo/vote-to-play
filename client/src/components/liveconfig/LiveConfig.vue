@@ -23,7 +23,7 @@
 
 <script>
 import { START_NEW_VOTE } from '@/store/actions'
-import voteResults from '@/components/viewer/voteresults/VoteResults'
+import voteResults from '@/components/voteresults/VoteResults'
 import unsupported from '@/components/viewer/games/Unsupported'
 import { SET_VOTE_CATEGORY } from '@/store/mutations'
 
@@ -92,7 +92,7 @@ $scrollbar-width: 17px;
     padding: 5px;
     color: #333;
     .overlay-background {
-        background: white !important;
+        background: white;
     }
     .vote-list.vote-results {
         margin-left: 0;

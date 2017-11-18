@@ -8,9 +8,9 @@ export const NS_HEARTHSTONE = 'hearthstone'
 const hearthstone = {
     state: { 
         gameName: 'Hearthstone',
-        characterNomenclature: 'class',
+        candidateNomenclature: 'class',
         maxResults: 3,
-        heroes: [
+        candidates: [
              {
                 name: "Druid",
                 title: 'Malfurion Stormrage',

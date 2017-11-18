@@ -9,21 +9,21 @@ const lol = {
     namespaced: true,
     state: { 
         gameName: 'League of Legends',
-        characterNomenclature: 'champion',
+        candidateNomenclature: 'champion',
         maxResults: 5,
-        heroes: []
+        candidates: []
     },
     mutations:{
-        [MUTATIONS.SET_HEROES](state, { heroes }){
-            state.heroes = heroes
+        [MUTATIONS.SET_CANDIDATES](state, { candidates }){
+            state.candidates = candidates
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({commit}){
+        [ACTIONS.GET_CANDIDATES]({commit}){
             axios.get('https://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json')
             .then((response)=>{
                 
-                let heroes = _.map(response.data.data,(val)=>{
+                let candidates = _.map(response.data.data,(val)=>{
                     val.name = val.id;
                     val.img = IMG_BASE_URL + val.image.full;
                     //riot provides splash art per skin, thats what the _0 is for.
@@ -31,7 +31,7 @@ const lol = {
                     val.imgSplash = IMG_SPLASH_BASE_URL + val.name + '_0.jpg'
                     return val
                 })
-                commit(MUTATIONS.SET_HEROES,{ heroes })
+                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }
     }

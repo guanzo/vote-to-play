@@ -9,26 +9,26 @@ const battlerite = {
     namespaced: true,
     state: { 
         gameName: 'Battlerite',
-        characterNomenclature: 'champion',
+        candidateNomenclature: 'champion',
         maxResults: 5,
-        heroes: []
+        candidates: []
     },
     mutations:{
-        [MUTATIONS.SET_HEROES](state, { heroes }){
-            state.heroes = heroes
+        [MUTATIONS.SET_CANDIDATES](state, { candidates }){
+            state.candidates = candidates
         }
     },
     actions:{
-        [ACTIONS.GET_HEROES]({commit}){
+        [ACTIONS.GET_CANDIDATES]({commit}){
             axios.get('https://www.battlerite.com/api/champions/get')
             .then((response)=>{
                 
-                let heroes = _.map(response.data,(val)=>{
+                let candidates = _.map(response.data,(val)=>{
                     val.img = val.icon
                     val.imgSplash = val.image
                     return val
                 })
-                commit(MUTATIONS.SET_HEROES,{ heroes })
+                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }
     }

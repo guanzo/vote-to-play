@@ -1,9 +1,9 @@
 <template>
-    <div v-if="heroes.length" class="overwatch">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+    <div v-if="candidates.length" class="overwatch">
+        <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
 
             <div slot="filters">
-                <input v-model="query"placeholder="Search hero name">
+                <input v-model="query" placeholder="Search hero name">
                 <select v-model="selectedRole">
                     <option>{{ DEFAULT_ROLE }}</option>
                     <option v-for="role in roles" :key="role">{{ role }}</option>
@@ -18,7 +18,7 @@
 <script>
 
 import voter from '@/components/viewer/voter/Voter'
-import voteResults from '../voteresults/VoteResults'
+import voteResults from '@/components/voteresults/VoteResults'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -33,23 +33,23 @@ export default {
         }
     },
     computed:{
-        heroes(){
-            return _.sortBy(this.$store.state.overwatch.heroes,'name')
+        candidates(){
+            return _.sortBy(this.$store.state.overwatch.candidates,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.type).uniq().sort().value()
+            return _(this.candidates).map(d=>d.type).uniq().sort().value()
         },
-        filteredHeroes(){
-            return this.heroes.filter(this.filterHero)
+        filteredCandidates(){
+            return this.candidates.filter(this.filterCandidate)
         }
     },
     methods:{
-        filterHero(hero){
+        filterCandidate(candidate){
             let result = true;
             if(this.query.length)
-                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
+                result = candidate.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.type.toLowerCase().includes(this.selectedRole.toLowerCase())
+                result = result && candidate.type.toLowerCase().includes(this.selectedRole.toLowerCase())
             return result;
         },
     },

@@ -1,9 +1,9 @@
 <template>
-    <div v-if="heroes.length" class="heroes-of-the-storm">
-        <voter :candidates="heroes" :filteredCandidates="filteredHeroes">
+    <div v-if="candidates.length" class="candidatees-of-the-storm">
+        <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
             
             <div slot="filters">
-                <input v-model="query"placeholder="Search hero name">
+                <input v-model="query" placeholder="Search hero name">
                 <select v-model="selectedRole">
                     <option>{{ DEFAULT_ROLE }}</option>
                     <option v-for="role in roles" :key="role">{{ role }}</option>
@@ -23,15 +23,15 @@
 
 
 import voter from '@/components/viewer/voter/Voter'
-import voteResults from '../voteresults/VoteResults'
-import { GET_HEROES } from '@/store/actions'
+import voteResults from '@/components/voteresults/VoteResults'
+import { GET_CANDIDATES } from '@/store/actions'
 import { NS_HOTS } from '@/store/modules/games/hots'
 
 const DEFAULT_ROLE = 'Group'
 const DEFAULT_SUBROLE = 'Subgroup'
 
 export default {
-    name: 'heroes-of-the-storm',
+    name: 'candidatees-of-the-storm',
     data(){
         return {
             query:'',
@@ -43,32 +43,32 @@ export default {
         }
     },
     computed:{
-        heroes(){
-            return _.sortBy(this.$store.state.hots.heroes,'name')
+        candidates(){
+            return _.sortBy(this.$store.state.hots.candidates,'name')
         },
         roles(){
-            return _(this.heroes).map(hero=>hero.Group).uniq().sort().value()
+            return _(this.candidates).map(d=>d.Group).uniq().sort().value()
         },
         subroles(){
-            return _(this.heroes).map(hero=>hero.SubGroup).uniq().sort().value()
+            return _(this.candidates).map(d=>d.SubGroup).uniq().sort().value()
         },
-        filteredHeroes(){
-            return this.heroes.filter(this.filterHero)
+        filteredCandidates(){
+            return this.candidates.filter(this.filterCandidate)
         }
     },
     created(){
-        if(!this.heroes.length)
-            this.$store.dispatch(NS_HOTS+'/'+GET_HEROES)
+        if(!this.candidates.length)
+            this.$store.dispatch(NS_HOTS+'/'+GET_CANDIDATES)
     },
     methods:{
-        filterHero(hero){
+        filterCandidate(candidate){
             let result = true;
             if(this.query.length)
-                result = hero.name.toLowerCase().includes(this.query.toLowerCase())
+                result = candidate.name.toLowerCase().includes(this.query.toLowerCase())
             if(this.selectedRole != DEFAULT_ROLE)
-                result = result && hero.Group == this.selectedRole
+                result = result && candidate.Group == this.selectedRole
             if(this.selectedSubrole != DEFAULT_SUBROLE)
-                result = result && hero.SubGroup == this.selectedSubrole
+                result = result && candidate.SubGroup == this.selectedSubrole
             return result;
         },
     },
@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss">
 
-.heroes-of-the-storm{
+.candidatees-of-the-storm{
     img {
         width: 100%;
         height: auto;

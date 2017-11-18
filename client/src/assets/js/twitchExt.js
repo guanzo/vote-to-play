@@ -15,7 +15,8 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var parts = auth.token.split(".");
     var payload = JSON.parse(window.atob(parts[1]));
     var role = payload.role
-    
+    console.log(payload)
+    console.log(window.atob(parts[1]))
     var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
     //send game to server to set vote category 
