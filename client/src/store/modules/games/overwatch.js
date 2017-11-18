@@ -13,7 +13,7 @@ const ow = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
-        maxResults: 3,
+        maxVoteResults: 3,
         candidates
     },
 }

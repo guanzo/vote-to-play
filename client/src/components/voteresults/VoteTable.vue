@@ -25,20 +25,23 @@
 
 <script>
 
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
+
 export default {
     name:'vote-table',
     props: {
         votes: Array,
-        //no images for live config, or if vote category is all games
-        displayImages: {
-            type: Boolean,
-            default: true
-        }
     },
     computed:{
         game(){
             return this.$store.getters.selectedGameModule
         },
+        //no images for live config, or if vote category is all games
+        displayImages(){
+            if(this.$route.path.includes('liveconfig') || this.game.gameName == ALL_GAMES)
+                return false;
+            return true
+        }
     },
 	methods:{
         getCandidateImage(name){

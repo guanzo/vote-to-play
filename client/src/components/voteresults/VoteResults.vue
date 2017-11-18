@@ -36,15 +36,9 @@ import voteTable from './VoteTable'
 export default {
     name: 'vote-results',
     inheritAttrs: false,
-    props:{
-        maxResults: {
-            type: Number,
-            default: 5
-        }
-    },
     computed:{
         ...Vuex.mapState(['votes']),
-        ...Vuex.mapGetters(['userVote']),
+        ...Vuex.mapGetters(['userVote','selectedGameModule']),
         allAggregatedVotes(){
             let totalVotes = this.votes.length;
             return _(this.votes)
@@ -57,6 +51,11 @@ export default {
                     return vote;
                 })
                 .value()
+        },
+        maxResults(){
+            if(!this.selectedGameModule)
+                return 5;
+            return this.selectedGameModule.maxVoteResults
         },
         topAggregatedVotes(){
             return this.allAggregatedVotes.slice(0, this.maxResults)

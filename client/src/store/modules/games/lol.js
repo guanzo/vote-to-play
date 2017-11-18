@@ -10,7 +10,7 @@ const lol = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'champion',
-        maxResults: 5,
+        maxVoteResults: 5,
         candidates: []
     },
     mutations:{

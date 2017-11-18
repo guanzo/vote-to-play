@@ -13,7 +13,7 @@ const hots = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
-        maxResults: 5,
+        maxVoteResults: 5,
         candidates: []
     },
     mutations:{

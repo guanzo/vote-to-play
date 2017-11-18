@@ -1,8 +1,11 @@
 <template>
 
 <div class="whitelist">
-    {{ candidates.length }}
-    <candidate-grid :candidates="candidates"></candidate-grid>
+    <candidate-grid 
+        v-if="candidates.length" 
+        :candidates="candidates" 
+        :filteredCandidates="candidates"
+    ></candidate-grid>
 </div>
 
 </template>
@@ -26,8 +29,11 @@ export default {
     },
     watch:{
         voteCategory(){
-            console.log(this.game)
+            if(this.candidates.length)
+                return;
 
+            let namespace = this.game.gameName
+            this.$store.dispatch(namespace+'/'+GET_CANDIDATES)
         }
     },
     created(){

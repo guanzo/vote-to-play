@@ -9,7 +9,7 @@ const hearthstone = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'class',
-        maxResults: 3,
+        maxVoteResults: 3,
         candidates: [
              {
                 name: "Druid",

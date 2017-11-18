@@ -10,7 +10,7 @@
                 </select>
             </div>
         </voter>
-        <vote-results :maxResults="maxResults"></vote-results>
+        <vote-results></vote-results>
     </div>
 </template>
 
@@ -30,7 +30,6 @@ export default {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            maxResults: 5
         }
     },
     computed:{

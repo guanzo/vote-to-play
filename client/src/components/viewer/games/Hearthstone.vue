@@ -13,11 +13,6 @@ import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 export default {
     name: 'hearthstone',
-    data(){
-        return {
-            maxResults: 3
-        }
-    },
     computed:{
         candidates(){
             return this.$store.state.games[NAMESPACE].candidates

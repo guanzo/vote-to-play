@@ -14,7 +14,7 @@
                 <button @click="startVote" class="pure-button start-vote">Start a vote</button>
                 <p><small>Starting a vote clears the current vote.</small></p>
             </div>
-            <vote-results :displayImages="false" class="vote-list">
+            <vote-results class="vote-list">
             </vote-results>
         </div>
         <unsupported v-else-if="selectedGame !== null"></unsupported>

@@ -1,5 +1,6 @@
 <template>
-    <div class="dota">
+    <div v-if="candidates.length" class="dota">
+        <!-- <component :is="componentTest"></component> -->
         <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
 
             <div slot="filters">
@@ -10,7 +11,7 @@
                 </select>
             </div>
         </voter>
-        <vote-results :maxResults="maxResults"></vote-results>
+        <vote-results></vote-results>
     </div>
 </template>
 
@@ -25,12 +26,12 @@ const DEFAULT_ROLE = 'Roles'
 
 export default {
     name: 'dota',
+    props:['componentTest'],
     data(){
         return {
             query:'',
             DEFAULT_ROLE,
             selectedRole: DEFAULT_ROLE,
-            maxResults: 5
         }
     },
     computed:{
@@ -46,7 +47,7 @@ export default {
         }
     },
     created(){
-        console.log(this.$store)
+        console.log(this)
     },
     watch:{
         isAuthed: {

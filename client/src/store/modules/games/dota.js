@@ -8,8 +8,10 @@ const dota = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
-        maxResults: 5,
-        candidates: []
+        maxVoteResults: 5,
+        candidates: [],
+        className: 'dota',
+
     },
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
@@ -33,7 +35,7 @@ const dota = {
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }
-    }
+    },
 }
 
 export default dota

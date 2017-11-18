@@ -12,6 +12,7 @@ const allGames = {
         gameName: NAMESPACE,
         topGames:[],
         searchedGames:[],
+        maxVoteResults: 5,
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state,payload){

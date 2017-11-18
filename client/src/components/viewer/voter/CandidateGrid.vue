@@ -1,5 +1,5 @@
 <template>
-    <div class="candidate-grid candidate-pool" :style="justify">
+    <div class="candidate-grid" :style="justify">
         <template v-if="candidates.length">
             <div v-for="(candidate,i) in candidates"
                 @click="selectCandidate(candidate)"
@@ -70,6 +70,26 @@ export default {
         position: relative;
         transition: .5s;
         overflow: hidden;
+    }
+    .candidate {
+        position: relative;
+        transition: .5s;
+        cursor: pointer;
+        &.filtered-out {
+            filter: brightness(20%);
+        }
+        &.filtered-in {
+            box-shadow: 0px 0px 2px 1px white;
+        }
+        &:hover:before {
+            box-shadow: 0px 0px 0px 2px #eee inset;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: "";
+        }
     }
 }
 </style>

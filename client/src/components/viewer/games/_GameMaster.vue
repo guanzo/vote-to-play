@@ -26,22 +26,33 @@ const componentMap = {
     [NS_OW]:    overwatch,
 }
 
+var test = {
+    render(h){
+        return <div>TEST TEST TEST</div>
+    }
+}
+
 //functional component that returns the game view,
 //or a notification if the game isn't supported
 export default {
     functional: true,
-    props:['selectedGame','voteCategory'],
+    props:['voteCategory'],
     render(createElement, context){
-        var { selectedGame, voteCategory } = context.props
+        
+        var { voteCategory } = context.props
         var component;
         if(voteCategory == ALL_GAMES)
             component = allGames
-        else if(componentMap[selectedGame])
-            component = componentMap[selectedGame]
+        else if(componentMap[voteCategory])
+            component = componentMap[voteCategory]
         else
             component = unsupported
             
-        return createElement(component)
+        return createElement(component,{
+            props:{
+                componentTest: test
+            }
+        })
     },
 }
 

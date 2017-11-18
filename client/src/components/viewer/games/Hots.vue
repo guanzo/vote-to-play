@@ -1,5 +1,5 @@
 <template>
-    <div v-if="candidates.length" class="candidatees-of-the-storm">
+    <div v-if="candidates.length" class="heroes-of-the-storm">
         <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
             
             <div slot="filters">
@@ -14,7 +14,7 @@
                 </select>
             </div>
         </voter>
-        <vote-results :maxResults="maxResults"></vote-results>
+        <vote-results></vote-results>
     </div>
 </template>
 
@@ -39,7 +39,6 @@ export default {
             DEFAULT_SUBROLE,
             selectedRole: DEFAULT_ROLE,
             selectedSubrole: DEFAULT_SUBROLE,
-            maxResults: 5
         }
     },
     computed:{
@@ -82,7 +81,7 @@ export default {
 
 <style lang="scss">
 
-.candidatees-of-the-storm{
+.heroes-of-the-storm{
     img {
         width: 100%;
         height: auto;

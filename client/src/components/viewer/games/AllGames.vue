@@ -14,7 +14,7 @@
             <input v-model="query" placeholder="Search games">
         </div>
     </voter>
-    <vote-results :displayImages="false"  :maxResults="maxResults"></vote-results>
+    <vote-results></vote-results>
 </div>
 
 </template>
@@ -40,7 +40,6 @@ export default {
     data(){
         return {
             query:'',
-            maxResults: 5,
         }
     },
     computed:{

@@ -10,7 +10,7 @@ const battlerite = {
     state: { 
         gameName: 'Battlerite',
         candidateNomenclature: 'champion',
-        maxResults: 5,
+        maxVoteResults: 5,
         candidates: []
     },
     mutations:{
