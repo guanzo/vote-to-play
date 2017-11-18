@@ -58,11 +58,8 @@ export default {
             get () { return this.$store.state.voteCategory },
             set (value) { this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value }) }
         },
-        gameIsSupported(){
-            return this.supportedGames.includes(this.selectedGame)
-        },
         showVoteResults(){
-            return this.gameIsSupported || this.selectedVoteCategory == this.allGames
+            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == this.allGames
         }
     },
     watch:{
@@ -70,7 +67,6 @@ export default {
             //do not start a vote on page load
             if(oldGame === null)
                 return;
-                
             this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: newGame })
             this.$store.dispatch(START_NEW_VOTE)
         }

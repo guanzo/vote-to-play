@@ -12,7 +12,7 @@ import allGames         from './modules/games/allGames'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
-const state = {
+export const state = {
     channelId: -1,
     channelName: 'The broadcaster',
     userId: -1,

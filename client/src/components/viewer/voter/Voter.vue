@@ -7,25 +7,7 @@ import VoterHeader from './VoterHeader'
 import ImageGrid from './ImageGrid'
 import VoterControls from './VoterControls'
 
-/**
- * Intended behavior:
- * -only works for supported games
- * -user submits vote
- * -vote ui disappears, splash art appears
- * -after duration, splash art && voter div fades out
- * -vote ui reappears after the fade out (voter div still hidden)
- */
-function splashTransitionDefaults(){
-    let duration = 4000
-    return {
-        isActive: false,
-        hideVoteUI: false,
-        splashImgIsLoaded: false,
-        splashClass: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
-        splashStyle: { 'animation-duration': duration + 'ms' },
-        duration,
-    }
-}
+import splashTransition from './SplashTransition'
 
 export default {
     name: 'voter',
@@ -65,11 +47,7 @@ export default {
             </transition>
         )
     },
-    data(){
-        return {
-            splashTransition: splashTransitionDefaults()
-        }
-    },
+    data: ()=>({ splashTransition: splashTransition() }),
     computed:{
         ...Vuex.mapState(['selectedCandidate']),
         ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
@@ -83,7 +61,7 @@ export default {
     watch:{
         hasSubmittedVote(val){
             if(!val)
-                this.splashTransition = splashTransitionDefaults()
+                this.splashTransition = splashTransition()
         },
         'splashTransition.splashImgIsLoaded'(isLoaded){
             if(isLoaded)
@@ -100,7 +78,7 @@ export default {
         },
         afterUiLeave(){
             //prevents vote ui appearing while ui is transitioning out
-            this.splashTransition = splashTransitionDefaults()
+            this.splashTransition = splashTransition()
         }
     },
 }

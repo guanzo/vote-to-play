@@ -29,7 +29,7 @@ export default {
     name:'vote-table',
     props: {
         votes: Array,
-        //not enough room in live config for images
+        //no images for live config, or if vote category is all games
         displayImages: {
             type: Boolean,
             default: true
@@ -41,7 +41,6 @@ export default {
         },
     },
 	methods:{
-        //only support images for supported games, not "All Games"
         getHeroImage(name){
             if(!this.game.heroes)
                 return '';

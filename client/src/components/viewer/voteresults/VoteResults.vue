@@ -103,8 +103,6 @@ export default {
     flex: 0 0 350px;
     position: relative;
     margin-left: 15px;
-    //transition: 0.5s;
-    //max-height: 100%;
     .header {
         text-align: center;
         margin: 10px 0px;
