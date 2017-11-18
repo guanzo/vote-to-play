@@ -36,7 +36,7 @@ export default {
                 this.splashImg = img.src
                 this.$nextTick(this.setEndListener)
             };         
-            img.onerror = (...args)=>{
+            img.onerror = ()=>{
                 this.$emit('transitionDone')
             }
             img.src = this.selectedCandidate.imgSplash;
