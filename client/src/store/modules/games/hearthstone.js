@@ -6,6 +6,7 @@ const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide
 export const NAMESPACE = 'Hearthstone'
 //name and title are reversed b/c ppl refer to them by "class" and not actual "name"
 const hearthstone = {
+    namespaced: true,
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'class',
@@ -65,7 +66,8 @@ const hearthstone = {
                 img: IMG_BASE_URL + 'garrosh.jpg',
                 imgSplash: cl.url('hearthstone/splash/Warrior_splash.jpg')
             }
-        ]
+        ],
+        className: 'hearthstone',
     },
 }
 

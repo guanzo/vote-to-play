@@ -11,16 +11,35 @@ const dota = {
         maxVoteResults: 5,
         candidates: [],
         className: 'dota',
-
+        filters:[
+            {
+                id:'name',
+                type: 'text',
+                vmodel:'',
+                placeholder: 'Search hero name'
+            },
+            {
+                id:'role',
+                type: 'select',
+                vmodel:'Role',
+                options:[
+                    'Role'
+                ]
+            }
+        ]
     },
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
             state.candidates = candidates
+            let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
+            state.filters[1].options.push(...roles)
         }
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
-            axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
+            console.log('hi')
+            console.log(rootState.token)
+            return axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
                 headers:{
                     'Authorization': rootState.token,
                 }
@@ -36,6 +55,20 @@ const dota = {
             })
         }
     },
+    getters:{
+        filteredCandidates({candidates, filters}){
+            return candidates.filter(candidate=>{
+                let result = true;
+                filters.forEach(({id,vmodel,options})=>{
+                    if(id == 'name')
+                        result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
+                    else if(id == 'role' && vmodel !== options[0])
+                        result = result && candidate.roles.includes(vmodel)
+                })
+                return result
+            })
+        }
+    }
 }
 
 export default dota

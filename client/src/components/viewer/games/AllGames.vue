@@ -1,6 +1,6 @@
 <template>
 
-<div class="all-games">
+<div v-if="candidates.length" class="all-games">
     <voter class="voter-all-games" :candidates="candidates" :filteredCandidates="candidates">
         <div class="game" slot-scope="{ candidate }" slot="candidate">
             <div class="image-wrapper candidate">
