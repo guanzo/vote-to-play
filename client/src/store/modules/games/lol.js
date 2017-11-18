@@ -1,5 +1,3 @@
-
-
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
@@ -38,8 +36,5 @@ const lol = {
         }
     }
 }
-
-
-
 
 export default lol

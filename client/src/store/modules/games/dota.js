@@ -1,7 +1,3 @@
-
-
-
-
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
@@ -31,7 +27,6 @@ const dota = {
             .then((response)=>{
 
                 let heroes = _.map(response.data,(val,id)=>{
-                    val.id = id
                     val.img = cl.url(`dota/portraits/${id}_sb.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val

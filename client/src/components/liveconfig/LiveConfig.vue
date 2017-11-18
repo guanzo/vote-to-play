@@ -17,7 +17,7 @@
             <vote-results :displayImages="false" class="vote-list">
             </vote-results>
         </div>
-        <unsupported v-else></unsupported>
+        <unsupported v-else-if="selectedGame !== null"></unsupported>
 	</div>
 </template>
 
