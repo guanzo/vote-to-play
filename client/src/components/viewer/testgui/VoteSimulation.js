@@ -14,7 +14,7 @@ export default {
     computed:{
         ...Vuex.mapState(['TESTING','votes']),
         game(){
-            return this.$store.getters.game
+            return this.$store.getters.selectedGameModule
         },
         isSimulating(){
             return this.TESTING.isSimulating

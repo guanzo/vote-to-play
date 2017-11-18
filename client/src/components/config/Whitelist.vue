@@ -1,7 +1,7 @@
 <template>
 
 <div class="whitelist">
-    <candidate-grid></candidate-grid>
+    <candidate-grid :candidates="candidates"></candidate-grid>
 </div>
 
 </template>
@@ -14,8 +14,11 @@ export default {
     name:'whitelist',
     props:['voteCategory'],
     computed:{
+        ...Vuex.mapGetters({
+            game: 'selectedGameModule'
+        }),
         candidates(){
-            
+            return this.game.candidates
         }
     },
     components:{

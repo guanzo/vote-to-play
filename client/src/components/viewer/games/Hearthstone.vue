@@ -20,7 +20,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.hearthstone.candidates,'name')
+            return _.sortBy(this.$store.state.games.hearthstone.candidates,'name')
         },
     },
     components:{

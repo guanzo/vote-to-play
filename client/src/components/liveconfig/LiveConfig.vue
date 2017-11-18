@@ -45,7 +45,7 @@ export default {
     name: 'live-config',
     data(){
         return {
-            allGames: this.$store.state.allGames.gameName
+            allGames: this.$store.state.games.allGames.gameName
         }
     },
     computed:{

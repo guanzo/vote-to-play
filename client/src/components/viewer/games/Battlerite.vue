@@ -35,7 +35,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.battlerite.candidates,'name')
+            return _.sortBy(this.$store.state.games.battlerite.candidates,'name')
         },
         roles(){
             return _(this.candidates).map(d=>d.class).uniq().sort().value()

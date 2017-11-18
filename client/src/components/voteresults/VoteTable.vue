@@ -37,7 +37,7 @@ export default {
     },
     computed:{
         game(){
-            return this.$store.getters.game
+            return this.$store.getters.selectedGameModule
         },
     },
 	methods:{

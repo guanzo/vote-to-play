@@ -21,7 +21,7 @@
 
 
 import TestUtil from './testgui/TestUtil'
-import GameMaster from './games/GameMaster'
+import GameMaster from './games/_GameMaster'
 
 export default {
     name: 'viewer',

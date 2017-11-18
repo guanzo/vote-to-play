@@ -36,7 +36,7 @@ export default {
     computed:{
         ...Vuex.mapState(['isAuthed']),
         candidates(){
-            return _.sortBy(this.$store.state.dota.candidates,'name')
+            return _.sortBy(this.$store.state.games.dota.candidates,'name')
         },
         roles(){
             return _(this.candidates).map(d=>d.roles).flatMap().uniq().sort().value()
@@ -45,7 +45,9 @@ export default {
             return this.candidates.filter(this.filterCandidate)
         }
     },
-    
+    created(){
+        console.log(this)
+    },
     watch:{
         isAuthed: {
             handler(){

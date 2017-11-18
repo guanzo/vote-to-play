@@ -1,14 +1,8 @@
 import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
-import voteApi       from '@/api/vote'
-import dota         from './modules/games/dota'
-import overwatch    from './modules/games/overwatch'
-import lol          from './modules/games/lol'
-import hearthstone  from './modules/games/hearthstone'
-import hots         from './modules/games/hots'
-import battlerite   from './modules/games/battlerite'
-import allGames         from './modules/games/allGames'
+import voteApi from '@/api/vote'
+import games from './modules/games/_main'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
@@ -92,21 +86,6 @@ export const actions = {
 }
 
 export const getters = {
-    supportedGames(state){
-        return   _(state)
-                .pickBy((val,key)=>{
-                    return val && !_.isUndefined(val.gameName)
-                })
-                .map('gameName')
-                .value()
-    },
-    game(state){
-        return _.find(state, (val,key)=>{
-            if(!val || !val.gameName)
-                return false;
-            return val.gameName == state.voteCategory
-        })
-    },
     userVote(state){
         let userVote = state.votes.find(vote=>vote.userId == state.userId)
         if( !_.isUndefined(userVote) )
@@ -128,13 +107,7 @@ export const getters = {
 const store = new Vuex.Store({
     state, 
     modules:{
-        dota,
-        overwatch,
-        lol,
-        hearthstone,
-        hots,
-        battlerite,
-        allGames,
+        games
     },
     mutations,
     actions,

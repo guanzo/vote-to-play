@@ -34,7 +34,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.overwatch.candidates,'name')
+            return _.sortBy(this.$store.state.games.overwatch.candidates,'name')
         },
         roles(){
             return _(this.candidates).map(d=>d.type).uniq().sort().value()

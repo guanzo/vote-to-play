@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import GameMaster from '@/components/viewer/games/GameMaster'
 import whitelist from './Whitelist'
 
 export default {

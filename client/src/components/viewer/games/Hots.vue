@@ -44,7 +44,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.hots.candidates,'name')
+            return _.sortBy(this.$store.state.games.hots.candidates,'name')
         },
         roles(){
             return _(this.candidates).map(d=>d.Group).uniq().sort().value()

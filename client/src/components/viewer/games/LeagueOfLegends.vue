@@ -37,7 +37,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.lol.candidates,'name')
+            return _.sortBy(this.$store.state.games.lol.candidates,'name')
         },
         roles(){
             return _(this.candidates).map(d=>d.tags).flatMap().uniq().sort().value()
