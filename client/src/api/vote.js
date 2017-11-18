@@ -23,7 +23,9 @@ let interval = 1250;
 var throttle = throttledQueue(maxCalls, interval);
 
 function setListeners(){
-
+    /**
+     * Retrieves initial state of stream. should only fire once per page load
+     */
     socket.on(`all-votes`, data => {
         store.commit(MUTATIONS.SET_CURRENT_VOTE, data)
     });

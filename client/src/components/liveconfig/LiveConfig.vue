@@ -67,10 +67,10 @@ export default {
     },
     watch:{
         selectedGame(newGame, oldGame){
-            //do not start a vote on page refresh, unless vote category is null
-            if(oldGame === null && this.selectedVoteCategory !== null)
+            //do not start a vote on page load
+            if(oldGame === null)
                 return;
-
+                
             this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: newGame })
             this.$store.dispatch(START_NEW_VOTE)
         }

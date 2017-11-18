@@ -15,22 +15,36 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var parts = auth.token.split(".");
     var payload = JSON.parse(window.atob(parts[1]));
     var role = payload.role
-    let channelName = await getChannelName(auth.channelId)
     
+    var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
+    //send game to server to set vote category 
+    //in case this is the first visit to a channel that doesn't exist in the database
     store.dispatch(SET_AUTH, { 
         channelId: auth.channelId, 
         channelName, 
+        game,
         token: auth.token, 
         userId: auth.userId, 
         role 
     })
+
     pollSelectedGame(auth.channelId)
 });
 
 function pollSelectedGame(channelId){
     let pollInterval = 4000
-    axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
+    getSelectedGame(channelId)
+    .then((game)=>{
+        let storeGame = store.state.selectedGame
+        if(game != storeGame)
+            store.commit(SET_GAME, { game })
+        setTimeout(()=>pollSelectedGame(channelId),pollInterval)
+    })
+}
+
+function getSelectedGame(channelId){
+    return axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
         headers:{
             'Accept': 'application/vnd.twitchtv.v5+json',
             'Client-ID':EXTENSION_CLIENT_ID,
@@ -38,14 +52,9 @@ function pollSelectedGame(channelId){
     })
     .then((response)=>{
         let game = response.data.game
-        let storeGame = store.state.selectedGame
-        if(game != storeGame)
-            store.commit(SET_GAME, { game })
-        
-        setTimeout(()=>pollSelectedGame(channelId),pollInterval)
+        return game
     })
 }
-
 
 window.Twitch.ext.onError(function (err) {
     console.error(err);

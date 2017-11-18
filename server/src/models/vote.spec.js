@@ -9,6 +9,7 @@ describe('Vote',async ()=>{
     var channels,
         channelId = -1,
         channelName = 'guanzo',
+        game = 'Dota 2',
         userId = -1
 
     before(async ()=>{
@@ -23,7 +24,7 @@ describe('Vote',async ()=>{
                 await channels.remove({})
             })
             it("returns empty array",async ()=>{
-                let currentVote = await voteModule.getCurrentVote({channelId, channelName})
+                let currentVote = await voteModule.getCurrentVote({channelId, channelName, game})
                 expect(currentVote).to.be.an('object');
                 expect(currentVote.votes).to.be.an('array').that.is.empty
             })
@@ -32,6 +33,7 @@ describe('Vote',async ()=>{
                 expect(channel.channelId).to.equal(channelId)
                 expect(channel.channelName).to.equal(channelName)
                 expect(channel).to.have.property('voteHistory').that.is.an('array').to.have.lengthOf(1)
+                expect(channel.voteHistory[0].voteCategory).to.equal(game)
             })
     
         })

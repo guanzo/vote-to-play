@@ -27,12 +27,14 @@ var ObjectID = require('mongodb').ObjectID
 
 
 module.exports = {
-    //current vote is first element in "voteHistory"
-    async getCurrentVote({channelId, channelName}){
+    /**
+     * current vote is first element in "voteHistory". should always return a value
+     */
+    async getCurrentVote({channelId, channelName, game}){
         var channels = db.get().collection('channels')
-
+        
         //ensure channel document exists
-        let result = await addChannelDocument(channelId, channelName);
+        let result = await addChannelDocument(channelId, channelName, game);
         return channels
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
                 .then(result=>result.voteHistory[0])
@@ -83,10 +85,10 @@ module.exports = {
 }
 
 
-function addChannelDocument(channelId,channelName){
+function addChannelDocument(channelId,channelName, game){
     var channel = {
         channelId,
-        voteHistory: [ createNewVoteObj() ],//populate with an empty vote
+        voteHistory: [ createNewVoteObj(game) ],//populate with an empty vote
     }
     //keep updating channelName in case it gets changed
     var channels = db.get().collection('channels')

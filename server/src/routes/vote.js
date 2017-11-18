@@ -26,12 +26,11 @@ module.exports = (server) => {
         var query = socket.handshake.query
 
         socket.on('join-channel',async data=>{
-            let { channelId, channelName } = data
+            let { channelId } = data
             socket.join(channelId)
 
             let currentVote = await model.getCurrentVote(data);
-            if(currentVote)
-                socket.emit(`all-votes`,currentVote)
+            socket.emit(`all-votes`,currentVote)
         })
     
 
