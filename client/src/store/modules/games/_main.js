@@ -8,7 +8,19 @@ import hots,        { NAMESPACE as NS_HOTS }    from './hots'
 import lol,         { NAMESPACE as NS_LOL }     from './lol'
 import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
 
-
+export const getters = {
+    supportedGames(state){
+        return  _.map(state,'gameName')
+    },
+    selectedGameModule(state,getters,rootState){
+        return _.find(state, game =>{
+            return game.gameName == rootState.voteCategory
+        })
+    },
+    gameModuleByName: state => gameName => {
+        return _.find(state,game=>game.gameName == gameName)
+    }
+}
 
 export default {
     modules:{
@@ -20,17 +32,5 @@ export default {
         [NS_BR]: battlerite,
         [NS_AG]: allGames,
     },
-    getters:{
-        supportedGames(state){
-            return  _.map(state,'gameName')
-        },
-        selectedGameModule(state,getters,rootState){
-            return _.find(state, game =>{
-                return game.gameName == rootState.voteCategory
-            })
-        },
-        gameModuleByName: state => gameName => {
-            return _.find(state,game=>game.gameName == gameName)
-        }
-    }
+    getters
 }

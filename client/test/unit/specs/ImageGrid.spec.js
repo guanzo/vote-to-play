@@ -1,11 +1,11 @@
-import ImageGrid from '@/components/viewer/voter/ImageGrid'
+import CandidateGrid from '@/components/viewer/voter/CandidateGrid'
 
-describe('ImageGrid.vue', () => {
+describe('CandidateGrid.vue', () => {
     let candidates = [{ name: 'yo' },{ name: 'hi'}];
     let filteredCandidates = [candidates[0]]
     it('filtered grid should have correct class names', () => {
         
-        const Constructor = Vue.extend(ImageGrid)
+        const Constructor = Vue.extend(CandidateGrid)
         const vm = new Constructor({
             store: new Vuex.Store({}),
             propsData: {

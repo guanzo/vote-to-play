@@ -1,7 +1,7 @@
 import LiveConfig from '@/components/liveconfig/LiveConfig'
 import { SET_GAME } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-import { state, mutations, getters, actions } from '@/store'
+import { state, mutations, getters, actions, modules } from '@/store'
 
 const unsupportedGame = 'werwetds'
 function mockStore(selectedGame, voteCategory){
@@ -9,7 +9,8 @@ function mockStore(selectedGame, voteCategory){
         state: Object.assign({},state, {selectedGame, voteCategory}),
         mutations,
         actions,
-        getters
+        getters,
+        modules
     })
 }
 
@@ -21,9 +22,9 @@ describe('LiveConfig.vue', () => {
         const vm = new Constructor({
             store: mockStore(unsupportedGame, unsupportedGame)
         }).$mount()
+        console.log(vm.$el)
         let unsupportedComponent = vm.$el.querySelector('.game-unsupported')
         let startButton = vm.$el.querySelector('.start-vote')
-
         expect(unsupportedComponent).to.not.be.null
         expect(startButton).to.be.null
     })
@@ -41,6 +42,7 @@ describe('LiveConfig.vue', () => {
         const vm = new Constructor({
             store: mockStore(null, voteCategory)
         }).$mount()
+        console.log(vm.$el)
         vm.$store.commit(SET_GAME, { game })
         
         setTimeout(()=>{//let vm watcher trigger

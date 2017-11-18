@@ -104,14 +104,16 @@ export const getters = {
     }
 }
 
+export const modules = {
+    games
+}
+
 const store = new Vuex.Store({
     state, 
-    modules:{
-        games
-    },
     mutations,
     actions,
-    getters
+    getters,
+    modules
 })
 
 export default store
