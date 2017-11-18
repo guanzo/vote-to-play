@@ -3,7 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NS_BR = 'battlerite'
+export const NAMESPACE = 'Battlerite'
 
 const battlerite = {
     namespaced: true,
@@ -23,11 +23,11 @@ const battlerite = {
             axios.get('https://www.battlerite.com/api/champions/get')
             .then((response)=>{
                 
-                let candidates = _.map(response.data,(val)=>{
+                let candidates = _(response.data).map((val)=>{
                     val.img = val.icon
                     val.imgSplash = val.image
                     return val
-                })
+                }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }

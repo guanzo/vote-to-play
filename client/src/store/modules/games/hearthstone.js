@@ -3,11 +3,11 @@
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
-export const NS_HEARTHSTONE = 'hearthstone'
+export const NAMESPACE = 'Hearthstone'
 //name and title are reversed b/c ppl refer to them by "class" and not actual "name"
 const hearthstone = {
     state: { 
-        gameName: 'Hearthstone',
+        gameName: NAMESPACE,
         candidateNomenclature: 'class',
         maxResults: 3,
         candidates: [

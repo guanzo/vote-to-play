@@ -24,7 +24,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_TOP_TWITCH_GAMES } from '@/store/actions'
-import { NS_ALLGAMES } from '@/store/modules/games/allGames'
+import { NAMESPACE } from '@/store/modules/games/allGames'
 import allGamesSearch from './AllGamesSearch'
 
 
@@ -44,7 +44,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(NS_ALLGAMES,['topGames','searchedGames']),
+        ...Vuex.mapState(NAMESPACE,['topGames','searchedGames']),
         candidates(){
             return this.query.length ? this.searchedGames : this.topGames
         }
@@ -55,7 +55,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch(NS_ALLGAMES+'/'+GET_TOP_TWITCH_GAMES)
+        this.$store.dispatch(NAMESPACE+'/'+GET_TOP_TWITCH_GAMES)
     },
     components:{
         voter,

@@ -4,14 +4,14 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NS_HOTS = 'hots'
+export const NAMESPACE = 'Heroes of the Storm'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
 
 const hots = {
     namespaced: true,
     state: { 
-        gameName: 'Heroes of the Storm',
+        gameName: NAMESPACE,
         candidateNomenclature: 'hero',
         maxResults: 5,
         candidates: []
@@ -25,12 +25,12 @@ const hots = {
         [ACTIONS.GET_CANDIDATES]({commit}){
             axios.get('https://api.hotslogs.com/Public/Data/Heroes')
             .then((response)=>{
-                let candidates = _.map(response.data,(val)=>{
+                let candidates = _(response.data).map((val)=>{
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
                     val.imgSplash = cl.url("hots/splash/" + val.ImageURL + `_splash.jpg`);
                     return val
-                })
+                }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }

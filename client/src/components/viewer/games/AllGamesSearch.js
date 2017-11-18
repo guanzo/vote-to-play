@@ -1,7 +1,7 @@
 
 const TWITCH_SEARCH_URL = 'https://api.twitch.tv/kraken/search/games'
 
-import { NS_ALLGAMES } from '@/store/modules/games/allGames'
+import { NAMESPACE } from '@/store/modules/games/allGames'
 import { SET_SEARCHED_GAMES } from '@/store/mutations'
 
 export default {
@@ -53,18 +53,18 @@ export default {
             if(!this.engine)//wait for ajax
                 return;
             if(query.length == 0)
-                return this.$store.commit(NS_ALLGAMES+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
+                return this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
             var maxResults = 10;
             this.engine.search(query,this.syncCallback,this.asyncCallback)
         },
         syncCallback(queryMatches){
             queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NS_ALLGAMES+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
+            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
         },
         asyncCallback(queryMatches){
             this.engine.add(queryMatches)
             queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NS_ALLGAMES+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
+            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
         },
     },
 }

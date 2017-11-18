@@ -17,6 +17,7 @@
 
 <script>
 
+import { NAMESPACE } from '@/store/modules/games/overwatch'
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 
@@ -34,7 +35,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.games.overwatch.candidates,'name')
+            return this.$store.state.games[NAMESPACE].candidates
         },
         roles(){
             return _(this.candidates).map(d=>d.type).uniq().sort().value()

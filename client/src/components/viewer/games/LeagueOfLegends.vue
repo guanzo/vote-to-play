@@ -21,7 +21,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_CANDIDATES } from '@/store/actions'
-import { NS_LOL } from '@/store/modules/games/lol'
+import { NAMESPACE } from '@/store/modules/games/lol'
 
 const DEFAULT_ROLE = 'Roles'
 
@@ -37,7 +37,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.games.lol.candidates,'name')
+            return this.$store.state.games[NAMESPACE].candidates
         },
         roles(){
             return _(this.candidates).map(d=>d.tags).flatMap().uniq().sort().value()
@@ -48,7 +48,7 @@ export default {
     },
     created(){
         if(!this.candidates.length)
-            this.$store.dispatch(NS_LOL+'/'+GET_CANDIDATES)
+            this.$store.dispatch(NAMESPACE+'/'+GET_CANDIDATES)
     },
     methods:{
         filterCandidate(candidate){

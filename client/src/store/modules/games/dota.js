@@ -1,13 +1,12 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NS_DOTA = 'dota'
-
+export const NAMESPACE = 'Dota 2'
 
 const dota = {
     namespaced: true,
     state: { 
-        gameName: 'Dota 2',
+        gameName: NAMESPACE,
         candidateNomenclature: 'hero',
         maxResults: 5,
         candidates: []
@@ -26,11 +25,11 @@ const dota = {
             })
             .then((response)=>{
 
-                let candidates = _.map(response.data,(val,id)=>{
+                let candidates = _(response.data).map((val,id)=>{
                     val.img = cl.url(`dota/portraits/${id}_sb.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val
-                })
+                }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
             })
         }

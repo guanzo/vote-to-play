@@ -26,7 +26,7 @@ import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/voteresults/VoteResults'
 import unsupported from '@/components/viewer/games/Unsupported'
 import { SET_VOTE_CATEGORY } from '@/store/mutations'
-
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 
 /*
 2 ways to start a vote:
@@ -43,23 +43,18 @@ Changing a game mid-broadcast will override current selected vote type
 
 export default {
     name: 'live-config',
-    data(){
-        return {
-            allGames: this.$store.state.games.allGames.gameName
-        }
-    },
     computed:{
         ...Vuex.mapState(['selectedGame','voteCategory']),
         ...Vuex.mapGetters(['supportedGames']),
         voteCategorys(){
-            return [this.selectedGame, this.allGames]
+            return [this.selectedGame, ALL_GAMES]
         },
         selectedVoteCategory: {
             get () { return this.$store.state.voteCategory },
             set (value) { this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value }) }
         },
         showVoteResults(){
-            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == this.allGames
+            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
         }
     },
     watch:{

@@ -19,7 +19,7 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_CANDIDATES } from '@/store/actions'
-import { NS_BR } from '@/store/modules/games/battlerite'
+import { NAMESPACE } from '@/store/modules/games/battlerite'
 
 const DEFAULT_ROLE = 'Class'
 
@@ -35,7 +35,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.games.battlerite.candidates,'name')
+            return this.$store.state.games[NAMESPACE].candidates
         },
         roles(){
             return _(this.candidates).map(d=>d.class).uniq().sort().value()
@@ -46,7 +46,7 @@ export default {
     },
     created(){
         if(!this.candidates.length)
-            this.$store.dispatch(NS_BR+'/'+GET_CANDIDATES)
+            this.$store.dispatch(NAMESPACE+'/'+GET_CANDIDATES)
     },
     methods:{
         filterCandidate(candidate){

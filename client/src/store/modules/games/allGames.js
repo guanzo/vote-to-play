@@ -1,8 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
-export const NS_ALLGAMES = 'allGames'
-export const ALL_GAMES = 'All Games'
+export const NAMESPACE = 'All Games'
 
 export const BOX_ART_WIDTH = 72;
 export const BOX_ART_HEIGHT = 100;
@@ -10,7 +9,7 @@ export const BOX_ART_HEIGHT = 100;
 const allGames = {
     namespaced: true,
     state:{
-        gameName: ALL_GAMES,//backward compatibility issues
+        gameName: NAMESPACE,
         topGames:[],
         searchedGames:[]
     },

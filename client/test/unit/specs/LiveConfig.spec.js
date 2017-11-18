@@ -1,6 +1,6 @@
 import LiveConfig from '@/components/liveconfig/LiveConfig'
 import { SET_GAME } from '@/store/mutations'
-import { ALL_GAMES } from '@/store/modules/games/allGames'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { state, mutations, getters, actions } from '@/store'
 
 const unsupportedGame = 'werwetds'

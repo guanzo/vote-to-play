@@ -8,7 +8,7 @@
 <script>
 
 
-
+import { NAMESPACE } from '@/store/modules/games/hearthstone'
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 export default {
@@ -20,7 +20,7 @@ export default {
     },
     computed:{
         candidates(){
-            return _.sortBy(this.$store.state.games.hearthstone.candidates,'name')
+            return this.$store.state.games[NAMESPACE].candidates
         },
     },
     components:{
