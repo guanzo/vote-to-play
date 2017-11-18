@@ -11,7 +11,7 @@ const allGames = {
     state:{
         gameName: NAMESPACE,
         topGames:[],
-        searchedGames:[]
+        searchedGames:[],
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state,payload){
