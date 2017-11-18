@@ -86,11 +86,11 @@ module.exports = {
 function addChannelDocument(channelId,channelName){
     var channel = {
         channelId,
-        channelName,
         voteHistory: [ createNewVoteObj() ],//populate with an empty vote
     }
+    //keep updating channelName in case it gets changed
     var channels = db.get().collection('channels')
-    return channels.updateOne({channelId},{ $setOnInsert: channel }, { upsert: true })
+    return channels.updateOne({channelId},{ $set:{ channelName }, $setOnInsert: channel }, { upsert: true })
 }
 
 function createNewVoteObj(voteCategory){

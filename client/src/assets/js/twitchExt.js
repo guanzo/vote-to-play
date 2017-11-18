@@ -7,7 +7,6 @@ import { SET_AUTH, SET_GAME } from '@/store/mutations'
 if(!inIframe() && process.env.NODE_ENV == 'development'){
     let token = process.env.TEST_TOKEN
     let role = 'broadcaster'
-    console.log(token)
     store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
 }
 
@@ -17,6 +16,7 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var payload = JSON.parse(window.atob(parts[1]));
     var role = payload.role
     let channelName = await getChannelName(auth.channelId)
+    
 
     store.dispatch(SET_AUTH, { 
         channelId: auth.channelId, 
