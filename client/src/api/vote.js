@@ -8,13 +8,13 @@ export default {
     connect(data){
         socket = io(process.env.SERVER_URL,{ query: data })
         setListeners()
-        socket.emit('join-channel',data)
+        socket.emit('channels/join',data)
     },
     addVote(data){
-        socket.emit('add-vote',data)
+        socket.emit('votes/add',data)
     },
     startVote(data){
-        socket.emit('start-vote',data)
+        socket.emit('votes/start',data)
     },    
 }
 
@@ -26,17 +26,17 @@ function setListeners(){
     /**
      * Retrieves initial state of stream. should only fire once per page load
      */
-    socket.on(`all-votes`, data => {
+    socket.on(`votes`, data => {
         store.commit(MUTATIONS.SET_CURRENT_VOTE, data)
     });
     
-    socket.on(`add-vote`, data => {
+    socket.on(`votes/add`, data => {
         throttle(function(){
             store.commit(MUTATIONS.ADD_VOTE, { data })
         })
     });
 
-    socket.on(`start-vote`, data => {
+    socket.on(`votes/start`, data => {
         store.commit(MUTATIONS.START_NEW_VOTE, data)
     });
 
