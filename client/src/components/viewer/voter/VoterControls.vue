@@ -8,7 +8,7 @@
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
                 class="pure-button button-small"
-                :class="{ 'is-loading': loading }"
+                :class="{ 'is-loading': isLoading }"
             >
             Vote</button>
         </div>
@@ -26,19 +26,19 @@ export default {
     props:['hasSelectedCandidate','hasSubmittedVote','vote'],
     data(){
         return {
-            loading: false,
+            isLoading: false,
         }
     },
     computed:{
         ...Vuex.mapState(['userId']),
         allowedToVote(){
-            return !this.hasSubmittedVote && !this.loading
+            return !this.hasSubmittedVote && !this.isLoading
         },
     },
     watch:{
         hasSubmittedVote(val){
             if(val)
-                this.loading = false;
+                this.isLoading = false;
         }
     },
     methods:{
@@ -46,7 +46,7 @@ export default {
             if(!this.allowedToVote)
                 return;
                 
-            this.loading = true;
+            this.isLoading = true;
             this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
             this.$emit('submitVote')
         },

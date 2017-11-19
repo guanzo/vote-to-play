@@ -15,36 +15,40 @@
         <h3>Settings</h3>
         <p>By default, viewers can vote on any candidate in the pool. If you want viewers to vote only on specific candidates, you can configure that here.</p>
         <p>You can toggle between "Viewer's choice" and "Streamer's choice" on your Dashboard.</p>
-        <select v-model="selectedVoteCategory" id="vote-type">
-            <option v-for="game in supportedGames" :key="game">
-                {{game}}
-            </option>
-        </select>
-        <whitelist :voteCategory="selectedVoteCategory"></whitelist>
+        <div class="pure-form">
+            <select v-model="selectedVoteCategory" id="vote-type" class="m-b-15">
+                <option v-for="game in supportedGames" :key="game">
+                    {{game}}
+                </option>
+            </select>
+        </div>
+        <game-master :injectedComponent="whitelist" :voteCategory="selectedVoteCategory"></game-master>
 
     </div>
 </template>
 
 <script>
-import whitelist from './Whitelist'
+import whitelist from './whitelist/Whitelist'
+import GameMaster from '@/components/viewer/games/_GameMaster'
 
 export default {
     name: 'config',
     data(){
         return {
-            selectedVoteCategory: ''
+            selectedVoteCategory: '',
+            whitelist
         }
     },
     computed:{
         supportedGames(){
             return this.$store.getters.supportedGames.sort((a,b)=>a.localeCompare(b))
-        }
+        },
     },
     created(){
         this.selectedVoteCategory = this.supportedGames[0]
     },
     components:{
-        whitelist,
+        GameMaster
     }
 }
 </script>

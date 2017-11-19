@@ -6,6 +6,7 @@ import Splash from './Splash'
 import VoterHeader from './VoterHeader'
 import CandidateGrid from './CandidateGrid'
 import VoterControls from './VoterControls'
+import VoteResults from '@/components/voteresults/VoteResults'
 
 import splashTransition from './SplashTransition'
 
@@ -14,37 +15,40 @@ export default {
     props:['candidates','filteredCandidates'],
     render(h){//using jsx in order to pass scoped slot from this parent to this child
         return (
-            <transition name="fade-vertical" onAfterLeave={this.afterUiLeave}>
-                <div v-show={this.showUI} class="voter overlay-background">
-                    <Splash 
-                        splashTransition={this.splashTransition} 
-                        selectedCandidate={this.selectedCandidate}
+            <div class="voter">
+                <transition name="fade-vertical" onAfterLeave={this.afterUiLeave}>
+                    <div v-show={this.showUI} class="vote-form overlay-background">
+                        <Splash 
+                            splashTransition={this.splashTransition} 
+                            selectedCandidate={this.selectedCandidate}
 
-                        onTransitionDone={this.endSplashTransition}
-                    ></Splash>
-                    <VoterHeader
-                        hasSelectedCandidate={this.hasSelectedCandidate}
-                        selectedCandidate={this.selectedCandidate}
-                        class={this.isInvisible}
-                    ></VoterHeader>
-                    <CandidateGrid 
-                        candidates={this.candidates}
-                        filteredCandidates={this.filteredCandidates}
-                        class={this.isInvisible}
-                        scopedSlots={this.$scopedSlots}
-                    ></CandidateGrid>
-                    <VoterControls
-                        hasSelectedCandidate={this.hasSelectedCandidate}
-                        hasSubmittedVote={this.hasSubmittedVote}
-                        vote={this.selectedCandidate.name}
-                        class={this.isInvisible} 
+                            onTransitionDone={this.endSplashTransition}
+                        ></Splash>
+                        <VoterHeader
+                            hasSelectedCandidate={this.hasSelectedCandidate}
+                            selectedCandidate={this.selectedCandidate}
+                            class={this.isInvisible}
+                        ></VoterHeader>
+                        <CandidateGrid 
+                            candidates={this.candidates}
+                            filteredCandidates={this.filteredCandidates}
+                            class={this.isInvisible}
+                            scopedSlots={this.$scopedSlots}
+                        ></CandidateGrid>
+                        <VoterControls
+                            hasSelectedCandidate={this.hasSelectedCandidate}
+                            hasSubmittedVote={this.hasSubmittedVote}
+                            vote={this.selectedCandidate.name}
+                            class={this.isInvisible} 
 
-                        onSubmitVote={this.startSplashTransition}
-                    >
-                    { this.$slots.filters }
-                    </VoterControls> 
-                </div>
-            </transition>
+                            onSubmitVote={this.startSplashTransition}
+                        >
+                        { this.$slots.filters }
+                        </VoterControls> 
+                    </div>
+                </transition>
+                <VoteResults></VoteResults>
+            </div>
         )
     },
     data: ()=>({ splashTransition: splashTransition() }),
@@ -88,28 +92,31 @@ export default {
 <style lang="scss" scoped>
 
 .voter{
-    position: relative;
-    padding: 15px;
-    max-height: 100%;
-    min-height: 300px;
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-        "header"
-        "main"
-        "footer";
-    grid-row-gap: 15px;
-    /* grid-template:
-        auto "header" auto
-        auto "main" auto
-        auto "footer" auto
-        / auto auto auto; */
-    
-    .invisible{
-        opacity: 0;
-        pointer-events: none;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    .vote-form{
+        
+        position: relative;
+        padding: 15px;
+        max-height: 100%;
+        min-height: 300px;
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-row-gap: 15px;        
+        .invisible{
+            opacity: 0;
+            pointer-events: none;
+        }
     }
 }
+
 
 </style>

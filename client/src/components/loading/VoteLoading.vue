@@ -1,13 +1,15 @@
 <template>
-    <div class='loading'>
-        <div class='loading__square' v-for="n in 7" :key="n"></div>
+    <div class='vote-loading'>
+        <div class='vote-loading__square' v-for="n in 7" :key="n"></div>
     </div>
 </template>
 
 <script>
-
+/**
+ * Not a generic loader, only show when no votes are present.
+ */
 export default {
-    name:'loading'
+    name:'vote-loading'
 }
 
 </script>
@@ -58,9 +60,9 @@ $duration: 10s;
 
 
 // Set the rotation to '-135deg' to get a heart shaped loading indicator. 😘
-.loading {
+.vote-loading {
   position: relative;
-  margin: 15px;
+  margin: 20px;
   width: $square * 3;
   height: $square * 3;
   transform: rotate(45deg);
@@ -70,7 +72,7 @@ $duration: 10s;
 // Like I said, I'm using 'position: absolute' because of the background-attachment that otherwise doesn't work.
 // The 'background-attachment: fixed' lets it look like the gradient is flowing across all pieces instead of each piece individually.
 // At the end of the style you can see a little loop that sets different negative animation delays so the pieces start animating at different positions.
-.loading__square {
+.vote-loading__square {
   position: absolute;
   top: 0;
   left: 0;

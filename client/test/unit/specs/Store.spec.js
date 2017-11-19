@@ -1,15 +1,18 @@
 import * as MUTATIONS from '@/store/mutations'
 import { mutations, getters } from '@/store'
+import mainGameModule, { gameModuleRequiredProperties } from '@/store/modules/games/_main'
 
-var selectedCandidateResetTest = () => {
-    const state = { selectedCandidate: { name:'yo' } }
-    mutations[MUTATIONS.SET_GAME](state, {game: ''})
-    expect(Object.keys(state.selectedCandidate).length).to.equal(0)
-}
 
 describe('store',()=>{
-
+    
     describe('mutations',()=>{
+        
+        var selectedCandidateResetTest = () => {
+            const state = { selectedCandidate: { name:'yo' } }
+            mutations[MUTATIONS.SET_GAME](state, {game: ''})
+            expect(Object.keys(state.selectedCandidate).length).to.equal(0)
+        }
+
         describe('SET_GAME',()=>{
             it('resets selected candidate',selectedCandidateResetTest)
         })
@@ -36,7 +39,40 @@ describe('store',()=>{
             })
         })
     })
+
+    describe('gameModule',()=>{
+        let gameModules = _.omit(mainGameModule.modules,'All Games')
+        var types = gameModuleRequiredProperties();
+
+        _.each(gameModules,(gameModule)=>{
+            it(gameModule.state.gameName + ' implements the game interface',()=>{
+                comparePropertyTypes(types,gameModule)
+            })
+        })
+
+    })
 })
+
+function comparePropertyTypes(source,target) {
+    for (var property in source) {
+        if (source.hasOwnProperty(property)) {
+
+            expect(target).to.have.property(property)
+
+            let sourceValue = source[property]//stringified type
+            let targetValue = target[property]//value
+
+            if(Array.isArray(sourceValue))
+                expect(targetValue).to.be.an('array', `Property '${property}'`)
+            else if (typeof sourceValue == "object")
+                comparePropertyTypes(sourceValue, targetValue);
+            else
+                expect(typeof targetValue).to.equal(sourceValue, `Property '${property}'`)
+        }
+    }
+}
+
+
 /* 
 const actionsInjector = require('inject-loader!@/store')
 //socket.startVote({ channelId: state.channelId, voteCategory: state.voteCategory })

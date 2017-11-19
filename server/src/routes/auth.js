@@ -11,7 +11,6 @@ module.exports = app => {
     const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
     
     if(!token){
-        console.log('no token')
         return res.status(403).send({
             success: false,
             message: 'No token provided.'

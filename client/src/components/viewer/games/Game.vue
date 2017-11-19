@@ -1,7 +1,10 @@
 <template>
-    <div v-if="candidates.length" :class="game.className">
-        <!-- <component :is="componentTest"></component> -->
-        <voter :candidates="candidates" :filteredCandidates="filteredCandidates">
+    <div v-if="candidates.length" :class="game.className" class="game">
+        <component 
+            :is="injectedComponent" 
+            :candidates="candidates" 
+            :filteredCandidates="filteredCandidates"
+        >
             <div v-if="game.filters" slot="filters">
                 <template v-for="filter in game.filters">
                     <input v-if="filter.type == 'text'" 
@@ -17,8 +20,7 @@
                     &nbsp;
                 </template>
             </div>
-        </voter>
-        <vote-results></vote-results>
+        </component>
     </div>
 </template>
 
@@ -27,14 +29,17 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_CANDIDATES } from '@/store/actions'
-
 /**
  * Generic component that serves all supported games.
  * 
+ * voteCategory is either fed by
+ * -Viewer: streamer is changing game
+ * -Config: streamer is configuring whitelist
  */
 
 export default {
     name: 'game',
+    props:['injectedComponent','voteCategory'],
     data(){
         return {
             isLoading: false
@@ -42,9 +47,9 @@ export default {
     },
     computed:{
         ...Vuex.mapState(['isAuthed']),
-        ...Vuex.mapGetters({
-            game: 'selectedGameModule'
-        }),
+        game(){
+            return this.$store.getters.gameModuleByName(this.voteCategory)
+        },
         namespace(){
             return this.game.gameName
         },
@@ -62,7 +67,7 @@ export default {
                 if(this.isAuthed)
                     this.fetchCandidates()
             },
-            immediate: true
+            immediate: false
         },
         namespace(){
             this.fetchCandidates()
@@ -76,7 +81,10 @@ export default {
             if(!this.candidates.length && !this.isLoading){
                 this.isLoading = true;
                 await this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES)
-                this.isLoading = false
+                setTimeout(()=>{
+                    this.isLoading = false
+                },10000)
+                
             }
         },
     },
@@ -89,6 +97,9 @@ export default {
 
 
 <style lang="scss">
+
+.game{
+}
 
 .battlerite{
     img {

@@ -11,7 +11,7 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game-master :voteCategory="voteCategory"></game-master>
+                <game-master :injectedComponent="voter" :voteCategory="voteCategory"></game-master>
             </div>
         </transition>
     </div>
@@ -22,7 +22,7 @@
 
 import TestUtil from './testgui/TestUtil'
 import GameMaster from './games/_GameMaster'
-import voteResults from '@/components/voteresults/VoteResults'
+import voter from '@/components/viewer/voter/Voter'
 
 export default {
     name: 'viewer',
@@ -30,7 +30,8 @@ export default {
         return {
             isExpanded: false,
             showExpandTip: false,
-            logoUrl: require("@/assets/images/logos/dotavoter-logo-red-sm.png")
+            logoUrl: require("@/assets/images/logos/dotavoter-logo-red-sm.png"),
+            voter
         }
     },
     computed:{
@@ -55,12 +56,11 @@ export default {
         toggleUI(){
             this.isExpanded = !this.isExpanded
             this.showExpandTip = false;
-        },
+        }
     },
     components:{
         GameMaster,
-        TestUtil,
-        voteResults
+        TestUtil
     }
 }
 </script>
@@ -113,12 +113,8 @@ $header-element-size: 35px;
         flex: 1;
         display: flex;
         justify-content: flex-end;
-        overflow: hidden;
         > * {
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-end;
-            width: 100%;
+            flex: 1;
         }
     }
     .expand-tip {

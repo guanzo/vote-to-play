@@ -1,5 +1,5 @@
-
-
+import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
@@ -68,7 +68,17 @@ const hearthstone = {
             }
         ],
         className: 'hearthstone',
+        filters:[]
     },
+    mutations:{//ensure it conforms to game module expected properties
+        [MUTATIONS.SET_CANDIDATES](){}
+    },
+    actions:{
+        [ACTIONS.GET_CANDIDATES](){}
+    },
+    getters:{
+        filteredCandidates(){}
+    }
 }
 
 export default hearthstone

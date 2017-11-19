@@ -6,21 +6,13 @@ import unsupported  from './Unsupported'
 import store        from '@/store'
 import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
 
-
-
-var test = {
-    render(h){
-        return <div>TEST TEST TEST</div>
-    }
-}
-
 //functional component that returns the game view,
-//or a notification if the game isn't supported
+//and injects the "injectedComponent" prop
+//which is either the voter or whitelist component
 export default {
     functional: true,
-    props:['voteCategory'],
     render(createElement, context){
-        var { voteCategory } = context.props
+        var { voteCategory, injectedComponent } = context.props
         let supportedGames = store.getters.supportedGames
         var component;
         if(voteCategory == ALL_GAMES)
@@ -29,10 +21,11 @@ export default {
             component = game
         else
             component = unsupported
-            
+        
         return createElement(component,{
             props:{
-                componentTest: test
+                injectedComponent,
+                voteCategory
             }
         })
     },

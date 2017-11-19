@@ -1,6 +1,6 @@
 <template>
 
-<div class="game-unsupported overlay-background">
+<div class="game-unsupported overlay-background text-center">
     <p>
         Sorry, Vote to Play doesn't support {{ selectedGame }}. <br>
         If you believe this game is a good fit for this extension, please contact me.
@@ -25,6 +25,7 @@ export default {
 
 .viewer .game-unsupported {
     width: 500px !important;
+    flex: none;
 }
 
 .game-unsupported {

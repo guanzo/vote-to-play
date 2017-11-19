@@ -1,4 +1,5 @@
-
+import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
 
 import allGames,    { NAMESPACE as NS_AG }      from './allGames'
 import battlerite,  { NAMESPACE as NS_BR }      from './battlerite'
@@ -24,13 +25,41 @@ export const getters = {
 
 export default {
     modules:{
-        [NS_DOTA]: dota,
-        [NS_OW]: overwatch,
-        [NS_LOL]:lol,
-        [NS_HS]: hearthstone,
-        [NS_HOTS]: hots,
-        [NS_BR]: battlerite,
-        [NS_AG]: allGames,
+        [NS_AG]:    allGames,
+        [NS_BR]:    battlerite,
+        [NS_DOTA]:  dota,
+        [NS_HS]:    hearthstone,
+        [NS_HOTS]:  hots,
+        [NS_LOL]:   lol,
+        [NS_OW]:    overwatch,
     },
     getters
+}
+
+/**
+ * Ghetto interface
+ * Used for unit testing.
+ * Each supported game (except for ALL_GAMES) 
+ * should at least contain these store properties
+ */
+export function gameModuleRequiredProperties(){
+    return {
+        namespaced: "boolean",
+        state:{
+            gameName: "string",
+            maxVoteResults: "number",
+            candidates: [],
+            className: "string",
+            filters: [],
+        },
+        mutations:{
+            [MUTATIONS.SET_CANDIDATES]: "function"
+        },
+        actions:{
+            [ACTIONS.GET_CANDIDATES]: "function"
+        },
+        getters:{
+            filteredCandidates: "function"
+        }
+    }
 }

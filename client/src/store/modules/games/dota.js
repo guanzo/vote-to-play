@@ -37,8 +37,6 @@ const dota = {
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
-            console.log('hi')
-            console.log(rootState.token)
             return axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
                 headers:{
                     'Authorization': rootState.token,

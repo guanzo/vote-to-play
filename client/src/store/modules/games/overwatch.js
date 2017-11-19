@@ -1,3 +1,5 @@
+import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
 
 import heroes from '@/assets/json/overwatch_heroes'
 
@@ -36,6 +38,12 @@ const ow = {
                 ]
             }
         ]
+    },
+    mutations:{//ensure it conforms to game module expected properties
+        [MUTATIONS.SET_CANDIDATES](){}
+    },
+    actions:{
+        [ACTIONS.GET_CANDIDATES](){}
     },
     getters:{
         filteredCandidates({candidates, filters}){

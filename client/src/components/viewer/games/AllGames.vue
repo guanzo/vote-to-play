@@ -1,7 +1,11 @@
 <template>
 
-<div v-if="candidates.length" class="all-games">
-    <voter class="voter-all-games" :candidates="candidates" :filteredCandidates="candidates">
+<div v-if="topGames.length" class="all-games">
+    <component :is="injectedComponent"
+        :candidates="candidates" 
+        :filteredCandidates="candidates"
+        class="voter-all-games" 
+    >
         <div class="game" slot-scope="{ candidate }" slot="candidate">
             <div class="image-wrapper candidate">
                 <img :src="candidate.img">
@@ -13,8 +17,7 @@
         <div slot="filters">
             <input v-model="query" placeholder="Search games">
         </div>
-    </voter>
-    <vote-results></vote-results>
+    </component>
 </div>
 
 </template>
@@ -27,7 +30,6 @@ import { GET_TOP_TWITCH_GAMES } from '@/store/actions'
 import { NAMESPACE } from '@/store/modules/games/allGames'
 import allGamesSearch from './AllGamesSearch'
 
-
 /*
 If no query, show popular games, else show games that match query
 
@@ -37,9 +39,11 @@ too much work to display images for any game..
 export default {
     name: 'all-games',
     mixins:[allGamesSearch],
+    props:['injectedComponent','voteCategory'],
     data(){
         return {
             query:'',
+            isLoading: false,
         }
     },
     computed:{
@@ -53,8 +57,12 @@ export default {
             this.searchGames(query)
         }
     },
-    created(){
-        this.$store.dispatch(NAMESPACE+'/'+GET_TOP_TWITCH_GAMES)
+    async created(){
+        this.isLoading = true;
+        await this.$store.dispatch(NAMESPACE+'/'+GET_TOP_TWITCH_GAMES)
+        setTimeout(()=>{
+            this.isLoading = false
+        },2000)
     },
     components:{
         voter,
@@ -79,7 +87,7 @@ export default {
         width: 72px;
         height: 100px;
     }
-    .voter-all-games{
+    .voter-all-games .vote-form{
         overflow: hidden;
         flex: 1; //ensure always full width, so the div doesn't jump around when querying
         .game{

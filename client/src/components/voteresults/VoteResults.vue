@@ -9,7 +9,8 @@
             </div>
             <div v-else class="no-results" key="noresults">
                 <div>Waiting for votes...</div>
-                <loading></loading>
+                <vote-loading></vote-loading>
+                <!-- <loading></loading> -->
             </div>
         </transition>
         
@@ -30,7 +31,8 @@
 
 <script>
 
-import loading from '@/components/Loading'
+import voteLoading from '@/components/loading/VoteLoading'
+import loading from '@/components/loading/Loading'
 import voteTable from './VoteTable'
 
 export default {
@@ -91,6 +93,7 @@ export default {
 	},
     components:{
         voteTable,
+        voteLoading,
         loading
     }
 }

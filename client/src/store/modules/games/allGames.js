@@ -26,7 +26,7 @@ const allGames = {
     actions:{
         [ACTIONS.GET_TOP_TWITCH_GAMES]({commit}){
             let limit = 30;
-            axios.get(`https://api.twitch.tv/kraken/games/top?limit=${limit}`,{
+            return axios.get(`https://api.twitch.tv/kraken/games/top?limit=${limit}`,{
                 headers:{
                             'Client-ID':EXTENSION_CLIENT_ID,
                         }
