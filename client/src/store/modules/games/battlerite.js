@@ -3,6 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 export const NAMESPACE = 'Battlerite'
 
 const battlerite = {
@@ -12,6 +13,7 @@ const battlerite = {
         candidateNomenclature: 'champion',
         maxVoteResults: 5,
         candidates: [],
+        whitelist:[],
         className: 'battlerite',
         filters:[
             {
@@ -35,7 +37,8 @@ const battlerite = {
             state.candidates = candidates
             let roles = _(candidates).map(d=>d.class).uniq().sort().value()
             state.filters[1].options.push(...roles)
-        }
+        },
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){

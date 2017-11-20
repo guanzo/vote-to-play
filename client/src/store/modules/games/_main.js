@@ -1,5 +1,4 @@
 import * as MUTATIONS from '@/store/mutations'
-import * as ACTIONS from '@/store/actions'
 
 import allGames,    { NAMESPACE as NS_AG }      from './allGames'
 import battlerite,  { NAMESPACE as NS_BR }      from './battlerite'
@@ -8,6 +7,18 @@ import hearthstone, { NAMESPACE as NS_HS }      from './hearthstone'
 import hots,        { NAMESPACE as NS_HOTS }    from './hots'
 import lol,         { NAMESPACE as NS_LOL }     from './lol'
 import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
+
+export const mutations = {
+    [MUTATIONS.SET_WHITELIST](state, { whitelist }){
+        _.each(state,game=>{
+            let gameName = game.gameName;
+            if(whitelist && whitelist[gameName])
+                game.whitelist = whitelist[gameName]
+            else
+                game.whitelist = []
+        })
+    }
+}
 
 export const getters = {
     supportedGames(state){
@@ -23,6 +34,7 @@ export const getters = {
     }
 }
 
+
 export default {
     modules:{
         [NS_AG]:    allGames,
@@ -33,33 +45,6 @@ export default {
         [NS_LOL]:   lol,
         [NS_OW]:    overwatch,
     },
+    mutations,
     getters
-}
-
-/**
- * Ghetto interface
- * Used for unit testing.
- * Each supported game (except for ALL_GAMES) 
- * should at least contain these store properties
- */
-export function gameModuleRequiredProperties(){
-    return {
-        namespaced: "boolean",
-        state:{
-            gameName: "string",
-            maxVoteResults: "number",
-            candidates: [],
-            className: "string",
-            filters: [],
-        },
-        mutations:{
-            [MUTATIONS.SET_CANDIDATES]: "function"
-        },
-        actions:{
-            [ACTIONS.GET_CANDIDATES]: "function"
-        },
-        getters:{
-            filteredCandidates: "function"
-        }
-    }
 }

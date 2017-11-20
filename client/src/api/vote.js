@@ -32,13 +32,17 @@ function setListeners(){
     
     socket.on(`votes/add`, data => {
         throttle(function(){
-            store.commit(MUTATIONS.ADD_VOTE, { data })
+            store.commit(MUTATIONS.ADD_VOTE, data)
         })
     });
 
     socket.on(`votes/start`, data => {
         store.commit(MUTATIONS.START_NEW_VOTE, data)
     });
+
+    socket.on('whitelist', data => {
+        store.commit(MUTATIONS.SET_WHITELIST, data )
+    })
 
     socket.on('error',console.error)
 

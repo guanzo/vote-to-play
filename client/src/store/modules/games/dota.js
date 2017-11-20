@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 export const NAMESPACE = 'Dota 2'
 
 const dota = {
@@ -10,6 +11,7 @@ const dota = {
         candidateNomenclature: 'hero',
         maxVoteResults: 5,
         candidates: [],
+        whitelist:[],
         className: 'dota',
         filters:[
             {
@@ -33,7 +35,8 @@ const dota = {
             state.candidates = candidates
             let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
-        }
+        },
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){

@@ -82,12 +82,21 @@ module.exports = {
             },
         )
     },
+    getWhitelist(channelId){
+        var channels = db.get().collection('channels')
+        return channels.findOne({ channelId }, { whitelist: 1 , '_id': 0})
+    },
+    setWhitelist(channelId,whitelist){
+        var channels = db.get().collection('channels')
+
+    }
 }
 
 
 function addChannelDocument(channelId,channelName, game){
     var channel = {
         channelId,
+        whitelist:{},
         voteHistory: [ createNewVoteObj(game) ],//populate with an empty vote
     }
     //keep updating channelName in case it gets changed

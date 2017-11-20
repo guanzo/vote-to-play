@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 export const NAMESPACE = 'League of Legends'
 
 const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
@@ -12,6 +13,7 @@ const lol = {
         candidateNomenclature: 'champion',
         maxVoteResults: 5,
         candidates: [],
+        whitelist:[],
         className: 'league-of-legends',
         filters:[
             {
@@ -35,7 +37,8 @@ const lol = {
             state.candidates = candidates
             let roles = _(candidates).map(d=>d.tags).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
-        }
+        },
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){

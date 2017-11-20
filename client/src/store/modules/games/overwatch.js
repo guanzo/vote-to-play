@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 import heroes from '@/assets/json/overwatch_heroes'
 
 var candidates = _(heroes).map(candidate=>{
@@ -20,6 +21,7 @@ const ow = {
         candidateNomenclature: 'hero',
         maxVoteResults: 3,
         candidates,
+        whitelist:[],
         className: 'overwatch',
         filters:[
             {
@@ -40,7 +42,8 @@ const ow = {
         ]
     },
     mutations:{//ensure it conforms to game module expected properties
-        [MUTATIONS.SET_CANDIDATES](){}
+        [MUTATIONS.SET_CANDIDATES](){},
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES](){}

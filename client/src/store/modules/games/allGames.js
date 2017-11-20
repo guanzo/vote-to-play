@@ -12,6 +12,7 @@ const allGames = {
         gameName: NAMESPACE,
         topGames:[],
         searchedGames:[],
+        whitelist:[],
         maxVoteResults: 5,
     },
     mutations:{
@@ -21,7 +22,8 @@ const allGames = {
         [MUTATIONS.SET_SEARCHED_GAMES](state,{searchedGames}){
             searchedGames.forEach(setImage)
             state.searchedGames = searchedGames
-        }
+        },
+        
     },
     actions:{
         [ACTIONS.GET_TOP_TWITCH_GAMES]({commit}){
@@ -36,7 +38,8 @@ const allGames = {
                     topGames.forEach(setImage)
                     commit(MUTATIONS.SET_TOP_TWITCH_GAMES, { topGames })
                 })
-        }
+        },
+        
     },
     getters:{
         test(state){

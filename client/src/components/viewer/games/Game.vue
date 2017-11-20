@@ -6,6 +6,7 @@
                 :is="injectedComponent" 
                 :candidates="candidates" 
                 :filteredCandidates="filteredCandidates"
+                :whitelist="whitelist"
             >
                 <div v-if="game.filters" slot="filters">
                     <template v-for="filter in game.filters">
@@ -61,15 +62,12 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        namespace(){
-            return this.game.gameName
-        },
-        candidates(){
-            return this.game.candidates
-        },
+        namespace(){ return this.game.gameName },
+        candidates(){ return this.game.candidates },
         filteredCandidates(){
             return this.$store.getters[this.namespace+'/filteredCandidates']
-        }
+        },
+        whitelist(){ return this.game.whitelist }
     },
     watch:{
         isAuthed: {

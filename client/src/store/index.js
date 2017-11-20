@@ -48,7 +48,7 @@ export const mutations = {
         state.createdAt = payload.createdAt
     },
     [MUTATIONS.ADD_VOTE]( state, payload ){
-        state.votes.push(payload.data)
+        state.votes.push(payload)
     },
     [MUTATIONS.START_NEW_VOTE]( state, { voteCategory } ){
         state.votes = []

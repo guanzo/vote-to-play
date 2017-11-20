@@ -4,6 +4,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 export const NAMESPACE = 'Heroes of the Storm'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
@@ -15,6 +16,7 @@ const hots = {
         candidateNomenclature: 'hero',
         maxVoteResults: 5,
         candidates: [],
+        whitelist:[],
         className: 'heroes-of-the-storm',
         filters:[
             {
@@ -48,7 +50,8 @@ const hots = {
             state.filters[1].options.push(...roles)
             let roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
             state.filters[2].options.push(...roles2)
-        }
+        },
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){

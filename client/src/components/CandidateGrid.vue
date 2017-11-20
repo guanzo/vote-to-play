@@ -37,6 +37,7 @@ export default {
     methods:{
         selectCandidate(candidate){
             this.$store.commit(SELECT_CANDIDATE, { candidate })
+            this.$emit('selectCandidate',candidate)
         },
         filterClass(candidate){
             if(!this.hasActiveFilter)
@@ -65,6 +66,7 @@ $dark: #333;
     overflow-y: auto;
     overflow-x: hidden;
     transition: .5s;
+    user-select: none;
     &.light .candidate:after{
         box-shadow: 0px 0px 2px 1px $light;
     }
@@ -82,7 +84,7 @@ $dark: #333;
         transition: .5s;
         cursor: pointer;
         &.filtered-out {
-            filter: brightness(20%);
+            filter: brightness(25%);
         }
         &:after{
             content: '';

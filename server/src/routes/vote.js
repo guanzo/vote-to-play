@@ -51,13 +51,16 @@ module.exports = (server) => {
         }
 
         /** 1.5 events */
-        
         socket.on('channels/join',async data=>{
             let { channelId } = data
             socket.join(channelId)
 
-            let currentVote = await model.getCurrentVote(data);
+            let [currentVote,whitelist] = await Promise.all([
+                    model.getCurrentVote(data),
+                    model.getWhitelist(data.channelId)
+                ]);
             socket.emit(`votes`,currentVote)
+            socket.emit('whitelist',whitelist)
         })
     
 

@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
 import { mutations, getters } from '@/store'
-import mainGameModule, { gameModuleRequiredProperties } from '@/store/modules/games/_main'
+import mainGameModule from '@/store/modules/games/_main'
 
 
 describe('store',()=>{
@@ -72,6 +73,35 @@ function comparePropertyTypes(source,target) {
     }
 }
 
+
+/**
+ * Ghetto interface
+ * Used for unit testing.
+ * Each supported game (except for ALL_GAMES) 
+ * should at least contain these store properties
+ */
+function gameModuleRequiredProperties(){
+    return {
+        namespaced: "boolean",
+        state:{
+            gameName: "string",
+            maxVoteResults: "number",
+            candidates: [],
+            whitelist:[],
+            className: "string",
+            filters: [],
+        },
+        mutations:{
+            [MUTATIONS.SET_CANDIDATES]: "function"
+        },
+        actions:{
+            [ACTIONS.GET_CANDIDATES]: "function"
+        },
+        getters:{
+            filteredCandidates: "function"
+        }
+    }
+}
 
 /* 
 const actionsInjector = require('inject-loader!@/store')

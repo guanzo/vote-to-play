@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 
+
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
 export const NAMESPACE = 'Hearthstone'
@@ -67,11 +68,13 @@ const hearthstone = {
                 imgSplash: cl.url('hearthstone/splash/Warrior_splash.jpg')
             }
         ],
+        whitelist:[],
         className: 'hearthstone',
         filters:[]
     },
     mutations:{//ensure it conforms to game module expected properties
-        [MUTATIONS.SET_CANDIDATES](){}
+        [MUTATIONS.SET_CANDIDATES](){},
+        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES](){}
