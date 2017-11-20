@@ -12,19 +12,24 @@ const allGames = {
         gameName: NAMESPACE,
         candidateNomenclature: 'game',
         className: 'all-games',
+        showNameInGrid: true,
         maxVoteResults: 5,
-        showGridCandidateName: true,
+        candidates:[],
         topGames:[],
         searchedGames:[],
         whitelist:[],
     },
     mutations:{
-        [MUTATIONS.SET_TOP_TWITCH_GAMES](state,payload){
-            state.topGames = payload.topGames
+        [MUTATIONS.SET_TOP_TWITCH_GAMES](state,{ topGames }){
+            state.candidates = topGames
+            state.topGames = topGames
         },
         [MUTATIONS.SET_SEARCHED_GAMES](state,{searchedGames}){
             searchedGames.forEach(setImage)
-            state.searchedGames = searchedGames
+            if(searchedGames.length)
+                state.candidates = searchedGames
+            else
+                state.candidates = state.topGames
         },
         
     },
@@ -45,8 +50,8 @@ const allGames = {
         
     },
     getters:{
-        test(state){
-            return state
+        filteredCandidates(state){
+            return state.candidates
         }
     }
 }

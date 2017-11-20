@@ -1,19 +1,7 @@
 <template>
 
-<div v-if="topGames.length" class="all-games">
-    <component :is="injectedComponent"
-        :candidates="candidates" 
-        :filteredCandidates="candidates"
-        class="voter-all-games" 
-    >
-        <div class="game" slot-scope="{ candidate }" slot="candidate">
-            <div class="image-wrapper candidate">
-                <img :src="candidate.img">
-            </div>
-            <div class="game-name">
-                <div class="ellipsis">{{ candidate.name }}</div>
-            </div>
-        </div>
+<div v-if="candidates.length" class="all-games">
+    <component :is="injectedComponent" v-bind="propsObj">
         <div slot="filters">
             <input v-model="query" placeholder="Search games">
         </div>
@@ -47,10 +35,19 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(NAMESPACE,['topGames','searchedGames']),
-        candidates(){
-            return this.query.length ? this.searchedGames : this.topGames
-        }
+        ...Vuex.mapState(NAMESPACE,['candidates','topGames','searchedGames']),
+        game(){
+            return this.$store.state.games[NAMESPACE]
+        },
+        propsObj(){
+            let game = this.game;
+            return {
+                candidates: game.candidates,
+                filteredCandidates: game.candidates,
+                whitelist: game.whitelist,
+                showName: game.showNameInGrid
+            }
+        },
     },
     watch:{
         query(query){
@@ -71,7 +68,7 @@ export default {
 
 <style lang="scss">
 
-.all-games{
+.all-games {
     
     img {
         width: 100%;
@@ -85,20 +82,14 @@ export default {
         width: 72px;
         height: 100px;
     }
-    .voter-all-games .vote-form{
+    .vote-form{
         overflow: hidden;
         flex: 1; //ensure always full width, so the div doesn't jump around when querying
-        .game{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 72px;
-            font-size: 12px;
-            margin: 3px;
-            .game-name {
-                max-width: 100%;
-            }
-        }
+    }
+    .candidate{
+        max-width: 72px;
+        font-size: 12px;
+        margin: 3px;
     }
 }
 

@@ -1,15 +1,12 @@
 import Splash  from '@/components/viewer/voter/Splash'
-import splashTransition from '@/components/viewer/voter/SplashTransition'
-
-
-let duration = splashTransition().duration
+import Voter from '@/components/viewer/voter/Voter'
 
 describe('Splash.vue', ()=>{
     
     it('ends transition immediately if splash image fails to load', function(done){
         this.timeout(100)
         let srcThatWillFail = 'fdaosfosdifn'
-        let options = splashTransition();
+        let options = Voter.methods.splashTransitionDefaults();
         
         const Constructor = Vue.extend(Splash)
         const vm = new Constructor({

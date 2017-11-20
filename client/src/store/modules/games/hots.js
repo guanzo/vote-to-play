@@ -16,7 +16,7 @@ const hots = {
         candidateNomenclature: 'hero',
         className: 'heroes-of-the-storm',
         maxVoteResults: 5,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates: [],
         whitelist:[],
         filters:[

@@ -1,16 +1,14 @@
 <template>
 
 <div class="whitelist">
-    
     <candidate-grid 
-        v-if="candidates.length" 
-        :candidates="candidates" 
+        v-bind="$attrs"
         :filteredCandidates="whitelistedCandidates"
         @selectCandidate="onSelectCandidate"
         class="candidate-grid dark m-b-15"
     ></candidate-grid>
     <whitelist-controls>
-        <!-- <slot name="filters"></slot> -->
+        <slot name="filters"></slot>
     </whitelist-controls>
 </div>
 
@@ -23,7 +21,8 @@ import candidateGrid from '@/components/CandidateGrid'
 import whitelistControls from './WhitelistControls'
 export default {
     name:'whitelist',
-    props:['candidates','filteredCandidates','voteCategory','whitelist'],
+    inheritAttrs: false,
+    props:['voteCategory','filteredCandidates'],
     data(){
         return {
             whitelistedCandidates:[]
@@ -38,7 +37,7 @@ export default {
         }
     },
     created(){
-        
+        console.log(this.$attrs)
     },
     methods:{
         onSelectCandidate(candidate){

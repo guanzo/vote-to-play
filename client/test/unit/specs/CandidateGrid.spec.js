@@ -14,8 +14,8 @@ describe('CandidateGrid.vue', () => {
             }
         }).$mount()
         let children = vm.$el.children
-        expect(children[0].firstChild.className).to.include('filtered-in')
-        expect(children[1].firstChild.className).to.include('filtered-out')
+        expect(children[0].className).to.include('filtered-in')
+        expect(children[1].className).to.include('filtered-out')
     })
 })
 

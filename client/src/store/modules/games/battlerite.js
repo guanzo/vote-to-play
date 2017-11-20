@@ -13,7 +13,7 @@ const battlerite = {
         candidateNomenclature: 'champion',
         className: 'battlerite',
         maxVoteResults: 5,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates: [],
         whitelist:[],
         filters:[

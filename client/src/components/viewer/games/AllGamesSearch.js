@@ -50,8 +50,6 @@ export default {
     },
     methods:{
         searchGames: function(query){
-            if(!this.engine)//wait for ajax
-                return;
             if(query.length == 0)
                 return this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
             var maxResults = 10;

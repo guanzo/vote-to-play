@@ -4,9 +4,7 @@
             <component 
                 v-if="!isLoading" 
                 :is="injectedComponent" 
-                :candidates="candidates" 
-                :filteredCandidates="filteredCandidates"
-                :whitelist="whitelist"
+                v-bind="propsObj"
             >
                 <div v-if="game.filters" slot="filters">
                     <template v-for="filter in game.filters">
@@ -62,9 +60,19 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
+        candidates(){
+            return this.game.candidates
+        },
         namespace() { return this.game.gameName   },
-        candidates(){ return this.game.candidates },
-        whitelist() { return this.game.whitelist  },
+        propsObj(){
+            let game = this.game;
+            return {
+                candidates: game.candidates,
+                filteredCandidates: this.filteredCandidates,
+                whitelist: game.whitelist,
+                showName: game.showNameInGrid
+            }
+        },
         filteredCandidates(){
             return this.$store.getters[this.namespace+'/filteredCandidates']
         },

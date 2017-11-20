@@ -11,7 +11,7 @@ const dota = {
         candidateNomenclature: 'hero',
         className: 'dota',
         maxVoteResults: 5,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates: [],
         whitelist:[],
         filters:[

@@ -13,7 +13,7 @@ const hearthstone = {
         candidateNomenclature: 'class',
         className: 'hearthstone',
         maxVoteResults: 3,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates: [
              {
                 name: "Druid",

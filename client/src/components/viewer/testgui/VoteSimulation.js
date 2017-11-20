@@ -20,10 +20,7 @@ export default {
             return this.TESTING.isSimulating
         },
         candidates(){
-            if(this.game.candidates)
-                return this.game.candidates
-            else
-                return this.game.topGames
+            return this.game.candidates
         },
     },
     watch:{

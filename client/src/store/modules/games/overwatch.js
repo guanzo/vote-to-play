@@ -21,7 +21,7 @@ const ow = {
         candidateNomenclature: 'hero',
         className: 'overwatch',
         maxVoteResults: 3,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates,
         whitelist:[],
         filters:[

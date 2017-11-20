@@ -3,14 +3,16 @@
         <template v-if="candidates.length">
             <div v-for="(candidate,i) in candidates"
                 @click="selectCandidate(candidate)"
-                class="candidate-wrapper"
+                class="candidate"
+                :class="filterClass(candidate)" 
                 :key="candidate.name"
             >
-                <slot :candidate="candidate" name="candidate">
-                    <div class="image-wrapper candidate" :class="filterClass(candidate)" >
-                        <img :src="candidate.img" :alt="candidate.name">
-                    </div>
-                </slot>
+                <div class="image-wrapper">
+                    <img :src="candidate.img" :alt="candidate.name">
+                </div>
+                <div v-if="showName" class="candidate-name">
+                    <div class="ellipsis">{{ candidate.name }}</div>
+                </div>
             </div>
         </template>
         <div v-else class="no-results flex-center margin-center">
@@ -26,13 +28,11 @@ import { SELECT_CANDIDATE } from '@/store/mutations'
  */
 export default {
     name:'candidate-grid',
-    props:['candidates','filteredCandidates'],
+    props:['candidates','filteredCandidates','whitelist','showName'],
     computed:{
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
         },
-    },
-    created(){
     },
     methods:{
         selectCandidate(candidate){
@@ -73,35 +73,42 @@ $dark: #333;
     &.dark .candidate:after{
         box-shadow: 0px 0px 2px 1px $dark;
     }
-    .image-wrapper{
-        margin: 2px;
-        position: relative;
-        transition: .5s;
-        //overflow: hidden;
-    }
-    .candidate {
-        position: relative;
-        transition: .5s;
-        cursor: pointer;
-        &.filtered-out {
-            filter: brightness(25%);
-        }
-        &:after{
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        &.filtered-in:after, &:hover:after {
-            opacity: 1;
-        }
-    }
     .no-results {
         height: 100%;
+    }
+}
+
+
+.candidate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: 2px;
+    transition: .3s;
+    .image-wrapper{
+        position: relative;
+    }
+    .candidate-name {
+        max-width: 100%;
+        padding: 0px 2px;
+    }
+    cursor: pointer;
+    &.filtered-out {
+        filter: brightness(25%);
+    }
+    &.filtered-in:after, &:hover:after {
+        opacity: 1;
+    }
+    &:after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        transition: opacity 0.3s;
     }
 }
 </style>

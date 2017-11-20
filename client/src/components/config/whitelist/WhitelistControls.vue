@@ -1,6 +1,6 @@
 <template>
     
-    <div class="whitelist-controls">
+    <div class="whitelist-controls pure-form">
         <slot>
             <div></div><!-- spacing helper -->
         </slot>
@@ -23,8 +23,8 @@ export default {
 <style lang="scss" scoped>
 
 .whitelist-controls{
-    //display: flex;
-    //justify-content: center;
+    display: flex;
+    justify-content: space-between;
 
     $save-color:  #43A047;
     .save{

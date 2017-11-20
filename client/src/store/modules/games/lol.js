@@ -13,7 +13,7 @@ const lol = {
         candidateNomenclature: 'champion',
         className: 'league-of-legends',
         maxVoteResults: 5,
-        showGridCandidateName: false,
+        showNameInGrid: false,
         candidates: [],
         whitelist:[],
         filters:[
