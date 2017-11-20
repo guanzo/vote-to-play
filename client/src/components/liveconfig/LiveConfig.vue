@@ -1,6 +1,7 @@
 <template>
 	<div class="live-config">
         <div class="pure-form pure-form-stacked flex-center flex-center-column">
+            {{ supportedGames }}
             <label for="vote-type">Choose vote category</label>
             <select v-model="selectedVoteCategory" id="vote-type">
                 <option v-for="voteCategory in voteCategorys" :key="voteCategory">
@@ -59,6 +60,7 @@ export default {
     },
     watch:{
         selectedGame(newGame, oldGame){
+            console.log(arguments)
             //do not start a vote on page load
             if(oldGame === null)
                 return;

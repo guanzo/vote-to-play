@@ -17,6 +17,7 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var role = payload.role
     var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
+    store.commit(SET_GAME, { game })
     //send game to server to set vote category 
     //in case this is the first visit to a channel that doesn't exist in the database
     store.dispatch(SET_AUTH, { 
@@ -28,11 +29,10 @@ window.Twitch.ext.onAuthorized(async function (auth) {
         role 
     })
 
-    pollSelectedGame(auth.channelId)
+    setTimeout(()=>pollSelectedGame(auth.channelId))
 });
 
-function pollSelectedGame(channelId){
-    let pollInterval = 4000
+function pollSelectedGame(channelId, pollInterval = 4000){
     getSelectedGame(channelId)
     .then((game)=>{
         let storeGame = store.state.selectedGame

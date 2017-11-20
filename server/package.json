@@ -15,6 +15,7 @@
     "jsonwebtoken": "^8.0.0",
     "knex": "^0.13.0",
     "mongodb": "^2.2.33",
+    "node-cleanup": "^2.1.2",
     "socket.io": "^2.0.3"
   },
   "devDependencies": {

@@ -113,7 +113,7 @@ $header-element-size: 35px;
         flex: 1;
         display: flex;
         justify-content: flex-end;
-        overflow: hidden;//firefox fix
+        overflow: hidden;//firefox fix//firefox fix
         > * {
             flex: 1;
         }
