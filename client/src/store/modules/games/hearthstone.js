@@ -76,8 +76,8 @@ const hearthstone = {
     actions:{
         [ACTIONS.GET_CANDIDATES](){}
     },
-    getters:{
-        filteredCandidates(){}
+    getters:{//no op
+        filteredCandidates: state=>state.candidates,
     }
 }
 

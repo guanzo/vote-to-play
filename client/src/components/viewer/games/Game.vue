@@ -1,26 +1,30 @@
 <template>
-    <div v-if="candidates.length" :class="game.className" class="game">
-        <component 
-            :is="injectedComponent" 
-            :candidates="candidates" 
-            :filteredCandidates="filteredCandidates"
-        >
-            <div v-if="game.filters" slot="filters">
-                <template v-for="filter in game.filters">
-                    <input v-if="filter.type == 'text'" 
-                            v-model="filter.vmodel" 
-                            :placeholder="filter.placeholder"
-                            :key="filter.id"
-                    >
-                    <select v-else-if="filter.type == 'select'" 
-                            v-model="filter.vmodel"
-                            :key="filter.id">
-                        <option v-for="role in filter.options" :key="role">{{ role }}</option>
-                    </select>
-                    &nbsp;
-                </template>
-            </div>
-        </component>
+    <div class="game" :class="game.className">
+        <transition :duration="duration" name="fade">
+            <component 
+                v-if="!isLoading" 
+                :is="injectedComponent" 
+                :candidates="candidates" 
+                :filteredCandidates="filteredCandidates"
+            >
+                <div v-if="game.filters" slot="filters">
+                    <template v-for="filter in game.filters">
+                        <input v-if="filter.type == 'text'" 
+                                v-model="filter.vmodel" 
+                                :placeholder="filter.placeholder"
+                                :key="filter.id"
+                        >
+                        <select v-else-if="filter.type == 'select'" 
+                                v-model="filter.vmodel"
+                                :key="filter.id">
+                            <option v-for="role in filter.options" :key="role">{{ role }}</option>
+                        </select>
+                        &nbsp;
+                    </template>
+                </div>
+            </component>
+            <loading v-else dark class="absolute-center"></loading>
+        </transition> 
     </div>
 </template>
 
@@ -29,12 +33,18 @@
 import voter from '@/components/viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_CANDIDATES } from '@/store/actions'
+import loading from '@/components/loading/Loading'
+import { delayPromise } from '@/util'
 /**
  * Generic component that serves all supported games.
  * 
  * voteCategory is either fed by
  * -Viewer: streamer is changing game
  * -Config: streamer is configuring whitelist
+ * 
+ * injected Component is either
+ * -Voter.vue
+ * -Whitelist.vue
  */
 
 export default {
@@ -42,7 +52,8 @@ export default {
     props:['injectedComponent','voteCategory'],
     data(){
         return {
-            isLoading: false
+            isLoading: false,
+            duration: 750,
         }
     },
     computed:{
@@ -57,8 +68,7 @@ export default {
             return this.game.candidates
         },
         filteredCandidates(){
-            let filtered = this.$store.getters[this.namespace+'/filteredCandidates']
-            return filtered ? filtered : this.candidates
+            return this.$store.getters[this.namespace+'/filteredCandidates']
         }
     },
     watch:{
@@ -80,10 +90,13 @@ export default {
         async fetchCandidates(){
             if(!this.candidates.length && !this.isLoading){
                 this.isLoading = true;
-                await this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES)
-                setTimeout(()=>{
-                    this.isLoading = false
-                },10000)
+
+                await Promise.all([
+                    this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
+                    delayPromise(this.duration)
+                ])
+                
+                this.isLoading = false
                 
             }
         },
@@ -91,6 +104,7 @@ export default {
     components:{
         voteResults,
         voter,
+        loading
     }
 }
 </script>
@@ -99,97 +113,128 @@ export default {
 <style lang="scss">
 
 .game{
-}
+    position: relative;
+    .fade-leave-active{
+        position: absolute !important;
+    }
 
-.battlerite{
     img {
         width: 100%;
         height: auto;
     }
+}
+/**
+Base dimensions are set for the viewer/voter components.
+Depending on the view, these dimensions are scaled from the base.
+
+General rules:
+-Vertical images must be scaled down considerably in .voter-header and .vote-results
+-Images are larger than base in .white-list
+-Images are smaller than base in .voter-header 
+*/
+@mixin scale-img-size($width, $height, $scale: 1){
+    width: $width * $scale;
+    height: $height * $scale;
+}
+
+.battlerite{
+    //original 292x160
+    $w: 125px;
+    $h: 68px;
     .image-wrapper{
-        width: 125px;
-        height: 68px;
+        @include scale-img-size($w,$h);
     } 
+    .voter-header .image-wrapper{
+        @include scale-img-size($w,$h,0.75);
+    }
     .vote-results .image-wrapper {
-        width: 62px;
-        height: 34px;
+        @include scale-img-size($w,$h,0.5);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.25);
     }
     .splash-img-container img.splash-img{
         object-fit: contain;
     }
-
     select{
         text-transform: capitalize;
     }
 }
+
+
 .dota{
-    img {
-        width: 100%;
-        height: auto;
-    }
     //59x33 is original size.
+    $w: 59px;
+    $h: 33px;
     .image-wrapper{
-        width: 59px;
-        height: 33px;
+        @include scale-img-size($w,$h,1.2);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.25);
     }
 }
 .hearthstone{
+    $w: 90px;
+    $h: 144px;
     img {
         height: 100%;
         width: 100%;
         object-fit: cover;
     }
-    
+    .candidate-grid{
+        justify-content: center;
+    }
+    .image-wrapper {
+        @include scale-img-size($w,$h);
+    }
+    .voter {
+        .candidate-wrapper{
+            //width: 95px;
+            //flex: 0 1 20%;
+        }
+    }
     .voter-header .image-wrapper{
         width: 56px;
         height: 90px;
-    }
-    .image-wrapper {
-        width: 75px;
-        height: 120px;
     }
     .vote-results .image-wrapper {
         width: 38px;
         height: 60px;
     }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.5);
+    }
 }
 .heroes-of-the-storm{
-    img {
-        width: 100%;
-        height: auto;
-    }
+    //original 75x75
+    $w: 55px;
+    $h: 55px;
     .image-wrapper{
-        width: 45px;
-        height: 45px;
+        @include scale-img-size($w,$h);
     }
     
 }
 .league-of-legends{
-    img {
-        width: 100%;
-        height: auto;
-    }
+    $w: 55px;
+    $h: 55px;
     .image-wrapper{
-        width: 40px;
-        height: 40px;
+        @include scale-img-size($w,$h);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.25);
     }
 }
 .overwatch{
-    img {
-        width: 100%;
-        height: auto;
-    }
+    $w: 58px;
+    $h: 100px;
     .image-wrapper{
-        width: 58px;
-        height: 100px;
+        @include scale-img-size($w,$h);
     }
     .voter-header .image-wrapper{
-        width: 43px;
-        height: 75px;
+        @include scale-img-size($w,$h,.75);
     }
     .vote-results .image-wrapper {
-        width: 29px;
-        height: 50px;
+        @include scale-img-size($w,$h,.5);
     }
     select{
         text-transform: capitalize;

@@ -1,7 +1,7 @@
 
 @import 'transitions.scss';
 @import 'spacing-helpers.scss';
-
+@import 'bulma/_all.sass';
 * {
     box-sizing: border-box;
 }
@@ -35,6 +35,10 @@ table{
 
 .text-center {
     text-align: center;
+}
+
+.margin-center{
+    margin: 0 auto;
 }
 
 //fix descenders getting cut off in select

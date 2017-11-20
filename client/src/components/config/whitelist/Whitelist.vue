@@ -5,10 +5,10 @@
         v-if="candidates.length" 
         :candidates="candidates" 
         :filteredCandidates="filteredCandidates"
-        class="m-b-15"
+        class="candidate-grid dark m-b-15"
     ></candidate-grid>
     <whitelist-controls>
-        <slot name="filters"></slot>
+        <!-- <slot name="filters"></slot> -->
     </whitelist-controls>
 </div>
 
@@ -17,7 +17,7 @@
 <script>
 
 import { GET_CANDIDATES } from '@/store/actions'
-import candidateGrid from '@/components/viewer/voter/CandidateGrid'
+import candidateGrid from '@/components/CandidateGrid'
 import whitelistControls from './WhitelistControls'
 export default {
     name:'whitelist',
@@ -39,5 +39,10 @@ export default {
 
 <style lang="scss">
 
+.whitelist{
+    .candidate-grid{
+        min-height: 400px;
+    }
+}
 
 </style>

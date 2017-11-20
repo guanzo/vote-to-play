@@ -1,5 +1,5 @@
 <template>
-    <div class="cell">
+    <div class="vtp-loading" :class="isLight ? 'light':'dark'">
         <div class="loader square switch">
             <div class="block">
                 <div class="box"></div>
@@ -11,10 +11,16 @@
 <script>
 //generic loader
 export default {
-    name:'loading'
+    name:'loading',
+    data: ()=>({ isLight: true }),
+    mounted(){
+        if(this.$el.attributes.getNamedItem('dark'))
+            this.isLight = false;
+    }
 }
 
 </script>
+
 
 <style lang="scss" scoped>
 
@@ -22,16 +28,34 @@ $s: 20px; //size
 $m: 2px; //margin
 $d: 1s; //speed
 //colors
-$fg: #eee;
 
+$light: #eee;
+$dark: #333;
 
-.cell{
+@mixin color-shade($color){
+    .block{
+        color: $color;
+        &:before, &:after{
+            background: $color;
+        }
+        .box{
+            background: $color;
+        }
+    }
+} 
+
+.vtp-loading{
 	position: relative;
 	width: $s*5;
 	height: $s*5;
 	flex-shrink: 1;
 	flex-grow: 1;
-    
+    &.light{
+        @include color-shade($light);
+    }
+    &.dark{
+        @include color-shade($dark);
+    }
     .loader{
         position: absolute;
         top: 50%;
@@ -70,7 +94,6 @@ $fg: #eee;
     }
     .block{
         position: absolute;
-        color: $fg;
         border: $m solid transparent;
         transform: translate(-50%, -50%) rotate(-45deg);
         animation-timing-function: ease-in-out;
@@ -81,7 +104,6 @@ $fg: #eee;
             position: absolute;
             width: $s;
             height: $s;
-            background: $fg;
             border-radius: $m*2;
         }
         &:before{
@@ -95,7 +117,6 @@ $fg: #eee;
         position: absolute;
         width: $s;
         height: $s;
-        background: $fg;
         border-radius: $m*2;
         animation-timing-function: ease-in-out;
         animation-duration: $d;

@@ -6,7 +6,7 @@
 
 <script>
 /**
- * Not a generic loader, only show when no votes are present.
+ * Not a generic loader, only show in "VoteResults.vue" when no votes are present.
  */
 export default {
     name:'vote-loading'

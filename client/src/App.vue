@@ -13,7 +13,7 @@ export default {
 
 <style lang="scss">
 
-@import '~@/style/style.scss';
+@import '~@/style/_style.scss';
 
 html,
 body {

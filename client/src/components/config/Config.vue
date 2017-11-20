@@ -40,12 +40,16 @@ export default {
         }
     },
     computed:{
+        ...Vuex.mapState(['voteCategory']),
         supportedGames(){
             return this.$store.getters.supportedGames.sort((a,b)=>a.localeCompare(b))
         },
     },
-    created(){
-        this.selectedVoteCategory = this.supportedGames[0]
+    watch:{
+        //change game when streamer does, but also allow streamer to change game thru select
+        voteCategory(newCategory, oldCategory){
+            this.selectedVoteCategory = newCategory
+        }
     },
     components:{
         GameMaster
@@ -54,7 +58,7 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .config {
     color: #333;
@@ -64,6 +68,9 @@ export default {
     }
     .overlay-background {
         //background: white;
+    }
+    /deep/ .game{
+        min-height: 400px;
     }
 }
 

@@ -10,8 +10,10 @@ export const state = {
     channelId: -1,
     channelName: 'The broadcaster',
     userId: -1,
+    //set by streamer's game set in dashboard
     selectedGame: null,
-    voteCategory: null,//either selectedGame or 'All Games'
+    //potential values will be same as selectedGame, with the addition of "All Games"
+    voteCategory: null,
     votes:[],
     selectedCandidate:{},
     createdAt: null,

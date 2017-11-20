@@ -7,7 +7,7 @@
             <button 
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
-                class="pure-button button-small"
+                class="button"
                 :class="{ 'is-loading': isLoading }"
             >
             Vote</button>
@@ -65,9 +65,6 @@ export default {
     transition: .5s;
     select {
         width: 120px;
-    }
-    .button-small {
-        font-size: 85%;
     }
 }
 </style>

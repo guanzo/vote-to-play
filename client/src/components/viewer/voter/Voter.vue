@@ -4,7 +4,7 @@
 
 import Splash from './Splash'
 import VoterHeader from './VoterHeader'
-import CandidateGrid from './CandidateGrid'
+import CandidateGrid from '@/components/CandidateGrid'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
 
@@ -32,7 +32,7 @@ export default {
                         <CandidateGrid 
                             candidates={this.candidates}
                             filteredCandidates={this.filteredCandidates}
-                            class={this.isInvisible}
+                            class={[this.isInvisible, 'candidate-grid light']}
                             scopedSlots={this.$scopedSlots}
                         ></CandidateGrid>
                         <VoterControls
@@ -110,7 +110,10 @@ export default {
             "header"
             "main"
             "footer";
-        grid-row-gap: 15px;        
+        grid-row-gap: 15px;   
+        .candidate-grid{
+            grid-area: main;
+        }     
         .invisible{
             opacity: 0;
             pointer-events: none;

@@ -45,7 +45,7 @@ const dota = {
             .then((response)=>{
 
                 let candidates = _(response.data).map((val,id)=>{
-                    val.img = cl.url(`dota/portraits/${id}_sb.png`);
+                    val.img = cl.url(`dota/portraits/${id}_full.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val
                 }).sortBy('name').value()

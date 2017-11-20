@@ -1,4 +1,4 @@
-import CandidateGrid from '@/components/viewer/voter/CandidateGrid'
+import CandidateGrid from '@/components/CandidateGrid'
 
 describe('CandidateGrid.vue', () => {
     let candidates = [{ name: 'yo' },{ name: 'hi'}];

@@ -1,8 +1,9 @@
 <template>
-    <div class="candidate-grid" :style="justify">
+    <div class="candidate-grid">
         <template v-if="candidates.length">
             <div v-for="(candidate,i) in candidates"
                 @click="selectCandidate(candidate)"
+                class="candidate-wrapper"
                 :key="candidate.name"
             >
                 <slot :candidate="candidate" name="candidate">
@@ -12,7 +13,7 @@
                 </slot>
             </div>
         </template>
-        <div v-else class="flex-center">
+        <div v-else class="no-results flex-center margin-center">
             No Results
         </div>
     </div>
@@ -30,11 +31,6 @@ export default {
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
         },
-        justify(){
-            return {
-                'justify-content': this.candidates.length ? 'start' : 'center'
-            }
-        }
     },
     created(){
     },
@@ -57,19 +53,29 @@ export default {
 
 <style lang="scss" scoped>
 
-.candidate-grid{
-    grid-area: main;
+$light: #eee;
+$dark: #333;
+
+.candidate-grid {
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
     transition: .5s;
+    &.light .candidate:after{
+        box-shadow: 0px 0px 2px 1px $light;
+    }
+    &.dark .candidate:after{
+        box-shadow: 0px 0px 2px 1px $dark;
+    }
     .image-wrapper{
         margin: 2px;
         position: relative;
         transition: .5s;
-        overflow: hidden;
+        //overflow: hidden;
     }
     .candidate {
         position: relative;
@@ -78,18 +84,22 @@ export default {
         &.filtered-out {
             filter: brightness(20%);
         }
-        &.filtered-in {
-            box-shadow: 0px 0px 2px 1px white;
-        }
-        &:hover:before {
-            box-shadow: 0px 0px 0px 2px #eee inset;
+        &:after{
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            content: "";
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
+        &.filtered-in:after, &:hover:after {
+            opacity: 1;
+        }
+    }
+    .no-results {
+        height: 100%;
     }
 }
 </style>

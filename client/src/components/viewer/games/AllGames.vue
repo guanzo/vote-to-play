@@ -60,9 +60,7 @@ export default {
     async created(){
         this.isLoading = true;
         await this.$store.dispatch(NAMESPACE+'/'+GET_TOP_TWITCH_GAMES)
-        setTimeout(()=>{
-            this.isLoading = false
-        },2000)
+        this.isLoading = false
     },
     components:{
         voter,

@@ -11,7 +11,7 @@
         <br>
         <div v-if="showVoteResults">
             <div class="text-center">
-                <button @click="startVote" class="pure-button start-vote">Start a vote</button>
+                <button @click="startVote" class="button start-vote">Start a vote</button>
                 <p><small>Starting a vote clears the current vote.</small></p>
             </div>
             <vote-results class="vote-list">
