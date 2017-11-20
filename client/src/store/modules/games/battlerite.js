@@ -11,10 +11,11 @@ const battlerite = {
     state: { 
         gameName: 'Battlerite',
         candidateNomenclature: 'champion',
+        className: 'battlerite',
         maxVoteResults: 5,
+        showGridCandidateName: false,
         candidates: [],
         whitelist:[],
-        className: 'battlerite',
         filters:[
             {
                 id:'name',

@@ -10,10 +10,13 @@ const allGames = {
     namespaced: true,
     state:{
         gameName: NAMESPACE,
+        candidateNomenclature: 'game',
+        className: 'all-games',
+        maxVoteResults: 5,
+        showGridCandidateName: true,
         topGames:[],
         searchedGames:[],
         whitelist:[],
-        maxVoteResults: 5,
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state,payload){

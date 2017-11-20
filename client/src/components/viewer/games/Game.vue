@@ -62,12 +62,12 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        namespace(){ return this.game.gameName },
+        namespace() { return this.game.gameName   },
         candidates(){ return this.game.candidates },
+        whitelist() { return this.game.whitelist  },
         filteredCandidates(){
             return this.$store.getters[this.namespace+'/filteredCandidates']
         },
-        whitelist(){ return this.game.whitelist }
     },
     watch:{
         isAuthed: {

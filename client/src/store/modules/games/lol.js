@@ -11,10 +11,11 @@ const lol = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'champion',
+        className: 'league-of-legends',
         maxVoteResults: 5,
+        showGridCandidateName: false,
         candidates: [],
         whitelist:[],
-        className: 'league-of-legends',
         filters:[
             {
                 id:'name',

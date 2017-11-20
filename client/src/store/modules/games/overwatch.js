@@ -19,10 +19,11 @@ const ow = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
+        className: 'overwatch',
         maxVoteResults: 3,
+        showGridCandidateName: false,
         candidates,
         whitelist:[],
-        className: 'overwatch',
         filters:[
             {
                 id:'name',

@@ -9,10 +9,11 @@ const dota = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
+        className: 'dota',
         maxVoteResults: 5,
+        showGridCandidateName: false,
         candidates: [],
         whitelist:[],
-        className: 'dota',
         filters:[
             {
                 id:'name',

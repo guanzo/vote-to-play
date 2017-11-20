@@ -85,10 +85,11 @@ function gameModuleRequiredProperties(){
         namespaced: "boolean",
         state:{
             gameName: "string",
+            className: 'string',
             maxVoteResults: "number",
+            showGridCandidateName: "boolean",
             candidates: [],
             whitelist:[],
-            className: "string",
             filters: [],
         },
         mutations:{

@@ -11,7 +11,9 @@ const hearthstone = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'class',
+        className: 'hearthstone',
         maxVoteResults: 3,
+        showGridCandidateName: false,
         candidates: [
              {
                 name: "Druid",
@@ -69,7 +71,6 @@ const hearthstone = {
             }
         ],
         whitelist:[],
-        className: 'hearthstone',
         filters:[]
     },
     mutations:{//ensure it conforms to game module expected properties

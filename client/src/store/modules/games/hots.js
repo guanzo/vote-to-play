@@ -14,10 +14,11 @@ const hots = {
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
+        className: 'heroes-of-the-storm',
         maxVoteResults: 5,
+        showGridCandidateName: false,
         candidates: [],
         whitelist:[],
-        className: 'heroes-of-the-storm',
         filters:[
             {
                 id:'name',
