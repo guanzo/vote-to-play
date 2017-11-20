@@ -5,8 +5,8 @@
             <div></div><!-- spacing helper -->
         </slot>
         <div class="buttons is-centered">
-            <button class="button is-danger is-outlined">Cancel</button>
-            <button class="button is-success">Save</button>
+            <a class="button is-danger is-outlined">Cancel</a>
+            <a class="button is-success">Save</a>
         </div>
     </div>
 

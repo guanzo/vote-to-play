@@ -46,7 +46,8 @@ export default {
         },
     },
     watch:{
-        //change game when streamer does, but also allow streamer to change game thru select
+        //change game when streamer does, 
+        //cannot be computed property to also allow streamer to change game thru select
         voteCategory(newCategory, oldCategory){
             this.selectedVoteCategory = newCategory
         }

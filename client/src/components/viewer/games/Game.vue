@@ -127,6 +127,7 @@ export default {
     img {
         width: 100%;
         height: auto;
+        display: block;
     }
 }
 /**
@@ -169,11 +170,12 @@ General rules:
 
 
 .dota{
-    //59x33 is original size.
-    $w: 59px;
-    $h: 33px;
+    //256x144 original size.
+    //64x36
+    $w: 64px;
+    $h: 36px;
     .image-wrapper{
-        @include scale-img-size($w,$h,1.2);
+        @include scale-img-size($w,$h);
     }
     .whitelist .image-wrapper{
         @include scale-img-size($w,$h,1.25);
@@ -221,8 +223,9 @@ General rules:
     
 }
 .league-of-legends{
-    $w: 55px;
-    $h: 55px;
+    //120x120 original
+    $w: 45px;
+    $h: 45px;
     .image-wrapper{
         @include scale-img-size($w,$h);
     }

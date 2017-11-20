@@ -13,8 +13,6 @@ export default {
 
 <style lang="scss">
 
-@import '~@/style/_style.scss';
-
 html,
 body {
     background: transparent !important;

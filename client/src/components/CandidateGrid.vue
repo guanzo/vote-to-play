@@ -80,10 +80,10 @@ $dark: #333;
 
 
 .candidate {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
     margin: 2px;
     transition: .3s;
     .image-wrapper{
@@ -94,12 +94,6 @@ $dark: #333;
         padding: 0px 2px;
     }
     cursor: pointer;
-    &.filtered-out {
-        filter: brightness(25%);
-    }
-    &.filtered-in:after, &:hover:after {
-        opacity: 1;
-    }
     &:after{
         content: '';
         position: absolute;
@@ -109,6 +103,42 @@ $dark: #333;
         top: 0;
         opacity: 0;
         transition: opacity 0.3s;
+    }
+}
+
+.voter .candidate{
+
+    &.filtered-out {
+        filter: brightness(25%);
+    }
+    &.filtered-in:after, &:hover:after {
+        opacity: 1;
+    }
+}
+
+.whitelist .candidate{
+    &:before{
+        font-family: "icons";
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 1;
+        font-size: 14px;
+        text-shadow:
+            -1px -1px 0 #eee,  
+            1px -1px 0 #eee,
+            -1px 1px 0 #eee,
+            1px 1px 0 #eee;
+    }
+    &.filtered-out:before {
+        //filter: brightness(25%);
+        content: '\e802';
+        color:red;
+    }
+    &.filtered-in:before{
+        //opacity: 1;
+        content: '\e800';
+        color:green;
     }
 }
 </style>

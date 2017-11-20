@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2017 by original authors @ fontello.com</metadata>
+<defs>
+<font id="icons" horiz-adv-x="1000" >
+<font-face font-family="icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="ok-circle" unicode="&#xe800;" d="M500 850q136 0 251-67t182-182 67-251-67-251-182-182-251-67-251 67-182 182-67 251 67 251 182 182 251 67z m-240-447l-54-53q71-71 129-133t81-90l22-26q8 13 22 36t57 85 83 119 95 119 99 104q-18 35-36 35-10-6-32-22t-113-97-211-201z" horiz-adv-x="1000" />
+
+<glyph glyph-name="ok" unicode="&#xe801;" d="M1179 778q-250-222-600-750l-115-179q-144 180-464 500l107 107 286-250q150 150 279 272t206 187 131 111 77 59l21 14q4 0 11-2t26-19 35-50z" horiz-adv-x="1179" />
+
+<glyph glyph-name="cancel-circle" unicode="&#xe802;" d="M1000 349q0-136-67-251t-182-182-251-67-251 67-182 182-67 251 67 251 182 182 251 67 251-67 182-182 67-251z m-339-232l71 71-161 161 161 161-71 71-161-161-161 161-71-71 161-161-161-161 71-71 161 161z" horiz-adv-x="1000" />
+
+<glyph glyph-name="cancel" unicode="&#xe803;" d="M654 349l346-346-154-154-346 346-346-346-154 154 346 346-346 346 154 154 346-346 346 346 154-154z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>
