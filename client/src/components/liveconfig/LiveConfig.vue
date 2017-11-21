@@ -115,12 +115,6 @@ export default {
             this.$store.commit(SET_VOTE_CATEGORY, newGame)
             this.$store.dispatch(START_NEW_VOTE)
         },
-        selectedGameModule(){
-            console.log(arguments)
-        }
-    },
-    created(){
-        console.log(this.$store)
     },
     methods:{
         startVote(){
@@ -128,8 +122,10 @@ export default {
         },
         //cannot set whitelist mode if whitelist is empty
         async onChange(voteMode){
+            console.log('param: ' + voteMode)
             if(voteMode == VOTE_MODE_STREAMER && this.hasEmptyWhiteList){
                 this.selectedVoteMode = VOTE_MODE_VIEWER
+                console.log(this.selectedVoteMode)
                 this.showWhitelistTip = true;
                 await delayPromise(3000)
                 this.showWhitelistTip = false

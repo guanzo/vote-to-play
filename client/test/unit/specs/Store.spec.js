@@ -2,7 +2,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import { mutations, getters } from '@/store'
 import mainGameModule from '@/store/modules/games/_main'
-
+import { whitelistedCandidates } from '@/store/modules/games/_util'
 
 describe('store',()=>{
     
@@ -48,6 +48,18 @@ describe('store',()=>{
         _.each(gameModules,(gameModule)=>{
             it(gameModule.state.gameName + ' implements the game interface',()=>{
                 comparePropertyTypes(types,gameModule)
+            })
+        })
+
+        describe('whitelistedCandidates',()=>{
+            it('correctly filters for whitelisted candidates',()=>{
+                let candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
+                let whitelistedNames = ['mirana','bob']
+
+                let result = whitelistedCandidates({ candidates, whitelistedNames })
+
+                expect(result).to.have.lengthOf(whitelistedNames.length)
+                expect(result).to.have.deep.members(candidates.slice(1))
             })
         })
 

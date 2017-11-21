@@ -8,7 +8,7 @@
         :showName="showName"
         :noResults="noResults"
         @selectCandidate="c=>swap(c,tempCandidates,tempWhitelistedCandidates)"
-        class="whitelist-grid dark m-b-15"
+        class="whitelist-grid dark"
     ></candidate-grid>
 
     <hr class="m-t-15 m-b-15">
@@ -19,7 +19,7 @@
         :filteredCandidates="tempCandidates"
         :showName="showName"
         @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempCandidates)"
-        class="candidate-grid dark m-b-15"
+        class="candidate-grid dark m-b-25"
     ></candidate-grid>
     <whitelist-controls 
         :voteCategory="voteCategory" 

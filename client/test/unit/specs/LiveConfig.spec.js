@@ -2,6 +2,7 @@ import LiveConfig from '@/components/liveconfig/LiveConfig'
 import { SET_GAME } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { state, mutations, getters, actions, modules } from '@/store'
+var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 const unsupportedGame = 'werwetds'
 function mockStore(selectedGame, voteCategory){
@@ -18,6 +19,59 @@ const Constructor = Vue.extend(LiveConfig)
 
 describe('LiveConfig.vue', () => {
 
+    it('does not change vote category when game is set on page load', (done) => {
+        let game = 'Dota 2'
+        let voteCategory = game
+        const vm = new Constructor({
+            store: mockStore(null, voteCategory)
+        }).$mount()
+        
+        vm.$store.commit(SET_GAME, game)
+        
+        setTimeout(()=>{//let vm watcher trigger
+            expect(vm.$store.state.voteCategory).to.equal(voteCategory)
+            done()
+        },0)
+    })
+    it('changes vote category when game is changed during broadcast', done => {
+        let game = 'Dota 2'
+        let voteCategory = game
+        let newGame = 'Overwatch'
+        const vm = new Constructor({
+            store: mockStore(game, voteCategory)
+        }).$mount()
+        vm.$store.commit(SET_GAME, newGame)
+        
+        setTimeout(()=>{//let vm watcher trigger
+
+            expect(vm.$store.state.voteCategory).to.equal(newGame)
+            done()
+        },0)
+    })
+    describe('Setting Whitelist Mode',()=>{
+        let game = 'Dota 2'
+        let voteCategory = game
+        const vm = new Constructor({
+            store: mockStore(null, voteCategory)
+        }).$mount()
+        vm.selectedVoteMode = VOTE_MODE_VIEWER
+
+        let whitelistRadioEl = vm.$el.querySelector('.vote-mode label:nth-child(2) input')
+        var event = new Event('change');
+
+        it('disallows whitelist mode if whitelist is empty',()=>{
+            vm.$store.state.games[game].whitelistedNames = []
+            whitelistRadioEl.dispatchEvent(event);
+            expect(vm.selectedVoteMode).to.equal(VOTE_MODE_VIEWER)
+        })
+        it('allows whitelist mode if whitelist is not empty',()=>{
+            vm.$store.state.games[game].whitelistedNames = ['axe']
+            whitelistRadioEl.dispatchEvent(event);
+            expect(vm.selectedVoteMode).to.equal(VOTE_MODE_STREAMER)
+        })
+    })
+
+    
     it('hides start button and informs streamer if game is unsupported AND voteCategory is unsupported', () => {
         const vm = new Constructor({
             store: mockStore(unsupportedGame, unsupportedGame)
@@ -36,33 +90,5 @@ describe('LiveConfig.vue', () => {
 
         expect(startButton).to.not.be.null
     }) 
-    it('does not change vote category when game is set on page load', (done) => {
-        let game = 'Dota 2'
-        let voteCategory = game
-        const vm = new Constructor({
-            store: mockStore(null, voteCategory)
-        }).$mount()
-        
-        vm.$store.commit(SET_GAME, { game })
-        
-        setTimeout(()=>{//let vm watcher trigger
-            expect(vm.$store.state.voteCategory).to.equal(voteCategory)
-            done()
-        },0)
-    })
-    it('changes vote category when game is changed during broadcast', done => {
-        let game = 'Dota 2'
-        let voteCategory = game
-        let newGame = 'Overwatch'
-        const vm = new Constructor({
-            store: mockStore(game, voteCategory)
-        }).$mount()
-        vm.$store.commit(SET_GAME, { game: newGame })
-        
-        setTimeout(()=>{//let vm watcher trigger
-            expect(vm.$store.state.voteCategory).to.equal(newGame)
-            done()
-        },0)
-    })
 }) 
 
