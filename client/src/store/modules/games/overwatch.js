@@ -1,5 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 
 import heroes from '@/assets/json/overwatch_heroes'
@@ -23,7 +24,7 @@ const ow = {
         maxVoteResults: 3,
         showNameInGrid: false,
         candidates,
-        whitelist:[],
+        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -61,7 +62,8 @@ const ow = {
                 })
                 return result
             })
-        }
+        },
+        whitelistedCandidates
     }
 }
 

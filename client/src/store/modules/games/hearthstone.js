@@ -1,5 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
@@ -70,7 +71,7 @@ const hearthstone = {
                 imgSplash: cl.url('hearthstone/splash/Warrior_splash.jpg')
             }
         ],
-        whitelist:[],
+        whitelistedNames:[],
         filters:[]
     },
     mutations:{//ensure it conforms to game module expected properties
@@ -82,6 +83,7 @@ const hearthstone = {
     },
     getters:{//no op
         filteredCandidates: state=>state.candidates,
+        whitelistedCandidates
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="game" :class="game.className">
+    <div v-if="candidates.length" class="game" :class="game.className">
         <transition :duration="duration" name="fade">
             <component 
                 v-if="!isLoading" 
@@ -69,12 +69,16 @@ export default {
             return {
                 candidates: game.candidates,
                 filteredCandidates: this.filteredCandidates,
-                whitelist: game.whitelist,
-                showName: game.showNameInGrid
+                whitelistedCandidates: this.whitelistedCandidates,
+                showName: game.showNameInGrid,
+                voteCategory: this.voteCategory
             }
         },
         filteredCandidates(){
             return this.$store.getters[this.namespace+'/filteredCandidates']
+        },
+        whitelistedCandidates(){
+            return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
     },
     watch:{

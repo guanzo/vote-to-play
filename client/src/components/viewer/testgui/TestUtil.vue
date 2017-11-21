@@ -42,9 +42,9 @@ export default {
             get () {
                 return this.$store.state.voteCategory
             },
-            set (value) {
-                this.$store.commit(SET_GAME, { game: value })
-                this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value })
+            set (game) {
+                this.$store.commit(SET_GAME, game)
+                this.$store.commit(SET_VOTE_CATEGORY, game)
             }
         },
     },

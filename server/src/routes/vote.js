@@ -2,6 +2,7 @@ var model = require('../models/vote')
 const jwt = require('jsonwebtoken');
 
 function verifyToken(socket,next){
+    
     var token = socket.handshake.query.token
     const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
 
@@ -29,7 +30,7 @@ module.exports = (server) => {
             let { channelId } = data
             socket.join(channelId)
 
-            let currentVote = await model.getCurrentVote(data);
+            let currentVote = await model.getChannel(data);
             socket.emit(`all-votes`,currentVote)
         })
     
@@ -55,12 +56,9 @@ module.exports = (server) => {
             let { channelId } = data
             socket.join(channelId)
 
-            let [currentVote,whitelist] = await Promise.all([
-                    model.getCurrentVote(data),
-                    model.getWhitelist(data.channelId)
-                ]);
-            socket.emit(`votes`,currentVote)
-            socket.emit('whitelist',whitelist)
+            let channel = await model.getChannel(data)
+            socket.emit(`votes`,channel.currentVote)
+            socket.emit('whitelist',channel.whitelist)
         })
     
 
@@ -77,6 +75,12 @@ module.exports = (server) => {
             socket.on('votes/start',data=>{
                 model.startVote(data)
                 io.to(data.channelId).emit(`votes/start`,data)
+            })
+
+            socket.on('whitelist/edit',async data=>{
+                await model.saveGameWhitelist(data)
+                let whitelist = await model.getEntireWhitelist(data.channelId)
+                io.to(data.channelId).emit(`whitelist`,whitelist)
             })
         }
     });

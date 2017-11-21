@@ -9,7 +9,6 @@ if(!inIframe() && process.env.NODE_ENV == 'development'){
     let role = 'broadcaster'
     store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
 }
-
 window.Twitch.ext.onAuthorized(async function (auth) {
     //adds token to every request sent thru axios
     var parts = auth.token.split(".");
@@ -17,7 +16,7 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     var role = payload.role
     var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
-    store.commit(SET_GAME, { game })
+    store.commit(SET_GAME, game)
     //send game to server to set vote category 
     //in case this is the first visit to a channel that doesn't exist in the database
     store.dispatch(SET_AUTH, { 
@@ -37,7 +36,7 @@ function pollSelectedGame(channelId, pollInterval = 4000){
     .then((game)=>{
         let storeGame = store.state.selectedGame
         if(game != storeGame)
-            store.commit(SET_GAME, { game })
+            store.commit(SET_GAME, game)
         setTimeout(()=>pollSelectedGame(channelId),pollInterval)
     })
 }

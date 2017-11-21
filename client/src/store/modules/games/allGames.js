@@ -1,8 +1,8 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 export const NAMESPACE = 'All Games'
-
 export const BOX_ART_WIDTH = 72;
 export const BOX_ART_HEIGHT = 100;
 
@@ -17,7 +17,7 @@ const allGames = {
         candidates:[],
         topGames:[],
         searchedGames:[],
-        whitelist:[],
+        whitelistedNames:[],
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state,{ topGames }){
@@ -52,7 +52,8 @@ const allGames = {
     getters:{
         filteredCandidates(state){
             return state.candidates
-        }
+        },
+        whitelistedCandidates
     }
 }
 //twitch allows you to give custom dimensions

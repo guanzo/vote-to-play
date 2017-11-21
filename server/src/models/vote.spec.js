@@ -17,32 +17,37 @@ describe('Vote',async ()=>{
         channels = db.get().collection('channels')
     })
     
-    describe("getCurrentVote", ()=>{
+    describe("getChannel", ()=>{
         
         describe("channel doesn't exist in db",()=>{
             before(async ()=>{
                 await channels.remove({})
             })
-            it("returns empty array",async ()=>{
-                let currentVote = await voteModule.getCurrentVote({channelId, channelName, game})
-                expect(currentVote).to.be.an('object');
-                expect(currentVote.votes).to.be.an('array').that.is.empty
+            it("returns new channel doc",async ()=>{
+                let channel = await voteModule.getChannel({channelId, channelName, game})
+                expect(channel).to.be.an('object');
+                expect(channel.currentVote).to.be.an('object');
+                expect(channel.currentVote.votes).to.be.an('array').that.is.empty
+                
             })
-            it("creates channel in db",async ()=>{
+            it("creates channel in db with default vote ",async ()=>{
                 let channel = await channels.findOne({ channelId })
                 expect(channel.channelId).to.equal(channelId)
                 expect(channel.channelName).to.equal(channelName)
                 expect(channel).to.have.property('voteHistory').that.is.an('array').to.have.lengthOf(1)
                 expect(channel.voteHistory[0].voteCategory).to.equal(game)
+                expect(channel.whitelist).to.be.an('object');
             })
     
         })
 
         describe('channel exists in db',()=>{
-            it("gets current vote instance",async ()=>{
-                let currentVote = await voteModule.getCurrentVote({channelId, channelName})
-                expect(currentVote).to.have.property('votes').that.is.an('array')
-                expect(currentVote).to.have.property('createdAt')
+            it("gets channel data",async ()=>{
+                let channel = await voteModule.getChannel({channelId, channelName})
+                expect(channel).to.have.property('currentVote').that.is.an('object')
+                expect(channel).to.have.property('whitelist').that.is.an('object')
+                expect(channel.currentVote).to.have.property('votes').that.is.an('array')
+                expect(channel.currentVote).to.have.property('createdAt')
             })
         })
     });
@@ -67,8 +72,8 @@ describe('Vote',async ()=>{
 
         let testAddVote = async ()=>{
             await voteModule.addVote({ channelId, vote: 'axe', userId })
-            let currentVote = await voteModule.getCurrentVote({channelId, channelName})
-            expect(currentVote.votes).to.have.lengthOf(1)
+            let channel = await voteModule.getChannel({channelId, channelName})
+            expect(channel.currentVote.votes).to.have.lengthOf(1)
         }
 
         it('adds a vote to the most recent vote instance',testAddVote)

@@ -5,8 +5,11 @@
             <div></div><!-- spacing helper -->
         </slot>
         <div class="buttons is-centered">
-            <a class="button is-danger is-outlined">Cancel</a>
-            <a class="button is-success">Save</a>
+            <a @click="onCancel" class="button is-danger is-outlined">Cancel</a>
+            <a @click="onSaveGameWhitelist" 
+            :class="[buttonColor, isLoading ? 'is-loading':'']" 
+            class="button"
+            >Save</a>
         </div>
     </div>
 
@@ -14,8 +17,36 @@
 
 <script>
 
+import { SAVE_GAME_WHITELIST } from '@/store/actions'
+import { delayPromise } from '@/util'
 export default {
-    name:'whitelist-controls'
+    name:'whitelist-controls',
+    props:['names','voteCategory','hasUnsavedChanges'],
+    data(){
+        return {
+            isLoading: false
+        }
+    },
+    computed:{
+        buttonColor(){
+            return this.hasUnsavedChanges ? 'is-warning' : 'is-success'
+        }
+    },
+    methods:{
+        onCancel(){
+            this.$emit('cancel')
+        },
+        async onSaveGameWhitelist(){
+            let gameWhitelist = {
+                voteCategory: this.voteCategory,
+                names: this.names
+            }
+            this.$store.dispatch(SAVE_GAME_WHITELIST, gameWhitelist )
+            this.isLoading = true
+            await delayPromise(1000)
+            this.isLoading = false
+        }
+    }
 }
 
 </script>
@@ -25,7 +56,9 @@ export default {
 .whitelist-controls{
     display: flex;
     justify-content: space-between;
-
+    .buttons{
+        transition: 0.15s;
+    }
     $save-color:  #43A047;
     .save{
         color: #eee;
@@ -36,7 +69,6 @@ export default {
     .cancel{
         color: $cancel-color;
         border: 2px solid $cancel-color;
-        transition: 0.15s;
         &:hover{
             background: $cancel-color;
             color: #eee;

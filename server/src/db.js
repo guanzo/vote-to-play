@@ -9,8 +9,6 @@ var productionUrl = 'mongodb://localhost:27017/votetoplay';
 var state = {
     db: null,
 }
-//var cleanup = require('./cleanup').Cleanup(); // will call noOp
-
 
 exports.connect = function(url = productionUrl) {
     if (state.db) return Promise.resolve()
@@ -20,11 +18,11 @@ exports.connect = function(url = productionUrl) {
             state.db = db
         })
         .catch((err)=>{
-            console.log("CAN'T CONNECT TO MONGODB")
+            //https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+            console.log('\x1b[41m%s\x1b[0m', "CAN'T CONNECT TO MONGODB")
             console.log(err)
         })
 }
-
 
 exports.get = function() {
     return state.db
@@ -33,7 +31,6 @@ exports.get = function() {
 exports.close = close
 
 function close() {
-    console.log('CLOSING')
     if (state.db) {
         return state.db.close()
             .then(()=>{

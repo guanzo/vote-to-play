@@ -34,28 +34,28 @@ export const mutations = {
         state.channelName = payload.channelName
         state.userId = payload.userId
     },
-    [MUTATIONS.SET_GAME]( state, { game } ){
+    [MUTATIONS.SET_GAME]( state, game ){
         state.selectedGame = game
         state.selectedCandidate = {}
     },
-    [MUTATIONS.SET_VOTE_CATEGORY]( state, { voteCategory } ){
+    [MUTATIONS.SET_VOTE_CATEGORY]( state, voteCategory ){
         state.voteCategory = voteCategory
         state.selectedCandidate = {}
     },
-    [MUTATIONS.SET_CURRENT_VOTE]( state, payload ){
-        state.voteCategory = payload.voteCategory
-        state.votes = payload.votes;
-        state.createdAt = payload.createdAt
+    [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
+        state.voteCategory = currentVote.voteCategory
+        state.votes = currentVote.votes;
+        state.createdAt = currentVote.createdAt
     },
-    [MUTATIONS.ADD_VOTE]( state, payload ){
-        state.votes.push(payload)
+    [MUTATIONS.ADD_VOTE]( state, vote ){
+        state.votes.push(vote)
     },
-    [MUTATIONS.START_NEW_VOTE]( state, { voteCategory } ){
+    [MUTATIONS.START_NEW_VOTE]( state, voteInstance ){
+        state.voteCategory = voteInstance.voteCategory
         state.votes = []
-        state.voteCategory = voteCategory
         state.selectedCandidate = {}
     },
-    [MUTATIONS.SELECT_CANDIDATE]( state, { candidate } ){
+    [MUTATIONS.SELECT_CANDIDATE]( state, candidate ){
         state.selectedCandidate = candidate
     },
     [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state, payload ){
@@ -81,9 +81,12 @@ export const actions = {
     [ACTIONS.START_NEW_VOTE]( {state} ){
         voteApi.startVote({ channelId: state.channelId, voteCategory: state.voteCategory })
     },
+    [ACTIONS.SAVE_GAME_WHITELIST]( {state}, gameWhitelist ){
+        voteApi.saveGameWhitelist({ channelId: state.channelId, gameWhitelist })
+    },
     [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
         commit(MUTATIONS.SET_AUTH, payload)
-        voteApi.connect(payload)
+        voteApi.connect(process.env.SERVER_URL, payload)
     },
 }
 

@@ -1,5 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 
 export const NAMESPACE = 'League of Legends'
@@ -15,7 +16,7 @@ const lol = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelist:[],
+        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -70,8 +71,8 @@ const lol = {
                 })
                 return result
             })
-        }
+        },
+        whitelistedCandidates
     }
 }
-
 export default lol

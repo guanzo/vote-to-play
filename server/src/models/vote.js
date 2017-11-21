@@ -6,11 +6,16 @@ var ObjectID = require('mongodb').ObjectID
  * 
  * [
  *      {
- *          channelId: int,
- *          channelName: string,
+ *          channelId: 2435333,
+ *          channelName: 'guanzo',
+ *          whitelist:{
+ *              'Dota 2': ['axe', 'mirana'],
+ *              ...
+ *          },
  *          voteHistory: [
  *              {
- *                  voteCategory: '',
+ *                  voteCategory: 'Dota 2',
+ *                  voteMode: 'default' or 'whitelist'
  *                  createdAt: '',
  *                  votes: [
         *              { vote: axe, userId: U4534434 }
@@ -29,15 +34,20 @@ var ObjectID = require('mongodb').ObjectID
 module.exports = {
     /**
      * current vote is first element in "voteHistory". should always return a value
+     * handles creation of channel if not exists
      */
-    async getCurrentVote({channelId, channelName, game}){
+    async getChannel({channelId, channelName, game}){
         var channels = db.get().collection('channels')
         
         //ensure channel document exists
-        let result = await addChannelDocument(channelId, channelName, game);
+        let result = await addChannel(channelId, channelName, game);
         return channels
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
-                .then(result=>result.voteHistory[0])
+                .then(channel=>{
+                    channel.currentVote = channel.voteHistory[0]
+                    delete channel.voteHistory
+                    return channel
+                })
                 .catch(err=>{
                     console.log(err)
                 })
@@ -82,18 +92,34 @@ module.exports = {
             },
         )
     },
-    getWhitelist(channelId){
+    getEntireWhitelist(channelId){
         var channels = db.get().collection('channels')
         return channels.findOne({ channelId }, { whitelist: 1 , '_id': 0})
+            .then(result=>result.whitelist)
     },
-    setWhitelist(channelId,whitelist){
+    //saves whitelist for a specific voteCategory
+    saveGameWhitelist({channelId,gameWhitelist}){
         var channels = db.get().collection('channels')
-
+        let { voteCategory, names } = gameWhitelist
+        let data = { 
+            [`whitelist.${voteCategory}`]: names
+         }
+        let set = {
+            $set: data
+        }
+        let insert = {
+            $setOnInsert: {
+                whitelist:{
+                    [voteCategory]: names
+                }
+            }
+        }
+        return channels.updateOne({ channelId }, set, { upsert: true })
     }
 }
 
 
-function addChannelDocument(channelId,channelName, game){
+function addChannel(channelId,channelName, game){
     var channel = {
         channelId,
         whitelist:{},

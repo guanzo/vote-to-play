@@ -1,7 +1,6 @@
 <template>
 	<div class="live-config">
         <div class="pure-form pure-form-stacked flex-center flex-center-column">
-            {{ supportedGames }}
             <label for="vote-type">Choose vote category</label>
             <select v-model="selectedVoteCategory" id="vote-type">
                 <option v-for="voteCategory in voteCategorys" :key="voteCategory">
@@ -52,7 +51,7 @@ export default {
         },
         selectedVoteCategory: {
             get () { return this.$store.state.voteCategory },
-            set (value) { this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: value }) }
+            set (voteCategory) { this.$store.commit(SET_VOTE_CATEGORY, voteCategory) }
         },
         showVoteResults(){
             return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
@@ -60,13 +59,15 @@ export default {
     },
     watch:{
         selectedGame(newGame, oldGame){
-            console.log(arguments)
             //do not start a vote on page load
             if(oldGame === null)
                 return;
-            this.$store.commit(SET_VOTE_CATEGORY, { voteCategory: newGame })
+            this.$store.commit(SET_VOTE_CATEGORY, newGame)
             this.$store.dispatch(START_NEW_VOTE)
         }
+    },
+    created(){
+        console.log(this.$store)
     },
     methods:{
         startVote(){

@@ -1,5 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 
 export const NAMESPACE = 'Dota 2'
@@ -13,7 +14,7 @@ const dota = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelist:[],
+        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -69,7 +70,8 @@ const dota = {
                 })
                 return result
             })
-        }
+        },
+        whitelistedCandidates
     }
 }
 

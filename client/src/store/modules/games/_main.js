@@ -9,13 +9,13 @@ import lol,         { NAMESPACE as NS_LOL }     from './lol'
 import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
 
 export const mutations = {
-    [MUTATIONS.SET_WHITELIST](state, { whitelist }){
+    [MUTATIONS.SET_WHITELIST](state, whitelist){
         _.each(state,game=>{
             let gameName = game.gameName;
-            if(whitelist && whitelist[gameName])
-                game.whitelist = whitelist[gameName]
+            if(whitelist[gameName])
+                game.whitelistedNames = whitelist[gameName]
             else
-                game.whitelist = []
+                game.whitelistedNames = []
         })
     }
 }

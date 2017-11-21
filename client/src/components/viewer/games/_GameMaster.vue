@@ -21,7 +21,7 @@ export default {
             component = game
         else
             component = unsupported
-        
+            
         return createElement(component,{
             props:{
                 injectedComponent,

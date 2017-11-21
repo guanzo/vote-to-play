@@ -38,7 +38,7 @@
 
 import Splash from './Splash'
 import VoterHeader from './VoterHeader'
-import CandidateGrid from '@/components/CandidateGrid'
+import CandidateGrid from '@/components/grid/CandidateGrid'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
 

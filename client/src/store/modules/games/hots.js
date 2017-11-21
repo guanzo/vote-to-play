@@ -1,8 +1,6 @@
-
-
-
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
+import { whitelistedCandidates } from './_util';
 
 
 export const NAMESPACE = 'Heroes of the Storm'
@@ -18,7 +16,7 @@ const hots = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelist:[],
+        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -82,7 +80,8 @@ const hots = {
                 })
                 return result
             })
-        }
+        },
+        whitelistedCandidates
     }
 }
 
