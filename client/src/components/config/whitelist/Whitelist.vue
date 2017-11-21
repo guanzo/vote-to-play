@@ -75,7 +75,6 @@ export default {
         }
     },
     created(){
-        console.log(window)
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
     },
     destroyed(){
@@ -101,7 +100,9 @@ export default {
         },
         //removes unsaved whitelisted candidates
         removeUnsavedWhitelist(){
-            this.tempWhitelistedCandidates = this.tempWhitelistedCandidates.filter(d=>this.whitelistedNames.includes(d.name))
+            let removed = _.remove(this.tempWhitelistedCandidates,d=> !this.whitelistedNames.includes(d.name))
+            this.tempCandidates.push(...removed)
+            this.sortArrays(this.tempWhitelistedCandidates,this.tempCandidates)
         },
         warnUnsavedChanges(e){
             if(!this.hasUnsavedChanges)
