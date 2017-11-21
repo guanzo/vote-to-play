@@ -63,12 +63,11 @@ export default {
         candidates(){ return this.game.candidates },
         namespace() { return this.game.gameName   },
         propsObj(){
-            let game = this.game;
             return {
-                candidates: game.candidates,
+                candidates: this.game.candidates,
                 filteredCandidates: this.filteredCandidates,
                 whitelistedCandidates: this.whitelistedCandidates,
-                showName: game.showNameInGrid,
+                showName: this.game.showNameInGrid,
                 voteCategory: this.voteCategory
             }
         },

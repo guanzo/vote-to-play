@@ -3,7 +3,9 @@
 <div v-if="candidates.length" class="all-games">
     <component :is="injectedComponent" v-bind="propsObj">
         <div slot="filters">
-            <input v-model="query" placeholder="Search games">
+            <div class="control">
+                <input v-model="query" class="input" placeholder="Search games">
+            </div>
         </div>
     </component>
 </div>
@@ -44,9 +46,13 @@ export default {
             return {
                 candidates: game.candidates,
                 filteredCandidates: game.candidates,
-                whitelist: game.whitelist,
-                showName: game.showNameInGrid
+                whitelistedCandidates: this.whitelistedCandidates,
+                showName: game.showNameInGrid,
+                voteCategory: this.voteCategory
             }
+        },
+        whitelistedCandidates(){
+            return this.$store.getters[NAMESPACE+'/whitelistedCandidates']
         },
     },
     watch:{

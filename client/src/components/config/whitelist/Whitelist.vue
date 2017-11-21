@@ -4,10 +4,10 @@
     <h5>Whitelist <span class="icon-ok"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelistedCandidates"
-        :filteredCandidates="tempWhitelistedCandidates"
+        :filteredCandidates="filterCandidates(tempWhitelistedCandidates)"
         :showName="showName"
         :noResults="noResults"
-        @selectCandidate="c=>swap(c,tempCandidates,tempWhitelistedCandidates)"
+        @selectCandidate="c=>swap(c,tempBlacklistedCandidates,tempWhitelistedCandidates)"
         class="whitelist-grid dark"
     ></candidate-grid>
 
@@ -15,10 +15,10 @@
 
     <h5>Blacklist <span class="icon-cancel"></span></h5>
     <candidate-grid 
-        :candidates="tempCandidates"
-        :filteredCandidates="tempCandidates"
+        :candidates="tempBlacklistedCandidates"
+        :filteredCandidates="filterCandidates(tempBlacklistedCandidates)"
         :showName="showName"
-        @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempCandidates)"
+        @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempBlacklistedCandidates)"
         class="candidate-grid dark m-b-25"
     ></candidate-grid>
     <whitelist-controls 
@@ -42,7 +42,7 @@ export default {
     props:['voteCategory','candidates','filteredCandidates','whitelistedCandidates','showName'],
     data(){
         return {
-            tempCandidates: [...this.candidates],
+            tempBlacklistedCandidates: [...this.candidates],
             tempWhitelistedCandidates:[],
             noResults: 'No whitelisted candidates'
         }
@@ -82,13 +82,16 @@ export default {
         window.removeEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
     },
     methods:{
+        filterCandidates(candidates){
+            return _.intersectionBy(candidates, this.filteredCandidates,'name')
+        },
         partitionCandidates(){
             let partition = _.partition(this.candidates,
                             candidate=>{
                                 return this.whitelistedNames.includes(candidate.name)
                             })
             this.tempWhitelistedCandidates = partition[0]
-            this.tempCandidates = partition[1]
+            this.tempBlacklistedCandidates = partition[1]
         },
         swap(candidate, toArray, fromArray){
             let index = _.findIndex(fromArray,d=>d.name == candidate.name)
@@ -102,8 +105,8 @@ export default {
         //removes unsaved whitelisted candidates
         removeUnsavedWhitelist(){
             let removed = _.remove(this.tempWhitelistedCandidates,d=> !this.whitelistedNames.includes(d.name))
-            this.tempCandidates.push(...removed)
-            this.sortArrays(this.tempWhitelistedCandidates,this.tempCandidates)
+            this.tempBlacklistedCandidates.push(...removed)
+            this.sortArrays(this.tempWhitelistedCandidates,this.tempBlacklistedCandidates)
         },
         warnUnsavedChanges(e){
             if(!this.hasUnsavedChanges)

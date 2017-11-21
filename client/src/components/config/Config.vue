@@ -22,7 +22,11 @@
                 </option>
             </select>
         </div>
-        <game-master :injectedComponent="whitelist" :voteCategory="selectedVoteCategory"></game-master>
+        <game-master 
+            v-if="voteCategory" 
+            :injectedComponent="whitelist" 
+            :voteCategory="selectedVoteCategory"
+        ></game-master>
 
     </div>
 </template>
