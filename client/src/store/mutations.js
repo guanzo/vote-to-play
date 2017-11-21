@@ -2,6 +2,7 @@
 
 export const SET_GAME = 'SET_GAME'
 export const SET_VOTE_CATEGORY = 'SET_VOTE_CATEGORY'
+export const SET_VOTE_MODE = 'SET_VOTE_MODE'
 
 export const SET_AUTH = 'SET_AUTH';
 export const SET_CURRENT_VOTE = 'SET_CURRENT_VOTE'

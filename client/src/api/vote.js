@@ -1,6 +1,7 @@
 
 import store from '@/store'
 import * as MUTATIONS from '@/store/mutations'
+const e = require('@shared/socket-events')
 
 var socket;
 
@@ -8,16 +9,16 @@ export default {
     connect(url,data){
         socket = io(url,{ query: data })
         setListeners()
-        socket.emit('channels/join',data)
+        socket.emit(e.CHANNELS_JOIN,data)
     },
     addVote(data){
-        socket.emit('votes/add',data)
+        socket.emit(e.VOTES_ADD,data)
     },
     startVote(data){
-        socket.emit('votes/start',data)
+        socket.emit(e.VOTES_START,data)
     },    
     saveGameWhitelist(data){
-        socket.emit('whitelist/edit',data)
+        socket.emit(e.WHITELIST_EDIT,data)
     }
 }
 
@@ -29,21 +30,21 @@ function setListeners(){
     /**
      * Retrieves initial state of stream. should only fire once per page load
      */
-    socket.on(`votes`, currentVote => {
+    socket.on(e.VOTES, currentVote => {
         store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
     });
     
-    socket.on(`votes/add`, vote => {
+    socket.on(e.VOTES_ADD, vote => {
         throttle(function(){
             store.commit(MUTATIONS.ADD_VOTE, vote)
         })
     });
 
-    socket.on(`votes/start`, voteInstance => {
+    socket.on(e.VOTES_START, voteInstance => {
         store.commit(MUTATIONS.START_NEW_VOTE, voteInstance)
     });
 
-    socket.on('whitelist', whitelist => {
+    socket.on(e.WHITELIST, whitelist => {
         store.commit(MUTATIONS.SET_WHITELIST, whitelist )
     })
 

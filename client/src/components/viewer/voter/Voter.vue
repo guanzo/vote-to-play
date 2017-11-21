@@ -1,36 +1,37 @@
 <template>
 
 <div class="voter">
-        <transition name="fade-vertical" @afterLeave="afterUiLeave">
-            <div v-show="showUI" class="vote-form overlay-background">
-                <Splash 
-                    :splashTransition="splashTransition" 
-                    :selectedCandidate="selectedCandidate"
+    <transition name="fade-vertical" @afterLeave="afterUiLeave">
+        <div v-show="showUI" class="vote-form overlay-background">
+            <Splash 
+                :splashTransition="splashTransition" 
+                :selectedCandidate="selectedCandidate"
 
-                    @transitionDone="endSplashTransition"
-                ></Splash>
-                <VoterHeader
-                    :hasSelectedCandidate="hasSelectedCandidate"
-                    :selectedCandidate="selectedCandidate"
-                    :class="isInvisible"
-                ></VoterHeader>
-                <CandidateGrid 
-                    v-bind="$attrs"
-                    :class="[isInvisible, 'candidate-grid light']"
-                ></CandidateGrid>
-                <VoterControls
-                    :hasSelectedCandidate="hasSelectedCandidate"
-                    :hasSubmittedVote="hasSubmittedVote"
-                    :vote="selectedCandidate.name"
-                    :class="isInvisible" 
-                    @submitVote="startSplashTransition"
-                >
-                    <slot name="filters"></slot>
-                </VoterControls> 
-            </div>
-        </transition>
-        <VoteResults></VoteResults>
-    </div>
+                @transitionDone="endSplashTransition"
+            ></Splash>
+            <VoterHeader
+                :hasSelectedCandidate="hasSelectedCandidate"
+                :selectedCandidate="selectedCandidate"
+                :class="isInvisible"
+            ></VoterHeader>
+            <CandidateGrid 
+                v-bind="$attrs"
+                :candidates="voteableCandidates"
+                :class="[isInvisible, 'candidate-grid light']"
+            ></CandidateGrid>
+            <VoterControls
+                :hasSelectedCandidate="hasSelectedCandidate"
+                :hasSubmittedVote="hasSubmittedVote"
+                :vote="selectedCandidate.name"
+                :class="isInvisible" 
+                @submitVote="startSplashTransition"
+            >
+                <slot name="filters"></slot>
+            </VoterControls> 
+        </div>
+    </transition>
+    <VoteResults></VoteResults>
+</div>
 
 </template>
 
@@ -41,6 +42,8 @@ import VoterHeader from './VoterHeader'
 import CandidateGrid from '@/components/grid/CandidateGrid'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
+
+var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /**
  * Intended behavior:
@@ -54,19 +57,26 @@ import VoteResults from '@/components/voteresults/VoteResults'
 export default {
     name: 'voter',
     inheritAttrs: false,
+    props:['candidates','whitelistedCandidates'],
     data(){
         return {
             splashTransition: this.splashTransitionDefaults()
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedCandidate']),
+        ...Vuex.mapState(['selectedCandidate','voteMode']),
         ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
         showUI(){
             return !this.hasSubmittedVote || this.splashTransition.isActive
         },
         isInvisible(){
             return { 'invisible': this.splashTransition.hideVoteUI }
+        },
+        voteableCandidates(){
+            if(this.voteMode == VOTE_MODE_VIEWER)
+                return this.candidates
+            else
+                return this.whitelistedCandidates
         }
     },
     watch:{
@@ -138,11 +148,16 @@ export default {
         grid-row-gap: 15px;   
         .candidate-grid{
             grid-area: main;
+            align-items: center;
+            align-content: center;
         }     
         .invisible{
             opacity: 0;
             pointer-events: none;
         }
+    }
+    .vote-results{
+        margin-left: 15px;
     }
 }
 

@@ -6,21 +6,21 @@
                 :is="injectedComponent" 
                 v-bind="propsObj"
             >
-                <div v-if="game.filters" slot="filters">
-                    <template v-for="filter in game.filters">
+                <template v-if="game.filters" slot="filters">
+                    <div v-for="filter in game.filters" class="control" :key="filter.id">
                         <input v-if="filter.type == 'text'" 
                                 v-model="filter.vmodel" 
                                 :placeholder="filter.placeholder"
-                                :key="filter.id"
+                                type="text"
+                                class="input" :class="formClass"
                         >
-                        <select v-else-if="filter.type == 'select'" 
-                                v-model="filter.vmodel"
-                                :key="filter.id">
-                            <option v-for="role in filter.options" :key="role">{{ role }}</option>
-                        </select>
-                        &nbsp;
-                    </template>
-                </div>
+                        <div v-else-if="filter.type == 'select'" class="select" :class="formClass">
+                            <select v-model="filter.vmodel">
+                                <option v-for="role in filter.options" :key="role">{{ role }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </template>
             </component>
             <loading v-else dark class="absolute-center"></loading>
         </transition> 
@@ -60,9 +60,7 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        candidates(){
-            return this.game.candidates
-        },
+        candidates(){ return this.game.candidates },
         namespace() { return this.game.gameName   },
         propsObj(){
             let game = this.game;
@@ -80,6 +78,9 @@ export default {
         whitelistedCandidates(){
             return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
+        formClass(){
+            return this.$route.path.includes('viewer') ? 'is-small' : ''
+        }
     },
     watch:{
         isAuthed: {
@@ -199,19 +200,11 @@ General rules:
     .image-wrapper {
         @include scale-img-size($w,$h);
     }
-    .voter {
-        .candidate-wrapper{
-            //width: 95px;
-            //flex: 0 1 20%;
-        }
-    }
     .voter-header .image-wrapper{
-        width: 56px;
-        height: 90px;
+        @include scale-img-size($w,$h,.6);
     }
     .vote-results .image-wrapper {
-        width: 38px;
-        height: 60px;
+        @include scale-img-size($w,$h,.4);
     }
     .whitelist .image-wrapper{
         @include scale-img-size($w,$h,1.5);
@@ -223,6 +216,9 @@ General rules:
     $h: 55px;
     .image-wrapper{
         @include scale-img-size($w,$h);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.2);
     }
     
 }
@@ -248,6 +244,9 @@ General rules:
     }
     .vote-results .image-wrapper {
         @include scale-img-size($w,$h,.5);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h,1.25);
     }
     select{
         text-transform: capitalize;

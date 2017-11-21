@@ -1,5 +1,6 @@
 var db = require('../db.js')
 var ObjectID = require('mongodb').ObjectID
+const e = require('../../../shared/constants')
 
 /**
  * channels document collection
@@ -52,7 +53,7 @@ module.exports = {
                     console.log(err)
                 })
     },
-    startVote({channelId, voteCategory}){
+    startVote({channelId, voteCategory, voteMode}){
         var channels = db.get().collection('channels')
         channels.createIndex({ channelId: 1 })
 
@@ -62,7 +63,7 @@ module.exports = {
                 $push: { 
                     //prepend to array
                     voteHistory: { 
-                        $each:[ createNewVoteObj(voteCategory) ],
+                        $each:[ createNewVoteObj(voteCategory, voteMode) ],
                         $position: 0
                     } 
                 }
@@ -130,10 +131,11 @@ function addChannel(channelId,channelName, game){
     return channels.updateOne({channelId},{ $set:{ channelName }, $setOnInsert: channel }, { upsert: true })
 }
 
-function createNewVoteObj(voteCategory){
+function createNewVoteObj(voteCategory,voteMode = e.VOTE_MODE_VIEWER){
     var newVote = {
         _id: new ObjectID(),
         voteCategory,
+        voteMode,
         votes: [],
         createdAt: new Date()
     }

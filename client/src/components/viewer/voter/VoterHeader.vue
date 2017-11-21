@@ -3,7 +3,7 @@
 <div class="voter-header">
     <div v-if="!hasSelectedCandidate" class="default-vote flex-center">
         <div class="image-wrapper flex-center">
-            <div>?</div>
+            <div><span class="icon-help"></span></div>
         </div>
         <div>Your Vote</div>
     </div>

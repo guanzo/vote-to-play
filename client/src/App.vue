@@ -22,9 +22,6 @@ body {
 }
 
 #app {
-    font-family: 'Open Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     color: #eee;
     display: flex; 
     flex-direction: column;

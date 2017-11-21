@@ -1,7 +1,6 @@
 <template>
 
 <div class="whitelist">
-    {{ whitelistedCandidates.length }} - {{ tempWhitelistedCandidates.length }}
     <h5>Whitelist <span class="icon-ok"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelistedCandidates"
@@ -11,11 +10,13 @@
         @selectCandidate="c=>swap(c,tempCandidates,tempWhitelistedCandidates)"
         class="whitelist-grid dark m-b-15"
     ></candidate-grid>
+
     <hr class="m-t-15 m-b-15">
+
     <h5>Blacklist <span class="icon-cancel"></span></h5>
     <candidate-grid 
         :candidates="tempCandidates"
-        :filteredCandidates="filteredCandidates"
+        :filteredCandidates="tempCandidates"
         :showName="showName"
         @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempCandidates)"
         class="candidate-grid dark m-b-15"
@@ -129,6 +130,8 @@ export default {
     }
     .candidate-grid{
         min-height: 400px;
+        align-items: flex-start;
+        align-content: flex-start;
     }
     .icon-ok{
         color: $green;

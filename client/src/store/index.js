@@ -6,6 +6,8 @@ import games from './modules/games/_main'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
+var { VOTE_MODE_VIEWER } = require('@shared/constants')
+
 export const state = {
     channelId: -1,
     channelName: 'The broadcaster',
@@ -14,6 +16,7 @@ export const state = {
     selectedGame: null,
     //potential values will be same as selectedGame, with the addition of "All Games"
     voteCategory: null,
+    voteMode: VOTE_MODE_VIEWER,
     votes:[],
     selectedCandidate:{},
     createdAt: null,
@@ -42,8 +45,12 @@ export const mutations = {
         state.voteCategory = voteCategory
         state.selectedCandidate = {}
     },
+    [MUTATIONS.SET_VOTE_MODE]( state, voteMode ){
+        state.voteMode = voteMode
+    },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
         state.voteCategory = currentVote.voteCategory
+        state.voteMode = currentVote.voteMode
         state.votes = currentVote.votes;
         state.createdAt = currentVote.createdAt
     },
@@ -52,6 +59,7 @@ export const mutations = {
     },
     [MUTATIONS.START_NEW_VOTE]( state, voteInstance ){
         state.voteCategory = voteInstance.voteCategory
+        state.voteMode = voteInstance.voteMode
         state.votes = []
         state.selectedCandidate = {}
     },
@@ -79,7 +87,7 @@ export const actions = {
         });
     },
     [ACTIONS.START_NEW_VOTE]( {state} ){
-        voteApi.startVote({ channelId: state.channelId, voteCategory: state.voteCategory })
+        voteApi.startVote({ channelId: state.channelId, voteCategory: state.voteCategory, voteMode: state.voteMode })
     },
     [ACTIONS.SAVE_GAME_WHITELIST]( {state}, gameWhitelist ){
         voteApi.saveGameWhitelist({ channelId: state.channelId, gameWhitelist })

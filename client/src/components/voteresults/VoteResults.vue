@@ -104,7 +104,6 @@ export default {
 .vote-results{
     flex: 0 0 350px;
     position: relative;
-    margin-left: 15px;
     .header {
         text-align: center;
         margin: 10px 0px;

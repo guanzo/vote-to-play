@@ -1,4 +1,4 @@
-import CandidateGrid from '@/components/CandidateGrid'
+import CandidateGrid from '@/components/grid/CandidateGrid'
 
 describe('CandidateGrid.vue', () => {
     let candidates = [{ name: 'yo' },{ name: 'hi'}];

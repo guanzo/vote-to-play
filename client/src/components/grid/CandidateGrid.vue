@@ -6,16 +6,14 @@
         name="list" 
         @before-leave="beforeLeave"
     >
-        <template >
-            <candidate v-for="(candidate,i) in candidates"
-                :candidate="candidate"
-                :showName="showName"
-                @click.native="selectCandidate(candidate)"
-                :class="filterClass(candidate)" 
-                :key="candidate.name"
-            >
-            </candidate>
-        </template>
+        <candidate v-for="(candidate,i) in candidates"
+            :candidate="candidate"
+            :showName="showName"
+            @click.native="selectCandidate(candidate)"
+            :class="filterClass(candidate)" 
+            :key="candidate.name"
+        >
+        </candidate>
     </transition-group>
     <div v-else class="no-results flex-center margin-center">
         {{noResults}}
@@ -78,8 +76,6 @@ $dark: #333;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
     transition: .5s;
@@ -104,10 +100,7 @@ $dark: #333;
         opacity: 1;
     }
 }
-/* 
-.move-enter-active, .move-leave-active{
-    transition: 5s !important;
-} */
+
 .list-enter, .list-leave-to{
     opacity: 0;
 }

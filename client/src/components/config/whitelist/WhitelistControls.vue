@@ -1,15 +1,17 @@
 <template>
     
-    <div class="whitelist-controls pure-form">
+    <div class="whitelist-controls field is-grouped is-grouped-multiline">
         <slot>
             <div></div><!-- spacing helper -->
         </slot>
-        <div class="buttons is-centered">
-            <a @click="onCancel" class="button is-danger is-outlined">Cancel</a>
-            <a @click="onSaveGameWhitelist" 
-            :class="[buttonColor, isLoading ? 'is-loading':'']" 
-            class="button"
-            >Save</a>
+        <div class="buttons">
+            <div class="help">{{ validationMsg }}</div>
+            <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
+            <button @click="onSaveGameWhitelist" 
+                :class="[validationColor, isLoading ? 'is-loading':'']" 
+                class="button"
+            >Save</button>
+
         </div>
     </div>
 
@@ -28,8 +30,11 @@ export default {
         }
     },
     computed:{
-        buttonColor(){
+        validationColor(){
             return this.hasUnsavedChanges ? 'is-warning' : 'is-success'
+        },
+        validationMsg(){
+            return this.hasUnsavedChanges ? 'You have unsaved changes' : ''
         }
     },
     methods:{
@@ -43,7 +48,7 @@ export default {
             }
             this.$store.dispatch(SAVE_GAME_WHITELIST, gameWhitelist )
             this.isLoading = true
-            await delayPromise(1000)
+            await delayPromise(500)
             this.isLoading = false
         }
     }
@@ -54,10 +59,17 @@ export default {
 <style lang="scss" scoped>
 
 .whitelist-controls{
-    display: flex;
-    justify-content: space-between;
     .buttons{
         transition: 0.15s;
+        margin-left: auto;
+        position: relative;
+        .help{
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            text-align: right;
+            white-space: nowrap;
+        }
     }
     $save-color:  #43A047;
     .save{

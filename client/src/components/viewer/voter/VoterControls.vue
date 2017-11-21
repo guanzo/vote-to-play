@@ -1,13 +1,13 @@
 <template>
-    <div class="vote-controls pure-form">
+    <div class="vote-controls field is-grouped">
         <slot>
             <div></div><!-- spacing helper -->
         </slot>
-        <div>
+        <div class="control vote-button-wrapper">
             <button 
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
-                class="button"
+                class="button is-small"
                 :class="{ 'is-loading': isLoading }"
             >
             Vote</button>
@@ -60,9 +60,12 @@ export default {
 .vote-controls{
     grid-area: footer;
     position: relative;
-    display: flex;
-    justify-content: space-between;
+    //display: flex;
+    //justify-content: space-between;
     transition: .5s;
+    .vote-button-wrapper{
+        margin-left: auto;
+    }
     select {
         width: 120px;
     }

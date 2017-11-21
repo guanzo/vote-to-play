@@ -89,7 +89,7 @@ function gameModuleRequiredProperties(){
             maxVoteResults: "number",
             showNameInGrid: "boolean",
             candidates: [],
-            whitelist:[],
+            whitelistedNames:[],
             filters: [],
         },
         mutations:{
@@ -99,7 +99,8 @@ function gameModuleRequiredProperties(){
             [ACTIONS.GET_CANDIDATES]: "function"
         },
         getters:{
-            filteredCandidates: "function"
+            filteredCandidates: "function",
+            whitelistedCandidates: "function"
         }
     }
 }
