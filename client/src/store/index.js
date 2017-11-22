@@ -89,9 +89,6 @@ export const actions = {
     [ACTIONS.START_NEW_VOTE]( {state} ){
         voteApi.startVote({ channelId: state.channelId, voteCategory: state.voteCategory, voteMode: state.voteMode })
     },
-    [ACTIONS.SAVE_GAME_WHITELIST]( {state}, gameWhitelist ){
-        voteApi.saveGameWhitelist({ channelId: state.channelId, gameWhitelist })
-    },
     [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
         commit(MUTATIONS.SET_AUTH, payload)
         voteApi.connect(process.env.SERVER_URL, payload)

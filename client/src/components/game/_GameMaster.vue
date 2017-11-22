@@ -1,6 +1,5 @@
 <script>
 
-import allGames     from './AllGames'
 import game         from './Game'
 import unsupported  from './Unsupported'
 import store        from '@/store'
@@ -15,9 +14,8 @@ export default {
         var { voteCategory, injectedComponent } = context.props
         let supportedGames = store.getters.supportedGames
         var component;
-        if(voteCategory == ALL_GAMES)
-            component = allGames
-        else if(supportedGames.includes(voteCategory))
+        
+        if(supportedGames.includes(voteCategory))
             component = game
         else
             component = unsupported

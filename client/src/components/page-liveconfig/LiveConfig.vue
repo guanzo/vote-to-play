@@ -28,11 +28,9 @@
 
         </div>
     </div>
-    <br>
     <div v-if="showVoteResults">
-        <div class="text-center">
+        <div class="text-center m-t-15 m-b-15">
             <button @click="startVote" class="button start-vote"  :data-intro="introStartVote">Start a vote</button>
-            <p><small></small></p>
         </div>
         <vote-results class="vote-list">
         </vote-results>
@@ -44,7 +42,7 @@
 <script>
 import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/voteresults/VoteResults'
-import unsupported from '@/components/page-viewer/games/Unsupported'
+import unsupported from '@/components/game/Unsupported'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { delayPromise } from '@/util'

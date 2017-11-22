@@ -1,18 +1,19 @@
 <template>
-    <div v-if="candidates.length" class="game" :class="game.className">
+    <div class="game" :class="game.className">
         <transition :duration="duration" name="fade">
             <component 
                 v-if="!isLoading" 
                 :is="injectedComponent" 
                 v-bind="propsObj"
             >
-                <template v-if="game.filters" slot="filters">
+                <template slot="filters">
                     <div v-for="filter in game.filters" class="control" :key="filter.id">
                         <input v-if="filter.type == 'text'" 
                                 v-model="filter.vmodel" 
                                 :placeholder="filter.placeholder"
                                 type="text"
-                                class="input" :class="formClass"
+                                class="input" 
+                                :class="formClass"
                         >
                         <div v-else-if="filter.type == 'select'" class="select" :class="formClass">
                             <select v-model="filter.vmodel">
@@ -31,6 +32,7 @@
 
 import voter from '@/components/page-viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES } from '@/store/actions'
 import loading from '@/components/loading/Loading'
 import { delayPromise } from '@/util'
@@ -60,19 +62,28 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        candidates(){ return this.game.candidates },
+        candidates(){ 
+            if(this.isAllGames)
+                return this.$store.getters[ALL_GAMES+'/candidates']
+            else
+                return this.game.candidates 
+            
+        },
         namespace() { return this.game.gameName   },
         propsObj(){
             let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
             let filteredCandidates = getters[this.namespace+'/filteredCandidates']
             return {
-                candidates: this.game.candidates,
+                candidates: this.candidates,
                 filteredCandidates,
                 whitelistedCandidates,
                 showName: this.game.showNameInGrid,
                 voteCategory: this.voteCategory
             }
+        },
+        isAllGames(){
+            return this.namespace == ALL_GAMES
         },
         formClass(){
             return this.$route.path.includes('viewer') ? 'is-small' : ''
@@ -88,10 +99,11 @@ export default {
         },
         namespace(){
             this.fetchCandidates()
-        },/* 
-        'filters.0.vmodel'(query){
-            this.searchGames(query)
-        }, */
+        },
+        'game.filters.0.vmodel'(query){
+            if(this.isAllGames)
+                this.$store.dispatch(this.namespace+'/searchGames',query)
+        }, 
     },
     created(){
         this.fetchCandidates()
@@ -105,7 +117,6 @@ export default {
                     this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
                     delayPromise(this.duration)
                 ])
-                
                 this.isLoading = false
                 
             }
@@ -146,6 +157,32 @@ General rules:
 @mixin scale-img-size($width, $height, $scale: 1){
     width: $width * $scale;
     height: $height * $scale;
+}
+
+
+.all-games {
+    
+    $w: 72px;
+    $h: 100px;
+    img {
+        width: 100%;
+        height: auto;
+    }
+    .voter-header .image-wrapper{
+        @include scale-img-size($w,$h,.75);
+    }
+    .image-wrapper{
+        @include scale-img-size($w,$h);
+    }
+    .vote-form{
+        overflow: hidden;
+        flex: 1; //ensure always full width, so the div doesn't jump around when querying
+    }
+    .candidate{
+        max-width: 72px;
+        font-size: 12px;
+        margin: 3px;
+    }
 }
 
 .battlerite{

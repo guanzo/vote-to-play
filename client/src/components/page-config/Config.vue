@@ -1,6 +1,6 @@
 <template>
 	<div class="config">
-        <h3>Thanks for installing Vote to Play!</h3>
+        <h3 class="title">Thanks for installing Vote to Play!</h3>
         <p>
             If you want viewers to vote on game characters, make sure you set the game in your stream information.<br>
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch, and click "Start a Vote".
@@ -33,7 +33,7 @@
 
 <script>
 import whitelist from './Whitelist'
-import GameMaster from '@/components/page-viewer/games/_GameMaster'
+import GameMaster from '@/components/game/_GameMaster'
 
 var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 

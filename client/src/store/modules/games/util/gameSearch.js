@@ -1,26 +1,20 @@
 
 const TWITCH_SEARCH_URL = 'https://api.twitch.tv/kraken/search/games'
 
-import { NAMESPACE } from '@/store/modules/games/allGames'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { SET_SEARCHED_GAMES } from '@/store/mutations'
 
-export default {
-    data(){
-        return {
-            engine: null,
-            maxQueryMatches: 20
-        }
-    },
-    topGames(topGames){
-        this.engine.add(topGames)
-    },
-    created(){
+export default class GameSearch{
+    constructor(){
+        this.maxQueryMatches = 20
+
         this.engine = new Bloodhound({
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             datumTokenizer(datum){
                 return Bloodhound.tokenizers.whitespace(datum.name)
             },
             identify: obj => obj._id,
+            sufficient: 5,
             remote:{
                 url: TWITCH_SEARCH_URL,
                 prepare: (query, settings)=>{
@@ -44,25 +38,36 @@ export default {
                 }
             },
         });
-    },
-    destroyed(){
-        this.engine.clear()
-    },
-    methods:{
-        searchGames: function(query){
+
+    }
+    addTopGames(topGames){
+        this.engine.add(topGames)
+    }
+    searchGames(query){
+        return new Promise(resolve=>{
+            let results = [],
+                maxResults = 10
+
             if(query.length == 0)
-                return this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, [])
-            var maxResults = 10;
-            this.engine.search(query,this.syncCallback,this.asyncCallback)
-        },
-        syncCallback(queryMatches){
-            queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, queryMatches )
-        },
-        asyncCallback(queryMatches){
-            this.engine.add(queryMatches)
-            queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, queryMatches )
-        },
-    },
+                return resolve(results)
+
+            this.engine.search(query,
+                syncMatches=>{
+                    syncMatches = _.take(syncMatches,this.maxQueryMatches)
+                    results.push(...syncMatches)
+                    if(!this.willRequestRemote(syncMatches))
+                        resolve(results)
+                },
+                asyncMatches=>{
+                    this.engine.add(asyncMatches)
+                    asyncMatches = _.take(asyncMatches,this.maxQueryMatches)
+                    results.push(...asyncMatches)
+                    results = _.uniqBy(results,'name')
+                    resolve(results)
+                })
+        })
+    }
+    willRequestRemote(syncMatches){
+        return syncMatches.length < this.engine.sufficient
+    }
 }

@@ -25,7 +25,7 @@
 
 
 import TestUtil from './testgui/TestUtil'
-import GameMaster from './games/_GameMaster'
+import GameMaster from '@/components/game/_GameMaster'
 import voter from '@/components/page-viewer/voter/Voter'
 
 export default {

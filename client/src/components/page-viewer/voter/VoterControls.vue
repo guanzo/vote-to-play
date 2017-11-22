@@ -1,8 +1,11 @@
 <template>
     <div class="vote-controls field is-grouped">
-        <slot>
+        <slot v-if="!isWhitelist">
             <div></div><!-- spacing helper -->
         </slot>
+        <div class="help" v-else>
+            {{ channelName }} has limited the voting pool
+        </div>
         <div class="control vote-button-wrapper">
             <button 
                 @click="submitVote" 
@@ -19,6 +22,7 @@
 
 import VoteSimulation from '@/components/page-viewer/testgui/VoteSimulation'
 import { VOTE } from '@/store/actions'
+var { VOTE_MODE_STREAMER } = require('@shared/constants')
 
 export default {
     name: 'voter-controls',
@@ -30,10 +34,13 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['userId']),
+        ...Vuex.mapState(['userId','voteMode','channelName']),
         allowedToVote(){
             return !this.hasSubmittedVote && !this.isLoading
         },
+        isWhitelist(){
+            return this.voteMode == VOTE_MODE_STREAMER
+        }
     },
     watch:{
         hasSubmittedVote(val){

@@ -25,7 +25,7 @@ import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 
 export default {
     name:'whitelist-controls',
-    props:['tempWhitelistedCandidates','voteCategory','hasUnsavedChanges'],
+    props:['tempWhitelist','voteCategory','hasUnsavedChanges'],
     data(){
         return {
             isLoading: false
@@ -39,7 +39,7 @@ export default {
             return this.hasUnsavedChanges ? 'You have unsaved changes' : ''
         },
         tempWhitelistedNames(){
-            return this.tempWhitelistedCandidates.map(d=>d.name)
+            return this.tempWhitelist.map(d=>d.name)
         }
     },
     methods:{
@@ -47,15 +47,10 @@ export default {
             this.$emit('cancel')
         },
         async onSaveGameWhitelist(){
-            let arr;
-            if(this.voteCategory == ALL_GAMES)
-                arr = this.tempWhitelistedCandidates.map(d=>_.pick(d,'name','img'))
-            else
-                arr = this.tempWhitelistedNames
 
             let gameWhitelist = {
                 voteCategory: this.voteCategory,
-                names: arr
+                names: this.tempWhitelist
             }
             this.$store.dispatch(SAVE_GAME_WHITELIST, gameWhitelist )
             this.isLoading = true

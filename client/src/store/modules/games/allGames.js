@@ -1,36 +1,40 @@
+/**
+ * This module requires special treament.
+ * Unlike all other game modules, I have to request candidates from twitch,
+ * therefore there is no "filtering" of existing candidates, there is
+ * only searching.
+ * 
+ */
+
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-
-import whitelistMixin from './_whitelistMixin';
+import GameSearch from './util/gameSearch'
+import whitelistMixin from './util/whitelistMixin';
 
 let modifiedMixin = _.merge({},whitelistMixin,
     {
         mutations:{
             partition(state){
                 let candidates = state.searchedGames.length ? state.searchedGames : state.topGames
-                state.tempWhitelistedCandidates = state.whitelistedNames
-                state.tempBlacklistedCandidates = candidates
+                state.tempWhitelist = state.whitelistedNames
+                state.tempBlacklist = candidates
             },
             updateTempBlacklist(state,candidates){
-                console.log(candidates)
-                state.tempBlacklistedCandidates = [...candidates]
+                state.tempBlacklist = [...candidates]
             },
         },
         getters:{
             whitelistedCandidates({whitelistedNames}){
                 return whitelistedNames
             },
-            filteredBlacklist({tempBlacklistedCandidates}){
-                return tempBlacklistedCandidates
+            filteredBlacklist({tempBlacklist}){
+                return tempBlacklist
             }
         }
     }
 )
-/* 
-import GameSearch from '@/components/page-viewer/games/AllGamesSearch2'
 
 const engine = new GameSearch();
-console.log(engine) */
 
 export const NAMESPACE = 'All Games'
 export const BOX_ART_WIDTH = 72;
@@ -46,9 +50,6 @@ const allGames = _.merge({
         maxVoteResults: 5,
         topGames:[],
         searchedGames:[],
-        whitelistedNames:[],
-        tempWhitelistedCandidates:[],
-        tempBlacklistedCandidates:[],
         filters:[
             {
                 id:'name',
@@ -63,13 +64,12 @@ const allGames = _.merge({
             state.topGames = topGames
         },
         [MUTATIONS.SET_SEARCHED_GAMES](state,searchedGames){
-            searchedGames.forEach(setImage)
             state.searchedGames = searchedGames;
         },
         
     },
     actions:{
-        [ACTIONS.GET_TOP_TWITCH_GAMES]({commit}){
+        [ACTIONS.GET_CANDIDATES]({commit}){
             let limit = 30;
             return axios.get(`https://api.twitch.tv/kraken/games/top?limit=${limit}`,{
                 headers:{
@@ -77,25 +77,39 @@ const allGames = _.merge({
                         }
                 })
                 .then(res=>{
-                    let topGames = res.data.top.map(d=>d.game)
-                    topGames.forEach(setImage)
+                    let topGames = res.data.top.map(d=>{
+                        let game = d.game
+                        setImage(game)
+                        return game
+                    })
                     commit(MUTATIONS.SET_TOP_TWITCH_GAMES, topGames)
+                    engine.addTopGames(topGames)
                 })
         },
+        async searchGames({commit},query){
+            let results = await engine.searchGames(query)
+            results.forEach(setImage)
+            commit(MUTATIONS.SET_SEARCHED_GAMES, results)
+        }
         
     },
     getters:{
-        candidates(state){
-            return state.filters[0].vmodel.length ? state.searchedGames : state.topGames
+        candidates(state, {gameQuery}){
+            return gameQuery.length ? state.searchedGames : state.topGames
         },
-        filteredCandidates(state){
-            return state.candidates
+        gameQuery(state){
+            return state.filters[0].vmodel
+        },
+        filteredCandidates(state,getters){
+            return getters.candidates
         },
     }
 },modifiedMixin)
+
 //twitch allows you to give custom dimensions
 function setImage(d){
     d.img = d.box.template.replace('{width}',BOX_ART_WIDTH).replace('{height}',BOX_ART_HEIGHT)
+    return d
 }
 
 export default allGames

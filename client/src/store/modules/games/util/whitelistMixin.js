@@ -1,8 +1,8 @@
 export default {
     state:{
         whitelistedNames:[],
-        tempWhitelistedCandidates:[],
-        tempBlacklistedCandidates:[],
+        tempWhitelist:[],
+        tempBlacklist:[],
     },
     mutations:{
         partition(state){
@@ -10,22 +10,25 @@ export default {
                 candidate=>{
                     return state.whitelistedNames.includes(candidate.name)
                 })
-            state.tempWhitelistedCandidates = partition[0]
-            state.tempBlacklistedCandidates = partition[1]
+            state.tempWhitelist = partition[0]
+            state.tempBlacklist = partition[1]
         },
         updateTempWhitelist(state,candidates){
-            state.tempWhitelistedCandidates = [...candidates]
+            state.tempWhitelist = [...candidates]
         },
         swap(state,{ candidate, toArray, fromArray }){
             let index = _.findIndex(fromArray,d=>d.name == candidate.name)
             fromArray.splice(index,1)
-            toArray.push(candidate)
+            
+            index = _.findIndex(toArray,d=>d.name == candidate.name)
+            if(index == -1)
+                toArray.push(candidate)
             sortArrays(fromArray,toArray)
         },
         removeUnsavedWhitelist(state){
-            let removed = _.remove(state.tempWhitelistedCandidates,d=> !state.whitelistedNames.includes(d.name))
-            state.tempBlacklistedCandidates.push(...removed)
-            sortArrays(state.tempWhitelistedCandidates,state.tempBlacklistedCandidates)
+            let removed = _.remove(state.tempWhitelist,d=> !state.whitelistedNames.includes(d.name))
+            state.tempBlacklist.push(...removed)
+            sortArrays(state.tempWhitelist,state.tempBlacklist)
         }
     },
     getters:{

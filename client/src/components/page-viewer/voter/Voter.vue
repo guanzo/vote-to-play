@@ -138,6 +138,7 @@ export default {
         padding: 15px;
         max-height: 100%;
         min-height: 300px;
+        min-width: 400px;
         display: grid;
         grid-template-columns: auto;
         grid-template-rows: auto 1fr auto;
@@ -149,7 +150,6 @@ export default {
         .candidate-grid{
             grid-area: main;
             align-items: center;
-            align-content: center;
         }     
         .invisible{
             opacity: 0;

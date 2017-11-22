@@ -1,4 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
+import * as ACTIONS from '@/store/actions'
+import voteApi from '@/api/vote'
 
 import allGames,    { NAMESPACE as NS_AG }      from './allGames'
 import battlerite,  { NAMESPACE as NS_BR }      from './battlerite'
@@ -18,6 +20,20 @@ export const mutations = {
                 game.whitelistedNames = []
         })
     }
+}
+
+export const actions = {
+    [ACTIONS.SAVE_GAME_WHITELIST]( {rootState}, gameWhitelist ){
+        //supported games: save as array of strings
+        //all games:       save as array of objects
+
+        let { voteCategory, names } = gameWhitelist
+        if(voteCategory == NS_AG)
+            gameWhitelist.names = names.map(d=>_.pick(d,'name','img'))
+        else
+            gameWhitelist.names = names.map(d=>d.name)
+        voteApi.saveGameWhitelist({ channelId: rootState.channelId, gameWhitelist })
+    },
 }
 
 export const getters = {
@@ -46,5 +62,6 @@ export default {
         [NS_OW]:    overwatch,
     },
     mutations,
+    actions,
     getters
 }

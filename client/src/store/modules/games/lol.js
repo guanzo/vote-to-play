@@ -1,6 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import whitelistMixin from './_whitelistMixin';
+import whitelistMixin from './util/whitelistMixin';
 
 
 export const NAMESPACE = 'League of Legends'

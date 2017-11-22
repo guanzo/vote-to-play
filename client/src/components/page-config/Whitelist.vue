@@ -3,11 +3,11 @@
 <div class="whitelist">
     <h5>Whitelist <span class="icon-ok"></span></h5>
     <candidate-grid 
-        :candidates="tempWhitelistedCandidates"
-        :filteredCandidates="tempWhitelistedCandidates"
+        :candidates="tempWhitelist"
+        :filteredCandidates="tempWhitelist"
         :showName="showName"
         :noResults="noResults"
-        @selectCandidate="c=>swap(c,tempBlacklistedCandidates,tempWhitelistedCandidates)"
+        @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
         class="whitelist-grid dark"
     ></candidate-grid>
 
@@ -15,15 +15,15 @@
 
     <h5>Blacklist <span class="icon-cancel"></span></h5>
     <candidate-grid 
-        :candidates="tempBlacklistedCandidates"
+        :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
         :showName="showName"
-        @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempBlacklistedCandidates)"
+        @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="candidate-grid dark m-b-25"
     ></candidate-grid>
     <whitelist-controls 
         :voteCategory="voteCategory" 
-        :tempWhitelistedCandidates="tempWhitelistedCandidates" 
+        :tempWhitelist="tempWhitelist" 
         :hasUnsavedChanges="hasUnsavedChanges"
         @cancel="commit('removeUnsavedWhitelist')"
     >
@@ -42,17 +42,17 @@ export default {
     props:['voteCategory'],
     data(){
         return {
-            noResults: 'No whitelisted candidates'
+            noResults: "You haven't whitelisted any candidates. Click on the candidates to whitelist them."
         }
     },
     computed:{
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        namespace(){ return this.game.gameName },
-        showName(){ return this.game.showNameInGrid },
-        tempWhitelistedCandidates(){ return this.game.tempWhitelistedCandidates },
-        tempBlacklistedCandidates(){ return this.game.tempBlacklistedCandidates },
+        namespace(){     return this.game.gameName },
+        showName(){      return this.game.showNameInGrid },
+        tempWhitelist(){ return this.game.tempWhitelist },
+        tempBlacklist(){ return this.game.tempBlacklist },
         whitelistedCandidates(){
             return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
@@ -63,7 +63,7 @@ export default {
             return this.$store.getters[this.namespace+'/filteredBlacklist']
         },
         hasUnsavedChanges(){
-            return this.whitelistedCandidates.length !== this.tempWhitelistedCandidates.length
+            return this.whitelistedCandidates.length !== this.tempWhitelist.length
         }
     },
     watch:{
