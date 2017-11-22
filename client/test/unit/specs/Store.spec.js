@@ -2,7 +2,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import { mutations, getters } from '@/store'
 import mainGameModule from '@/store/modules/games/_main'
-import { whitelistedCandidates } from '@/store/modules/games/_util'
+import whitelistMixin from '@/store/modules/games/_whitelistMixin'
 
 describe('store',()=>{
     
@@ -51,19 +51,23 @@ describe('store',()=>{
             })
         })
 
-        describe('whitelistedCandidates',()=>{
-            it('correctly filters for whitelisted candidates',()=>{
-                let candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
-                let whitelistedNames = ['mirana','bob']
-
-                let result = whitelistedCandidates({ candidates, whitelistedNames })
-
-                expect(result).to.have.lengthOf(whitelistedNames.length)
-                expect(result).to.have.deep.members(candidates.slice(1))
+        describe('whitelistMixin',()=>{
+            describe('getters',()=>{
+                describe('whitelistedCandidates',()=>{
+                    it('correctly filters for whitelisted candidates',()=>{
+                        let candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
+                        let whitelistedNames = ['mirana','bob']
+    
+                        let result = whitelistMixin.getters.whitelistedCandidates({ candidates, whitelistedNames })
+    
+                        expect(result).to.have.lengthOf(whitelistedNames.length)
+                        expect(result).to.have.deep.members(candidates.slice(1))
+                    })
+                })
             })
         })
-
     })
+
 })
 
 function comparePropertyTypes(source,target) {

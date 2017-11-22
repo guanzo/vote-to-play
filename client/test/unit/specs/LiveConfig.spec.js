@@ -1,4 +1,4 @@
-import LiveConfig from '@/components/liveconfig/LiveConfig'
+import LiveConfig from '@/components/page-liveconfig/LiveConfig'
 import { SET_GAME } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { state, mutations, getters, actions, modules } from '@/store'
