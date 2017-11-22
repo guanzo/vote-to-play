@@ -2,7 +2,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import { mutations, getters } from '@/store'
 import mainGameModule from '@/store/modules/games/_main'
-import whitelistMixin from '@/store/modules/games/_whitelistMixin'
+import whitelistMixin from '@/store/modules/games/util/whitelistMixin'
 
 describe('store',()=>{
     
