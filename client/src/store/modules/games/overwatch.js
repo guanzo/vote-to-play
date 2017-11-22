@@ -1,6 +1,6 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 import heroes from '@/assets/json/overwatch_heroes'
@@ -15,7 +15,7 @@ let roles = _(candidates).map(d=>d.type).uniq().sort().value()
 
 export const NAMESPACE = 'Overwatch'
 
-const ow = {
+const ow = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -24,7 +24,6 @@ const ow = {
         maxVoteResults: 3,
         showNameInGrid: false,
         candidates,
-        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -63,8 +62,7 @@ const ow = {
                 return result
             })
         },
-        whitelistedCandidates
     }
-}
+},whitelistMixin)
 
 export default ow

@@ -63,19 +63,16 @@ export default {
         candidates(){ return this.game.candidates },
         namespace() { return this.game.gameName   },
         propsObj(){
+            let getters = this.$store.getters
+            let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
+            let filteredCandidates = getters[this.namespace+'/filteredCandidates']
             return {
                 candidates: this.game.candidates,
-                filteredCandidates: this.filteredCandidates,
-                whitelistedCandidates: this.whitelistedCandidates,
+                filteredCandidates,
+                whitelistedCandidates,
                 showName: this.game.showNameInGrid,
                 voteCategory: this.voteCategory
             }
-        },
-        filteredCandidates(){
-            return this.$store.getters[this.namespace+'/filteredCandidates']
-        },
-        whitelistedCandidates(){
-            return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
         formClass(){
             return this.$route.path.includes('viewer') ? 'is-small' : ''
@@ -91,7 +88,10 @@ export default {
         },
         namespace(){
             this.fetchCandidates()
-        }
+        },/* 
+        'filters.0.vmodel'(query){
+            this.searchGames(query)
+        }, */
     },
     created(){
         this.fetchCandidates()

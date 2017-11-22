@@ -1,16 +1,42 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+
+import whitelistMixin from './_whitelistMixin';
+
+let modifiedMixin = _.merge({},whitelistMixin,
+    {
+        mutations:{
+            partition(state){
+                let candidates = state.searchedGames.length ? state.searchedGames : state.topGames
+                state.tempWhitelistedCandidates = state.whitelistedNames
+                state.tempBlacklistedCandidates = candidates
+            },
+            updateTempBlacklist(state,candidates){
+                console.log(candidates)
+                state.tempBlacklistedCandidates = [...candidates]
+            },
+        },
+        getters:{
+            whitelistedCandidates({whitelistedNames}){
+                return whitelistedNames
+            },
+            filteredBlacklist({tempBlacklistedCandidates}){
+                return tempBlacklistedCandidates
+            }
+        }
+    }
+)
+/* 
 import GameSearch from '@/components/page-viewer/games/AllGamesSearch2'
 
 const engine = new GameSearch();
-console.log(engine)
+console.log(engine) */
 
 export const NAMESPACE = 'All Games'
 export const BOX_ART_WIDTH = 72;
 export const BOX_ART_HEIGHT = 100;
 
-const allGames = {
+const allGames = _.merge({
     namespaced: true,
     state:{
         gameName: NAMESPACE,
@@ -18,10 +44,11 @@ const allGames = {
         className: 'all-games',
         showNameInGrid: true,
         maxVoteResults: 5,
-        candidates:[],
         topGames:[],
         searchedGames:[],
         whitelistedNames:[],
+        tempWhitelistedCandidates:[],
+        tempBlacklistedCandidates:[],
         filters:[
             {
                 id:'name',
@@ -30,11 +57,9 @@ const allGames = {
                 placeholder: 'Search games'
             }
         ]
-
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state, topGames){
-            state.candidates = topGames
             state.topGames = topGames
         },
         [MUTATIONS.SET_SEARCHED_GAMES](state,searchedGames){
@@ -60,15 +85,18 @@ const allGames = {
         
     },
     getters:{
+        candidates(state){
+            return state.filters[0].vmodel.length ? state.searchedGames : state.topGames
+        },
         filteredCandidates(state){
             return state.candidates
         },
-        whitelistedCandidates
     }
-}
+},modifiedMixin)
 //twitch allows you to give custom dimensions
 function setImage(d){
     d.img = d.box.template.replace('{width}',BOX_ART_WIDTH).replace('{height}',BOX_ART_HEIGHT)
 }
 
 export default allGames
+

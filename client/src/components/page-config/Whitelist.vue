@@ -16,17 +16,16 @@
     <h5>Blacklist <span class="icon-cancel"></span></h5>
     <candidate-grid 
         :candidates="tempBlacklistedCandidates"
-        :filteredCandidates="filterCandidates(tempBlacklistedCandidates)"
+        :filteredCandidates="filteredBlacklist"
         :showName="showName"
         @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempBlacklistedCandidates)"
         class="candidate-grid dark m-b-25"
     ></candidate-grid>
-    
     <whitelist-controls 
         :voteCategory="voteCategory" 
-        :names="tempWhitelistedNames" 
+        :tempWhitelistedCandidates="tempWhitelistedCandidates" 
         :hasUnsavedChanges="hasUnsavedChanges"
-        @cancel="removeUnsavedWhitelist"
+        @cancel="commit('removeUnsavedWhitelist')"
     >
         <slot name="filters"></slot>
     </whitelist-controls>
@@ -40,22 +39,28 @@ import candidateGrid from '@/components/grid/CandidateGrid'
 import whitelistControls from './WhitelistControls'
 export default {
     name:'whitelist',
-    props:['voteCategory','candidates','filteredCandidates','whitelistedCandidates','showName'],
+    props:['voteCategory'],
     data(){
         return {
-            tempBlacklistedCandidates: [...this.candidates],
-            tempWhitelistedCandidates:[],
             noResults: 'No whitelisted candidates'
         }
     },
     computed:{
-        //unsaved changes on client
-        tempWhitelistedNames(){
-            return this.tempWhitelistedCandidates.map(d=>d.name)
+        game(){
+            return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        //from server
-        whitelistedNames(){
-            return this.whitelistedCandidates.map(d=>d.name)
+        namespace(){ return this.game.gameName },
+        showName(){ return this.game.showNameInGrid },
+        tempWhitelistedCandidates(){ return this.game.tempWhitelistedCandidates },
+        tempBlacklistedCandidates(){ return this.game.tempBlacklistedCandidates },
+        whitelistedCandidates(){
+            return this.$store.getters[this.namespace+'/whitelistedCandidates']
+        },
+        filteredCandidates(){
+            return this.$store.getters[this.namespace+'/filteredCandidates']
+        },
+        filteredBlacklist(){
+            return this.$store.getters[this.namespace+'/filteredBlacklist']
         },
         hasUnsavedChanges(){
             return this.whitelistedCandidates.length !== this.tempWhitelistedCandidates.length
@@ -65,19 +70,20 @@ export default {
         //set initial whitelist, && each time user saves whitelist
         whitelistedCandidates:{
             handler(whitelistedCandidates){
-                this.tempWhitelistedCandidates = [...whitelistedCandidates]
+                this.commit('updateTempWhitelist',whitelistedCandidates)
             },
             immediate: true
         },
         voteCategory:{
             handler(){
-                this.partitionCandidates();
+                this.commit('partition');
             },
             immediate: true
         },
         //all games compatibility
-        candidates(){
-            this.tempBlacklistedCandidates = [...this.candidates]
+        'game.filters.0.vmodel'(){
+            let candidates = this.$store.getters[this.namespace+'/candidates']
+            this.commit('updateTempBlacklist',candidates)
         },
     },
     created(){
@@ -87,31 +93,11 @@ export default {
         window.removeEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
     },
     methods:{
-        filterCandidates(candidates){
-            return _.intersectionBy(candidates, this.filteredCandidates,'name')
+        commit(mutation, payload){
+            this.$store.commit(this.namespace+'/'+mutation, payload)
         },
-        partitionCandidates(){
-            let partition = _.partition(this.candidates,
-                            candidate=>{
-                                return this.whitelistedNames.includes(candidate.name)
-                            })
-            this.tempWhitelistedCandidates = partition[0]
-            this.tempBlacklistedCandidates = partition[1]
-        },
-        swap(candidate, toArray, fromArray){
-            let index = _.findIndex(fromArray,d=>d.name == candidate.name)
-            fromArray.splice(index,1)
-            toArray.push(candidate)
-            this.sortArrays(fromArray,toArray)
-        },
-        sortArrays(...arrays){
-            arrays.forEach(arr=>arr.sort((a,b)=>a.name.localeCompare(b.name)))
-        },
-        //removes unsaved whitelisted candidates
-        removeUnsavedWhitelist(){
-            let removed = _.remove(this.tempWhitelistedCandidates,d=> !this.whitelistedNames.includes(d.name))
-            this.tempBlacklistedCandidates.push(...removed)
-            this.sortArrays(this.tempWhitelistedCandidates,this.tempBlacklistedCandidates)
+        swap(candidate,toArray,fromArray){
+            this.commit('swap',{ candidate, toArray, fromArray })
         },
         warnUnsavedChanges(e){
             if(!this.hasUnsavedChanges)

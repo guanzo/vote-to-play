@@ -2,12 +2,12 @@
 
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 export const NAMESPACE = 'Battlerite'
 
-const battlerite = {
+const battlerite = _.merge({
     namespaced: true,
     state: { 
         gameName: 'Battlerite',
@@ -16,7 +16,6 @@ const battlerite = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -69,11 +68,7 @@ const battlerite = {
                 return result
             })
         },
-        whitelistedCandidates
     }
-}
-
-
-
+},whitelistMixin)
 
 export default battlerite

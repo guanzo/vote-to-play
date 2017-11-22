@@ -1,13 +1,14 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 export const NAMESPACE = 'League of Legends'
 
 const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
 const IMG_SPLASH_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'
-const lol = {
+
+const lol = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -16,7 +17,6 @@ const lol = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -72,7 +72,6 @@ const lol = {
                 return result
             })
         },
-        whitelistedCandidates
     }
-}
+},whitelistMixin)
 export default lol

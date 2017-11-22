@@ -1,11 +1,11 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 export const NAMESPACE = 'Dota 2'
 
-const dota = {
+const dota = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -14,7 +14,6 @@ const dota = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -38,7 +37,6 @@ const dota = {
             let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
-        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
@@ -71,8 +69,7 @@ const dota = {
                 return result
             })
         },
-        whitelistedCandidates
     }
-}
+},whitelistMixin)
 
 export default dota

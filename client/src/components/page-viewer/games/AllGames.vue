@@ -3,17 +3,13 @@
 <div v-if="topGames.length" class="all-games">
     <component :is="injectedComponent" v-bind="propsObj">
         <div slot="filters">
-            <!-- <div v-for="filter in game.filters" class="control" :key="filter.id">
+            <div v-for="filter in filters" class="control" :key="filter.id">
                 <input v-if="filter.type == 'text'" 
                         v-model="filter.vmodel" 
                         :placeholder="filter.placeholder"
                         type="text"
                         class="input" :class="formClass"
                 >
-            </div> -->
-            
-            <div class="control">
-                <input v-model="query" :class="formClass" class="input" placeholder="Search games">
             </div>
         </div>
     </component>
@@ -26,7 +22,7 @@
 import voter from '@/components/page-viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_TOP_TWITCH_GAMES } from '@/store/actions'
-import { NAMESPACE } from '@/store/modules/games/allGames'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import allGamesSearch from './AllGamesSearch'
 
 /*
@@ -46,41 +42,38 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(NAMESPACE,['topGames','searchedGames']),
+        ...Vuex.mapState(ALL_GAMES,['topGames','searchedGames']),
         game(){
-            return this.$store.state.games[NAMESPACE]
+            return this.$store.state.games[ALL_GAMES]
         },
         propsObj(){
-            let game = this.game;
+            let getters = this.$store.getters
+            let candidates = getters[ALL_GAMES+'/candidates']
+            let whitelistedCandidates = getters[ALL_GAMES+'/whitelistedCandidates']
+            
             return {
-                candidates: this.candidates,
-                filteredCandidates: this.candidates,
-                whitelistedCandidates: this.whitelistedCandidates,
-                showName: game.showNameInGrid,
+                candidates,
+                filteredCandidates: candidates,
+                whitelistedCandidates,
+                showName: this.game.showNameInGrid,
                 voteCategory: this.voteCategory
             }
         },
-        candidates(){
-            return this.query.length ? this.searchedGames : this.topGames
-        },
-        whitelistedCandidates(){
-            return this.$store.getters[NAMESPACE+'/whitelistedCandidates']
+        filters(){
+            return this.game.filters
         },
         formClass(){
             return this.$route.path.includes('viewer') ? 'is-small' : ''
         }
     },
     watch:{
-        query(query){
+        'filters.0.vmodel'(query){
             this.searchGames(query)
         },
-        whitelistedCandidates(){
-            console.log(arguments)
-        }
     },
     async created(){
         this.isLoading = true;
-        await this.$store.dispatch(NAMESPACE+'/'+GET_TOP_TWITCH_GAMES)
+        await this.$store.dispatch(ALL_GAMES+'/'+GET_TOP_TWITCH_GAMES)
         this.isLoading = false
     },
     components:{
@@ -92,19 +85,24 @@ export default {
 
 <style lang="scss">
 
+@mixin scale-img-size($width, $height, $scale: 1){
+    width: $width * $scale;
+    height: $height * $scale;
+}
+
 .all-games {
     
+    $w: 72px;
+    $h: 100px;
     img {
         width: 100%;
         height: auto;
     }
     .voter-header .image-wrapper{
-        width: 52px;
-        height: 72px;
+        @include scale-img-size($w,$h,.75);
     }
     .image-wrapper{
-        width: 72px;
-        height: 100px;
+        @include scale-img-size($w,$h);
     }
     .vote-form{
         overflow: hidden;

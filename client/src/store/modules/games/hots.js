@@ -1,13 +1,13 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 export const NAMESPACE = 'Heroes of the Storm'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
 
-const hots = {
+const hots = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -16,7 +16,6 @@ const hots = {
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
-        whitelistedNames:[],
         filters:[
             {
                 id:'name',
@@ -81,11 +80,7 @@ const hots = {
                 return result
             })
         },
-        whitelistedCandidates
     }
-}
-
-
-
+},whitelistMixin)
 
 export default hots

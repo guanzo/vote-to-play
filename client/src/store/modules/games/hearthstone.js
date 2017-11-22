@@ -1,13 +1,13 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import { whitelistedCandidates } from './_util';
+import whitelistMixin from './_whitelistMixin';
 
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
 export const NAMESPACE = 'Hearthstone'
 //name and title are reversed b/c ppl refer to them by "class" and not actual "name"
-const hearthstone = {
+const hearthstone = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -71,7 +71,6 @@ const hearthstone = {
                 imgSplash: cl.url('hearthstone/splash/Warrior_splash.jpg')
             }
         ],
-        whitelistedNames:[],
         filters:[]
     },
     mutations:{//ensure it conforms to game module expected properties
@@ -83,8 +82,7 @@ const hearthstone = {
     },
     getters:{//no op
         filteredCandidates: state=>state.candidates,
-        whitelistedCandidates
     }
-}
+},whitelistMixin)
 
 export default hearthstone

@@ -62,7 +62,6 @@ export default {
         asyncCallback(queryMatches){
             this.engine.add(queryMatches)
             queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            console.log(queryMatches)
             this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, queryMatches )
         },
     },
