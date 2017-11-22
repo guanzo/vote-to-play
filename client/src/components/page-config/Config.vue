@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import whitelist from './whitelist/Whitelist'
-import GameMaster from '@/components/viewer/games/_GameMaster'
+import whitelist from './Whitelist'
+import GameMaster from '@/components/page-viewer/games/_GameMaster'
 
 var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 

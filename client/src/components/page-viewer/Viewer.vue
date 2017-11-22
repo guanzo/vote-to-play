@@ -11,7 +11,11 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game-master :injectedComponent="voter" :voteCategory="voteCategory"></game-master>
+                <game-master 
+                    v-if="voteCategory"  
+                    :injectedComponent="voter" 
+                    :voteCategory="voteCategory"
+                ></game-master>
             </div>
         </transition>
     </div>
@@ -22,7 +26,7 @@
 
 import TestUtil from './testgui/TestUtil'
 import GameMaster from './games/_GameMaster'
-import voter from '@/components/viewer/voter/Voter'
+import voter from '@/components/page-viewer/voter/Voter'
 
 export default {
     name: 'viewer',

@@ -29,7 +29,7 @@
 
 <script>
 
-import voter from '@/components/viewer/voter/Voter'
+import voter from '@/components/page-viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_CANDIDATES } from '@/store/actions'
 import loading from '@/components/loading/Loading'

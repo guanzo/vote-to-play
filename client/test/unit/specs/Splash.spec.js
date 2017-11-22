@@ -1,5 +1,5 @@
-import Splash  from '@/components/viewer/voter/Splash'
-import Voter from '@/components/viewer/voter/Voter'
+import Splash  from '@/components/page-viewer/voter/Splash'
+import Voter from '@/components/page-viewer/voter/Voter'
 
 describe('Splash.vue', ()=>{
     

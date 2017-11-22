@@ -1,6 +1,6 @@
-import Viewer from '@/components/viewer/Viewer'
-import Config from '@/components/config/Config'
-import LiveConfig from '@/components/liveconfig/LiveConfig'
+import Viewer from '@/components/page-viewer/Viewer'
+import Config from '@/components/page-config/Config'
+import LiveConfig from '@/components/page-liveconfig/LiveConfig'
 
 export default new VueRouter({
     routes: [

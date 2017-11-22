@@ -1,10 +1,19 @@
 <template>
 
-<div v-if="candidates.length" class="all-games">
+<div v-if="topGames.length" class="all-games">
     <component :is="injectedComponent" v-bind="propsObj">
         <div slot="filters">
+            <!-- <div v-for="filter in game.filters" class="control" :key="filter.id">
+                <input v-if="filter.type == 'text'" 
+                        v-model="filter.vmodel" 
+                        :placeholder="filter.placeholder"
+                        type="text"
+                        class="input" :class="formClass"
+                >
+            </div> -->
+            
             <div class="control">
-                <input v-model="query" class="input" placeholder="Search games">
+                <input v-model="query" :class="formClass" class="input" placeholder="Search games">
             </div>
         </div>
     </component>
@@ -14,7 +23,7 @@
 
 <script> 
 
-import voter from '@/components/viewer/voter/Voter'
+import voter from '@/components/page-viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { GET_TOP_TWITCH_GAMES } from '@/store/actions'
 import { NAMESPACE } from '@/store/modules/games/allGames'
@@ -37,27 +46,36 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(NAMESPACE,['candidates','topGames','searchedGames']),
+        ...Vuex.mapState(NAMESPACE,['topGames','searchedGames']),
         game(){
             return this.$store.state.games[NAMESPACE]
         },
         propsObj(){
             let game = this.game;
             return {
-                candidates: game.candidates,
-                filteredCandidates: game.candidates,
+                candidates: this.candidates,
+                filteredCandidates: this.candidates,
                 whitelistedCandidates: this.whitelistedCandidates,
                 showName: game.showNameInGrid,
                 voteCategory: this.voteCategory
             }
         },
+        candidates(){
+            return this.query.length ? this.searchedGames : this.topGames
+        },
         whitelistedCandidates(){
             return this.$store.getters[NAMESPACE+'/whitelistedCandidates']
         },
+        formClass(){
+            return this.$route.path.includes('viewer') ? 'is-small' : ''
+        }
     },
     watch:{
         query(query){
             this.searchGames(query)
+        },
+        whitelistedCandidates(){
+            console.log(arguments)
         }
     },
     async created(){

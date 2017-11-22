@@ -53,7 +53,7 @@ module.exports = {
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
-    viewer: path.resolve(__dirname, '../dist/viewer.html'),
+    viewer: path.resolve(__dirname, '../dist/page-viewer.html'),
     liveconfig: path.resolve(__dirname, '../dist/liveconfig.html'),
     config: path.resolve(__dirname, '../dist/config.html'),
     // Paths

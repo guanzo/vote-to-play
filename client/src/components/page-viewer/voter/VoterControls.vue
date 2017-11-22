@@ -17,7 +17,7 @@
 
 <script>
 
-import VoteSimulation from '@/components/viewer/testgui/VoteSimulation'
+import VoteSimulation from '@/components/page-viewer/testgui/VoteSimulation'
 import { VOTE } from '@/store/actions'
 
 export default {

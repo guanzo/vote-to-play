@@ -4,7 +4,7 @@
     <h5>Whitelist <span class="icon-ok"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelistedCandidates"
-        :filteredCandidates="filterCandidates(tempWhitelistedCandidates)"
+        :filteredCandidates="tempWhitelistedCandidates"
         :showName="showName"
         :noResults="noResults"
         @selectCandidate="c=>swap(c,tempBlacklistedCandidates,tempWhitelistedCandidates)"
@@ -21,6 +21,7 @@
         @selectCandidate="c=>swap(c,tempWhitelistedCandidates,tempBlacklistedCandidates)"
         class="candidate-grid dark m-b-25"
     ></candidate-grid>
+    
     <whitelist-controls 
         :voteCategory="voteCategory" 
         :names="tempWhitelistedNames" 
@@ -73,7 +74,11 @@ export default {
                 this.partitionCandidates();
             },
             immediate: true
-        }
+        },
+        //all games compatibility
+        candidates(){
+            this.tempBlacklistedCandidates = [...this.candidates]
+        },
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))

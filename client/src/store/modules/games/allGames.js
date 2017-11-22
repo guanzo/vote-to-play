@@ -1,6 +1,10 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import { whitelistedCandidates } from './_util';
+import GameSearch from '@/components/page-viewer/games/AllGamesSearch2'
+
+const engine = new GameSearch();
+console.log(engine)
 
 export const NAMESPACE = 'All Games'
 export const BOX_ART_WIDTH = 72;
@@ -18,18 +22,24 @@ const allGames = {
         topGames:[],
         searchedGames:[],
         whitelistedNames:[],
+        filters:[
+            {
+                id:'name',
+                type: 'text',
+                vmodel: '',
+                placeholder: 'Search games'
+            }
+        ]
+
     },
     mutations:{
-        [MUTATIONS.SET_TOP_TWITCH_GAMES](state,{ topGames }){
+        [MUTATIONS.SET_TOP_TWITCH_GAMES](state, topGames){
             state.candidates = topGames
             state.topGames = topGames
         },
-        [MUTATIONS.SET_SEARCHED_GAMES](state,{searchedGames}){
+        [MUTATIONS.SET_SEARCHED_GAMES](state,searchedGames){
             searchedGames.forEach(setImage)
-            if(searchedGames.length)
-                state.candidates = searchedGames
-            else
-                state.candidates = state.topGames
+            state.searchedGames = searchedGames;
         },
         
     },
@@ -44,7 +54,7 @@ const allGames = {
                 .then(res=>{
                     let topGames = res.data.top.map(d=>d.game)
                     topGames.forEach(setImage)
-                    commit(MUTATIONS.SET_TOP_TWITCH_GAMES, { topGames })
+                    commit(MUTATIONS.SET_TOP_TWITCH_GAMES, topGames)
                 })
         },
         

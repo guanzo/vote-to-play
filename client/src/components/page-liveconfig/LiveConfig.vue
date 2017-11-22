@@ -44,7 +44,7 @@
 <script>
 import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/voteresults/VoteResults'
-import unsupported from '@/components/viewer/games/Unsupported'
+import unsupported from '@/components/page-viewer/games/Unsupported'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { delayPromise } from '@/util'

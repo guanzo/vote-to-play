@@ -51,18 +51,19 @@ export default {
     methods:{
         searchGames: function(query){
             if(query.length == 0)
-                return this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: [] })
+                return this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, [])
             var maxResults = 10;
             this.engine.search(query,this.syncCallback,this.asyncCallback)
         },
         syncCallback(queryMatches){
             queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
+            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, queryMatches )
         },
         asyncCallback(queryMatches){
             this.engine.add(queryMatches)
             queryMatches = _.take(queryMatches,this.maxQueryMatches)
-            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, { searchedGames: queryMatches })
+            console.log(queryMatches)
+            this.$store.commit(NAMESPACE+'/'+SET_SEARCHED_GAMES, queryMatches )
         },
     },
 }

@@ -38,12 +38,12 @@ const webpackConfig = merge(baseWebpackConfig, {
     //removes testing module from production bundle
     new webpack.NormalModuleReplacementPlugin(
         /test\/TestUtil/,
-        path.join(__dirname,'../src/components/viewer/test/Noop.vue')
+        path.join(__dirname,'../src/components/page-viewer/test/Noop.vue')
     ),
     //removes testing module from production bundle
     new webpack.NormalModuleReplacementPlugin(
         /test\/VoteSimulation/,
-        path.join(__dirname,'../src/components/viewer/test/Noop.js')
+        path.join(__dirname,'../src/components/page-viewer/test/Noop.js')
     ),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
     new webpack.optimize.UglifyJsPlugin({
