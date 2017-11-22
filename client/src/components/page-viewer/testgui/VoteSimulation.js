@@ -2,6 +2,7 @@
 
 
 import { SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 
 export default {
     data(){
@@ -20,7 +21,13 @@ export default {
             return this.TESTING.isSimulating
         },
         candidates(){
-            return this.game.candidates
+            if(this.isAllGames)
+                return this.$store.getters[ALL_GAMES+'/candidates']
+            else
+                return this.game.candidates 
+        },
+        isAllGames(){
+            return this.game.gameName == ALL_GAMES
         },
     },
     watch:{

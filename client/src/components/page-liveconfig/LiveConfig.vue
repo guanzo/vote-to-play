@@ -1,6 +1,14 @@
 <template>
 <div class="live-config">
     <div><span @click="showIntro" class="icon-help-circled"></span></div>
+    <tabs>
+        <tab name="Settings">
+            Settings
+        </tab>
+        <tab name="Vote">
+            Vote
+        </tab>
+    </tabs>
     <div class="flex-center flex-column">
         <div class="vote-category field text-center m-b-10" :data-intro="introVoteCategory">
             <label class="label">Vote Category</label>
@@ -11,7 +19,7 @@
                 </label>
             </div>
         </div>
-        <div class="vote-mode field text-center m-b-10" :data-intro="introVoteMode">
+        <div v-if="isSupportedGame" class="vote-mode field text-center m-b-10" :data-intro="introVoteMode">
             <label class="label">Vote Mode</label>
             <div class="control flex-center flex-column">
                 <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
@@ -19,18 +27,17 @@
                         v-model="selectedVoteMode" 
                         :value="voteMode"
                         name="vote-mode" 
-                        @change="onChange(voteMode)"
                     >
                     {{ voteMode }}
                 </label>
-                <div v-show="showWhitelistTip" class="help is-danger">You must configure a whitelist</div>
+                <div v-if="showWhitelistTip" class="help is-danger">You must configure a whitelist</div>
             </div>
 
         </div>
     </div>
-    <div v-if="showVoteResults">
+    <div v-if="isSupportedGame">
         <div class="text-center m-t-15 m-b-15">
-            <button @click="startVote" class="button start-vote"  :data-intro="introStartVote">Start a vote</button>
+            <button @click="startVote" class="start-vote button "  :data-intro="introStartVote">Start a vote</button>
         </div>
         <vote-results class="vote-list">
         </vote-results>
@@ -40,13 +47,14 @@
 </template>
 
 <script>
-import { START_NEW_VOTE } from '@/store/actions'
 import voteResults from '@/components/voteresults/VoteResults'
 import unsupported from '@/components/game/Unsupported'
+import tabs from '@/components/tabs/Tabs'
+import tab from '@/components/tabs/Tab'
+import { START_NEW_VOTE } from '@/store/actions'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { delayPromise } from '@/util'
-
 var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /*
@@ -76,7 +84,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteCategory']),
+        ...Vuex.mapState(['selectedGame','voteCategory','createdAt']),
         ...Vuex.mapGetters(['supportedGames','selectedGameModule']),
         introVoteCategory(){
             if(!this.selectedGameModule)
@@ -87,21 +95,20 @@ export default {
         voteCategorys(){
             return [this.selectedGame, ALL_GAMES]
         },
-        selectedVoteMode: {
-            get () { return this.$store.state.voteMode },
-            set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
-        },
         selectedVoteCategory: {
             get () { return this.$store.state.voteCategory },
             set (voteCategory) { this.$store.commit(SET_VOTE_CATEGORY, voteCategory) }
         },
-
+        selectedVoteMode: {
+            get () { return this.$store.state.voteMode },
+            set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
+        },
         hasEmptyWhiteList(){
             if(!this.selectedGameModule)
                 return false
             return this.selectedGameModule.whitelistedNames.length == 0;
         },
-        showVoteResults(){
+        isSupportedGame(){
             return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
         }
     },
@@ -111,19 +118,24 @@ export default {
             if(oldGame === null)
                 return;
             this.$store.commit(SET_VOTE_CATEGORY, newGame)
+            //changes game, implicitly changing vote category
+            this.ensureHasWhitelist()
             this.$store.dispatch(START_NEW_VOTE)
-        },
+        },//switches from selectedGame to all games
+        voteCategory(mode){
+            this.ensureHasWhitelist()
+        },//manual click on radio
+        selectedVoteMode(mode){
+            this.ensureHasWhitelist()
+        } 
     },
     methods:{
         startVote(){
             this.$store.dispatch(START_NEW_VOTE)
         },
-        //cannot set whitelist mode if whitelist is empty
-        async onChange(voteMode){
-            console.log('param: ' + voteMode)
-            if(voteMode == VOTE_MODE_STREAMER && this.hasEmptyWhiteList){
+        async ensureHasWhitelist(){
+            if(this.selectedVoteMode == VOTE_MODE_STREAMER && this.hasEmptyWhiteList){
                 this.selectedVoteMode = VOTE_MODE_VIEWER
-                console.log(this.selectedVoteMode)
                 this.showWhitelistTip = true;
                 await delayPromise(3000)
                 this.showWhitelistTip = false
@@ -144,7 +156,9 @@ export default {
     },
     components:{
         voteResults,
-        unsupported
+        unsupported,
+        tabs,
+        tab
     }
 }
 </script>

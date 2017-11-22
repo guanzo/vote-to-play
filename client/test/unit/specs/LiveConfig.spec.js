@@ -52,22 +52,38 @@ describe('LiveConfig.vue', () => {
         let game = 'Dota 2'
         let voteCategory = game
         const vm = new Constructor({
-            store: mockStore(null, voteCategory)
+            store: mockStore(game, voteCategory)
         }).$mount()
         vm.selectedVoteMode = VOTE_MODE_VIEWER
+        let games = vm.$store.state.games
 
-        let whitelistRadioEl = vm.$el.querySelector('.vote-mode label:nth-child(2) input')
-        var event = new Event('change');
+        it('disallows whitelist mode if whitelist is empty',done=>{
+            games[game].whitelistedNames = []
+            vm.selectedVoteMode = VOTE_MODE_STREAMER
 
-        it('disallows whitelist mode if whitelist is empty',()=>{
-            vm.$store.state.games[game].whitelistedNames = []
-            whitelistRadioEl.dispatchEvent(event);
-            expect(vm.selectedVoteMode).to.equal(VOTE_MODE_VIEWER)
+            setTimeout(()=>{//let vm watcher trigger
+                expect(vm.selectedVoteMode).to.equal(VOTE_MODE_VIEWER)
+                done()
+            },0)
         })
-        it('allows whitelist mode if whitelist is not empty',()=>{
-            vm.$store.state.games[game].whitelistedNames = ['axe']
-            whitelistRadioEl.dispatchEvent(event);
-            expect(vm.selectedVoteMode).to.equal(VOTE_MODE_STREAMER)
+        it('allows whitelist mode if whitelist is not empty',done=>{
+            games[game].whitelistedNames = ['axe']
+            vm.selectedVoteMode = VOTE_MODE_STREAMER
+            setTimeout(()=>{//let vm watcher trigger
+                expect(vm.selectedVoteMode).to.equal(VOTE_MODE_STREAMER)
+                done()
+            },0)
+        })
+        it(`changes to viewer mode if mode was originally streamer 
+            and voteCategory is changed to one without a whitelist`,done=>{
+            let gameNoWhitelist = 'Overwatch'
+            games[gameNoWhitelist].whitelistedNames = []
+            vm.$store.state.selectedGame = gameNoWhitelist
+
+            setTimeout(()=>{//let vm watcher trigger
+                expect(vm.selectedVoteMode).to.equal(VOTE_MODE_VIEWER)
+                done()
+            },0)
         })
     })
 
@@ -82,6 +98,7 @@ describe('LiveConfig.vue', () => {
         expect(unsupportedComponent).to.not.be.null
         expect(startButton).to.be.null
     })
+    
     it('does not hide start button if game is unsupported AND voteCategory is all games', () => {
         const vm = new Constructor({
             store: mockStore(unsupportedGame, ALL_GAMES)
