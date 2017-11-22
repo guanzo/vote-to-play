@@ -31,13 +31,13 @@ module.exports = (server) => {
             let { channelId } = data
             socket.join(channelId)
 
-            let currentVote = await model.getChannel(data);
+            let currentVote = await model.OLD_VERSION_getCurrentVote(data);
             socket.emit(`all-votes`,currentVote)
         })
     
 
         socket.on('add-vote',async data=>{
-            let result = await model.addVote(data)
+            let result = await model.OLD_VERSION_addVote(data)
             if(result.modifiedCount == 0)
                 return;
             
@@ -47,7 +47,7 @@ module.exports = (server) => {
         
         if(query.role == 'broadcaster'){
             socket.on('start-vote',data=>{
-                model.startVote(data)
+                model.OLD_VERSION_startVote(data)
                 io.to(data.channelId).emit(`start-vote`,data)
             })
         }

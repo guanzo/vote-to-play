@@ -116,9 +116,81 @@ module.exports = {
             }
         }
         return channels.updateOne({ channelId }, set, { upsert: true })
-    }
+    },
+    async OLD_VERSION_getCurrentVote({channelId, channelName}){
+        var channels = db.get().collection('channels')
+
+        //ensure channel document exists
+        let result = await OLD_VERSION_addChannelDocument(channelId, channelName);
+        return channels
+                .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
+                .then(result=>result.voteHistory[0])
+                .catch(err=>{
+                    console.log(err)
+                })
+    },
+    OLD_VERSION_startVote({channelId, voteCategory}){
+        var channels = db.get().collection('channels')
+        channels.createIndex({ channelId: 1 })
+
+        return channels.updateOne(
+            { channelId },
+            {
+                $push: {
+                    //prepend to array
+                    voteHistory: {
+                        $each:[ OLD_VERSION_createNewVoteObj(voteCategory) ],
+                        $position: 0
+                    }
+                }
+            }
+        )
+    },
+    OLD_VERSION_addVote({channelId, vote, userId, voteCategory}) {
+        var channels = db.get().collection('channels')
+
+        /*
+        user can only vote once
+
+        "voteHistory.0.votes.userId": { $ne: userId }
+        ^ means check votes array in first element of voteHistory array
+          unmatch if votes array contains userId
+
+        */
+        return channels.updateOne(
+            { channelId, "voteHistory.0.votes.userId": { $ne: userId }  },
+            {
+                $push: {
+                    'voteHistory.0.votes': {
+                        vote,
+                        userId
+                    }
+                }
+            },
+        )
+    },
+
 }
 
+function OLD_VERSION_addChannelDocument(channelId,channelName){
+    var channel = {
+        channelId,
+        voteHistory: [ createNewVoteObj() ],//populate with an empty vote
+    }
+    //keep updating channelName in case it gets changed
+    var channels = db.get().collection('channels')
+    return channels.updateOne({channelId},{ $set:{ channelName }, $setOnInsert: channel }, { upsert: true })
+}
+
+function OLD_VERSION_createNewVoteObj(voteCategory){
+    var newVote = {
+        _id: new ObjectID(),
+        voteCategory,
+        votes: [],
+        createdAt: new Date()
+    }
+    return newVote;
+}g
 
 function addChannel(channelId,channelName, game){
     var channel = {
