@@ -190,7 +190,7 @@ function OLD_VERSION_createNewVoteObj(voteCategory){
         createdAt: new Date()
     }
     return newVote;
-}g
+}
 
 function addChannel(channelId,channelName, game){
     var channel = {
