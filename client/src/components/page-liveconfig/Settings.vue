@@ -1,7 +1,7 @@
 <template>
-    <div class="live-config-settings flex-center flex-column">
+    <div class="live-config-settings flex-center flex-column has-text-centered">
         <span @click="showIntro" class="icon-help-circled"></span>
-        <div class="vote-category field has-text-centered m-b-10" :data-intro="introVoteCategory">
+        <div class="vote-category field m-b-5" :data-intro="introVoteCategory">
             <label class="label">Vote Category</label>
             <div class="control flex-center flex-column">
                 <label v-for="voteCategory in voteCategorys" class="radio m-b-5" :key="voteCategory">
@@ -10,31 +10,33 @@
                 </label>
             </div>
         </div>
-        <div v-if="isSupportedGame" class="vote-mode field has-text-centered m-b-10" :data-intro="introVoteMode">
-            <label class="label">Vote Mode</label>
-            <div class="control flex-center flex-column">
-                <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
-                    <input type="radio" 
-                        v-model="selectedVoteMode" 
-                        :value="voteMode"
-                        name="vote-mode" 
-                    >
-                    {{ voteMode }}
-                </label>
-                <div v-if="showWhitelistTip" class="help is-danger">You must configure a whitelist</div>
+        <template v-if="isSupportedGame">
+            <div class="vote-mode field m-b-5" :data-intro="introVoteMode">
+                <label class="label">Vote Mode</label>
+                <div class="control flex-center flex-column">
+                    <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
+                        <input type="radio" 
+                            v-model="selectedVoteMode" 
+                            :value="voteMode"
+                            name="vote-mode" 
+                        >
+                        {{ voteMode }}
+                    </label>
+                </div>
             </div>
-        </div>
-        <div v-if="isSupportedGame">
-            <div class="has-text-centered">
-                <button @click="startVote" 
-                        :class="{'is-loading':isLoading}" 
-                        class="start-vote button"  
-                        :data-intro="introStartVote"
-                >
-                    Start a vote
-                </button>
+            <div 
+                :style="{visibility: hasWhitelistWarning ? 'visible':'hidden'}" 
+                class="help is-danger m-b-5">
+                You must create a whitelist to use this mode
             </div>
-        </div>
+            <button @click="startVote" 
+                    :class="[{'is-success is-loading':isLoading}, {'is-danger':hasWhitelistWarning}]" 
+                    class="start-vote button"  
+                    :data-intro="introStartVote"
+            >
+                Start a vote
+            </button>
+        </template>
         <unsupported v-else-if="selectedGame !== null"></unsupported>
     </div>
 </template>
@@ -72,7 +74,7 @@ export default {
             introVoteCategory:"Select a character vote or a twitch game vote.",
             introVoteMode:"Free-for-all vs. whitelisted votes. You can configure the whitelist in the extension settings.",
             introStartVote:'Start a new vote with your selected options. Starting a vote clears the current vote.',
-            showWhitelistTip: false,
+            hasWhitelistWarning: false,
             isLoading: false
         }
     },
@@ -90,10 +92,8 @@ export default {
             get () { return this.$store.state.voteMode },
             set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
-        hasEmptyWhiteList(){
-            if(!this.selectedGameModule)
-                return false
-            return this.selectedGameModule.whitelistedNames.length == 0;
+        hasInvalidVoteMode(){
+            return this.selectedVoteMode == VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length == 0;
         },
         isSupportedGame(){
             return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
@@ -106,30 +106,30 @@ export default {
                 return;
             this.$store.commit(SET_VOTE_CATEGORY, newGame)
             //changes game, implicitly changing vote category
-            this.ensureHasWhitelist()
+            if(this.hasInvalidVoteMode)
+                this.ensureValidVoteMode(true)
             this.$store.dispatch(START_NEW_VOTE)
-        },//switches from selectedGame to all games
-        voteCategory(mode){
-            this.ensureHasWhitelist()
-        },//manual click on radio
-        selectedVoteMode(mode){
-            this.ensureHasWhitelist()
-        } 
+        },
     },
     methods:{
         async startVote(){
+            if(this.hasInvalidVoteMode)
+                return this.ensureValidVoteMode();
+            
             this.$store.dispatch(START_NEW_VOTE)
+
             this.isLoading = true
-            await delayPromise(750)
+            await delayPromise(1000)
             this.isLoading = false
-        },
-        async ensureHasWhitelist(){
-            if(this.selectedVoteMode == VOTE_MODE_STREAMER && this.hasEmptyWhiteList){
+        },//autofix invalid whitelist mode when streamer changes game, b/c a new vote is forced
+        async ensureValidVoteMode(autochangeVoteMode = false){            
+            if(autochangeVoteMode)
                 this.selectedVoteMode = VOTE_MODE_VIEWER
-                this.showWhitelistTip = true;
-                await delayPromise(3000)
-                this.showWhitelistTip = false
-            }
+
+            this.hasWhitelistWarning = true;
+            await delayPromise(5000)
+            this.hasWhitelistWarning = false
+            
         },
         showIntro(){
             introJs()
@@ -166,6 +166,9 @@ export default {
         .control label{
             font-size: .85em;
         }
+    }
+    .start-vote{
+        transition: .35s;
     }
     .icon-help-circled{
         cursor: pointer;

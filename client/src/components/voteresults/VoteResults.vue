@@ -1,9 +1,6 @@
 <template>
 
 <div class="vote-results">
-    <div v-if="showStats" class="has-text-centered">
-        <div v-show="votes.length">Total votes: {{ votes.length }}</div>
-    </div>
     <div class="top-votes overlay-background" ref="topvotes">
         <transition name="fade">
             <div v-if="topAggregatedVotes.length"  key="results" >
@@ -38,11 +35,8 @@ import voteTable from './VoteTable'
 
 export default {
     name: 'vote-results',
-    props:{
-        showStats: { default: false }
-    },
     computed:{
-        ...Vuex.mapState(['votes']),
+        ...Vuex.mapState(['votes','voteCategory','voteMode']),
         ...Vuex.mapGetters(['userVote','selectedGameModule']),
         allAggregatedVotes(){
             let totalVotes = this.votes.length;

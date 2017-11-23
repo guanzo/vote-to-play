@@ -52,6 +52,46 @@ describe('store',()=>{
         })
 
         describe('whitelistMixin',()=>{
+            describe('mutations',()=>{
+                let axe =    { name: 'axe' },
+                    mirana = { name: 'mirana' },
+                    toad =   { name: 'toad' }
+                it('partitions candidates into white/black list',()=>{
+                    let state = {
+                        candidates: [axe,mirana,toad],
+                        whitelistedNames:['axe','mirana'],
+                        tempWhitelist:[],
+                        tempBlacklist:[],
+                    }
+                    whitelistMixin.mutations.partition(state)
+                    expect(state.tempWhitelist).to.have.members([axe,mirana])
+                    expect(state.tempBlacklist).to.have.members([toad])
+                })
+                it('swaps candidate between white/black list',()=>{
+                    let state = {
+                        tempWhitelist:[mirana],
+                        tempBlacklist:[{name:'frog'}],
+                    }
+                    let params = {
+                        candidate: mirana,
+                        toArray: state.tempBlacklist,
+                        fromArray: state.tempWhitelist
+                    }
+                    whitelistMixin.mutations.swap(state,params)
+                    expect(state.tempWhitelist).to.not.include(mirana)
+                    expect(state.tempBlacklist).to.include(mirana)
+                })
+                it('removes unsaved candidates',()=>{
+                    let state = {
+                        whitelistedNames:['axe'],
+                        tempWhitelist:[axe,mirana],
+                        tempBlacklist:[],
+                    }
+                    whitelistMixin.mutations.removeUnsavedWhitelist(state)
+                    expect(state.tempWhitelist).to.have.members([axe])
+                    expect(state.tempBlacklist).to.have.members([mirana])
+                })
+            })
             describe('getters',()=>{
                 describe('whitelistedCandidates',()=>{
                     it('correctly filters for whitelisted candidates',()=>{
@@ -60,8 +100,7 @@ describe('store',()=>{
     
                         let result = whitelistMixin.getters.whitelistedCandidates({ candidates, whitelistedNames })
     
-                        expect(result).to.have.lengthOf(whitelistedNames.length)
-                        expect(result).to.have.deep.members(candidates.slice(1))
+                        expect(result).to.have.members(candidates.slice(1))
                     })
                 })
             })
@@ -120,26 +159,3 @@ function gameModuleRequiredProperties(){
         }
     }
 }
-
-/* 
-const actionsInjector = require('inject-loader!@/store')
-//socket.startVote({ channelId: state.channelId, voteCategory: state.voteCategory })
-const actions = actionsInjector({
-    '@/api/socket': {
-        startVote (data) {
-            return new Promise(resolve=>{
-                setTimeout(() => {
-                    resolve(data)
-                }, 100)
-            })
-        }
-    }
-})
-  
-
-
-describe('actions', () => {
-    it('startVote', done => {
-        actions.startVote()
-    })
-}) */

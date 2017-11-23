@@ -5,8 +5,8 @@
             <settings></settings>
         </tab>
         <tab name="Vote">
-            <vote-results :showStats="true">
-            </vote-results>
+            <vote-info></vote-info>
+            <vote-results></vote-results>
         </tab>
     </tabs>
 </div>
@@ -14,6 +14,7 @@
 
 <script>
 import settings from './Settings'
+import voteInfo from './VoteInfo'
 import voteResults from '@/components/voteresults/VoteResults'
 import tabs from '@/components/tabs/Tabs'
 import tab from '@/components/tabs/Tab'
@@ -22,6 +23,7 @@ export default {
     name: 'live-config',
     components:{
         settings,
+        voteInfo,
         voteResults,
         tabs,
         tab
@@ -39,6 +41,9 @@ export default {
     position: relative;
     > div {
         min-height: 100%;
+    }
+    /deep/ .tabs{
+        margin-bottom: 1rem;
     }
 }
 

@@ -1,4 +1,4 @@
-import LiveConfig from '@/components/page-liveconfig/LiveConfig'
+import Settings from '@/components/page-liveconfig/Settings'
 import { SET_GAME } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { state, mutations, getters, actions, modules } from '@/store'
@@ -15,9 +15,9 @@ function mockStore(selectedGame, voteCategory){
     })
 }
 
-const Constructor = Vue.extend(LiveConfig)
+const Constructor = Vue.extend(Settings)
 
-describe('LiveConfig.vue', () => {
+describe('Settings.vue', () => {
 
     it('does not change vote category when game is set on page load', (done) => {
         let game = 'Dota 2'
@@ -51,31 +51,34 @@ describe('LiveConfig.vue', () => {
     describe('Setting Whitelist Mode',()=>{
         let game = 'Dota 2'
         let voteCategory = game
-        const vm = new Constructor({
-            store: mockStore(game, voteCategory)
-        }).$mount()
-        vm.selectedVoteMode = VOTE_MODE_VIEWER
-        let games = vm.$store.state.games
 
-        it('disallows whitelist mode if whitelist is empty',done=>{
+        function createInstance(){
+            return new Constructor({
+                store: mockStore(game, voteCategory)
+            }).$mount()
+        }
+
+        it('disallows whitelist mode if whitelist is empty',()=>{
+            let vm = createInstance()
+            let games = vm.$store.state.games
             games[game].whitelistedNames = []
             vm.selectedVoteMode = VOTE_MODE_STREAMER
-
-            setTimeout(()=>{//let vm watcher trigger
-                expect(vm.selectedVoteMode).to.equal(VOTE_MODE_VIEWER)
-                done()
-            },0)
+            vm.startVote()
+            expect(vm.hasWhitelistWarning).to.be.true
         })
-        it('allows whitelist mode if whitelist is not empty',done=>{
+        it('allows whitelist mode if whitelist is not empty',()=>{
+            let vm = createInstance()
+            let games = vm.$store.state.games
             games[game].whitelistedNames = ['axe']
             vm.selectedVoteMode = VOTE_MODE_STREAMER
-            setTimeout(()=>{//let vm watcher trigger
-                expect(vm.selectedVoteMode).to.equal(VOTE_MODE_STREAMER)
-                done()
-            },0)
+            vm.startVote()
+            expect(vm.hasWhitelistWarning).to.be.false
         })
-        it(`changes to viewer mode if mode was originally streamer 
+        it(`vote mode auto changes to viewer mode if mode was originally streamer 
             and voteCategory is changed to one without a whitelist`,done=>{
+            let vm = createInstance()
+            let games = vm.$store.state.games
+            vm.selectedVoteMode = VOTE_MODE_STREAMER
             let gameNoWhitelist = 'Overwatch'
             games[gameNoWhitelist].whitelistedNames = []
             vm.$store.state.selectedGame = gameNoWhitelist

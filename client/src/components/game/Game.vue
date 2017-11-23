@@ -23,7 +23,10 @@
                     </div>
                 </template>
             </component>
-            <loading v-else dark class="absolute-center"></loading>
+            <div v-else class="absolute-center">
+                <loading dark class="absolute-center"></loading>
+            </div>
+            
         </transition> 
     </div>
 </template>
