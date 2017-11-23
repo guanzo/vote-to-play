@@ -3,8 +3,8 @@
     export default {
         render(){
             return (
-                <div>
-                    <div class="tabs is-fullwidth is-small ">
+                <div class="tab-wrapper">
+                    <div class="tabs is-fullwidth is-small">
                         <ul>
                             {this.tabs.map(tab=>{
                                 return (
@@ -17,7 +17,7 @@
                             })}
                         </ul>
                     </div>
-                    <div class="tab-body-container">
+                    <div class="tab-content-wrapper">
                     {this.$slots.default.filter(slot=>slot.tag).map(slot=>{
                         if(slot.componentInstance)
                             slot.componentInstance.direction = this.direction
@@ -42,7 +42,6 @@
             }
         },
         created() {
-            console.log(this.$slots.default.filter(slot=>slot.tag))
             this.tabs = this.$children;
         },
         mounted() {
@@ -91,8 +90,25 @@
 
 <style lang="scss" scoped>
 
-.tab-body-container{
+.tab-wrapper{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "tabs"
+        "tab-content";
+}
+
+.tabs{
+    grid-area: tabs;
+}
+
+.tab-content-wrapper{
+    grid-area: tab-content;
     position: relative;
+    > * {
+        min-height: 100%;
+    }
 }
 
 </style>

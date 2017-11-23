@@ -43,7 +43,7 @@ export default {
             selectedVoteCategory: '',
             whitelist,
             VOTE_MODE_VIEWER,
-            VOTE_MODE_STREAMER
+            VOTE_MODE_STREAMER,
         }
     },
     computed:{

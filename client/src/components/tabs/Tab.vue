@@ -1,6 +1,6 @@
 <template>
     <transition :name="transitionName">
-        <section class="tab-body" v-show="isActive" :id="hash" >
+        <section class="tab-content" v-show="isActive" :id="hash" >
             <slot />
         </section>
     </transition>
@@ -34,7 +34,7 @@
 
 <style lang="scss" scoped>
 
-.tab-body{//vue material $md-transition-default-timing
+.tab-content{//vue material $md-transition-default-timing
     transition: .35s cubic-bezier(.4, 0, .2, 1);
 }
 
@@ -47,8 +47,8 @@
 .tab-to-left-leave-to{
     transform: translateX(100%);
 }
-.tab-to-right-enter-active,
-.tab-to-left-enter-active,{
+.tab-to-right-leave-active,
+.tab-to-left-leave-active,{
     position: absolute;
     top:0;
     width: 100%;

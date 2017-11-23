@@ -54,7 +54,7 @@ export default {
             }
             this.$store.dispatch(SAVE_GAME_WHITELIST, gameWhitelist )
             this.isLoading = true
-            await delayPromise(500)
+            await delayPromise(750)
             this.isLoading = false
         }
     }

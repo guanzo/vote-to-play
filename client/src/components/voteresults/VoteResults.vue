@@ -1,16 +1,18 @@
 <template>
 
 <div class="vote-results">
+    <div v-if="showStats" class="has-text-centered">
+        <div v-show="votes.length">Total votes: {{ votes.length }}</div>
+    </div>
     <div class="top-votes overlay-background" ref="topvotes">
         <transition name="fade">
             <div v-if="topAggregatedVotes.length"  key="results" >
                 <div class="is-size-5 has-text-centered">Results</div>
-                <vote-table :votes="topAggregatedVotes" v-bind="$attrs" ></vote-table>
+                <vote-table :votes="topAggregatedVotes"></vote-table>
             </div>
             <div v-else class="no-results" key="noresults">
                 <div>Waiting for votes...</div>
                 <vote-loading></vote-loading>
-                <!-- <loading></loading> -->
             </div>
         </transition>
         
@@ -21,7 +23,6 @@
             <vote-table 
                 v-if="userAggregatedVote.length" 
                 :votes="userAggregatedVote"
-                v-bind="$attrs"
             ></vote-table>
         </div>
     </transition>
@@ -37,7 +38,9 @@ import voteTable from './VoteTable'
 
 export default {
     name: 'vote-results',
-    inheritAttrs: false,
+    props:{
+        showStats: { default: false }
+    },
     computed:{
         ...Vuex.mapState(['votes']),
         ...Vuex.mapGetters(['userVote','selectedGameModule']),
