@@ -32,6 +32,11 @@ function setListeners(){
      */
     socket.on(e.VOTES, currentVote => {
         store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
+
+        /** v1.4 COMPATIBILITY */
+        if(currentVote.voteType == 'default'){
+            store.dispatch("START_NEW_VOTE")
+        }
     });
     
     socket.on(e.VOTES_ADD, vote => {

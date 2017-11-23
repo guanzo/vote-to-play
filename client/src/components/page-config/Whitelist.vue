@@ -1,7 +1,7 @@
 <template>
 
 <div class="whitelist">
-    <h5 class="m-b-10">Whitelist <span class="icon-ok has-text-success"></span></h5>
+    <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelist"
         :filteredCandidates="tempWhitelist"
@@ -13,7 +13,7 @@
 
     <hr class="m-t-15 m-b-15">
 
-    <h5 class="m-b-10">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
+    <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
     <candidate-grid 
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
@@ -34,11 +34,13 @@
 </template>
 
 <script>
-//'candidates','filteredCandidates','whitelist','showName'
 import candidateGrid from '@/components/grid/CandidateGrid'
 import whitelistControls from './WhitelistControls'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
+
 export default {
     name:'whitelist',
+    inheritAttrs: false,
     props:['voteCategory'],
     data(){
         return {
@@ -81,10 +83,10 @@ export default {
             immediate: true
         },
         //all games compatibility
-        'game.filters.0.vmodel'(){
+        'game.searchedGames'(){
             let candidates = this.$store.getters[this.namespace+'/candidates']
             this.commit('updateTempBlacklist',candidates)
-        },
+        }
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
@@ -123,7 +125,7 @@ export default {
         min-height: 100px !important;
     }
     .candidate-grid{
-        min-height: 400px;
+        min-height: 300px;
         align-items: flex-start;
         align-content: flex-start;
     }

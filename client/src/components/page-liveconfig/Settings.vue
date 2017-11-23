@@ -90,7 +90,7 @@ export default {
         },
         selectedVoteMode: {
             get () { return this.$store.state.voteMode },
-            set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
+            set (voteMode) { console.log('setting vote mode: ' + voteMode);this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
         hasInvalidVoteMode(){
             return this.selectedVoteMode == VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length == 0;

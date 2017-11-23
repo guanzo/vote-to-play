@@ -46,6 +46,9 @@ module.exports = {
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
                 .then(channel=>{
                     channel.currentVote = channel.voteHistory[0]
+                    /** v1.4 COMPATIBILITY */
+                    if(!channel.whitelist)
+                        channel.whitelist = {}
                     delete channel.voteHistory
                     return channel
                 })
@@ -96,26 +99,26 @@ module.exports = {
     getEntireWhitelist(channelId){
         var channels = db.get().collection('channels')
         return channels.findOne({ channelId }, { whitelist: 1 , '_id': 0})
-            .then(result=>result.whitelist)
+            .then(result=>{
+                return result.whitelist
+            })
     },
     //saves whitelist for a specific voteCategory
     saveGameWhitelist({channelId,gameWhitelist}){
         var channels = db.get().collection('channels')
         let { voteCategory, names } = gameWhitelist
-        let data = { 
-            [`whitelist.${voteCategory}`]: names
-         }
-        let set = {
-            $set: data
-        }
-        let insert = {
+
+        let upsert = {
+            $set: { 
+                [`whitelist.${voteCategory}`]: names
+            },
             $setOnInsert: {
                 whitelist:{
                     [voteCategory]: names
                 }
             }
         }
-        return channels.updateOne({ channelId }, set, { upsert: true })
+        return channels.updateOne({ channelId }, upsert, { upsert: true })
     },
     async OLD_VERSION_getCurrentVote({channelId, channelName}){
         var channels = db.get().collection('channels')
@@ -200,7 +203,11 @@ function addChannel(channelId,channelName, game){
     }
     //keep updating channelName in case it gets changed
     var channels = db.get().collection('channels')
-    return channels.updateOne({channelId},{ $set:{ channelName }, $setOnInsert: channel }, { upsert: true })
+    return channels.updateOne(
+        {channelId},
+        { $set:{ channelName }, $setOnInsert: channel }, 
+        { upsert: true }
+    )
 }
 
 function createNewVoteObj(voteCategory,voteMode = e.VOTE_MODE_VIEWER){

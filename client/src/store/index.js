@@ -49,8 +49,14 @@ export const mutations = {
         state.voteMode = voteMode
     },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
-        state.voteCategory = currentVote.voteCategory
-        state.voteMode = currentVote.voteMode
+        /** v1.4 COMPATIBILITY */
+        if(currentVote.voteType){
+            state.voteCategory = state.selectedGame
+            state.voteMode = VOTE_MODE_VIEWER
+        }else{
+            state.voteCategory = currentVote.voteCategory
+            state.voteMode = currentVote.voteMode
+        }
         state.votes = currentVote.votes;
         state.createdAt = currentVote.createdAt
     },

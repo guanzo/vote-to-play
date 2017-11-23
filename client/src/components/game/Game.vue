@@ -222,7 +222,7 @@ General rules:
         @include scale-img-size($w,$h);
     }
     .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.25);
+        @include scale-img-size($w,$h,1.15);
     }
 }
 .hearthstone{
@@ -269,7 +269,7 @@ General rules:
         @include scale-img-size($w,$h);
     }
     .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.25);
+        @include scale-img-size($w,$h,1.15);
     }
 }
 .overwatch{

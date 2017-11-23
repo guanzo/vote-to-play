@@ -3,17 +3,26 @@
         <h3 class="title">Thanks for installing Vote to Play!</h3>
         <p>
             If you want viewers to vote on game characters, make sure you set the game in your stream information.<br>
-            For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch, and click "Start a Vote".
+            For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch, and click <example v-html="startVoteExample"></example>
         </p>
 		<p>
-            If you want viewers to vote on games, select "All Games" as the vote category, and click "Start a Vote".
+            If you want viewers to vote on games, select
+            <example v-html="radioBtnSample('All Games')"></example>
+            under <example class="tag is-medium"><b>Vote Category</b></example>, and click <example v-html="startVoteExample"></example>
         </p>
-        <p>You can do all this on your Dashboard - Live.</p>
+        <p>You can do all this on your Live Dashboard.</p>
         <p>Remember, you also get to vote!</p>
         <p>If you would like to suggest any features, please feel free to email me.</p>
+
         <h3 class="title is-4">Settings</h3>
-        <p>By default, viewers can vote on any candidate in the pool. If you want viewers to vote only on specific candidates, you can configure that here.</p>
-        <p>You can toggle between "{{ VOTE_MODE_VIEWER }}" and "{{ VOTE_MODE_STREAMER }}" on your Dashboard.</p>
+        <p>By default, viewers can vote on any candidate in the pool.<br>If you want viewers to vote only on specific candidates, you can configure that here. Make sure to save your changes.</p>
+        <p>You can toggle between 
+            <example v-html="radioBtnSample( VOTE_MODE_VIEWER )"></example>
+            and 
+            <example v-html="radioBtnSample( VOTE_MODE_STREAMER )"></example>
+            under <example class="tag is-medium"><b>Vote Mode</b></example>
+            on your Live Dashboard.
+        </p>
         <div class="select">
             <select v-model="selectedVoteCategory" id="vote-type" class="m-b-15">
                 <option v-for="game in supportedGames" :key="game">
@@ -21,11 +30,15 @@
                 </option>
             </select>
         </div>
-        <game-master 
-            v-if="voteCategory" 
-            :injectedComponent="whitelist" 
-            :voteCategory="selectedVoteCategory"
-        ></game-master>
+        
+        <div class="box">
+        
+            <game-master 
+                v-if="voteCategory" 
+                :injectedComponent="whitelist" 
+                :voteCategory="selectedVoteCategory"
+            ></game-master>
+        </div>
 
     </div>
 </template>
@@ -44,6 +57,7 @@ export default {
             whitelist,
             VOTE_MODE_VIEWER,
             VOTE_MODE_STREAMER,
+            startVoteExample: '<button class="button is-small is-static">Start a vote</button>'
         }
     },
     computed:{
@@ -57,6 +71,11 @@ export default {
         //cannot be computed property to also allow streamer to change game thru select
         voteCategory(newCategory, oldCategory){
             this.selectedVoteCategory = newCategory
+        }
+    },
+    methods:{
+        radioBtnSample(label){
+            return `<label class="radio"><input type="radio" disabled> ${label}</label>`
         }
     },
     components:{
@@ -74,8 +93,9 @@ export default {
     p{
         margin-bottom: 15px;
     }
-    .overlay-background {
-        //background: white;
+    example{
+        margin: 0px 5px;
+        pointer-events: none;
     }
     /deep/ .game{
         min-height: 400px;

@@ -1,12 +1,12 @@
 <template>
-    <div class="candidate"
+    <div @mouseover="checkNameOverflow()" :title="title" class="candidate"
         :key="candidate.name"
     >
         <div class="image-wrapper">
             <img :src="candidate.img" :alt="candidate.name">
         </div>
         <div v-if="showName" class="candidate-name">
-            <div class="ellipsis">{{ candidate.name }}</div>
+            <div ref="name" class="ellipsis">{{ candidate.name }}</div>
         </div>
     </div>
 </template>
@@ -15,7 +15,22 @@
 
 export default {
     name:'candidate',
-    props:['candidate','showName']
+    props:['candidate','showName'],
+    data:()=>({
+        title:''
+    }),
+    methods:{
+        checkNameOverflow(){
+            if(!this.$el)
+                return;
+            let el = this.$refs.name
+            if(el && this.isEllipsisActive(el))
+                this.title = this.candidate.name
+        },
+        isEllipsisActive(e) {
+            return (e.offsetWidth < e.scrollWidth);
+        }
+    }
 }
 
 </script>
