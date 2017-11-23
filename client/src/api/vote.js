@@ -34,7 +34,7 @@ function setListeners(){
         store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
 
         /** v1.4 COMPATIBILITY */
-        if(currentVote.voteType == 'default'){
+        if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
             store.dispatch("START_NEW_VOTE")
         }
     });

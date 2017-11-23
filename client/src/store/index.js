@@ -50,7 +50,7 @@ export const mutations = {
     },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
         /** v1.4 COMPATIBILITY */
-        if(currentVote.voteType){
+        if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
             state.voteCategory = state.selectedGame
             state.voteMode = VOTE_MODE_VIEWER
         }else{
