@@ -1,30 +1,48 @@
-<template>
-    <div class="tabs">
-        <ul>
-            <li v-for="tab in tabs"
-                :class="{ 'is-active': tab.isActive }"
-                v-show="tab.isVisible"
-                :key="tab.id"
-            >
-                <a v-html="tab.header"
-                   @click="selectTab(tab.hash, $event)"
-                   :href="tab.hash"
-                ></a>
-            </li>
-        </ul>
-        <div>
-            <slot/>
-        </div>
-    </div>
-</template>
 
 <script>
     export default {
+        render(){
+            return (
+                <div>
+                    <div class="tabs is-fullwidth is-small ">
+                        <ul>
+                            {this.tabs.map(tab=>{
+                                return (
+                                    <li class={{ 'is-active':tab.isActive }} key={tab.id}>
+                                        <a onClick={this.selectTab.bind(this,tab.hash)}
+                                            href={tab.hash}
+                                        >{tab.header}</a>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                    <div class="tab-body-container">
+                    {this.$slots.default.filter(slot=>slot.tag).map(slot=>{
+                        if(slot.componentInstance)
+                            slot.componentInstance.direction = this.direction
+                        return slot
+                    })}
+                    </div>
+                </div>
+            )
+        },
         data: () => ({
             tabs: [],
             activeTabHash: '',
+            direction: ''
         }),
+        watch:{
+            activeTabHash(newTab,oldTab){
+                if(!oldTab)
+                    return this.direction = 'none'
+                let newIndex = this.findTabIndex(newTab)
+                let oldIndex = this.findTabIndex(oldTab)
+                this.direction = (newIndex > oldIndex) ? 'right':'left'
+            }
+        },
         created() {
+            console.log(this.$slots.default.filter(slot=>slot.tag))
             this.tabs = this.$children;
         },
         mounted() {
@@ -35,7 +53,10 @@
             findTab(hash) {
                 return this.tabs.find(tab => tab.hash === hash);
             },
-            selectTab(selectedTabHash, event) {
+            findTabIndex(hash) {
+                return this.tabs.findIndex(tab=>tab.hash == hash)
+            },
+            selectTab(selectedTabHash) {
                 const selectedTab = this.findTab(selectedTabHash);
                 if (! selectedTab) {
                     return;
@@ -67,3 +88,11 @@
         },
     };
 </script>
+
+<style lang="scss" scoped>
+
+.tab-body-container{
+    position: relative;
+}
+
+</style>

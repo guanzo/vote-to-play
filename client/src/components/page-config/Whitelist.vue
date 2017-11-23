@@ -1,7 +1,7 @@
 <template>
 
 <div class="whitelist">
-    <h5>Whitelist <span class="icon-ok"></span></h5>
+    <h5 class="m-b-10">Whitelist <span class="icon-ok has-text-success"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelist"
         :filteredCandidates="tempWhitelist"
@@ -13,7 +13,7 @@
 
     <hr class="m-t-15 m-b-15">
 
-    <h5>Blacklist <span class="icon-cancel"></span></h5>
+    <h5 class="m-b-10">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
     <candidate-grid 
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
@@ -126,12 +126,6 @@ export default {
         min-height: 400px;
         align-items: flex-start;
         align-content: flex-start;
-    }
-    .icon-ok{
-        color: $green;
-    }
-    .icon-cancel{
-        color: $red;
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
 
-<div class="voter-header">
+<div class="voter-header is-size-5">
     <div v-if="!hasSelectedCandidate" class="default-vote flex-center">
         <div class="image-wrapper flex-center">
             <div><span class="icon-help"></span></div>
@@ -34,7 +34,6 @@ export default {
     position: relative;
     display: flex;
     justify-content: center;
-    font-size: 1.5em;
     color: white;
     text-shadow: #000 0px 0px 2px;
     transition: .5s;

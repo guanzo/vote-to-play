@@ -1,8 +1,8 @@
 <template>
     <div class="vtp-loading" :class="isLight ? 'light':'dark'">
-        <div class="loader square switch">
-            <div class="block">
-                <div class="box"></div>
+        <div class="vtp-loader vtp-square vtp-switch">
+            <div class="vtp-block">
+                <div class="vtp-box"></div>
             </div>
         </div>
   </div>
@@ -33,12 +33,12 @@ $light: #eee;
 $dark: #333;
 
 @mixin color-shade($color){
-    .block{
+    .vtp-block{
         color: $color;
         &:before, &:after{
             background: $color;
         }
-        .box{
+        .vtp-box{
             background: $color;
         }
     }
@@ -56,12 +56,12 @@ $dark: #333;
     &.dark{
         @include color-shade($dark);
     }
-    .loader{
+    .vtp-loader{
         position: absolute;
         top: 50%;
         left: 50%;
-        &.square{
-            .block{
+        &.vtp-square{
+            .vtp-block{
                 border-radius: $m*2;
                 width: 2*$s + $m*5;
                 height: 2*$s + $m*5;
@@ -74,25 +74,25 @@ $dark: #333;
                 &:after{
                     right: $m;
                 }
-                .box{
+                .vtp-box{
                     left: $m;
                     top: $m;
                     animation-name: slide;
                 }
             }
         }
-        &.switch{
-            .block{
+        &.vtp-switch{
+            .vtp-block{
                 animation-name: switch;
                 animation-duration: $d*2;
                 animation-timing-function: steps(4);
-                .box{
+                .vtp-box{
                     animation-duration: $d*.5;
                 }
             }
         }
     }
-    .block{
+    .vtp-block{
         position: absolute;
         border: $m solid transparent;
         transform: translate(-50%, -50%) rotate(-45deg);
@@ -113,7 +113,7 @@ $dark: #333;
             right: $m;
         }
     }
-    .box{
+    .vtp-box{
         position: absolute;
         width: $s;
         height: $s;

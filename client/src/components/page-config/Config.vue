@@ -10,9 +10,8 @@
         </p>
         <p>You can do all this on your Dashboard - Live.</p>
         <p>Remember, you also get to vote!</p>
-        <br>
-        If you would like to suggest any features, please feel free to email me.
-        <h3>Settings</h3>
+        <p>If you would like to suggest any features, please feel free to email me.</p>
+        <h3 class="title is-4">Settings</h3>
         <p>By default, viewers can vote on any candidate in the pool. If you want viewers to vote only on specific candidates, you can configure that here.</p>
         <p>You can toggle between "{{ VOTE_MODE_VIEWER }}" and "{{ VOTE_MODE_STREAMER }}" on your Dashboard.</p>
         <div class="select">

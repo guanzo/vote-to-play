@@ -6,6 +6,7 @@ html{
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-width: 0px !important; //override bulma
 }
 
 * {
@@ -37,10 +38,6 @@ table{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-}
-
-.text-center {
-    text-align: center;
 }
 
 .margin-center{

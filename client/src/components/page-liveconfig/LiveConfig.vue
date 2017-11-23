@@ -1,48 +1,45 @@
 <template>
 <div class="live-config">
-    <div><span @click="showIntro" class="icon-help-circled"></span></div>
+    <!-- <div><span @click="showIntro" class="icon-help-circled"></span></div> -->
     <tabs>
         <tab name="Settings">
-            Settings
+            <div class="flex-center flex-column">
+                <div class="vote-category field has-text-centered m-b-10" :data-intro="introVoteCategory">
+                    <label class="label">Vote Category</label>
+                    <div class="control flex-center flex-column">
+                        <label v-for="voteCategory in voteCategorys" class="radio m-b-5" :key="voteCategory">
+                            <input type="radio" v-model="selectedVoteCategory" :value="voteCategory"  name="vote-category">
+                            {{ voteCategory }}
+                        </label>
+                    </div>
+                </div>
+                <div v-if="isSupportedGame" class="vote-mode field has-text-centered m-b-10" :data-intro="introVoteMode">
+                    <label class="label">Vote Mode</label>
+                    <div class="control flex-center flex-column">
+                        <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
+                            <input type="radio" 
+                                v-model="selectedVoteMode" 
+                                :value="voteMode"
+                                name="vote-mode" 
+                            >
+                            {{ voteMode }}
+                        </label>
+                        <div v-if="showWhitelistTip" class="help is-danger">You must configure a whitelist</div>
+                    </div>
+                </div>
+                <div v-if="isSupportedGame">
+                    <div class="has-text-centered">
+                        <button @click="startVote" class="start-vote button "  :data-intro="introStartVote">Start a vote</button>
+                    </div>
+                </div>
+                <unsupported v-else-if="selectedGame !== null"></unsupported>
+            </div>
         </tab>
         <tab name="Vote">
-            Vote
+            <vote-results class="vote-list">
+            </vote-results>
         </tab>
     </tabs>
-    <div class="flex-center flex-column">
-        <div class="vote-category field text-center m-b-10" :data-intro="introVoteCategory">
-            <label class="label">Vote Category</label>
-            <div class="control flex-center flex-column">
-                <label v-for="voteCategory in voteCategorys" class="radio m-b-5" :key="voteCategory">
-                    <input type="radio" v-model="selectedVoteCategory" :value="voteCategory"  name="vote-category">
-                    {{ voteCategory }}
-                </label>
-            </div>
-        </div>
-        <div v-if="isSupportedGame" class="vote-mode field text-center m-b-10" :data-intro="introVoteMode">
-            <label class="label">Vote Mode</label>
-            <div class="control flex-center flex-column">
-                <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
-                    <input type="radio" 
-                        v-model="selectedVoteMode" 
-                        :value="voteMode"
-                        name="vote-mode" 
-                    >
-                    {{ voteMode }}
-                </label>
-                <div v-if="showWhitelistTip" class="help is-danger">You must configure a whitelist</div>
-            </div>
-
-        </div>
-    </div>
-    <div v-if="isSupportedGame">
-        <div class="text-center m-t-15 m-b-15">
-            <button @click="startVote" class="start-vote button "  :data-intro="introStartVote">Start a vote</button>
-        </div>
-        <vote-results class="vote-list">
-        </vote-results>
-    </div>
-    <unsupported v-else-if="selectedGame !== null"></unsupported>
 </div>
 </template>
 
