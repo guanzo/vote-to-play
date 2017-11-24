@@ -59,7 +59,6 @@ export const mutations = {
         state.voteMode = voteMode
     },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
-        console.log(currentVote)
         /** v1.4 COMPATIBILITY */
         if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
             state.voteCategory = state.selectedGame

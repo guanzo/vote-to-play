@@ -19,16 +19,20 @@ export default {
         swap(state,{ candidate, toArray, fromArray }){
             let index = _.findIndex(fromArray,d=>d.name == candidate.name)
             fromArray.splice(index,1)
-            
-            index = _.findIndex(toArray,d=>d.name == candidate.name)
-            if(index == -1)
-                toArray.push(candidate)
-            sortArrays(fromArray,toArray)
+            toArray.push(candidate)
+            processArrays(fromArray,toArray)
+        },
+        swapAll(state,{ toArray, fromArray }){
+            let candidates = fromArray.splice();
+            toArray.push(...candidates)
+            processArrays(fromArray,toArray)
         },
         removeUnsavedWhitelist(state){
-            let removed = _.remove(state.tempWhitelist,d=> !state.whitelistedNames.includes(d.name))
+            let removed = _.remove(state.tempWhitelist,d=> {
+                return !state.whitelistedNames.includes(d.name)
+            })
             state.tempBlacklist.push(...removed)
-            sortArrays(state.tempWhitelist,state.tempBlacklist)
+            processArrays(state.tempWhitelist,state.tempBlacklist)
         }
     },
     getters:{
@@ -41,6 +45,11 @@ export default {
     }
 }
 
-function sortArrays(...arrays){
-    arrays.forEach(arr=>arr.sort((a,b)=>a.name.localeCompare(b.name)))
+export function processArrays(...arrays){
+    arrays.forEach((arr,i)=>{
+        let processedArr = _(arr).uniqBy('name').sortBy('name').value()
+        arr.length = 0
+        arr.push( ...processedArr )
+    })
+    
 }

@@ -9,7 +9,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import GameSearch from './util/gameSearch'
-import whitelistMixin from './util/whitelistMixin';
+import whitelistMixin,{ processArrays } from './util/whitelistMixin';
 
 let modifiedMixin = _.merge({},whitelistMixin,
     {
@@ -22,6 +22,13 @@ let modifiedMixin = _.merge({},whitelistMixin,
             updateTempBlacklist(state,candidates){
                 state.tempBlacklist = [...candidates]
             },
+            removeUnsavedWhitelist(state){
+                let removed = _.remove(state.tempWhitelist,a=> {
+                    return !state.whitelistedNames.some(b=>b.name == a.name)
+                })
+                state.tempBlacklist.push(...removed)
+                processArrays(state.tempWhitelist,state.tempBlacklist)
+            }
         },
         getters:{
             whitelistedCandidates({whitelistedNames}){

@@ -11,7 +11,11 @@
         class="whitelist-grid dark"
     ></candidate-grid>
 
-    <hr class="m-t-15 m-b-15">
+    <div class="whitelist-tools has-text-centered m-t-15 m-b-15">
+        <hr>
+        <div><div>UP</div><div>DOWN</div></div>
+        <hr>
+    </div>
 
     <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
     <candidate-grid 
@@ -101,6 +105,9 @@ export default {
         swap(candidate,toArray,fromArray){
             this.commit('swap',{ candidate, toArray, fromArray })
         },
+        swapAll(toArray, fromArray){
+            this.commit('swapAll',{ toArray, fromArray })
+        },
         warnUnsavedChanges(e){
             if(!this.hasUnsavedChanges)
                 return;
@@ -128,6 +135,20 @@ export default {
         min-height: 300px;
         align-items: flex-start;
         align-content: flex-start;
+    }
+    .whitelist-tools{
+        display: flex;
+        > * {
+            flex: 1 1 30%;
+        }
+        hr {
+            margin: 1rem 0;
+        }
+        div {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
     }
 }
 
