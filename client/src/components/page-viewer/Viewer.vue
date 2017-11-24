@@ -39,7 +39,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteCategory','votes','channelName','TESTING']),
+        ...Vuex.mapState(['selectedGame','voteCategory','currentVote','channelName','TESTING']),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         showLogo(){
             return this.isExpanded || this.showExpandTip
@@ -47,8 +47,8 @@ export default {
     },
     watch:{
         //show tip if votes are reset, user may or may not have voted.
-        votes(){
-            if(this.votes.length == 0)
+        'currentVote.votes'(){
+            if(this.currentVote.votes.length == 0)
                 this.showExpandTip = true;
         },
         hasSubmittedVote(){
@@ -129,7 +129,7 @@ $header-element-size: 35px;
     }
     
     .overlay-background {
-        background: rgba(0,0,0,0.75);
+        background: rgba(0,0,0,0.85);
     }
     
     ::-webkit-scrollbar-track

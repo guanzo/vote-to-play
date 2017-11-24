@@ -8,6 +8,12 @@ const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
 
 var { VOTE_MODE_VIEWER } = require('@shared/constants')
 
+
+//potential values will be same as selectedGame, with the addition of "All Games"
+const voteCategory = null;
+//free-for-all vs whitelisted votes
+const voteMode = VOTE_MODE_VIEWER
+
 export const state = {
     channelId: -1,
     channelName: 'The broadcaster',
@@ -15,11 +21,15 @@ export const state = {
     //set by streamer's game set in dashboard
     selectedGame: null,
     //potential values will be same as selectedGame, with the addition of "All Games"
-    voteCategory: null,
-    voteMode: VOTE_MODE_VIEWER,
-    votes:[],
+    voteCategory,
+    voteMode,
     selectedCandidate:{},
-    createdAt: null,
+    currentVote:{
+        votes:[],
+        voteCategory,
+        voteMode,
+        createdAt: null,
+    },
     isAuthed: false,
     token: null,
     TESTING:{
@@ -49,6 +59,7 @@ export const mutations = {
         state.voteMode = voteMode
     },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
+        console.log(currentVote)
         /** v1.4 COMPATIBILITY */
         if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
             state.voteCategory = state.selectedGame
@@ -57,17 +68,11 @@ export const mutations = {
             state.voteCategory = currentVote.voteCategory
             state.voteMode = currentVote.voteMode
         }
-        state.votes = currentVote.votes;
-        state.createdAt = currentVote.createdAt
+        Object.assign(state.currentVote,currentVote)
+        state.selectedCandidate = {}
     },
     [MUTATIONS.ADD_VOTE]( state, vote ){
-        state.votes.push(vote)
-    },
-    [MUTATIONS.START_NEW_VOTE]( state, voteInstance ){
-        state.voteCategory = voteInstance.voteCategory
-        state.voteMode = voteInstance.voteMode
-        state.votes = []
-        state.selectedCandidate = {}
+        state.currentVote.votes.push(vote)
     },
     [MUTATIONS.SELECT_CANDIDATE]( state, candidate ){
         state.selectedCandidate = candidate
@@ -93,7 +98,13 @@ export const actions = {
         });
     },
     [ACTIONS.START_NEW_VOTE]( {state} ){
-        voteApi.startVote({ channelId: state.channelId, voteCategory: state.voteCategory, voteMode: state.voteMode })
+        voteApi.startVote({ 
+            channelId: state.channelId, 
+            voteCategory: state.voteCategory, 
+            voteMode: state.voteMode,
+            createdAt: new Date(),
+            votes: [],
+        })
     },
     [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
         commit(MUTATIONS.SET_AUTH, payload)
@@ -103,7 +114,7 @@ export const actions = {
 
 export const getters = {
     userVote(state){
-        let userVote = state.votes.find(vote=>vote.userId == state.userId)
+        let userVote = state.currentVote.votes.find(vote=>vote.userId == state.userId)
         if( !_.isUndefined(userVote) )
             return userVote.vote
         else

@@ -30,7 +30,7 @@
                 You must create a whitelist to use this mode
             </div>
             <button @click="startVote" 
-                    :class="[{'is-success is-loading':isLoading}, {'is-danger':hasWhitelistWarning}]" 
+                    :class="startVoteBtnClass" 
                     class="start-vote button"  
                     :data-intro="introStartVote"
             >
@@ -79,7 +79,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteCategory','createdAt']),
+        ...Vuex.mapState(['selectedGame','voteCategory']),
         ...Vuex.mapGetters(['supportedGames','selectedGameModule']),
         voteCategorys(){
             return [this.selectedGame, ALL_GAMES]
@@ -90,13 +90,21 @@ export default {
         },
         selectedVoteMode: {
             get () { return this.$store.state.voteMode },
-            set (voteMode) { console.log('setting vote mode: ' + voteMode);this.$store.commit(SET_VOTE_MODE, voteMode) }
+            set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
         hasInvalidVoteMode(){
             return this.selectedVoteMode == VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length == 0;
         },
         isSupportedGame(){
             return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
+        },
+        startVoteBtnClass(){
+            if(this.isLoading)
+                return 'is-success is-loading'
+            else if(this.hasWhitelistWarning)
+                return 'is-danger'
+            else
+                return ''
         }
     },
     watch:{
@@ -118,6 +126,7 @@ export default {
             
             this.$store.dispatch(START_NEW_VOTE)
 
+            this.hasWhitelistWarning = false;
             this.isLoading = true
             await delayPromise(1000)
             this.isLoading = false
@@ -132,6 +141,7 @@ export default {
             
         },
         showIntro(){
+
             introJs()
             .setOptions({
                 tooltipPosition:'bottom-middle-aligned',

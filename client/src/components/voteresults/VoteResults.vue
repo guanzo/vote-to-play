@@ -36,13 +36,12 @@ import voteTable from './VoteTable'
 export default {
     name: 'vote-results',
     computed:{
-        ...Vuex.mapState(['votes','voteCategory','voteMode']),
+        ...Vuex.mapState(['currentVote']),
         ...Vuex.mapGetters(['userVote','selectedGameModule']),
         allAggregatedVotes(){
-            let totalVotes = this.votes.length;
-            return _(this.votes)
+            return _(this.currentVote.votes)
                 .countBy('vote')
-                .map((count, vote)=> ({ vote, count, /* percent: Math.round((count/totalVotes)*100) */ }))
+                .map((count, vote)=> ({ vote, count }))
                 .sortBy('count')
                 .reverse()
                 .map((vote,i)=>{

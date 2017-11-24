@@ -13,7 +13,10 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['TESTING','votes']),
+        ...Vuex.mapState(['TESTING','currentVote']),
+        votes(){
+            return this.currentVote.votes;
+        },
         game(){
             return this.$store.getters.selectedGameModule
         },

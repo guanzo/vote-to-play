@@ -26,32 +26,6 @@ module.exports = (server) => {
     io.on('connection', async (socket)=>{
         
         var query = socket.handshake.query
-        /** 1.4 events, keep until 1.5 is released */
-        socket.on('join-channel',async data=>{
-            let { channelId } = data
-            socket.join(channelId)
-
-            let currentVote = await model.OLD_VERSION_getCurrentVote(data);
-            socket.emit(`all-votes`,currentVote)
-        })
-    
-
-        socket.on('add-vote',async data=>{
-            let result = await model.OLD_VERSION_addVote(data)
-            if(result.modifiedCount == 0)
-                return;
-            
-            let { channelId, vote, userId } = data
-            io.to(channelId).emit(`add-vote`, { vote, userId } )
-        })
-        
-        if(query.role == 'broadcaster'){
-            socket.on('start-vote',data=>{
-                model.OLD_VERSION_startVote(data)
-                io.to(data.channelId).emit(`start-vote`,data)
-            })
-        }
-
         /** 1.5 events */
         socket.on(e.CHANNELS_JOIN,async data=>{
             let { channelId } = data
@@ -62,7 +36,6 @@ module.exports = (server) => {
             socket.emit(e.WHITELIST,channel.whitelist)
         })
     
-
         socket.on(e.VOTES_ADD,async data=>{
             let result = await model.addVote(data)
             if(result.modifiedCount == 0)

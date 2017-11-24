@@ -12,7 +12,6 @@ import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
 
 export const mutations = {
     [MUTATIONS.SET_WHITELIST](state, whitelist){
-        console.log(whitelist)
         _.each(state,game=>{
             let gameName = game.gameName;
             if(whitelist[gameName])

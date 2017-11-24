@@ -45,8 +45,9 @@ function setListeners(){
         })
     });
 
-    socket.on(e.VOTES_START, voteInstance => {
-        store.commit(MUTATIONS.START_NEW_VOTE, voteInstance)
+    socket.on(e.VOTES_START, currentVote => {
+        delete currentVote.channelId
+        store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
     });
 
     socket.on(e.WHITELIST, whitelist => {
