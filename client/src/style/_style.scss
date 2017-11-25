@@ -1,4 +1,4 @@
-
+@import 'variables.scss';
 @import 'transitions.scss';
 @import 'spacing-helpers.scss';
 
@@ -34,10 +34,7 @@ table{
 }
 
 .absolute-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    @include absolute-center;
 }
 
 .margin-center{

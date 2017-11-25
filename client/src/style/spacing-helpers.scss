@@ -26,7 +26,8 @@ $sides: (top, bottom, left, right); // Leave this variable alone
   }
 }
 
-
-/*
-  RUN GULP to generate the classes. Now you can use these helpers to customize spacing on HTML elements.
-*/
+@each $side in $sides {
+    .m-#{str-slice($side, 0, 1)}-a{
+        margin-#{$side}: auto;
+    }
+}

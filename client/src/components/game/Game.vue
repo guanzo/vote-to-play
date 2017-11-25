@@ -138,10 +138,12 @@ export default {
 
 .game{
     position: relative;
-    .fade-leave-active{
+    > .fade-leave-active{
         position: absolute !important;
     }
-
+    .image-wrapper{
+        position: relative;
+    }
     img {
         width: 100%;
         height: auto;
