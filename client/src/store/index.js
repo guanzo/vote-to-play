@@ -125,8 +125,18 @@ export const getters = {
         else
             return getters.userVote != null
     },
-    hasSelectedCandidate (state){
+    hasSelectedCandidate(state){
         return !_.isEmpty(state.selectedCandidate);
+    },
+    /*
+    Twitch Docs:
+    An opaque ID that begins with “A” is a logged-out user and should not be persisted. 
+    It will change every time the logged-out user loads your extension.
+
+    They are NOT ALLOWED to vote.
+    */
+    isAnonymousUser(state){
+        return state.userId.charAt(0) === 'A'
     }
 }
 

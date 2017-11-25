@@ -6,7 +6,9 @@
         <div class="help" v-else>
             {{ channelName }} has limited the voting pool
         </div>
-        <div class="control vote-button-wrapper">
+
+        <div v-if="!isAnonymousUser"
+        class="control m-l-a">
             <button 
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
@@ -14,6 +16,9 @@
                 :class="{ 'is-loading': isLoading }"
             >
             Vote</button>
+        </div>
+        <div class="tag is-warning m-l-a" v-else>
+            You must login to vote
         </div>
     </div>
 </template>
@@ -35,8 +40,9 @@ export default {
     },
     computed:{
         ...Vuex.mapState(['userId','voteMode','channelName']),
-        allowedToVote(){
-            return !this.hasSubmittedVote && !this.isLoading
+        ...Vuex.mapGetters(['isAnonymousUser']),
+        preventVote(){
+            return this.hasSubmittedVote || this.isLoading
         },
         isWhitelist(){
             return this.voteMode == VOTE_MODE_STREAMER
@@ -50,7 +56,7 @@ export default {
     },
     methods:{
         submitVote(){
-            if(!this.allowedToVote)
+            if(this.preventVote)
                 return;
                 
             this.isLoading = true;
@@ -70,9 +76,6 @@ export default {
     //display: flex;
     //justify-content: space-between;
     transition: .5s;
-    .vote-button-wrapper{
-        margin-left: auto;
-    }
     select {
         width: 120px;
     }
