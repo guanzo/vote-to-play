@@ -3,7 +3,7 @@
         v-if="candidates.length" 
         class="candidate-grid" 
         tag="div" 
-        name="list" 
+        name="grid" 
         @before-leave="beforeLeave"
     >
         <candidate v-for="(candidate,i) in candidates"
@@ -23,11 +23,13 @@
 <script>
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
+import smoothHeight from 'vue-smooth-height'
 /**
  * candidates may or may not be filterable
  */
 export default {
     name:'candidate-grid',
+    mixins:[smoothHeight],
     props:{
         candidates: Array,
         filteredCandidates: Array,
@@ -43,6 +45,12 @@ export default {
             return this.filteredCandidates.length < this.candidates.length
         },
     },
+    mounted(){
+        this.$registerElement({
+            el: this.$el,
+            hideOverflow: true,
+        })
+    },
     methods:{
         selectCandidate(candidate){
             this.$store.commit(SELECT_CANDIDATE, candidate)
@@ -55,7 +63,9 @@ export default {
                     ? 'filtered-in': 'filtered-out'
         },
         beforeLeave(el){
-            el.style.top = el.offsetTop + 'px'
+            var computedStyle = window.getComputedStyle(el); 
+            var marginTop = parseInt(computedStyle.marginTop, 10);
+            el.style.top = (el.offsetTop - marginTop) + 'px'
             el.style.left = el.offsetLeft + 'px'
         }
     },
@@ -101,10 +111,14 @@ $dark: #333;
     }
 }
 
-.list-enter, .list-leave-to{
+.grid-enter, .grid-leave-to{
     opacity: 0;
 }
-.list-leave-active {
+.grid-leave-active {
     position: absolute !important;
 }
+/* 
+.grid-enter-active, .grid-leave-active{
+    transition: 10s !important;
+} */
 </style>

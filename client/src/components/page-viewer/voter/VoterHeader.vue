@@ -36,11 +36,9 @@ export default {
             nameLeavingX: 0
         }
     },
-    watch:{
-        selectedCandidate(){
-            this.imgLeavingX = this.$el.querySelector('.header-img').getBoundingClientRect().x
-            this.nameLeavingX = this.$el.querySelector('.header-name').getBoundingClientRect().x
-        }
+    beforeUpdate(){
+        this.imgLeavingX = this.$el.querySelector('.header-img').getBoundingClientRect().x
+        this.nameLeavingX = this.$el.querySelector('.header-name').getBoundingClientRect().x
     },
     methods:{
         /** Entering & leaving elements have the exact same transition
@@ -49,7 +47,7 @@ export default {
         reflowTransition(el){
             this.$nextTick(()=>{
                 let enteringX = el.getBoundingClientRect().x
-                let leavingX = this.getElementX(el)
+                let leavingX = this.getLeavingElementX(el)
                 el.style.transitionProperty = 'none';
                 el.style.transform = `translateX(${leavingX - enteringX}px)`
                 el.offsetHeight
@@ -57,7 +55,7 @@ export default {
                 el.style.transform = null
             })
         },
-        getElementX(el){
+        getLeavingElementX(el){
             if(el.classList.contains('header-img'))
                 return this.imgLeavingX
             else

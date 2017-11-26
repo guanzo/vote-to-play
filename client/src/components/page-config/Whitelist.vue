@@ -13,7 +13,10 @@
 
     <div class="whitelist-tools has-text-centered m-t-15 m-b-15">
         <hr>
-        <div><div>UP</div><div>DOWN</div></div>
+        <div>
+            <div @click="swapAll(tempWhitelist,tempBlacklist)" class="icon-angle-double-up is-size-1"></div>
+            <div @click="swapAll(tempBlacklist,tempWhitelist)" class="icon-angle-double-down is-size-1"></div>
+        </div>
         <hr>
     </div>
 
@@ -29,7 +32,7 @@
         :voteCategory="voteCategory" 
         :tempWhitelist="tempWhitelist" 
         :hasUnsavedChanges="hasUnsavedChanges"
-        @cancel="commit('removeUnsavedWhitelist')"
+        @cancel="commit('removeUnsavedChanges')"
     >
         <slot name="filters"></slot>
     </whitelist-controls>
@@ -59,6 +62,8 @@ export default {
         showName(){      return this.game.showNameInGrid },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
+        prevWhitelist(){ return this.game.prevWhitelist },
+        prevBlacklist(){ return this.game.prevBlacklist },
         whitelistedCandidates(){
             return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
@@ -69,13 +74,14 @@ export default {
             return this.$store.getters[this.namespace+'/filteredBlacklist']
         },
         hasUnsavedChanges(){
-            return this.whitelistedCandidates.length !== this.tempWhitelist.length
+            return this.$store.getters[this.namespace+'/hasUnsavedChanges']
         }
     },
     watch:{
         //set initial whitelist, && each time user saves whitelist
         whitelistedCandidates:{
             handler(whitelistedCandidates){
+                console.log(arguments)
                 this.commit('updateTempWhitelist',whitelistedCandidates)
             },
             immediate: true
@@ -128,16 +134,14 @@ export default {
 
 .whitelist{
     padding: 15px;
-    .whitelist-grid{
-        min-height: 100px !important;
-    }
     .candidate-grid{
-        min-height: 300px;
+        //min-height: 250px;
         align-items: flex-start;
         align-content: flex-start;
     }
     .whitelist-tools{
         display: flex;
+        align-items: center;
         > * {
             flex: 1 1 30%;
         }
@@ -148,6 +152,17 @@ export default {
             display: flex;
             justify-content: space-around;
             align-items: center;
+            [class^="icon"]{
+                cursor: pointer;
+                position: relative;
+                transition: 0.3s;
+                &.icon-angle-double-up:hover{
+                    color: $success;
+                }
+                &.icon-angle-double-down:hover{
+                    color: $danger;
+                }
+            }
         }
     }
 }

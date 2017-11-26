@@ -81,13 +81,13 @@ describe('store',()=>{
                     expect(state.tempWhitelist).to.not.include(mirana)
                     expect(state.tempBlacklist).to.include(mirana)
                 })
-                it('removes unsaved candidates',()=>{
+                it('removes unsaved changes',()=>{
                     let state = {
                         whitelistedNames:['axe'],
                         tempWhitelist:[axe,mirana],
                         tempBlacklist:[],
                     }
-                    whitelistMixin.mutations.removeUnsavedWhitelist(state)
+                    whitelistMixin.mutations.removeUnsavedChanges(state)
                     expect(state.tempWhitelist).to.have.members([axe])
                     expect(state.tempBlacklist).to.have.members([mirana])
                 })

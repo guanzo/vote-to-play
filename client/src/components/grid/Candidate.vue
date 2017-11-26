@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 
+
 .candidate {
     position: relative;
     display: flex;
@@ -44,7 +45,6 @@ export default {
     align-items: center;
     margin: 2px;
     transition: .3s;
-    //transition: 10s;
     cursor: pointer;
     .image-wrapper{
         position: relative;

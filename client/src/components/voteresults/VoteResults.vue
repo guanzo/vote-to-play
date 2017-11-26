@@ -32,9 +32,11 @@
 import voteLoading from '@/components/loading/VoteLoading'
 import loading from '@/components/loading/Loading'
 import voteTable from './VoteTable'
+import smoothHeight from 'vue-smooth-height'
 
 export default {
     name: 'vote-results',
+    mixins:[smoothHeight],
     computed:{
         ...Vuex.mapState(['currentVote']),
         ...Vuex.mapGetters(['userVote','selectedGameModule']),
@@ -62,31 +64,11 @@ export default {
             return this.allAggregatedVotes.filter(vote=>vote.vote == this.userVote)
         }
     },
-    watch:{
-        ['topAggregatedVotes.length'](newLength, oldLength){
-            if(newLength != oldLength)
-                this.animateHeight()
-        }
+    mounted(){
+        this.$registerElement({
+            el: this.$refs.topvotes,
+        })
     },
-	methods:{
-		animateHeight(){
-			let el = this.$refs.topvotes
-            let beforeHeight = el.clientHeight
-            this.$nextTick(()=>{
-                let afterHeight = el.clientHeight
-
-                if(beforeHeight == 0 || afterHeight == 0)
-                    return;
-
-                el.style.height = beforeHeight+'px'
-                el.offsetHeight//force reflow
-                el.style.height = afterHeight+'px'
-                el.addEventListener('transitionend',()=>{
-                    el.style.height = 'auto'
-                }, { once: true })
-            })
-		},
-	},
     components:{
         voteTable,
         voteLoading,
@@ -122,7 +104,7 @@ export default {
     position: relative;
     overflow: hidden;
     margin-bottom: 15px;
-    transition: height 1s;
+    //transition: height 1s;
 }
 
 
