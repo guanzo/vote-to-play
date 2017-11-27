@@ -2,9 +2,9 @@
 
 <div class="voter-header is-size-5 flex-center">
     <div class="flex-center">
-            <div class="image-wrapper flex-center" 
+        <div class="image-wrapper flex-center" 
                 :class="{'default-vote': !hasSelectedCandidate}">
-        <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
+            <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
                     <div v-if="!hasSelectedCandidate" class="header-img"><span class="icon-help"></span></div>
                     <img v-else 
                         :src="selectedCandidate.img" 
@@ -12,14 +12,14 @@
                         :key="selectedCandidate.name"
                         class="header-img"
                     >
-        </transition>
-            </div>
-            <div class="ellipsis" >
-        <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
+            </transition>
+        </div>
+        <div class="ellipsis" >
+            <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
                 <div v-if="!hasSelectedCandidate" class="header-name">Your Vote</div>
                 <div v-else :key="selectedCandidate.name" class="header-name">{{ selectedCandidate.name }}</div>
-        </transition>
-            </div>
+            </transition>
+        </div>
     </div>
 </div>
 
@@ -49,7 +49,7 @@ export default {
                 let enteringX = el.getBoundingClientRect().x
                 let leavingX = this.getLeavingElementX(el)
                 el.style.transitionProperty = 'none';
-                el.style.transform = `translateX(${leavingX - enteringX}px)`
+                el.style.transform = `translateX(${leavingX - enteringX}px) translateZ(0) scale(1.0, 1.0)`
                 el.offsetHeight
                 el.style.transitionProperty = 'all';
                 el.style.transform = null
@@ -78,6 +78,9 @@ export default {
     > * {
         max-width: 100%;
         position: relative;
+    }
+    img{
+        backface-visibility: hidden;
     }
     .fade-enter-active, .fade-leave-active{
         transition: .25s;

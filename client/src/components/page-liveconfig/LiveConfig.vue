@@ -16,8 +16,8 @@
 import settings from './Settings'
 import voteInfo from './VoteInfo'
 import voteResults from '@/components/voteresults/VoteResults'
-import tabs from '@/components/tabs/Tabs'
-import tab from '@/components/tabs/Tab'
+import tabs from '@/components/util/tabs/Tabs'
+import tab from '@/components/util/tabs/Tab'
 
 export default {
     name: 'live-config',
@@ -32,7 +32,7 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .live-config{
     padding: 5px;

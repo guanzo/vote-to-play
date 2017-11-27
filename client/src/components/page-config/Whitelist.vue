@@ -62,8 +62,6 @@ export default {
         showName(){      return this.game.showNameInGrid },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
-        prevWhitelist(){ return this.game.prevWhitelist },
-        prevBlacklist(){ return this.game.prevBlacklist },
         whitelistedCandidates(){
             return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
@@ -138,6 +136,7 @@ export default {
         //min-height: 250px;
         align-items: flex-start;
         align-content: flex-start;
+        transition: .5s;
     }
     .whitelist-tools{
         display: flex;

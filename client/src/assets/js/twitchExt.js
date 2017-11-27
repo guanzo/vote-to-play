@@ -29,7 +29,15 @@ window.Twitch.ext.onAuthorized(async function (auth) {
     })
 
     setTimeout(()=>pollSelectedGame(auth.channelId))
+    
+    /* window.Twitch.ext.listen('broadcast', function (topic, contentType, message) {
+        console.log(arguments)
+    });
+
+    window.Twitch.ext.send('broadcast', 'application/json',{test:'hi'}); */
+
 });
+
 
 function pollSelectedGame(channelId, pollInterval = 4000){
     getSelectedGame(channelId)

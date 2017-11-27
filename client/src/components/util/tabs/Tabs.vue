@@ -66,24 +66,6 @@
                 this.$emit('changed', { tab: selectedTab });
                 this.activeTabHash = selectedTab.hash;
             },
-            setTabVisible(hash, visible) {
-                const tab = this.findTab(hash);
-                if (! tab) {
-                    return;
-                }
-                tab.isVisible = visible;
-                if (tab.isActive) {
-                    // If tab is active, set a different one as active.
-                    tab.isActive = visible;
-                    this.tabs.every((tab, index, array) => {
-                        if (tab.isVisible) {
-                            tab.isActive = true;
-                            return false;
-                        }
-                        return true;
-                    });
-                }
-            },
         },
     };
 </script>

@@ -61,7 +61,7 @@ export default {
                 return ''
             return this.filteredCandidates.find(d=>d.name == candidate.name)
                     ? 'filtered-in': 'filtered-out'
-        },
+        },//keep element in its original place
         beforeLeave(el){
             var computedStyle = window.getComputedStyle(el); 
             var marginTop = parseInt(computedStyle.marginTop, 10);

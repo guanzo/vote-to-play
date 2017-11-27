@@ -4,7 +4,7 @@
             <option v-for="game in games" :key="game">{{ game }}</option>
         </select>
         <div class="toggle-vote-simulation">
-            Simulate Votes: {{isSimulating}}
+            Simulate Votes: 
             <input type="checkbox" v-model="isSimulating">
         </div>
         <button @click="resetVote">reset vote</button>

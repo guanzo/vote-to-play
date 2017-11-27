@@ -79,7 +79,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteCategory']),
+        ...Vuex.mapState(['selectedGame']),
         ...Vuex.mapGetters(['supportedGames','selectedGameModule']),
         voteCategorys(){
             return [this.selectedGame, ALL_GAMES]

@@ -29,8 +29,8 @@
 
 <script>
 
-import voteLoading from '@/components/loading/VoteLoading'
-import loading from '@/components/loading/Loading'
+import voteLoading from '@/components/util/loading/VoteLoading'
+import loading from '@/components/util/loading/Loading'
 import voteTable from './VoteTable'
 import smoothHeight from 'vue-smooth-height'
 

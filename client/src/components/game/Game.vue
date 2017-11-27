@@ -13,9 +13,8 @@
                                 :placeholder="filter.placeholder"
                                 type="text"
                                 class="input" 
-                                :class="formClass"
                         >
-                        <div v-else-if="filter.type == 'select'" class="select" :class="formClass">
+                        <div v-else-if="filter.type == 'select'" class="select">
                             <select v-model="filter.vmodel">
                                 <option v-for="role in filter.options" :key="role">{{ role }}</option>
                             </select>
@@ -37,7 +36,7 @@ import voter from '@/components/page-viewer/voter/Voter'
 import voteResults from '@/components/voteresults/VoteResults'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES } from '@/store/actions'
-import loading from '@/components/loading/Loading'
+import loading from '@/components/util/loading/Loading'
 import { delayPromise } from '@/util'
 /**
  * Generic component that serves all supported games.
@@ -88,9 +87,6 @@ export default {
         isAllGames(){
             return this.namespace == ALL_GAMES
         },
-        formClass(){
-            return this.$route.path.includes('viewer') ? 'is-small' : ''
-        }
     },
     watch:{
         isAuthed: {

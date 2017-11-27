@@ -23,7 +23,7 @@ let modifiedMixin = _.merge({},whitelistMixin,
                 state.tempBlacklist = [...candidates]
             },
             removeUnsavedChanges(state){
-                //saveArrayState(state)
+                
                 let removed = _.remove(state.tempWhitelist,a=> {
                     return !state.whitelistedNames.some(b=>b.name == a.name)
                 })
