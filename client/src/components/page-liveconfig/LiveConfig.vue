@@ -46,7 +46,6 @@ export default {
     methods:{
         informHearthstoneCustomization(){
             var hasInformed = localStorage.getItem(informedHearthstoneCustomization)
-            console.log(hasInformed)
             if(hasInformed)
                 return;
             this.informHearthstone = true;

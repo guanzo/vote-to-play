@@ -138,7 +138,7 @@ export default {
         padding: 15px;
         max-height: 100%;
         min-height: 300px;
-        min-width: 400px;
+        min-width: 450px;
         display: grid;
         grid-template-columns: auto;
         grid-template-rows: auto 1fr auto;

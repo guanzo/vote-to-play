@@ -13,9 +13,6 @@ export const mutations = {
     updateTempWhitelist(state,candidates){
         state.tempWhitelist = [...candidates]
     },
-    updateTempBlacklist(state,candidates){
-        state.tempBlacklist = [...candidates]
-    },
     swap(state,{ candidate, toArray, fromArray }){
         let index = _.findIndex(fromArray,d=>d.name == candidate.name)
         fromArray.splice(index,1)

@@ -14,15 +14,6 @@ import whitelistMixin,{ saveArrayState, processArrays } from './util/whitelistMi
 let modifiedMixin = _.merge({},whitelistMixin,
     {
         mutations:{
-            partition(state,{ tempWhitelist, tempBlacklist }){
-                state.tempWhitelist =tempWhitelist
-                state.tempBlacklist = tempBlacklist
-            },
-            partition(state){
-                let candidates = state.searchedGames.length ? state.searchedGames : state.topGames
-                state.tempWhitelist = state.whitelistedNames
-                state.tempBlacklist = candidates
-            },
             removeUnsavedChanges(state){
                 
                 let removed = _.remove(state.tempWhitelist,a=> {

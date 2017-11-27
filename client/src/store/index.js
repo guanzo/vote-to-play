@@ -90,13 +90,6 @@ export const actions = {
             userId: payload.userId
         });
     },
-    [ACTIONS.SIMULATE_VOTE]( {state}, payload ){
-        voteApi.addVote({
-            channelId: state.channelId,
-            vote: payload.vote,
-            userId: payload.userId
-        });
-    },
     [ACTIONS.START_NEW_VOTE]( {state} ){
         voteApi.startVote({ 
             channelId: state.channelId, 

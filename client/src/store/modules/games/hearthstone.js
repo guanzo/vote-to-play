@@ -89,6 +89,10 @@ const hearthstone = _.merge({
     actions:{
         [ACTIONS.GET_CANDIDATES](){},
         [ACTIONS.SET_HEARTHSTONE_DECKS]({rootState},decks){
+            
+            //strip unnecessary properties
+            decks = decks.map(d=>_.pick(d,'class','name'))
+
             gameApi.addHearthstoneDeck({
                 channelId: rootState.channelId, 
                 decks

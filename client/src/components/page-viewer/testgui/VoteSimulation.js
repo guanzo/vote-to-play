@@ -1,8 +1,9 @@
 
 
 
-import { SIMULATE_VOTE, START_NEW_VOTE } from '@/store/actions'
+import { VOTE, START_NEW_VOTE } from '@/store/actions'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
+var { VOTE_MODE_VIEWER } = require('@shared/constants')
 
 export default {
     data(){
@@ -13,7 +14,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['TESTING','currentVote']),
+        ...Vuex.mapState(['TESTING','currentVote','voteMode']),
         votes(){
             return this.currentVote.votes;
         },
@@ -25,6 +26,15 @@ export default {
         },
         candidates(){
             return this.$store.getters[this.game.gameName+'/candidates']
+        },
+        whitelistedCandidates(){
+            return this.$store.getters[this.game.gameName+'/whitelistedCandidates']
+        },
+        voteableCandidates(){
+            if(this.voteMode == VOTE_MODE_VIEWER)
+                return this.candidates
+            else
+                return this.whitelistedCandidates
         },
         isAllGames(){
             return this.game.gameName == ALL_GAMES
@@ -51,19 +61,17 @@ export default {
     },
     methods:{
         simulateVotes(){
+            if(this.voteableCandidates.length == 0)
+                return;
+
             let votes = this.maxSimulationVotes
-            let candidatePool = Math.min(25, this.candidates.length);
+            let candidatePool = Math.min(25, this.voteableCandidates.length);
             let intervalID = setInterval(()=>{
+
                 let userId = this.randomIntFromInterval(0, 100000)
-                let candidateIndex = this.randomIntFromInterval(0, candidatePool)
-
-                if(userId == this.userId)
-                    return;
-
-                if(this.candidates.length == 0)
-                    return;
-                let candidateName = this.candidates[candidateIndex].name
-                this.$store.dispatch(SIMULATE_VOTE, { vote: candidateName, userId  })
+                let candidateIndex = this.randomIntFromInterval(0, candidatePool-1)
+                let candidateName = this.voteableCandidates[candidateIndex].name
+                this.$store.dispatch(VOTE, { vote: candidateName, userId  })
                 
             },500)
             return intervalID

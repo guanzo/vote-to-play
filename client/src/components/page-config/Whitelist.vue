@@ -94,7 +94,7 @@ export default {
         },
         //all games && hearthstone compatibility
         'candidates'(candidates){
-            this.commit('updateTempBlacklist',candidates)
+            this.$store.dispatch(this.namespace+'/partition');
         }
     },
     created(){
