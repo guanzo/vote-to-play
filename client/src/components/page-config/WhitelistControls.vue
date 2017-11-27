@@ -2,13 +2,13 @@
     
     <div class="whitelist-controls field is-grouped is-grouped-multiline">
         <slot>
-            <add-hearthstone-deck v-if="isHearthstone"></add-hearthstone-deck>
+            <hearthstone-deck v-if="isHearthstone"></hearthstone-deck>
         </slot>
         <div class="buttons">
             <div class="help">{{ validationMsg }}</div>
             <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
             <button @click="onSaveGameWhitelist" 
-                :class="[validationColor, isLoading ? 'is-loading':'']" 
+                :class="[validationColor, {'is-loading':isLoading}]" 
                 class="button"
             >Save</button>
 
@@ -23,7 +23,7 @@ import { SAVE_GAME_WHITELIST } from '@/store/actions'
 import { delayPromise } from '@/util'
 import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-import addHearthstoneDeck from './AddHearthstoneDeck'
+import hearthstoneDeck from './HearthstoneDeck'
 
 export default {
     name:'whitelist-controls',
@@ -63,7 +63,7 @@ export default {
         }
     },
     components:{
-        addHearthstoneDeck
+        hearthstoneDeck
     }
 }
 
@@ -72,6 +72,7 @@ export default {
 <style lang="scss" scoped>
 
 .whitelist-controls{
+    align-items: flex-end;
     .buttons{
         transition: 0.15s;
         margin-left: auto;

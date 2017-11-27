@@ -12,8 +12,8 @@
                         <input v-if="filter.type == 'text'" 
                                 v-model="filter.vmodel" 
                                 :placeholder="filter.placeholder"
-                                type="text"
                                 class="input" 
+                                maxlength="50"
                         >
                         <div v-else-if="filter.type == 'select'" class="select">
                             <select v-model="filter.vmodel">
@@ -241,7 +241,7 @@ General rules:
         @include scale-img-size($w,$h,.4);
     }
     .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.5);
+        @include scale-img-size($w,$h,1.25);
     }
 }
 .heroes-of-the-storm{

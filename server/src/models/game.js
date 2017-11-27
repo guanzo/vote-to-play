@@ -3,16 +3,9 @@ var ObjectID = require('mongodb').ObjectID
 const e = require('../../../shared/constants')
 
 module.exports = {
-    addHearthstoneDeck({channelId, deck}) {
+    saveHearthstoneDecks({channelId, decks}) {
         var channels = db.get().collection('channels')
-        return channels.updateOne(
-            { channelId },
-            { 
-                $push: { 
-                    'hearthstoneDecks': deck
-                }
-            },
-        )
+        return channels.updateOne({ channelId },{ $set: { hearthstoneDecks: decks} })
     },
     getHearthstoneDecks(channelId) {
         var channels = db.get().collection('channels')

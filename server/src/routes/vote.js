@@ -35,6 +35,9 @@ module.exports = (server) => {
             let channel = await voteModel.getChannel(data)
             socket.emit(e.VOTES,channel.currentVote)
             socket.emit(e.WHITELIST,channel.whitelist)
+
+            if(channel.hearthstoneDecks)
+                socket.emit(e.HEARTHSTONE_DECKS,channel.hearthstoneDecks)
         })
     
         socket.on(e.VOTES_ADD,async data=>{
@@ -59,12 +62,12 @@ module.exports = (server) => {
                 io.to(data.channelId).emit(e.WHITELIST,whitelist)
             })
             
-            socket.on(e.ADD_HEARTHSTONE_DECK, async data=>{
-                await gameModel.addHearthstoneDeck(data)
+            socket.on(e.HEARTHSTONE_DECKS_EDIT, async data=>{
+                await gameModel.saveHearthstoneDecks(data)
                 let decks = await gameModel.getHearthstoneDecks(data.channelId)
                 io.to(data.channelId).emit(e.HEARTHSTONE_DECKS,decks)
             })
-            
+
         }
     });
 

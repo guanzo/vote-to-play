@@ -62,6 +62,9 @@ export default {
         showName(){      return this.game.showNameInGrid },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
+        candidates(){
+            return this.$store.getters[this.namespace+'/candidates']
+        },
         whitelistedCandidates(){
             return this.$store.getters[this.namespace+'/whitelistedCandidates']
         },
@@ -89,9 +92,8 @@ export default {
             },
             immediate: true
         },
-        //all games compatibility
-        'game.searchedGames'(){
-            let candidates = this.$store.getters[this.namespace+'/candidates']
+        //all games && hearthstone compatibility
+        'candidates'(candidates){
             this.commit('updateTempBlacklist',candidates)
         }
     },

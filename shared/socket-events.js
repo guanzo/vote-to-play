@@ -6,6 +6,5 @@ module.exports = {
     WHITELIST: 'whitelist',
     WHITELIST_EDIT: 'whitelist/edit',
     HEARTHSTONE_DECKS: 'hearthstone',
-    ADD_HEARTHSTONE_DECK: 'hearthstone/add',
-    DELETE_HEARTHSTONE_DECK: 'hearthstone/delete'
+    HEARTHSTONE_DECKS_EDIT: 'hearthstone/edit',
 }

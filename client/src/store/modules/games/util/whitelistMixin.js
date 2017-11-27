@@ -13,6 +13,9 @@ export const mutations = {
     updateTempWhitelist(state,candidates){
         state.tempWhitelist = [...candidates]
     },
+    updateTempBlacklist(state,candidates){
+        state.tempBlacklist = [...candidates]
+    },
     swap(state,{ candidate, toArray, fromArray }){
         let index = _.findIndex(fromArray,d=>d.name == candidate.name)
         fromArray.splice(index,1)
@@ -52,11 +55,11 @@ export const actions = {
 }
 
 export const getters = {
-    whitelistedCandidates({candidates,whitelistedNames}){
+    whitelistedCandidates({whitelistedNames},{candidates}){
         return candidates.filter(candidate=>whitelistedNames.includes(candidate.name))
     },
-    filteredBlacklist({candidates},getters){
-        return _.intersectionBy(candidates, getters.filteredCandidates,'name')
+    filteredBlacklist(state,{candidates,filteredCandidates}){
+        return _.intersectionBy(candidates, filteredCandidates,'name')
     },
     hasUnsavedChanges(state, getters){
         return !_.isEmpty(_.xorBy(getters.whitelistedCandidates, state.tempWhitelist,'name'))

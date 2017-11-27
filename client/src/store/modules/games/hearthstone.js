@@ -78,15 +78,19 @@ const hearthstone = _.merge({
     mutations:{//ensure it conforms to game module expected properties
         [MUTATIONS.SET_CANDIDATES](){},
         [MUTATIONS.SET_HEARTHSTONE_DECKS](state, decks){
+            decks = decks.map(deck=>{
+                let candidate = state.candidates.find(d=>d.name == deck.class)
+                return Object.assign({},candidate, deck)
+            })
             state.decks = decks
         }
     },
     actions:{
         [ACTIONS.GET_CANDIDATES](){},
-        [ACTIONS.ADD_HEARTHSTONE_DECK]({rootState},deck){
+        [ACTIONS.SET_HEARTHSTONE_DECKS]({rootState},decks){
             gameApi.addHearthstoneDeck({
                 channelId: rootState.channelId, 
-                deck
+                decks
             })
         }
     },
@@ -95,7 +99,7 @@ const hearthstone = _.merge({
             return [...candidates, ...decks]
         },
         //no op
-        filteredCandidates: state=>state.candidates,
+        filteredCandidates: (state,getters)=>getters.candidates,
     }
 },whitelistMixin)
 
