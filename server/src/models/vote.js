@@ -99,9 +99,9 @@ module.exports = {
     getEntireWhitelist(channelId){
         var channels = db.get().collection('channels')
         return channels.findOne({ channelId }, { whitelist: 1 , '_id': 0})
-            .then(result=>{
-                return result.whitelist
-            })
+                .then(result=>{
+                    return result.whitelist
+                })
     },
     //saves whitelist for a specific voteCategory
     saveGameWhitelist({channelId,gameWhitelist}){

@@ -1,4 +1,5 @@
-var model = require('../models/vote')
+const voteModel = require('../models/vote')
+const gameModel = require('../models/game')
 const jwt = require('jsonwebtoken');
 const e = require('../../../shared/socket-events')
 
@@ -31,13 +32,13 @@ module.exports = (server) => {
             let { channelId } = data
             socket.join(channelId)
 
-            let channel = await model.getChannel(data)
+            let channel = await voteModel.getChannel(data)
             socket.emit(e.VOTES,channel.currentVote)
             socket.emit(e.WHITELIST,channel.whitelist)
         })
     
         socket.on(e.VOTES_ADD,async data=>{
-            let result = await model.addVote(data)
+            let result = await voteModel.addVote(data)
             if(result.modifiedCount == 0)
                 return;
             
@@ -46,16 +47,24 @@ module.exports = (server) => {
         })
         
         if(query.role == 'broadcaster'){
+
             socket.on(e.VOTES_START,data=>{
-                model.startVote(data)
+                voteModel.startVote(data)
                 io.to(data.channelId).emit(e.VOTES_START,data)
             })
 
             socket.on(e.WHITELIST_EDIT,async data=>{
-                await model.saveGameWhitelist(data)
-                let whitelist = await model.getEntireWhitelist(data.channelId)
+                await voteModel.saveGameWhitelist(data)
+                let whitelist = await voteModel.getEntireWhitelist(data.channelId)
                 io.to(data.channelId).emit(e.WHITELIST,whitelist)
             })
+            
+            socket.on(e.ADD_HEARTHSTONE_DECK, async data=>{
+                await gameModel.addHearthstoneDeck(data)
+                let decks = await gameModel.getHearthstoneDecks(data.channelId)
+                io.to(data.channelId).emit(e.HEARTHSTONE_DECKS,decks)
+            })
+            
         }
     });
 

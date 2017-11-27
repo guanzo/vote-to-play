@@ -2,6 +2,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 
+import gameApi from '@/api/game'
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
@@ -14,7 +15,7 @@ const hearthstone = _.merge({
         candidateNomenclature: 'class',
         className: 'hearthstone',
         maxVoteResults: 3,
-        showNameInGrid: false,
+        showNameInGrid: true,
         candidates: [
              {
                 name: "Druid",
@@ -71,14 +72,23 @@ const hearthstone = _.merge({
                 imgSplash: cl.url('hearthstone/splash/Warrior_splash.jpg')
             }
         ],
+        decks:[],
         filters:[]
     },
     mutations:{//ensure it conforms to game module expected properties
         [MUTATIONS.SET_CANDIDATES](){},
-        
+        [MUTATIONS.SET_HEARTHSTONE_DECKS](state, decks){
+            state.decks = decks
+        }
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES](){}
+        [ACTIONS.GET_CANDIDATES](){},
+        [ACTIONS.ADD_HEARTHSTONE_DECK]({rootState},deck){
+            gameApi.addHearthstoneDeck({
+                channelId: rootState.channelId, 
+                deck
+            })
+        }
     },
     getters:{//no op
         filteredCandidates: state=>state.candidates,

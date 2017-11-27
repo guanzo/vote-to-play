@@ -2,7 +2,7 @@
     
     <div class="whitelist-controls field is-grouped is-grouped-multiline">
         <slot>
-            <div></div><!-- spacing helper -->
+            <add-hearthstone-deck v-if="isHearthstone"></add-hearthstone-deck>
         </slot>
         <div class="buttons">
             <div class="help">{{ validationMsg }}</div>
@@ -21,7 +21,9 @@
 
 import { SAVE_GAME_WHITELIST } from '@/store/actions'
 import { delayPromise } from '@/util'
+import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
+import addHearthstoneDeck from './AddHearthstoneDeck'
 
 export default {
     name:'whitelist-controls',
@@ -40,6 +42,9 @@ export default {
         },
         tempWhitelistedNames(){
             return this.tempWhitelist.map(d=>d.name)
+        },
+        isHearthstone(){
+            return this.voteCategory == HEARTHSTONE
         }
     },
     methods:{
@@ -47,7 +52,6 @@ export default {
             this.$emit('cancel')
         },
         async onSaveGameWhitelist(){
-
             let gameWhitelist = {
                 voteCategory: this.voteCategory,
                 names: this.tempWhitelist
@@ -57,6 +61,9 @@ export default {
             await delayPromise(750)
             this.isLoading = false
         }
+    },
+    components:{
+        addHearthstoneDeck
     }
 }
 

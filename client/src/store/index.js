@@ -1,6 +1,7 @@
 import * as MUTATIONS from './mutations'
 import * as ACTIONS from './actions'
 
+import socket from '@/api/socket'
 import voteApi from '@/api/vote'
 import games from './modules/games/_main'
 
@@ -107,7 +108,7 @@ export const actions = {
     },
     [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
         commit(MUTATIONS.SET_AUTH, payload)
-        voteApi.connect(process.env.SERVER_URL, payload)
+        socket.connect(process.env.SERVER_URL, payload)
     },
 }
 

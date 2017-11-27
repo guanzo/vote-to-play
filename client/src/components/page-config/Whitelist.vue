@@ -34,7 +34,7 @@
         :hasUnsavedChanges="hasUnsavedChanges"
         @cancel="commit('removeUnsavedChanges')"
     >
-        <slot name="filters"></slot>
+        <slot name="controls"></slot>
     </whitelist-controls>
 </div>
 
@@ -79,7 +79,6 @@ export default {
         //set initial whitelist, && each time user saves whitelist
         whitelistedCandidates:{
             handler(whitelistedCandidates){
-                console.log(arguments)
                 this.commit('updateTempWhitelist',whitelistedCandidates)
             },
             immediate: true

@@ -6,7 +6,8 @@
                 :is="injectedComponent" 
                 v-bind="propsObj"
             >
-                <template slot="filters">
+
+                <template slot="controls">
                     <div v-for="filter in game.filters" class="control" :key="filter.id">
                         <input v-if="filter.type == 'text'" 
                                 v-model="filter.vmodel" 

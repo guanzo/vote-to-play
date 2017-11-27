@@ -26,7 +26,7 @@
                 :class="isInvisible" 
                 @submitVote="startSplashTransition"
             >
-                <slot name="filters"></slot>
+                <slot name="controls"></slot>
             </VoterControls> 
         </div>
     </transition>
