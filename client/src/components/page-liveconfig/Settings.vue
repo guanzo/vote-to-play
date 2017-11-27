@@ -165,7 +165,7 @@ export default {
 <style lang="scss">
 
 .live-config-settings {
-    height: 100%;
+    min-height: 100%;
     .vote-category, .vote-mode{
         min-width: 150px;
         
