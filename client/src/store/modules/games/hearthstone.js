@@ -2,11 +2,12 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 
+export const NAMESPACE = 'Hearthstone'
+
 import gameApi from '@/api/game'
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
 
-export const NAMESPACE = 'Hearthstone'
 //name and title are reversed b/c ppl refer to them by "class" and not actual "name"
 const hearthstone = _.merge({
     namespaced: true,

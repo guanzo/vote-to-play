@@ -243,6 +243,7 @@ General rules:
     .whitelist .image-wrapper{
         @include scale-img-size($w,$h,1.25);
     }
+    
 }
 .heroes-of-the-storm{
     //original 75x75

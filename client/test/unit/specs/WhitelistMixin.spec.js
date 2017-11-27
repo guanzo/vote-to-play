@@ -60,7 +60,7 @@ describe('whitelistMixin',()=>{
                 let candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
                 let whitelistedNames = ['mirana','bob']
 
-                let result = getters.whitelistedCandidates({ candidates, whitelistedNames })
+                let result = getters.whitelistedCandidates({ whitelistedNames },{candidates})
 
                 expect(result).to.have.members(candidates.slice(1))
             })
