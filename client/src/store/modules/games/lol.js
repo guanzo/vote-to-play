@@ -60,6 +60,9 @@ const lol = _.merge({
         }
     },
     getters:{
+        candidates(state){
+            return state.candidates
+        },
         filteredCandidates({candidates, filters}){
             return candidates.filter(candidate=>{
                 let result = true;

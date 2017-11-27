@@ -85,7 +85,7 @@ export default {
         },
         voteCategory:{
             handler(){
-                this.commit('partition');
+                this.$store.dispatch(this.namespace+'/partition');
             },
             immediate: true
         },

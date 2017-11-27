@@ -24,10 +24,7 @@ export default {
             return this.TESTING.isSimulating
         },
         candidates(){
-            if(this.isAllGames)
-                return this.$store.getters[ALL_GAMES+'/candidates']
-            else
-                return this.game.candidates 
+            return this.$store.getters[this.namespace+'/candidates']
         },
         isAllGames(){
             return this.game.gameName == ALL_GAMES

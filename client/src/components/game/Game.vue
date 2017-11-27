@@ -65,14 +65,10 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        candidates(){ 
-            if(this.isAllGames)
-                return this.$store.getters[ALL_GAMES+'/candidates']
-            else
-                return this.game.candidates 
-            
-        },
         namespace() { return this.game.gameName   },
+        candidates(){ 
+            return this.$store.getters[this.namespace+'/candidates']
+        },
         propsObj(){
             let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']

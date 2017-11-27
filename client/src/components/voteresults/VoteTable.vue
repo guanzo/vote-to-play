@@ -36,16 +36,20 @@ export default {
         game(){
             return this.$store.getters.selectedGameModule
         },
+        namespace() { return this.game.gameName   },
+        candidates(){
+            return this.$store.getters[this.namespace+'/candidates']
+        },
         //no images for live config, or if vote category is all games
         displayImages(){
-            if(this.$route.path.includes('liveconfig') || this.game.gameName == ALL_GAMES)
+            if(this.$route.path.includes('liveconfig') || this.namespace == ALL_GAMES)
                 return false;
             return true
         }
     },
 	methods:{
         getCandidateImage(name){
-            let candidate = _.find(this.game.candidates,candidate=>{
+            let candidate = _.find(this.candidates,candidate=>{
                 return candidate.name.toLowerCase() == name.toLowerCase()
             })
             return candidate ? candidate.img : ''

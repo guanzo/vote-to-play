@@ -90,7 +90,11 @@ const hearthstone = _.merge({
             })
         }
     },
-    getters:{//no op
+    getters:{
+        candidates({candidates, decks}){
+            return [...candidates, ...decks]
+        },
+        //no op
         filteredCandidates: state=>state.candidates,
     }
 },whitelistMixin)
