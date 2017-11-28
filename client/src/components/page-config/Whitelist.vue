@@ -7,6 +7,7 @@
         :filteredCandidates="tempWhitelist"
         :showName="showName"
         :noResults="noResults"
+        :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
         class="whitelist-grid dark"
     ></candidate-grid>
@@ -25,6 +26,7 @@
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
         :showName="showName"
+        :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="candidate-grid dark m-b-25"
     ></candidate-grid>
@@ -124,6 +126,12 @@ export default {
             let msg = 'You have unsaved changes'
             e.returnValue = msg
             return msg
+        },//keep element in its original place when swapping between white/black lists
+        beforeLeave(el){
+            var computedStyle = window.getComputedStyle(el); 
+            var marginTop = parseInt(computedStyle.marginTop, 10);
+            el.style.top = (el.offsetTop - marginTop) + 'px'
+            el.style.left = el.offsetLeft + 'px'
         }
     },
     components:{
