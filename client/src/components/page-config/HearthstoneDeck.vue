@@ -91,17 +91,13 @@ export default {
             return this.deckClasses.includes(this.selectedDeckName)
         },//cannot create a duplicate deck, or have a deck with same class && name as an original class
         isDuplicate(){
-            let newDeck = this.newDeck;
-            let isExistingDeck = this.decks.find(deck=>{
-                return stringsAllEqual(deck.class,newDeck.class) && stringsAllEqual(deck.name, newDeck.name)
-            }) !== undefined
-            
-            let isOriginalClassDuplicate = this.originalClasses.find(className=>{
-                return stringsAllEqual(className, newDeck.class, newDeck.name)
+            let existingClasses = [...this.originalClasses, ...this.deckClasses]
+
+            let isExistingClass = existingClasses.find(className=>{
+                return stringsAllEqual(className, this.newDeck.name)
             }) !== undefined
 
-            return this.selectedDeckName == ADD_NEW_DECK 
-                && (isExistingDeck || isOriginalClassDuplicate)
+            return this.selectedDeckName == ADD_NEW_DECK && isExistingClass
         },
         newDeck(){
             return {
