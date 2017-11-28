@@ -1,8 +1,6 @@
 <template>
 
 <div class="whitelist">
-    {{ game.whitelistedNames.map(d=>d.name) }}
-    {{ whitelistedCandidates.map(d=>d.name) }}
     <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelist"

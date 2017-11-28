@@ -1,18 +1,18 @@
 import whitelistMixin,{ mutations,actions,  getters } from '@/store/modules/games/util/whitelistMixin'
 
 function mockCandidates(){
-    return [{ name: 'axe' },{ name: 'mirana' },{ name: 'toad' }]
+    return [{ name: 'axe' },{ name: 'mirana' },{ name: 'toad' },]
 }
 
 describe('whitelistMixin',()=>{
     describe('mutations',()=>{
 
-        let [axe,mirana,toad] = mockCandidates()
 
         it('swaps candidate between white/black list',()=>{
+            let [axe,mirana,toad] = mockCandidates()
             let state = {
                 tempWhitelist:[mirana],
-                tempBlacklist:[{name:'frog'}],
+                tempBlacklist:[toad],
             }
             let params = {
                 candidate: mirana,
@@ -21,9 +21,24 @@ describe('whitelistMixin',()=>{
             }
             mutations.swap(state,params)
             expect(state.tempWhitelist).to.not.include(mirana)
-            expect(state.tempBlacklist).to.include(mirana)
+            expect(state.tempBlacklist).to.have.members([mirana,toad])
+        })
+        it('swaps all candidates between white/black list',()=>{
+            let [axe,mirana,toad] = mockCandidates()
+            let state = {
+                tempWhitelist:[mirana,axe],
+                tempBlacklist:[toad],
+            }
+            let params = {
+                toArray: state.tempBlacklist,
+                fromArray: state.tempWhitelist
+            }
+            mutations.swapAll(state,params)
+            expect(state.tempWhitelist).to.be.empty
+            expect(state.tempBlacklist).to.have.members([axe,mirana,toad])
         })
         it('removes unsaved changes',()=>{
+            let [axe,mirana,toad] = mockCandidates()
             let state = {
                 whitelistedNames:['axe','toad'],
                 tempWhitelist:[axe,mirana],
