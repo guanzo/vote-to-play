@@ -11,7 +11,7 @@
         class="whitelist-grid dark"
     ></candidate-grid>
 
-    <div class="whitelist-tools has-text-centered m-t-15 m-b-15">
+    <div class="whitelist-tools flex-center m-t-15 m-b-15">
         <hr>
         <div>
             <div @click="swapAll(tempWhitelist,tempBlacklist)" class="icon-angle-double-up is-size-1"></div>
@@ -145,13 +145,11 @@ export default {
         transition: .5s;
     }
     .whitelist-tools{
-        display: flex;
-        align-items: center;
         > * {
             flex: 1 1 30%;
         }
         hr {
-            margin: 1rem 0;
+            margin: 0;
         }
         div {
             display: flex;

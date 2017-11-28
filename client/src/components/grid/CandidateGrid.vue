@@ -24,12 +24,14 @@
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
+import test from './test'
 /**
  * candidates may or may not be filterable
  */
 export default {
     name:'candidate-grid',
-    mixins:[smoothHeight],
+    //mixins:[smoothHeight],
+    mixins:[test],
     props:{
         candidates: Array,
         filteredCandidates: Array,
@@ -63,6 +65,8 @@ export default {
                     ? 'filtered-in': 'filtered-out'
         },//keep element in its original place
         beforeLeave(el){
+            //console.log(el)
+            return;
             var computedStyle = window.getComputedStyle(el); 
             var marginTop = parseInt(computedStyle.marginTop, 10);
             el.style.top = (el.offsetTop - marginTop) + 'px'

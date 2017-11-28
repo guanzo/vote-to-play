@@ -96,7 +96,7 @@ export default {
         namespace(){
             this.fetchCandidates()
         },
-        'game.filters.0.vmodel'(query){
+        'game.filters.0.vmodel'(query = ''){
             query = query.trim()
             if(this.isAllGames && query.length > 0)
                 this.$store.dispatch(this.namespace+'/searchGames',query)
