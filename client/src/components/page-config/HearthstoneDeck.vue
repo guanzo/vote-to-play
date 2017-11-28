@@ -136,7 +136,6 @@ export default {
             this.isLoading = true
             await delayPromise(750)
             this.isLoading = false
-
         },
         resetSelectedDeck(){
             this.selectedDeckName = ADD_NEW_DECK

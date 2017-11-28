@@ -9,11 +9,7 @@
             <vote-results></vote-results>
         </tab>
     </tabs>
-    <div v-if="informHearthstone" class="notification is-info">
-        <button @click="onClose" class="delete"></button>
-        <strong>Playing Hearthstone?</strong>
-        <div>You can add custom decks in the extension settings.</div>
-    </div>
+    <heartstone-notification></heartstone-notification>
 </div>
 </template>
 
@@ -23,45 +19,18 @@ import voteInfo from './VoteInfo'
 import voteResults from '@/components/voteresults/VoteResults'
 import tabs from '@/components/util/tabs/Tabs'
 import tab from '@/components/util/tabs/Tab'
+import heartstoneNotification from './HearthstoneNotification'
 
-import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
-const informedHearthstoneCustomization = 'informedHearthstoneCustomization'
 
 export default {
     name: 'live-config',
-    data(){
-        return {
-            informHearthstone: false
-        }
-    },
-    computed:{
-        ...Vuex.mapState(['selectedGame']),
-    },
-    watch:{
-        selectedGame(){
-            if(this.selectedGame == HEARTHSTONE)
-                this.informHearthstoneCustomization()
-        }
-    },
-    methods:{
-        informHearthstoneCustomization(){
-            var hasInformed = localStorage.getItem(informedHearthstoneCustomization)
-            if(hasInformed)
-                return;
-            this.informHearthstone = true;
-            
-        },
-        onClose(){
-            this.informHearthstone = false;
-            localStorage.setItem(informedHearthstoneCustomization,true)
-        }
-    },
     components:{
         settings,
         voteInfo,
         voteResults,
         tabs,
-        tab
+        tab,
+        heartstoneNotification
     }
 }
 </script>
@@ -76,6 +45,9 @@ export default {
     position: relative;
     /deep/ .tabs{
         margin-bottom: 1rem;
+    }
+    .tab-wrapper{
+        min-height: 100%;
     }
     .notification{
         position: absolute;

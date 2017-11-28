@@ -36,7 +36,7 @@ module.exports = (server) => {
             socket.emit(e.VOTES,channel.currentVote)
             socket.emit(e.WHITELIST,channel.whitelist)
 
-            if(channel.hearthstoneDecks)
+            if(channel.hasOwnProperty('hearthstoneDecks'))
                 socket.emit(e.HEARTHSTONE_DECKS,channel.hearthstoneDecks)
         })
     

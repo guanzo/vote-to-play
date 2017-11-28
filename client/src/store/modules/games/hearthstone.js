@@ -88,20 +88,40 @@ const hearthstone = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES](){},
-        [ACTIONS.SET_HEARTHSTONE_DECKS]({rootState},decks){
-            
+        [ACTIONS.SET_HEARTHSTONE_DECKS]({dispatch,rootState},decks){
             //strip unnecessary properties
             decks = decks.map(d=>_.pick(d,'class','name'))
-
             gameApi.addHearthstoneDeck({
                 channelId: rootState.channelId, 
                 decks
             })
+            dispatch('ensureWhitelistInSync',decks)
+        },//User may delete a deck that's in the whitelist. If so, update whitelist
+        ensureWhitelistInSync({state, dispatch},decks){
+            let { candidates, whitelistedNames } = state
+            let originalClasses = candidates.map(d=>d.name)
+            let deckClasses = decks.map(d=>d.name)
+
+            let validWhitelistNames = _.intersection(whitelistedNames,
+                    [...originalClasses, ...deckClasses])
+            
+            if(validWhitelistNames.length == whitelistedNames.length)
+                return;
+
+            let gameWhitelist = {
+                voteCategory: NAMESPACE,
+                names: validWhitelistNames.map(d=>({name:d}))
+            }
+            dispatch(ACTIONS.SAVE_GAME_WHITELIST, gameWhitelist,{ root: true } )
+
         }
     },
     getters:{
         candidates({candidates, decks}){
             return [...candidates, ...decks]
+        },
+        hasCustomDecks({ decks }){
+            return decks.length > 0
         },
         //no op
         filteredCandidates: (state,getters)=>getters.candidates,

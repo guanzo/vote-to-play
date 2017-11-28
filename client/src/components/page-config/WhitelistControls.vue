@@ -5,7 +5,7 @@
             <hearthstone-deck v-if="isHearthstone"></hearthstone-deck>
         </slot>
         <div class="buttons">
-            <div class="help">{{ validationMsg }}</div>
+            <div class="help m-b-5">{{ validationMsg }}</div>
             <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
             <button @click="onSaveGameWhitelist" 
                 :class="[validationColor, {'is-loading':isLoading}]" 
@@ -39,9 +39,6 @@ export default {
         },
         validationMsg(){
             return this.hasUnsavedChanges ? 'You have unsaved changes' : ''
-        },
-        tempWhitelistedNames(){
-            return this.tempWhitelist.map(d=>d.name)
         },
         isHearthstone(){
             return this.voteCategory == HEARTHSTONE
