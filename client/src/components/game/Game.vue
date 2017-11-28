@@ -97,7 +97,8 @@ export default {
             this.fetchCandidates()
         },
         'game.filters.0.vmodel'(query){
-            if(this.isAllGames)
+            query = query.trim()
+            if(this.isAllGames && query.length > 0)
                 this.$store.dispatch(this.namespace+'/searchGames',query)
         }, 
     },

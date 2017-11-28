@@ -1,6 +1,8 @@
 <template>
 
 <div class="whitelist">
+    {{ game.whitelistedNames.map(d=>d.name) }}
+    {{ whitelistedCandidates.map(d=>d.name) }}
     <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success"></span></h5>
     <candidate-grid 
         :candidates="tempWhitelist"
@@ -95,7 +97,12 @@ export default {
         //all games && hearthstone compatibility
         'candidates'(candidates){
             this.$store.dispatch(this.namespace+'/partition');
-        }
+        },
+        //all games compatibility
+        /* 'game.searchedGames'(){
+            let candidates = this.$store.getters[this.namespace+'/candidates']
+            this.commit('updateTempBlacklist',candidates)
+        } */
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))

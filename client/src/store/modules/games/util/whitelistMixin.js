@@ -7,8 +7,8 @@ export const state = {
 
 export const mutations = {
     partition(state,{ tempWhitelist, tempBlacklist }){
-        state.tempWhitelist = tempWhitelist
-        state.tempBlacklist = tempBlacklist
+        state.tempWhitelist = [...tempWhitelist]
+        state.tempBlacklist = [...tempBlacklist]
     },
     updateTempWhitelist(state,candidates){
         state.tempWhitelist = [...candidates]

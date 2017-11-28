@@ -26,7 +26,10 @@ let modifiedMixin = _.merge({},whitelistMixin,
                 })
                 state.tempWhitelist.push(...removed)
                 processArrays(state.tempWhitelist,state.tempBlacklist)
-            }
+            },
+            updateTempBlacklist(state,candidates){
+                state.tempBlacklist = [...candidates]
+            },
         },
         actions:{
             partition({commit, state, getters}){
@@ -108,11 +111,11 @@ const allGames = _.merge({
         
     },
     getters:{
-        candidates(state, {gameQuery}){
-            return gameQuery.length ? state.searchedGames : state.topGames
+        candidates(state, {searchGamesQuery}){
+            return searchGamesQuery.length ? state.searchedGames : state.topGames
         },
-        gameQuery(state){
-            return state.filters[0].vmodel
+        searchGamesQuery(state){
+            return state.filters[0].vmodel.trim()
         },
         filteredCandidates(state,getters){
             return getters.candidates

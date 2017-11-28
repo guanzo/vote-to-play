@@ -118,7 +118,7 @@ const hearthstone = _.merge({
     },
     getters:{
         candidates({candidates, decks}){
-            return [...candidates, ...decks]
+            return _.sortBy([...candidates, ...decks],'name')
         },
         hasCustomDecks({ decks }){
             return decks.length > 0
