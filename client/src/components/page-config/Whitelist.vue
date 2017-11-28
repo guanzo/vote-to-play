@@ -128,8 +128,8 @@ export default {
             return msg
         },//keep element in its original place when swapping between white/black lists
         beforeLeave(el){
-            var computedStyle = window.getComputedStyle(el); 
-            var marginTop = parseInt(computedStyle.marginTop, 10);
+            //getComputedStyle has low performance
+            let marginTop = 2;
             el.style.top = (el.offsetTop - marginTop) + 'px'
             el.style.left = el.offsetLeft + 'px'
         }
