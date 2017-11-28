@@ -10,7 +10,7 @@
                 <template slot="controls">
                     <div v-for="filter in game.filters" class="control" :key="filter.id">
                         <input v-if="filter.type == 'text'" 
-                                v-model="filter.vmodel" 
+                                v-model.trim="filter.vmodel" 
                                 :placeholder="filter.placeholder"
                                 class="input" 
                                 maxlength="50"
@@ -97,7 +97,6 @@ export default {
             this.fetchCandidates()
         },
         'game.filters.0.vmodel'(query = ''){
-            query = query.trim()
             if(this.isAllGames && query.length > 0)
                 this.$store.dispatch(this.namespace+'/searchGames',query)
         }, 

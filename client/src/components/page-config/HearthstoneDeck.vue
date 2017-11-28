@@ -29,7 +29,7 @@
                 <div class="control">
                     <input class="input" 
                         required
-                        v-model="deckName" 
+                        v-model.trim="deckName" 
                         placeholder="Deck name"
                         maxlength="50"
                     >

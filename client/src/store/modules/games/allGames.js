@@ -115,7 +115,7 @@ const allGames = _.merge({
             return searchGamesQuery.length ? state.searchedGames : state.topGames
         },
         searchGamesQuery(state){
-            return state.filters[0].vmodel.trim()
+            return state.filters[0].vmodel
         },
         filteredCandidates(state,getters){
             return getters.candidates
