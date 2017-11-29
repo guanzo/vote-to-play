@@ -75,7 +75,8 @@ export default {
     .logo {
         opacity: 0;
     }
-    &:hover .logo, .logo.reveal{
+    &:hover .logo, 
+    .logo.reveal{
         opacity: 1;
     }
 }

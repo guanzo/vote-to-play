@@ -9,7 +9,13 @@ if(!inIframe() && process.env.NODE_ENV == 'development'){
     let role = 'broadcaster'
     store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
 }
-window.Twitch.ext.onAuthorized(async function (auth) {
+
+var authed = false;
+window.Twitch.ext.onAuthorized(async function(auth) {
+    if(authed){
+        return;
+    }
+    authed = true;
     //adds token to every request sent thru axios
     var parts = auth.token.split(".");
     var payload = JSON.parse(window.atob(parts[1]));

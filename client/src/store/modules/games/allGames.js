@@ -32,11 +32,16 @@ let modifiedMixin = _.merge({},whitelistMixin,
             },
         },
         actions:{
+            //called on every game search, don't overwrite current tempWhitelist
             partition({commit, state, getters}){
-                commit('partition',{
-                    tempWhitelist: state.whitelistedNames,
+                var partition = {
                     tempBlacklist: getters.candidates
-                }) 
+                }
+                if(!state.tempWhitelist.length)
+                    partition.tempWhitelist = state.whitelistedNames
+                else
+                    partition.tempWhitelist = state.tempWhitelist
+                commit('partition',partition) 
             },
         },
         getters:{

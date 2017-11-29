@@ -48,6 +48,8 @@ export default {
     cursor: pointer;
     .image-wrapper{
         position: relative;
+        //placeholder until image loads
+        background-image: linear-gradient(45deg, lightgray, #e6e6e6);
     }
     .candidate-name {
         max-width: 100%;

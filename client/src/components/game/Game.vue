@@ -144,8 +144,8 @@ export default {
     }
 }
 /**
-Base dimensions are set for the viewer/voter components.
-Depending on the view, these dimensions are scaled from the base.
+Base img dimensions are targeted towards the viewer route.
+Depending on the route, these dimensions are scaled from the base.
 
 General rules:
 -Vertical images must be scaled down considerably in .voter-header and .vote-results
@@ -162,15 +162,11 @@ General rules:
     
     $w: 72px;
     $h: 100px;
-    img {
-        width: 100%;
-        height: auto;
+    .image-wrapper{
+        @include scale-img-size($w,$h);
     }
     .voter-header .image-wrapper{
         @include scale-img-size($w,$h,.75);
-    }
-    .image-wrapper{
-        @include scale-img-size($w,$h);
     }
     .vote-form{
         overflow: hidden;
@@ -239,11 +235,7 @@ General rules:
     }
     .vote-results .image-wrapper {
         @include scale-img-size($w,$h,.4);
-    }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.25);
-    }
-    
+    }    
 }
 .heroes-of-the-storm{
     //original 75x75
