@@ -12,7 +12,7 @@
         class="whitelist-grid dark"
     ></candidate-grid>
 
-    <div class="whitelist-tools flex-center m-t-15 m-b-15">
+    <div class="whitelist-tools flex-center m-t-10 m-b-10">
         <hr>
         <div>
             <div @click="swapAll(tempWhitelist,tempBlacklist)" class="icon-angle-double-up is-size-1"></div>

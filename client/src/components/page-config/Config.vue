@@ -1,6 +1,8 @@
 <template>
 	<div class="config">
         <h3 class="title">Thanks for installing Vote to Play!</h3>
+        <p>If you would like to suggest any features, please feel free to email me.</p>
+        <h3 class="title is-4">Usage</h3>
         <p>
             If you want viewers to vote on game characters, make sure you set the game in your stream information.<br>
             For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch, and click <example v-html="startVoteExample"></example>
@@ -11,9 +13,8 @@
             under <example class="tag is-medium"><b>Vote Category</b></example>, and click <example v-html="startVoteExample"></example>
         </p>
         <p>You can do all this on your Live Dashboard.</p>
+        <p><b>Tip:</b> When you update the game on Twitch, a new vote automatically starts.</p>
         <p>Remember, you also get to vote!</p>
-        <p>If you would like to suggest any features, please feel free to email me.</p>
-
         <h3 class="title is-4">Settings</h3>
         <p>By default, viewers can vote on any candidate in the pool.<br>If you want viewers to vote only on specific candidates, you can configure that here. Make sure to save your changes.</p>
         <p>You can toggle between 
