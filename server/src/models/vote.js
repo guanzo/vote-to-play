@@ -106,19 +106,14 @@ module.exports = {
     //saves whitelist for a specific voteCategory
     saveGameWhitelist({channelId,gameWhitelist}){
         var channels = db.get().collection('channels')
-        let { voteCategory, names } = gameWhitelist
-
+		let { voteCategory, names } = gameWhitelist
+		
         let upsert = {
             $set: { 
                 [`whitelist.${voteCategory}`]: names
             },
-            $setOnInsert: {
-                whitelist:{
-                    [voteCategory]: names
-                }
-            }
         }
-        return channels.updateOne({ channelId }, upsert, { upsert: true })
+        return channels.updateOne({ channelId }, upsert)
     },
 }
 

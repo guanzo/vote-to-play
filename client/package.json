@@ -1,5 +1,5 @@
 {
-  "name": "votetoplay",
+  "name": "votetoplay-client",
   "version": "1.4.0",
   "description": "A twitch extension that allows viewers to vote",
   "author": "eric guan <guanzo91@gmail.com>",

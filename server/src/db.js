@@ -15,6 +15,7 @@ exports.connect = function(url = productionUrl) {
 
     return MongoClient.connect(url)
         .then(db=>{
+            
             state.db = db
         })
         .catch((err)=>{
