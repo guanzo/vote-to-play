@@ -108,12 +108,12 @@ module.exports = {
         var channels = db.get().collection('channels')
 		let { voteCategory, names } = gameWhitelist
 		
-        let upsert = {
+        let update = {
             $set: { 
                 [`whitelist.${voteCategory}`]: names
-            },
+            }
         }
-        return channels.updateOne({ channelId }, upsert)
+        return channels.updateOne({ channelId }, update)
     },
 }
 
