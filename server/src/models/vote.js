@@ -112,7 +112,7 @@ module.exports = {
             $set: { 
                 [`whitelist.${voteCategory}`]: names
             }
-        }
+		}
         return channels.updateOne({ channelId }, update)
     },
 }

@@ -31,7 +31,6 @@ module.exports = (server) => {
         socket.on(e.CHANNELS_JOIN,async data=>{
             let { channelId } = data
             socket.join(channelId)
-
             let channel = await voteModel.getChannel(data)
             socket.emit(e.VOTES,channel.currentVote)
             socket.emit(e.WHITELIST,channel.whitelist)
@@ -54,8 +53,8 @@ module.exports = (server) => {
             socket.on(e.VOTES_START,data=>{
                 voteModel.startVote(data)
                 io.to(data.channelId).emit(e.VOTES_START,data)
-            })
-
+			})
+			
             socket.on(e.WHITELIST_EDIT,async data=>{
                 await voteModel.saveGameWhitelist(data)
                 let whitelist = await voteModel.getEntireWhitelist(data.channelId)

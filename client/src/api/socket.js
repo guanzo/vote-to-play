@@ -12,8 +12,10 @@ export default {
         vote.setListeners()
         game.setListeners()
 
-        socket.emit(e.CHANNELS_JOIN,data)
-
+		socket.on('connect',()=>{
+			socket.emit(e.CHANNELS_JOIN,data)
+		})
+		
         socket.on('error',console.error)
     },
     get(){
