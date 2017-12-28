@@ -46,8 +46,6 @@ export default {
             store.commit(MUTATIONS.SET_WHITELIST, whitelist )
         })
     
-        
-    
     }
 }
 

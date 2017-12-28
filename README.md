@@ -5,3 +5,11 @@ For variety streamers, viewers can also vote on any Twitch supported game.
 
 
 Have a game suggestion? Leave a comment!
+
+
+### Features
+
+* Voting
+* Multiple voting modes
+* Whitelisting votable candidates
+

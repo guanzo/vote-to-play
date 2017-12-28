@@ -33,7 +33,6 @@
         </div>
         
         <div class="box">
-        
             <game-master 
                 v-if="voteCategory" 
                 :injectedComponent="whitelist" 

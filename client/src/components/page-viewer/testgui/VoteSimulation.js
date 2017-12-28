@@ -30,7 +30,7 @@ export default {
         whitelistedCandidates(){
             return this.$store.getters[this.game.gameName+'/whitelistedCandidates']
         },
-        voteableCandidates(){
+        votableCandidates(){
             if(this.voteMode == VOTE_MODE_VIEWER)
                 return this.candidates
             else
@@ -61,16 +61,16 @@ export default {
     },
     methods:{
         simulateVotes(){
-            if(this.voteableCandidates.length == 0)
+            if(this.votableCandidates.length == 0)
                 return;
 
             let votes = this.maxSimulationVotes
-            let candidatePool = Math.min(25, this.voteableCandidates.length);
+            let candidatePool = Math.min(25, this.votableCandidates.length);
             let intervalID = setInterval(()=>{
 
                 let userId = this.randomIntFromInterval(0, 100000)
                 let candidateIndex = this.randomIntFromInterval(0, candidatePool-1)
-                let candidateName = this.voteableCandidates[candidateIndex].name
+                let candidateName = this.votableCandidates[candidateIndex].name
                 this.$store.dispatch(VOTE, { vote: candidateName, userId  })
                 
             },500)

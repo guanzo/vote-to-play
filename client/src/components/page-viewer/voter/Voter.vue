@@ -16,7 +16,7 @@
             ></VoterHeader>
             <CandidateGrid 
                 v-bind="$attrs"
-                :candidates="voteableCandidates"
+                :candidates="votableCandidates"
                 :class="[isInvisible, 'candidate-grid light']"
             ></CandidateGrid>
             <VoterControls
@@ -72,7 +72,7 @@ export default {
         isInvisible(){
             return { 'invisible': this.splashTransition.hideVoteUI }
         },
-        voteableCandidates(){
+        votableCandidates(){
             if(this.voteMode == VOTE_MODE_VIEWER)
                 return this.candidates
             else

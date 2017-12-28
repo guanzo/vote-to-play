@@ -43,7 +43,7 @@ import { delayPromise } from '@/util'
  * Generic component that serves all supported games.
  * 
  * voteCategory is either fed by
- * -Viewer: streamer is changing game
+ * -Viewer: set by the streamer's selected game in dashboard
  * -Config: streamer is configuring whitelist
  * 
  * injected Component is either
@@ -173,7 +173,7 @@ General rules:
         flex: 1; //ensure always full width, so the div doesn't jump around when querying
     }
     .candidate{
-        max-width: 72px;
+        max-width: $w;
         font-size: 12px;
         margin: 3px;
     }
@@ -277,6 +277,27 @@ General rules:
     }
     select{
         text-transform: capitalize;
+    }
+}
+.world-of-tanks{
+    //160x100 original
+    $w: 80px;
+    $h: 50px;
+    .image-wrapper{
+        @include scale-img-size($w,$h);
+    }
+    .voter-header .image-wrapper{
+        @include scale-img-size($w,$h,.85);
+    }
+    .vote-results .image-wrapper {
+        @include scale-img-size($w,$h,.85);
+    }
+    .whitelist .image-wrapper{
+        @include scale-img-size($w,$h);
+    }
+    .candidate{
+        max-width: $w;
+        font-size: .85rem;
     }
 }
 

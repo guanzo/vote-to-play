@@ -27,7 +27,7 @@ module.exports = (server) => {
     io.on('connection', async (socket)=>{
         
         var query = socket.handshake.query
-        /** 1.5 events */
+        
         socket.on(e.CHANNELS_JOIN,async data=>{
             let { channelId } = data
             socket.join(channelId)
@@ -37,8 +37,8 @@ module.exports = (server) => {
 
             if(channel.hasOwnProperty('hearthstoneDecks'))
                 socket.emit(e.HEARTHSTONE_DECKS,channel.hearthstoneDecks)
-        })
-    
+		})
+		
         socket.on(e.VOTES_ADD,async data=>{
             let result = await voteModel.addVote(data)
             if(result.modifiedCount == 0)

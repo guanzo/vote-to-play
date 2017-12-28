@@ -34,6 +34,8 @@ const dota = _.merge({
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
             state.candidates = candidates
+        },
+        [MUTATIONS.SET_FILTERS](state, { candidates }){
             let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
@@ -53,6 +55,7 @@ const dota = _.merge({
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
+                commit(MUTATIONS.SET_FILTERS,{ candidates })
             })
         }
     },

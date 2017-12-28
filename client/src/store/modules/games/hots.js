@@ -44,12 +44,14 @@ const hots = _.merge({
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state, { candidates }){
             state.candidates = candidates
+        },
+        [MUTATIONS.SET_FILTERS](state, { candidates }){
             let roles = _(candidates).map(d=>d.Group).uniq().sort().value()
             state.filters[1].options.push(...roles)
-            let roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
+			console.log(roles)
+			let roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
             state.filters[2].options.push(...roles2)
         },
-        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
@@ -62,6 +64,7 @@ const hots = _.merge({
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
+                commit(MUTATIONS.SET_FILTERS,{ candidates })
             })
         }
     },

@@ -9,6 +9,7 @@ import hearthstone, { NAMESPACE as NS_HS }      from './hearthstone'
 import hots,        { NAMESPACE as NS_HOTS }    from './hots'
 import lol,         { NAMESPACE as NS_LOL }     from './lol'
 import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
+import wot,   		{ NAMESPACE as NS_WOT }     from './wot'
 
 export const mutations = {
     [MUTATIONS.SET_WHITELIST](state, whitelist){
@@ -60,6 +61,7 @@ export default {
         [NS_HOTS]:  hots,
         [NS_LOL]:   lol,
         [NS_OW]:    overwatch,
+        [NS_WOT]:   wot,
     },
     mutations,
     actions,

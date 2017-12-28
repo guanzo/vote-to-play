@@ -6,7 +6,7 @@
         name="grid" 
         @before-leave="beforeLeave"
     >
-        <candidate v-for="(candidate,i) in candidates"
+        <candidate v-for="candidate in candidates"
             :candidate="candidate"
             :showName="showName"
             @click.native="selectCandidate(candidate)"
