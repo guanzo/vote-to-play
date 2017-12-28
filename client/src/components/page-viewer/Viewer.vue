@@ -97,6 +97,7 @@ $header-element-size: 35px;
     flex-direction: column;
     .viewer-header{
         height: $header-element-size;
+        min-height: $header-element-size;
         margin-bottom: 15px;
         display: flex;
         justify-content: flex-end;
