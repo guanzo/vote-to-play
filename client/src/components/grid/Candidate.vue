@@ -5,7 +5,7 @@
         <div class="image-wrapper">
             <img :src="candidate.img" :alt="candidate.name">
         </div>
-        <div v-if="showName" class="candidate-name">
+        <div v-if="showNameInGrid" class="candidate-name">
             <div ref="name" class="ellipsis">{{ candidate.name }}</div>
         </div>
     </div>
@@ -15,7 +15,7 @@
 
 export default {
     name:'candidate',
-    props:['candidate','showName'],
+    props:['candidate','showNameInGrid'],
     data:()=>({
         title:''
     }),
@@ -36,7 +36,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 
 .candidate {
     position: relative;

@@ -6,9 +6,9 @@
         name="grid" 
         @before-leave="beforeLeave"
     >
-        <candidate v-for="candidate in candidates"
+        <candidate v-for="candidate in candidatesToShow"
             :candidate="candidate"
-            :showName="showName"
+            :showNameInGrid="showNameInGrid"
             @click.native="selectCandidate(candidate)"
             :class="filterClass(candidate)" 
             :key="candidate.name"
@@ -27,6 +27,13 @@ import smoothHeight from 'vue-smooth-height'
 /**
  * candidates may or may not be filterable
  */
+
+//2 filtering modes
+//highlight: leaves non-matched candidates in place, but darkens them
+const FILTER_MODE_HIGHLIGHT = 'highlight'
+//remove: removes non-matched candidates
+const FILTER_MODE_REMOVE = 'remove'
+
 export default {
     name:'candidate-grid',
     mixins:[smoothHeight],
@@ -34,11 +41,15 @@ export default {
         candidates: Array,
         filteredCandidates: Array,
         whitelist: Array,
-        showName: Boolean,
+		showNameInGrid: Boolean,
+		filterMode:{
+			type: String,
+			default: FILTER_MODE_HIGHLIGHT
+		},
         noResults: {
             type: String,
             default: 'No Results'
-        },
+        },//implemented by whitelist
         beforeLeave: {
             type: Function,
             default(){}//no op
@@ -47,7 +58,12 @@ export default {
     computed:{
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
-        },
+		},
+		candidatesToShow(){
+			return this.filterMode === FILTER_MODE_HIGHLIGHT 
+					? this.candidates 
+					: this.filteredCandidates
+		}
     },
     mounted(){
         this.$registerElement({
@@ -61,7 +77,7 @@ export default {
             this.$emit('selectCandidate',candidate)
         },
         filterClass(candidate){
-            if(!this.hasActiveFilter)
+            if(!this.hasActiveFilter || this.filterMode !== FILTER_MODE_HIGHLIGHT)
                 return ''
             return this.filteredCandidates.find(d=>d.name == candidate.name)
                     ? 'filtered-in': 'filtered-out'

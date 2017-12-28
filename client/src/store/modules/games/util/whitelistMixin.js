@@ -43,7 +43,8 @@ export const actions = {
         let partition = _.partition(getters.candidates,
             candidate=>{
                 return state.whitelistedNames.includes(candidate.name)
-            })
+			})
+		console.log(partition)
         commit('partition',{
             tempWhitelist: partition[0],
             tempBlacklist: partition[1]

@@ -1,2 +1,42 @@
+// Place your settings in this file to overwrite the default settings
 {
+	"files.autoSave": "afterDelay",
+    "workbench.iconTheme": "vscode-icons",
+    "vsicons.projectDetection.autoReload": true,
+    "editor.renderWhitespace": "none",
+    "files.exclude": {
+        "**/node_modules/": true,
+        "client/.postcssrc.js": true,
+        "**/package-lock.json": true,
+        "**/.gitignore": true,
+        "client/dist": true,
+        "screenshots": true,
+        "**/.eslintrc": true
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/bundle.js": true,
+        "**/tmp": true,
+        "**/*.js.map": true,
+        "client/public/static/js/lib":true,
+        "client/build": true,
+        "client/test": true,
+        "client/static": true,
+        "server/public": true,
+        "package-lock.json": true
+    },
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "window.reopenFolders": "all",
+    "editor.minimap.enabled": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "window.zoomLevel": 0,
+    "eslint.options": { 
+        "configFile": "./.eslintrc.json" 
+    },
+    "eslint.workingDirectories": [
+        "./server"
+    ],
+	"editor.insertSpaces": false
 }

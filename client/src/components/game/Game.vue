@@ -72,12 +72,14 @@ export default {
         propsObj(){
             let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
-            let filteredCandidates = getters[this.namespace+'/filteredCandidates']
+			let filteredCandidates = getters[this.namespace+'/filteredCandidates']
+			let { showNameInGrid, filterMode } = this.game
             return {
                 candidates: this.candidates,
                 filteredCandidates,
                 whitelistedCandidates,
-                showName: this.game.showNameInGrid,
+				showNameInGrid,
+				filterMode,
                 voteCategory: this.voteCategory
             }
         },
@@ -294,6 +296,9 @@ General rules:
     }
     .whitelist .image-wrapper{
         @include scale-img-size($w,$h);
+    }
+    .splash-img-container img.splash-img{
+        object-fit: contain;
     }
     .candidate{
         max-width: $w;

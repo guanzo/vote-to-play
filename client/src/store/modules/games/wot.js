@@ -2,16 +2,9 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 
-
 export const NAMESPACE = 'World of Tanks'
 
-//world of tanks api key
-const APP_ID = '6c5d8b04c80f28bb3f65de25d9d6ff0e'
-const API_URL = `https://api.worldoftanks.com/wot/encyclopedia/vehicles/`
-const IMG_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'
-const IMG_SPLASH_BASE_URL = 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'
-
-const wot = _.merge({
+const worldoftanks = _.merge({
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -19,7 +12,8 @@ const wot = _.merge({
         className: 'world-of-tanks',
         maxVoteResults: 5,
         showNameInGrid: true,
-        candidates: [],
+		candidates: [],
+		filterMode:'remove',
         filters:[
             {
                 id:'name',
@@ -28,11 +22,27 @@ const wot = _.merge({
                 placeholder: 'Search tank name'
             },
             {
-                id:'role',
+                id:'tier',
                 type: 'select',
-                vmodel:'Role',
+                vmodel:'Tier',
                 options:[
-                    'Role'
+                    'Tier'
+                ]
+            },
+            {
+                id:'nation',
+                type: 'select',
+                vmodel:'Nation',
+                options:[
+                    'Nation'
+                ]
+            },
+            {
+                id:'type',
+                type: 'select',
+                vmodel:'Type',
+                options:[
+                    'Type'
                 ]
             }
         ]
@@ -42,27 +52,24 @@ const wot = _.merge({
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
-            state.filters[1].options.push(...roles)
+            let tiers = _(candidates).map(d=>d.tier).uniq().sort((a,b)=>a-b).value()
+            state.filters[1].options.push(...tiers)
+            let nations = _(candidates).map(d=>d.nation).uniq().sort().value()
+            state.filters[2].options.push(...nations)
+            let types = _(candidates).map(d=>d.type).uniq().sort().value()
+            state.filters[3].options.push(...types)
         },
         
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES]({commit}){
-            return axios.get(API_URL,{
-				params:{
-					application_id: APP_ID,
-					fields:'name,nation,short_name,tag,tank_id,tier,type,images.big_icon,images.small_icon',
-					page_no: 1
-				}
-			})
+        [ACTIONS.GET_CANDIDATES]({rootState, commit}){
+			return axios.get(process.env.SERVER_URL+'/api/worldoftanks',{
+                headers:{
+                    'Authorization': rootState.token,
+                }
+            })
             .then((response)=>{
-                let candidates = _(response.data.data).map((val)=>{
-                    val.name = val.short_name;
-                    val.img = val.images.big_icon;
-                    val.imgSplash = val.images.big_icon;
-                    return val
-                }).sortBy('name').value()
+                let candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
                 commit(MUTATIONS.SET_FILTERS,{ candidates })
             })
@@ -73,17 +80,33 @@ const wot = _.merge({
             return state.candidates
         },
         filteredCandidates({candidates, filters}){
-            return candidates.filter(candidate=>{
+			let activeFilters = getActiveFilters(filters)
+            let data =  candidates.filter(candidate=>{
                 let result = true;
-                filters.forEach(({id,vmodel,options})=>{
+                activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-                    else if(id == 'role' && vmodel !== options[0])
-                        result = result && candidate.tags.includes(vmodel)
+					else if(id == 'tier' && vmodel !== options[0])
+						result = result && candidate.tier === parseInt(vmodel)
+                    else if(id == 'nation' && vmodel !== options[0])
+						result = result && candidate.nation === vmodel
+					else if(id == 'type' && vmodel !== options[0])
+                        result = result && candidate.type === vmodel
                 })
                 return result
-            })
+			})
+			return data
         },
     }
 },whitelistMixin)
-export default wot
+
+export default worldoftanks
+
+function getActiveFilters(filters){
+	return filters.filter(({type,vmodel,options})=>{
+		if(type === 'text')
+			return vmodel.length > 0
+		else if(type === 'select')
+			return vmodel !== options[0]
+	})
+}

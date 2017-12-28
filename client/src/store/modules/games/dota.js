@@ -14,6 +14,7 @@ const dota = _.merge({
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
+		filterMode:'highlight',
         filters:[
             {
                 id:'name',
@@ -42,13 +43,12 @@ const dota = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
-            return axios.get(process.env.SERVER_URL+'/api/heroes/dota',{
+            return axios.get(process.env.SERVER_URL+'/api/dota',{
                 headers:{
                     'Authorization': rootState.token,
                 }
             })
             .then((response)=>{
-
                 let candidates = _(response.data).map((val,id)=>{
                     val.img = cl.url(`dota/portraits/${id}_full.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);

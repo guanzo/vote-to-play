@@ -16,6 +16,7 @@ const hots = _.merge({
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
+		filterMode:'highlight',
         filters:[
             {
                 id:'name',
@@ -48,7 +49,6 @@ const hots = _.merge({
         [MUTATIONS.SET_FILTERS](state, { candidates }){
             let roles = _(candidates).map(d=>d.Group).uniq().sort().value()
             state.filters[1].options.push(...roles)
-			console.log(roles)
 			let roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
             state.filters[2].options.push(...roles2)
         },

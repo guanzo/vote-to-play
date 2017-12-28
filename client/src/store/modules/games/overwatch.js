@@ -24,6 +24,7 @@ const ow = _.merge({
         maxVoteResults: 3,
         showNameInGrid: false,
         candidates,
+		filterMode:'highlight',
         filters:[
             {
                 id:'name',
@@ -60,7 +61,7 @@ const ow = _.merge({
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])
-                        result = result && candidate.type.toLowerCase().includes(vmodel.toLowerCase())
+                        result = result && candidate.type === vmodel
                 })
                 return result
             })

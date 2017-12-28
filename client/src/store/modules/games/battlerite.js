@@ -16,6 +16,7 @@ const battlerite = _.merge({
         maxVoteResults: 5,
         showNameInGrid: false,
         candidates: [],
+		filterMode:'highlight',
         filters:[
             {
                 id:'name',
