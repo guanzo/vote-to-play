@@ -1,6 +1,6 @@
 <template>
     <transition-group 
-        v-if="candidates.length" 
+        v-if="candidatesToShow.length" 
         class="candidate-grid" 
         tag="div" 
         name="grid" 
@@ -156,8 +156,5 @@ $dark: #333;
 .grid-leave-active {
     position: absolute !important;
 }
-/* 
-.grid-enter-active, .grid-leave-active{
-    transition: 10s !important;
-} */
+
 </style>

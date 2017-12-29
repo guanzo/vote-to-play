@@ -52,11 +52,9 @@ export default {
 	
     &.filtered-out {
         filter: brightness(25%);
-    }
+	}
+	&:hover:after,
     &.filtered-in:after{
-        opacity: 1;
-    }
-    &:hover:after {
         opacity: 1;
     }
     &:after{

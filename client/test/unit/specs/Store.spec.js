@@ -86,8 +86,7 @@ function gameModuleRequiredProperties(){
         state:{
             gameName: "string",
             className: 'string',
-            maxVoteResults: "number",
-            showNameInGrid: "boolean",
+            gameOptions: "object",
             candidates: [],
             whitelistedNames:[],
             filters: [],
