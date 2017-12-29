@@ -17,6 +17,7 @@
             <CandidateGrid 
                 v-bind="$attrs"
                 :candidates="votableCandidates"
+				:filteredCandidates="votableFilteredCandidates"
                 :class="[isInvisible, 'candidate-grid light']"
             ></CandidateGrid>
             <VoterControls
@@ -43,7 +44,7 @@ import CandidateGrid from '@/components/grid/CandidateGrid'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
 
-var { VOTE_MODE_VIEWER } = require('@shared/constants')
+var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /**
  * Intended behavior:
@@ -57,7 +58,7 @@ var { VOTE_MODE_VIEWER } = require('@shared/constants')
 export default {
     name: 'voter',
     inheritAttrs: false,
-    props:['candidates','whitelistedCandidates'],
+    props:['candidates','filteredCandidates','whitelistedCandidates'],
     data(){
         return {
             splashTransition: this.splashTransitionDefaults()
@@ -73,11 +74,14 @@ export default {
             return { 'invisible': this.splashTransition.hideVoteUI }
         },
         votableCandidates(){
-            if(this.voteMode == VOTE_MODE_VIEWER)
+            if(this.voteMode === VOTE_MODE_VIEWER)
                 return this.candidates
-            else
+            else if(this.voteMode === VOTE_MODE_STREAMER)
                 return this.whitelistedCandidates
-        }
+		},
+		votableFilteredCandidates(){
+			return _.intersectionBy(this.votableCandidates, this.filteredCandidates,'name')
+		}
     },
     watch:{
         hasSubmittedVote(val){
@@ -90,6 +94,7 @@ export default {
         }
     },
     methods:{
+		//if candidate doesn't have imgSplash, skip transition all together
         startSplashTransition(){
             if(this.selectedCandidate.imgSplash)
                 this.splashTransition.isActive = true;

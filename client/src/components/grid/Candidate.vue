@@ -49,6 +49,13 @@ export default {
         max-width: 100%;
         padding: 0px 2px;
     }
+	
+    &.filtered-out {
+        filter: brightness(25%);
+    }
+    &.filtered-in:after{
+        opacity: 1;
+    }
     &:hover:after {
         opacity: 1;
     }

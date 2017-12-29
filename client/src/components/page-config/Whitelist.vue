@@ -26,6 +26,7 @@
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
         :showNameInGrid="showNameInGrid"
+		:filterMode="filterMode"
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="candidate-grid dark m-b-25"
@@ -61,7 +62,8 @@ export default {
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
         namespace(){     return this.game.gameName },
-        showNameInGrid(){      return this.game.showNameInGrid },
+        showNameInGrid(){return this.game.showNameInGrid },
+        filterMode(){	return this.game.filterMode },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
         candidates(){
@@ -74,7 +76,10 @@ export default {
             return this.$store.getters[this.namespace+'/filteredCandidates']
         },
         filteredBlacklist(){
-            return this.$store.getters[this.namespace+'/filteredBlacklist']
+			if(this.namespace === ALL_GAMES)
+				return this.tempBlacklist;
+			else
+            	return _.intersectionBy(this.tempBlacklist, this.filteredCandidates,'name')
         },
         hasUnsavedChanges(){
             return this.$store.getters[this.namespace+'/hasUnsavedChanges']

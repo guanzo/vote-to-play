@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-
+import { getActiveFilters } from '@/util'
 
 export const NAMESPACE = 'Dota 2'
 
@@ -64,15 +64,16 @@ const dota = _.merge({
             return state.candidates
         },
         filteredCandidates({candidates, filters}){
+			let activeFilters = getActiveFilters(filters)
             return candidates.filter(candidate=>{
-                let result = true;
-                filters.forEach(({id,vmodel,options})=>{
+                return filters.every(({id,vmodel,options})=>{
                     if(id == 'name')
-                        result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
+                        return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])
-                        result = result && candidate.roles.includes(vmodel)
+						return candidate.roles.includes(vmodel)
+					else
+						return true
                 })
-                return result
             })
         },
     }

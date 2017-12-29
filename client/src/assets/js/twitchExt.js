@@ -22,6 +22,8 @@ window.Twitch.ext.onAuthorized(async function(auth) {
     var role = payload.role
     var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
+	//console.log(payload)
+	//console.log(auth)
     store.commit(SET_GAME, game)
     //send game to server to set vote category 
     //in case this is the first visit to a channel that doesn't exist in the database

@@ -1,14 +1,12 @@
 <template>
-    <div class="vote-controls field is-grouped">
-        <slot v-if="!isWhitelist">
-            <div></div><!-- spacing helper -->
-        </slot>
-        <div class="help" v-else>
+    <div class="vote-controls field is-grouped is-grouped-multiline">
+        <div v-if="isWhitelist" class="whitelist-tip help has-text-centered m-b-5">
             {{ channelName }} has limited the voting pool
         </div>
-
-        <div v-if="!isAnonymousUser"
-        class="control m-l-a">
+        <slot v-if="!hideControls">
+            <div></div><!-- spacing helper -->
+        </slot>
+        <div v-if="!isAnonymousUser" class="control m-l-a">
             <button 
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
@@ -27,7 +25,8 @@
 
 import VoteSimulation from '@/components/page-viewer/testgui/VoteSimulation'
 import { VOTE } from '@/store/actions'
-var { VOTE_MODE_STREAMER } = require('@shared/constants')
+import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
+const { VOTE_MODE_STREAMER } = require('@shared/constants')
 
 export default {
     name: 'voter-controls',
@@ -39,14 +38,17 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['userId','voteMode','channelName']),
+        ...Vuex.mapState(['userId','voteCategory','voteMode','channelName']),
         ...Vuex.mapGetters(['isAnonymousUser']),
         preventVote(){
             return this.hasSubmittedVote || this.isLoading
         },
         isWhitelist(){
-            return this.voteMode == VOTE_MODE_STREAMER
-        }
+            return this.voteMode === VOTE_MODE_STREAMER
+		},//for all games whitelist, no point in allowing game searches.
+		hideControls(){
+			return this.isWhitelist && this.voteCategory === ALL_GAMES
+		}
     },
     watch:{
         hasSubmittedVote(val){
@@ -79,5 +81,8 @@ export default {
     select {
         width: 120px;
     }
+	.whitelist-tip{
+		width: 100%;
+	}
 }
 </style>

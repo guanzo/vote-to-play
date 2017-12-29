@@ -24,6 +24,7 @@
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
+import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
 /**
  * candidates may or may not be filterable
  */
@@ -56,6 +57,7 @@ export default {
         }
     },
     computed:{
+        ...Vuex.mapState(['voteCategory','voteMode']),
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
 		},
@@ -77,7 +79,7 @@ export default {
             this.$emit('selectCandidate',candidate)
         },
         filterClass(candidate){
-            if(!this.hasActiveFilter || this.filterMode !== FILTER_MODE_HIGHLIGHT)
+            if(!this.hasActiveFilter || this.filterMode !== FILTER_MODE_HIGHLIGHT || this.voteCategory === ALL_GAMES)
                 return ''
             return this.filteredCandidates.find(d=>d.name == candidate.name)
                     ? 'filtered-in': 'filtered-out'
@@ -112,16 +114,6 @@ $dark: #333;
     }
     .no-results {
         height: 100%;
-    }
-}
-
-
-.candidate {
-    &.filtered-out {
-        filter: brightness(25%);
-    }
-    &.filtered-in:after{
-        opacity: 1;
     }
 }
 

@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import { getActiveFilters } from '@/util'
 
 export const NAMESPACE = 'World of Tanks'
 
@@ -86,11 +87,11 @@ const worldoftanks = _.merge({
                 activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-					else if(id == 'tier' && vmodel !== options[0])
+					else if(id == 'tier'   && vmodel !== options[0])
 						result = result && candidate.tier === parseInt(vmodel)
                     else if(id == 'nation' && vmodel !== options[0])
 						result = result && candidate.nation === vmodel
-					else if(id == 'type' && vmodel !== options[0])
+					else if(id == 'type'   && vmodel !== options[0])
                         result = result && candidate.type === vmodel
                 })
                 return result
@@ -101,12 +102,3 @@ const worldoftanks = _.merge({
 },whitelistMixin)
 
 export default worldoftanks
-
-function getActiveFilters(filters){
-	return filters.filter(({type,vmodel,options})=>{
-		if(type === 'text')
-			return vmodel.length > 0
-		else if(type === 'select')
-			return vmodel !== options[0]
-	})
-}

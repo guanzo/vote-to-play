@@ -14,7 +14,7 @@ export const mutations = {
         state.tempWhitelist = [...candidates]
     },
     swap(state,{ candidate, toArray, fromArray }){
-        let index = _.findIndex(fromArray,d=>d.name == candidate.name)
+		let index = _.findIndex(fromArray,d=>d.name == candidate.name)
         fromArray.splice(index,1)
         toArray.push(candidate)
         processArrays(fromArray,toArray)
@@ -44,7 +44,6 @@ export const actions = {
             candidate=>{
                 return state.whitelistedNames.includes(candidate.name)
 			})
-		console.log(partition)
         commit('partition',{
             tempWhitelist: partition[0],
             tempBlacklist: partition[1]
