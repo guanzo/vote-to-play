@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import gameOptions from './util/gameOptions'
 
 
 export const NAMESPACE = 'League of Legends'
@@ -14,10 +15,8 @@ const lol = _.merge({
         gameName: NAMESPACE,
         candidateNomenclature: 'champion',
         className: 'league-of-legends',
-        maxVoteResults: 5,
-        showNameInGrid: false,
+		gameOptions: gameOptions(),
         candidates: [],
-		filterMode:'highlight',
         filters:[
             {
                 id:'name',

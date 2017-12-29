@@ -17,12 +17,12 @@ export const mutations = {
 		let index = _.findIndex(fromArray,d=>d.name == candidate.name)
         fromArray.splice(index,1)
         toArray.push(candidate)
-        processArrays(fromArray,toArray)
+        processArrays(fromArray,toArray, state.gameOptions)
     },
     swapAll(state,{ toArray, fromArray }){
         let candidates = fromArray.splice(0);
         toArray.push(...candidates)
-        processArrays(fromArray,toArray)
+        processArrays(fromArray,toArray, state.gameOptions)
     },
     removeUnsavedChanges(state){
         let removed = _.remove(state.tempWhitelist,d=> {
@@ -34,7 +34,7 @@ export const mutations = {
             return state.whitelistedNames.includes(d.name)
         })
         state.tempWhitelist.push(...removed)
-        processArrays(state.tempWhitelist,state.tempBlacklist)
+        processArrays(state.tempWhitelist,state.tempBlacklist, state.gameOptions)
     }
 }
 
@@ -70,9 +70,9 @@ export default {
     getters
 }
 
-export function processArrays(...arrays){
-    arrays.forEach((arr,i)=>{
-        let processedArr = _(arr).uniqBy('name').sortBy('name').value()
+export function processArrays(fromArray, toArray, {sortBy = 'name', sortOrder = 'asc'} = {}){
+    [fromArray, toArray].forEach((arr,i)=>{
+        let processedArr = _(arr).uniqBy('name').orderBy([sortBy],[sortOrder]).value()
         arr.length = 0
         arr.push( ...processedArr )
     })

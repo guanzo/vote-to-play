@@ -55,7 +55,7 @@ export default {
         maxResults(){
             if(!this.selectedGameModule)
                 return 5;
-            return this.selectedGameModule.maxVoteResults
+            return this.selectedGameModule.gameOptions.maxVoteResults
         },
         topAggregatedVotes(){
             return this.allAggregatedVotes.slice(0, this.maxResults)

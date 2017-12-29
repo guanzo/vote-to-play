@@ -3,6 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import gameOptions from './util/gameOptions'
 
 
 export const NAMESPACE = 'Battlerite'
@@ -13,10 +14,8 @@ const battlerite = _.merge({
         gameName: 'Battlerite',
         candidateNomenclature: 'champion',
         className: 'battlerite',
-        maxVoteResults: 5,
-        showNameInGrid: false,
+		gameOptions: gameOptions(),
         candidates: [],
-		filterMode:'highlight',
         filters:[
             {
                 id:'name',

@@ -2,6 +2,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 import { getActiveFilters } from '@/util'
+import gameOptions from './util/gameOptions'
 
 export const NAMESPACE = 'Dota 2'
 
@@ -10,11 +11,9 @@ const dota = _.merge({
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
-        className: 'dota',
-        maxVoteResults: 5,
-        showNameInGrid: false,
+		className: 'dota',
+		gameOptions: gameOptions(),
         candidates: [],
-		filterMode:'highlight',
         filters:[
             {
                 id:'name',

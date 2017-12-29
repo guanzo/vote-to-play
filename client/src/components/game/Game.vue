@@ -73,13 +73,12 @@ export default {
             let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
 			let filteredCandidates = getters[this.namespace+'/filteredCandidates']
-			let { showNameInGrid, filterMode } = this.game
+			let { gameOptions } = this.game
             return {
                 candidates: this.candidates,
                 filteredCandidates,
                 whitelistedCandidates,
-				showNameInGrid,
-				filterMode,
+				gameOptions,
                 voteCategory: this.voteCategory
             }
         },

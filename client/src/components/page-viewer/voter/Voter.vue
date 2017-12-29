@@ -6,7 +6,6 @@
             <Splash 
                 :splashTransition="splashTransition" 
                 :selectedCandidate="selectedCandidate"
-
                 @transitionDone="endSplashTransition"
             ></Splash>
             <VoterHeader

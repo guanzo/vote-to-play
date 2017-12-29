@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import gameOptions,{ FILTER_MODE_REMOVE } from './util/gameOptions'
 import { getActiveFilters } from '@/util'
 
 export const NAMESPACE = 'World of Tanks'
@@ -11,10 +12,14 @@ const worldoftanks = _.merge({
         gameName: NAMESPACE,
         candidateNomenclature: 'tank',
         className: 'world-of-tanks',
-        maxVoteResults: 5,
-        showNameInGrid: true,
+		gameOptions: gameOptions({ 
+			showNameInGrid: true,
+			filterMode: FILTER_MODE_REMOVE,
+			hasPaginatedGrid: true,
+			sortBy: 'tier',
+			sortOrder: 'desc'
+		}),
 		candidates: [],
-		filterMode:'remove',
         filters:[
             {
                 id:'name',

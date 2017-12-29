@@ -1,6 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import gameOptions from './util/gameOptions'
 
 
 import heroes from '@/assets/json/overwatch_heroes'
@@ -21,10 +22,8 @@ const ow = _.merge({
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
         className: 'overwatch',
-        maxVoteResults: 3,
-        showNameInGrid: false,
+		gameOptions: gameOptions({ maxVoteResults: 3 }),
         candidates,
-		filterMode:'highlight',
         filters:[
             {
                 id:'name',

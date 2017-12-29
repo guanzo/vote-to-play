@@ -5,7 +5,7 @@
     <candidate-grid 
         :candidates="tempWhitelist"
         :filteredCandidates="tempWhitelist"
-        :showNameInGrid="showNameInGrid"
+        :gameOptions="gameOptions"
         :noResults="noResults"
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
@@ -25,7 +25,7 @@
     <candidate-grid 
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
-        :showNameInGrid="showNameInGrid"
+        :gameOptions="gameOptions"
 		:filterMode="filterMode"
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
@@ -61,8 +61,8 @@ export default {
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-        namespace(){     return this.game.gameName },
-        showNameInGrid(){return this.game.showNameInGrid },
+		namespace(){     return this.game.gameName },
+		gameOptions(){ return this.game.gameOptions },
         filterMode(){	return this.game.filterMode },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },

@@ -8,12 +8,17 @@
     >
         <candidate v-for="candidate in candidatesToShow"
             :candidate="candidate"
-            :showNameInGrid="showNameInGrid"
+            :showNameInGrid="gameOptions.showNameInGrid"
             @click.native="selectCandidate(candidate)"
-            :class="filterClass(candidate)" 
+            :class="filterHighlightClass(candidate)" 
             :key="candidate.name"
         >
         </candidate>
+		<div v-if="showPaginationButton" class="show-more" key="paginate">
+			<button @click="onPaginate"
+				class="button is-small is-outlined"
+			>Show more</button>
+		</div>
     </transition-group>
     <div v-else class="no-results flex-center margin-center">
         {{noResults}}
@@ -24,16 +29,11 @@
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
-import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
-/**
- * candidates may or may not be filterable
- */
+import gameOptions, { 
+	FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE, FILTER_MODE_NONE 
+} from '@/store/modules/games/util/gameOptions'
 
-//2 filtering modes
-//highlight: leaves non-matched candidates in place, but darkens them
-const FILTER_MODE_HIGHLIGHT = 'highlight'
-//remove: removes non-matched candidates
-const FILTER_MODE_REMOVE = 'remove'
+const INITIAL_PAGE = 1;
 
 export default {
     name:'candidate-grid',
@@ -41,11 +41,10 @@ export default {
     props:{
         candidates: Array,
         filteredCandidates: Array,
-        whitelist: Array,
-		showNameInGrid: Boolean,
-		filterMode:{
-			type: String,
-			default: FILTER_MODE_HIGHLIGHT
+		whitelist: Array,
+		gameOptions:{
+			type: Object,
+			default: gameOptions()
 		},
         noResults: {
             type: String,
@@ -55,18 +54,41 @@ export default {
             type: Function,
             default(){}//no op
         }
-    },
+	},
+	data(){
+		return {
+			page: 1,
+			pageSize: 100,
+		}
+	},
     computed:{
         ...Vuex.mapState(['voteCategory','voteMode']),
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
 		},
 		candidatesToShow(){
-			return this.filterMode === FILTER_MODE_HIGHLIGHT 
-					? this.candidates 
-					: this.filteredCandidates
+			let { filterMode, hasPaginatedGrid } = this.gameOptions;
+			if(hasPaginatedGrid)
+				return this.paginatedCandidates
+			else if(filterMode === FILTER_MODE_REMOVE)
+				return this.filteredCandidates
+			else
+				return this.candidates;
+		},//can only paginate filteredCandidates
+		paginatedCandidates(){
+			let size = this.page * this.pageSize;
+			return this.filteredCandidates.slice(0,size)
+		},
+		showPaginationButton(){
+			let size = this.page * this.pageSize;
+			return this.gameOptions.hasPaginatedGrid && size < this.filteredCandidates.length;
 		}
-    },
+	},
+	watch:{
+		filteredCandidates(){
+			this.resetPagination();
+		}
+	},
     mounted(){
         this.$registerElement({
             el: this.$el,
@@ -78,12 +100,18 @@ export default {
             this.$store.commit(SELECT_CANDIDATE, candidate)
             this.$emit('selectCandidate',candidate)
         },
-        filterClass(candidate){
-            if(!this.hasActiveFilter || this.filterMode !== FILTER_MODE_HIGHLIGHT || this.voteCategory === ALL_GAMES)
+        filterHighlightClass(candidate){
+            if(!this.hasActiveFilter || this.gameOptions.filterMode !== FILTER_MODE_HIGHLIGHT)
                 return ''
             return this.filteredCandidates.find(d=>d.name == candidate.name)
                     ? 'filtered-in': 'filtered-out'
-        },
+		},
+		onPaginate(){
+			this.page++;
+		},
+		resetPagination(){
+			this.page = INITIAL_PAGE;
+		}
     },
     components:{
         candidate
@@ -115,6 +143,11 @@ $dark: #333;
     .no-results {
         height: 100%;
     }
+	.show-more {
+		width: 100%;
+		text-align: center;
+		padding: 10px 0px;
+	}
 }
 
 .grid-enter, .grid-leave-to{

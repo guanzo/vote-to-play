@@ -1,9 +1,11 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
+import gameOptions,{ FILTER_MODE_NONE } from './util/gameOptions'
 
 export const NAMESPACE = 'Hearthstone'
 
+//important for this to be after the namespace export
 import gameApi from '@/api/game'
 
 const IMG_BASE_URL = 'https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-'
@@ -14,9 +16,12 @@ const hearthstone = _.merge({
     state: { 
         gameName: NAMESPACE,
         candidateNomenclature: 'class',
-        className: 'hearthstone',
-        maxVoteResults: 3,
-        showNameInGrid: true,
+		className: 'hearthstone',
+		gameOptions: gameOptions({ 
+			showNameInGrid: true, 
+			filterMode: FILTER_MODE_NONE,
+			maxVoteResults: 3
+		}),
         candidates: [
              {
                 name: "Druid",

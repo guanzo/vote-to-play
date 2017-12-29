@@ -8,14 +8,20 @@
 
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import GameSearch from './util/gameSearch'
+import GameSearch from './util/twitchGameSearch'
 import whitelistMixin,{ saveArrayState, processArrays } from './util/whitelistMixin';
+import gameOptions,{ FILTER_MODE_NONE } from './util/gameOptions'
 
-let modifiedMixin = _.merge({},whitelistMixin,
+const engine = new GameSearch();
+
+export const NAMESPACE = 'All Games'
+export const BOX_ART_WIDTH = 72;
+export const BOX_ART_HEIGHT = 100;
+
+const modifiedMixin = _.merge({},whitelistMixin,
     {
         mutations:{
             removeUnsavedChanges(state){
-                
                 let removed = _.remove(state.tempWhitelist,a=> {
                     return !state.whitelistedNames.some(b=>b.name == a.name)
                 })
@@ -25,7 +31,7 @@ let modifiedMixin = _.merge({},whitelistMixin,
                     return state.whitelistedNames.some(b=>b.name == a.name)
                 })
                 state.tempWhitelist.push(...removed)
-                processArrays(state.tempWhitelist,state.tempBlacklist)
+                processArrays(state.tempWhitelist,state.tempBlacklist, state.gameOptions)
             },
             updateTempBlacklist(state,candidates){
                 state.tempBlacklist = [...candidates]
@@ -56,20 +62,17 @@ let modifiedMixin = _.merge({},whitelistMixin,
     }
 )
 
-const engine = new GameSearch();
-
-export const NAMESPACE = 'All Games'
-export const BOX_ART_WIDTH = 72;
-export const BOX_ART_HEIGHT = 100;
 
 const allGames = _.merge({
     namespaced: true,
     state:{
         gameName: NAMESPACE,
         candidateNomenclature: 'game',
-        className: 'all-games',
-        showNameInGrid: true,
-        maxVoteResults: 5,
+		className: 'all-games',
+		gameOptions: gameOptions({ 
+			showNameInGrid: true, 
+			filterMode: FILTER_MODE_NONE 
+		}),
         topGames:[],
         searchedGames:[],
         filters:[
