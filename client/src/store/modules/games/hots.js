@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import gameOptions from './util/gameOptions'
+import { gameOptions, filterGetters } from './util/gameMixin'
 
 
 export const NAMESPACE = 'Heroes of the Storm'
@@ -57,6 +57,7 @@ const hots = _.merge({
             return axios.get('https://api.hotslogs.com/Public/Data/Heroes')
             .then((response)=>{
                 let candidates = _(response.data).map((val)=>{
+					val.id = val.PrimaryName
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
                     val.imgSplash = cl.url("hots/splash/" + val.ImageURL + `_splash.jpg`);
@@ -71,10 +72,11 @@ const hots = _.merge({
         candidates(state){
             return state.candidates
         },
-        filteredCandidates({candidates, filters}){
+		...filterGetters,
+        filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
-                filters.forEach(({id,vmodel,options})=>{
+                activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])

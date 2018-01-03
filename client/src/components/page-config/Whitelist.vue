@@ -62,8 +62,8 @@ export default {
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
 		namespace(){     return this.game.gameName },
-		gameOptions(){ return this.game.gameOptions },
-        filterMode(){	return this.game.filterMode },
+		gameOptions(){	 return this.game.gameOptions },
+        filterMode(){	 return this.game.filterMode },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
         candidates(){
@@ -76,11 +76,8 @@ export default {
             return this.$store.getters[this.namespace+'/filteredCandidates']
         },
         filteredBlacklist(){
-			if(this.namespace === ALL_GAMES)
-				return this.tempBlacklist;
-			else
-            	return _.intersectionBy(this.tempBlacklist, this.filteredCandidates,'name')
-        },
+			return this.$store.getters[this.namespace+'/filteredBlacklist']
+		},
         hasUnsavedChanges(){
             return this.$store.getters[this.namespace+'/hasUnsavedChanges']
         }
@@ -99,15 +96,11 @@ export default {
             },
             immediate: true
         },
-        //all games && hearthstone compatibility
+		//allGames && hearthstone compatibility
+		//these games can change their candidates dynamically 
         'candidates'(candidates){
             this.$store.dispatch(this.namespace+'/partition');
         },
-        //all games compatibility
-        /* 'game.searchedGames'(){
-            let candidates = this.$store.getters[this.namespace+'/candidates']
-            this.commit('updateTempBlacklist',candidates)
-        } */
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))

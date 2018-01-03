@@ -1,8 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { getActiveFilters } from '@/util'
-import gameOptions from './util/gameOptions'
+import { gameOptions, filterGetters } from './util/gameMixin'
 
 export const NAMESPACE = 'Dota 2'
 
@@ -49,6 +48,7 @@ const dota = _.merge({
             })
             .then((response)=>{
                 let candidates = _(response.data).map((val,id)=>{
+					val.id = id
                     val.img = cl.url(`dota/portraits/${id}_full.png`);
                     val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
                     return val
@@ -61,17 +61,15 @@ const dota = _.merge({
     getters:{
         candidates(state){
             return state.candidates
-        },
-        filteredCandidates({candidates, filters}){
-			let activeFilters = getActiveFilters(filters)
+		},
+		...filterGetters,
+        filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
-                return filters.every(({id,vmodel,options})=>{
+                return activeFilters.every(({id,vmodel,options})=>{
                     if(id == 'name')
                         return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])
 						return candidate.roles.includes(vmodel)
-					else
-						return true
                 })
             })
         },

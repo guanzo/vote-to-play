@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import gameOptions from './util/gameOptions'
+import { gameOptions, filterGetters } from './util/gameMixin'
 
 
 import heroes from '@/assets/json/overwatch_heroes'
@@ -53,10 +53,11 @@ const ow = _.merge({
         candidates(state){
             return state.candidates
         },
-        filteredCandidates({candidates, filters}){
+		...filterGetters,
+        filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
-                filters.forEach(({id,vmodel,options})=>{
+                activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])

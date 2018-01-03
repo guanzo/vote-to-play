@@ -10,7 +10,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import GameSearch from './util/twitchGameSearch'
 import whitelistMixin,{ saveArrayState, processArrays } from './util/whitelistMixin';
-import gameOptions,{ FILTER_MODE_NONE } from './util/gameOptions'
+import { gameOptions, FILTER_MODE_NONE } from './util/gameMixin'
 
 const engine = new GameSearch();
 
@@ -86,10 +86,12 @@ const allGames = _.merge({
     },
     mutations:{
         [MUTATIONS.SET_TOP_TWITCH_GAMES](state, topGames){
+			topGames.forEach(c=>c.id = c._id)
             state.topGames = topGames
         },
         [MUTATIONS.SET_SEARCHED_GAMES](state,searchedGames){
-            state.searchedGames = searchedGames;
+			searchedGames.forEach(c=>c.id = c._id)
+			state.searchedGames = searchedGames;
         },
         
     },
@@ -112,7 +114,7 @@ const allGames = _.merge({
                 })
         },
         async searchGames({commit},query){
-            let results = await engine.searchGames(query)
+			let results = await engine.searchGames(query)
             results.forEach(setImage)
             commit(MUTATIONS.SET_SEARCHED_GAMES, results)
         }
@@ -124,7 +126,7 @@ const allGames = _.merge({
         },
         searchGamesQuery(state){
             return state.filters[0].vmodel
-        },
+        },//no filtering for allGames
         filteredCandidates(state,getters){
             return getters.candidates
         },

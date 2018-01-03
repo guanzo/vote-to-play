@@ -1,10 +1,10 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import gameOptions,{ FILTER_MODE_REMOVE } from './util/gameOptions'
-import { getActiveFilters } from '@/util'
+import { gameOptions, filterGetters, FILTER_MODE_REMOVE } from './util/gameMixin'
 
 export const NAMESPACE = 'World of Tanks'
+
 
 const worldoftanks = _.merge({
     namespaced: true,
@@ -17,7 +17,8 @@ const worldoftanks = _.merge({
 			filterMode: FILTER_MODE_REMOVE,
 			hasPaginatedGrid: true,
 			sortBy: 'tier',
-			sortOrder: 'desc'
+			sortOrder: 'desc',
+			id: 'id'
 		}),
 		candidates: [],
         filters:[
@@ -51,7 +52,19 @@ const worldoftanks = _.merge({
                     'Type'
                 ]
             }
-        ]
+		],
+		vehicleNations: {
+			"usa": "U.S.A.",
+			"czech": "Czechoslovakia",
+			"poland": "Poland",
+			"france": "France",
+			"sweden": "Sweden",
+			"ussr": "U.S.S.R.",
+			"china": "China",
+			"uk": "U.K.",
+			"japan": "Japan",
+			"germany": "Germany"
+		}
     },
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state, { candidates }){
@@ -59,9 +72,11 @@ const worldoftanks = _.merge({
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
             let tiers = _(candidates).map(d=>d.tier).uniq().sort((a,b)=>a-b).value()
-            state.filters[1].options.push(...tiers)
-            let nations = _(candidates).map(d=>d.nation).uniq().sort().value()
-            state.filters[2].options.push(...nations)
+			state.filters[1].options.push(...tiers)
+
+            let nations = Object.values(state.vehicleNations).sort()
+			state.filters[2].options.push(...nations)
+			
             let types = _(candidates).map(d=>d.type).uniq().sort().value()
             state.filters[3].options.push(...types)
         },
@@ -85,9 +100,10 @@ const worldoftanks = _.merge({
         candidates(state){
             return state.candidates
         },
-        filteredCandidates({candidates, filters}){
-			let activeFilters = getActiveFilters(filters)
-            let data =  candidates.filter(candidate=>{
+		...filterGetters,
+        filteredCandidates({candidates, vehicleNations},{activeFilters}){
+			let nationsInverted = _.invert(vehicleNations)
+            let data = candidates.filter(candidate=>{
                 let result = true;
                 activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
@@ -95,7 +111,7 @@ const worldoftanks = _.merge({
 					else if(id == 'tier'   && vmodel !== options[0])
 						result = result && candidate.tier === parseInt(vmodel)
                     else if(id == 'nation' && vmodel !== options[0])
-						result = result && candidate.nation === vmodel
+						result = result && candidate.nation === nationsInverted[vmodel]
 					else if(id == 'type'   && vmodel !== options[0])
                         result = result && candidate.type === vmodel
                 })

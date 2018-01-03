@@ -1,3 +1,26 @@
+/**
+ * EARLIER DESIGN IS BITING ME IN THE ASS
+ * Originally, i saved game whitelist as array of strings
+ * Now, b/c of allGames and world of tanks, i'm going to start
+ * saving whitelists as array of objects, with id && name properties.
+ * I'll need to check if elements in whitelistedNames are strings or objects
+ * and code accordingly
+ * The database will eventually fix itself, as users update their whitelist
+ * 
+ */
+
+ //returns a iteratee depending on whether whitelistedNames
+ //is an array of strings or objects
+function getWhitelistContainsCandidateIteratee(whitelistedNames){
+	return isArrayOfStrings(whitelistedNames)
+			? d => whitelistedNames.includes(d.name)
+			: d => whitelistedNames.some(b=>b.name == d.name)
+	
+}
+
+function isArrayOfStrings(whitelistedNames){
+	return _.isString(whitelistedNames[0])
+}
 
 export const state = {
     whitelistedNames:[],
@@ -17,7 +40,7 @@ export const mutations = {
 		let index = _.findIndex(fromArray,d=>d.name == candidate.name)
         fromArray.splice(index,1)
         toArray.push(candidate)
-        processArrays(fromArray,toArray, state.gameOptions)
+		processArrays(fromArray,toArray, state.gameOptions)
     },
     swapAll(state,{ toArray, fromArray }){
         let candidates = fromArray.splice(0);
@@ -25,14 +48,13 @@ export const mutations = {
         processArrays(fromArray,toArray, state.gameOptions)
     },
     removeUnsavedChanges(state){
-        let removed = _.remove(state.tempWhitelist,d=> {
-            return !state.whitelistedNames.includes(d.name)
-        })
+		let { whitelistedNames } = state
+		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+
+        let removed = _.remove(state.tempWhitelist,d=>!iteratee(d))
         state.tempBlacklist.push(...removed)
 
-        removed = _.remove(state.tempBlacklist,d=> {
-            return state.whitelistedNames.includes(d.name)
-        })
+        removed = _.remove(state.tempBlacklist,iteratee)
         state.tempWhitelist.push(...removed)
         processArrays(state.tempWhitelist,state.tempBlacklist, state.gameOptions)
     }
@@ -40,10 +62,14 @@ export const mutations = {
 
 export const actions = {
     partition({commit,state,getters}){
-        let partition = _.partition(getters.candidates,
-            candidate=>{
-                return state.whitelistedNames.includes(candidate.name)
-			})
+		let { whitelistedNames } = state
+		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+
+		let partition = _.partition(getters.candidates,iteratee)
+        commit('partition',{
+            tempWhitelist: partition[0],
+            tempBlacklist: partition[1]
+        })
         commit('partition',{
             tempWhitelist: partition[0],
             tempBlacklist: partition[1]
@@ -52,11 +78,12 @@ export const actions = {
 }
 
 export const getters = {
-    whitelistedCandidates({whitelistedNames},{candidates}){
-        return candidates.filter(candidate=>whitelistedNames.includes(candidate.name))
-    },
+    whitelistedCandidates({whitelistedNames},{candidates}, rootState){
+		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+		return candidates.filter(iteratee)
+	},
     filteredBlacklist(state,{candidates,filteredCandidates}){
-        return _.intersectionBy(candidates, filteredCandidates,'name')
+        return _.intersectionBy(candidates, filteredCandidates,'id')
     },
     hasUnsavedChanges(state, getters){
         return !_.isEmpty(_.xorBy(getters.whitelistedCandidates, state.tempWhitelist,'name'))
@@ -72,7 +99,7 @@ export default {
 
 export function processArrays(fromArray, toArray, {sortBy = 'name', sortOrder = 'asc'} = {}){
     [fromArray, toArray].forEach((arr,i)=>{
-        let processedArr = _(arr).uniqBy('name').orderBy([sortBy],[sortOrder]).value()
+        let processedArr = _(arr).uniqBy(c=>c.id || c.name).orderBy([sortBy],[sortOrder]).value()
         arr.length = 0
         arr.push( ...processedArr )
     })

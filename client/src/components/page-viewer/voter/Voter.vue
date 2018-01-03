@@ -79,19 +79,19 @@ export default {
                 return this.whitelistedCandidates
 		},
 		votableFilteredCandidates(){
-			return _.intersectionBy(this.votableCandidates, this.filteredCandidates,'name')
+			return _.intersectionBy(this.votableCandidates, this.filteredCandidates,'id')
 		}
     },
     watch:{
-        hasSubmittedVote(val){
-            if(!val)
+        hasSubmittedVote(hasSubmittedVote){
+            if(!hasSubmittedVote)
                 this.splashTransition = this.splashTransitionDefaults()
         },
         'splashTransition.splashImgIsLoaded'(isLoaded){
             if(isLoaded)
                 this.splashTransition.hideVoteUI = true;
         }
-    },
+	},
     methods:{
 		//if candidate doesn't have imgSplash, skip transition all together
         startSplashTransition(){

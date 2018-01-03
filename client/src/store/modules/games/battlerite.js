@@ -3,7 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import gameOptions from './util/gameOptions'
+import { gameOptions, filterGetters } from './util/gameMixin'
 
 
 export const NAMESPACE = 'Battlerite'
@@ -49,7 +49,10 @@ const battlerite = _.merge({
                 
                 let candidates = _(response.data).map((val)=>{
                     val.img = val.icon
-                    val.imgSplash = val.image
+					val.imgSplash = val.image
+					
+					delete val.icon
+					delete val.image
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
@@ -60,11 +63,12 @@ const battlerite = _.merge({
     getters:{
         candidates(state){
             return state.candidates
-        },
-        filteredCandidates({candidates, filters}){
+		},
+		...filterGetters,
+        filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
-                filters.forEach(({id,vmodel,options})=>{
+                activeFilters.forEach(({id,vmodel,options})=>{
                     if(id == 'name')
                         result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
                     else if(id == 'role' && vmodel !== options[0])

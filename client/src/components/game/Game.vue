@@ -1,6 +1,6 @@
 <template>
     <div class="game" :class="game.className">
-        <transition :duration="duration" name="fade">
+        <transition :duration="delayDuration" name="fade">
             <component 
                 v-if="!isLoading" 
                 :is="injectedComponent" 
@@ -33,8 +33,6 @@
 
 <script>
 
-import voter from '@/components/page-viewer/voter/Voter'
-import voteResults from '@/components/voteresults/VoteResults'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES } from '@/store/actions'
 import loading from '@/components/util/loading/Loading'
@@ -57,7 +55,7 @@ export default {
     data(){
         return {
             isLoading: false,
-            duration: 750,
+            delayDuration: 750,
         }
     },
     computed:{
@@ -70,14 +68,16 @@ export default {
             return this.$store.getters[this.namespace+'/candidates']
         },
         propsObj(){
-            let getters = this.$store.getters
+			let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
-			let filteredCandidates = getters[this.namespace+'/filteredCandidates']
+			let filteredCandidates = 	getters[this.namespace+'/filteredCandidates']
+			let hasActiveFilter = 		getters[this.namespace+'/hasActiveFilter']
 			let { gameOptions } = this.game
             return {
                 candidates: this.candidates,
                 filteredCandidates,
-                whitelistedCandidates,
+				whitelistedCandidates,
+				hasActiveFilter,
 				gameOptions,
                 voteCategory: this.voteCategory
             }
@@ -112,7 +112,7 @@ export default {
 
                 await Promise.all([
                     this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
-                    delayPromise(this.duration)
+                    delayPromise(this.delayDuration)
                 ])
                 this.isLoading = false
                 
@@ -120,8 +120,6 @@ export default {
         },
     },
     components:{
-        voteResults,
-        voter,
         loading
     }
 }

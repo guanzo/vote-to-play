@@ -11,7 +11,7 @@
             :showNameInGrid="gameOptions.showNameInGrid"
             @click.native="selectCandidate(candidate)"
             :class="filterHighlightClass(candidate)" 
-            :key="candidate.name"
+            :key="getCandidateKey(candidate)"
         >
         </candidate>
 		<div v-if="showPaginationButton" class="show-more" key="paginate">
@@ -29,9 +29,9 @@
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
-import gameOptions, { 
-	FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE, FILTER_MODE_NONE 
-} from '@/store/modules/games/util/gameOptions'
+import { 
+	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE, FILTER_MODE_NONE 
+} from '@/store/modules/games/util/gameMixin'
 
 const INITIAL_PAGE = 1;
 
@@ -96,6 +96,10 @@ export default {
         })
     },
     methods:{
+		//v1.7 compatibility. all-games saved in whitelist won't have id
+		getCandidateKey(candidate){
+			return candidate.id || candidate.name
+		},
         selectCandidate(candidate){
             this.$store.commit(SELECT_CANDIDATE, candidate)
             this.$emit('selectCandidate',candidate)

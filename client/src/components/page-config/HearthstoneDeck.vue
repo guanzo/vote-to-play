@@ -102,7 +102,8 @@ export default {
         newDeck(){
             return {
                 class: this.selectedClass,
-                name: this.deckName
+                name: this.deckName,
+				id: this.deckName
             }
         }
     },
@@ -112,11 +113,7 @@ export default {
     methods:{
         onAddDeck(){
             let decks = this.decks.slice();
-            let deck = {
-                class: this.selectedClass,
-                name: this.deckName
-            }
-            decks.push(deck)
+            decks.push(this.newDeck)
             this.setDecks(decks)
         },
         onDeleteDeck(){
@@ -140,7 +137,7 @@ export default {
         },
     }
 }
-
+//ignore case
 function stringsAllEqual(...strings){
     return _(strings).map(s=>s.toLowerCase()).uniq().value().length <= 1;
 }

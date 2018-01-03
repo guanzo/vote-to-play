@@ -25,14 +25,13 @@ export const mutations = {
 
 export const actions = {
     [ACTIONS.SAVE_GAME_WHITELIST]( {rootState}, gameWhitelist ){
-        //supported games: save as array of strings
-        //all games:       save as array of objects
-
-        let { voteCategory, names } = gameWhitelist
-        if(voteCategory == NS_AG)
-            gameWhitelist.names = names.map(d=>_.pick(d,'name','img'))
-        else
-            gameWhitelist.names = names.map(d=>d.name)
+		let { voteCategory, names } = gameWhitelist
+		let props = ['id','name']
+		//i dont want to fetch img for each game dynamically, just save the img link
+		if(voteCategory === NS_AG)
+			props.push('img')
+		
+		gameWhitelist.names = names.map(d=>_.pick(d,props))
         voteApi.saveGameWhitelist({ channelId: rootState.channelId, gameWhitelist })
     },
 }
@@ -51,7 +50,9 @@ export const getters = {
     }
 }
 
-
+//don't add a "state" property,
+//since modules are added to the state automatically,
+//i need the state to ONLY be games and nothing else.
 export default {
     modules:{
         [NS_AG]:    allGames,

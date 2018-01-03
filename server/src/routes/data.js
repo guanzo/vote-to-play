@@ -43,10 +43,11 @@ async function requestWorldOfTanksData(){
 		.then((response)=>{
 			totalPages = response.data.meta.page_total
 			let tanks = _(response.data.data).map((val,key)=>{
+				val.id = parseInt(key);
 				val.name = val.short_name;
-				let icon = val.images.big_icon.replace(/^http/,'https')
-				val.img = icon;
+				val.img = val.images.big_icon.replace(/^http/,'https');
 				val.imgSplash = null;
+				delete val.tank_id
 				return val
 			})
 			.value()
