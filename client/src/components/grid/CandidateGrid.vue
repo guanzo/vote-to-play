@@ -1,7 +1,7 @@
 <template>
     <transition-group 
         v-if="candidatesToShow.length" 
-        class="candidate-grid" 
+        class="candidate-grid"
         tag="div" 
         name="grid" 
         @before-leave="beforeLeave"
@@ -68,16 +68,17 @@ export default {
 		},
 		candidatesToShow(){
 			let { filterMode, hasPaginatedGrid } = this.gameOptions;
-			if(hasPaginatedGrid)
-				return this.paginatedCandidates
-			else if(filterMode === FILTER_MODE_REMOVE)
-				return this.filteredCandidates
+			let candidates;
+			if(filterMode === FILTER_MODE_REMOVE)
+				candidates = this.filteredCandidates
 			else
-				return this.candidates;
-		},//can only paginate filteredCandidates
-		paginatedCandidates(){
-			let size = this.page * this.pageSize;
-			return this.filteredCandidates.slice(0,size)
+				candidates = this.candidates;
+
+			if(hasPaginatedGrid){
+				let size = this.page * this.pageSize;
+				candidates = candidates.slice(0,size)
+			}
+			return candidates;
 		},
 		showPaginationButton(){
 			let size = this.page * this.pageSize;

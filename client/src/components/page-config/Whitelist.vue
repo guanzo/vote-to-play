@@ -51,7 +51,7 @@ import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 export default {
     name:'whitelist',
     inheritAttrs: false,
-    props:['voteCategory'],
+    props:['voteCategory',],
     data(){
         return {
             noResults: "You haven't whitelisted any candidates. Click on the candidates to whitelist them."
@@ -104,7 +104,11 @@ export default {
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
-    },
+	},
+	mounted(){
+		
+		console.log(this)
+	},
     destroyed(){
         window.removeEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
     },
