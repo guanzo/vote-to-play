@@ -10,7 +10,7 @@ var state = {
     db: null,
 }
 
-exports.connect = function(url = productionUrl) {
+module.exports.connect = function(url = productionUrl) {
     if (state.db) return Promise.resolve()
 
     return MongoClient.connect(url)
@@ -25,11 +25,11 @@ exports.connect = function(url = productionUrl) {
         })
 }
 
-exports.get = function() {
+module.exports.get = function() {
     return state.db
 }
 
-exports.close = close
+module.exports.close = close
 
 function close() {
     if (state.db) {

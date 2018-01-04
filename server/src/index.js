@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const authRouter = require('./routes/auth');
 const voteRouter = require('./routes/vote');

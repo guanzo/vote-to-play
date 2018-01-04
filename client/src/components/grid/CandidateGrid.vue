@@ -12,8 +12,7 @@
             @click.native="selectCandidate(candidate)"
             :class="filterHighlightClass(candidate)" 
             :key="getCandidateKey(candidate)"
-        >
-        </candidate>
+        />
 		<div v-if="showPaginationButton" class="show-more" key="paginate">
 			<button @click="onPaginate"
 				class="button is-small is-outlined"
@@ -21,7 +20,7 @@
 		</div>
     </transition-group>
     <div v-else class="no-results flex-center margin-center">
-        {{noResults}}
+        {{ noResults }}
     </div>
 </template>
 
@@ -30,7 +29,7 @@ import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
 import { 
-	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE, FILTER_MODE_NONE 
+	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE 
 } from '@/store/modules/games/util/gameMixin'
 
 const INITIAL_PAGE = 1;

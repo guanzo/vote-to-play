@@ -94,7 +94,7 @@ export default {
 }
 
 export function processArrays(fromArray, toArray, {sortBy = 'name', sortOrder = 'asc'} = {}){
-    [fromArray, toArray].forEach((arr,i)=>{
+    [fromArray, toArray].forEach(arr=>{
         let processedArr = _(arr).uniqBy(c=>c.id || c.name).orderBy([sortBy],[sortOrder]).value()
         arr.length = 0
         arr.push( ...processedArr )

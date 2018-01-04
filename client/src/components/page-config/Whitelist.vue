@@ -1,7 +1,7 @@
 <template>
 
 <div class="whitelist">
-    <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success"></span></h5>
+    <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success" /></h5>
     <candidate-grid 
 		v-bind="$attrs"
         :candidates="tempWhitelist"
@@ -10,18 +10,18 @@
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
         class="dark"
-    ></candidate-grid>
+     />
 
     <div class="whitelist-tools flex-center m-t-10 m-b-10">
         <hr>
         <div>
-            <div @click="swapAll(tempWhitelist,tempBlacklist)" class="icon-angle-double-up is-size-1"></div>
-            <div @click="swapAll(tempBlacklist,tempWhitelist)" class="icon-angle-double-down is-size-1"></div>
+            <div @click="swapAll(tempWhitelist,tempBlacklist)" class="icon-angle-double-up is-size-1" />
+            <div @click="swapAll(tempBlacklist,tempWhitelist)" class="icon-angle-double-down is-size-1" />
         </div>
         <hr>
     </div>
 
-    <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
+    <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger" /></h5>
     <candidate-grid 
 		v-bind="$attrs"
         :candidates="tempBlacklist"
@@ -29,14 +29,14 @@
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="dark m-b-25"
-    ></candidate-grid>
+     />
     <whitelist-controls 
         :voteCategory="voteCategory" 
         :tempWhitelist="tempWhitelist" 
         :hasUnsavedChanges="hasUnsavedChanges"
         @cancel="commit('removeUnsavedChanges')"
     >
-        <slot name="controls"></slot>
+        <slot name="controls" />
     </whitelist-controls>
 </div>
 
@@ -45,12 +45,13 @@
 <script>
 import candidateGrid from '@/components/grid/CandidateGrid'
 import whitelistControls from './WhitelistControls'
-import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 
 export default {
     name:'whitelist',
     inheritAttrs: false,
-    props:['voteCategory'],
+    props:{
+        voteCategory: String
+    },
     data(){
         return {
             noResults: "You haven't whitelisted any candidates. Click on the candidates to whitelist them."
@@ -95,7 +96,7 @@ export default {
         },
 		//allGames && hearthstone compatibility
 		//these games can change their candidates dynamically 
-        candidates(candidates){
+        candidates(){
             this.$store.dispatch(this.namespace+'/partition');
         },
     },

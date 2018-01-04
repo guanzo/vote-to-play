@@ -1,9 +1,6 @@
 
 const TWITCH_SEARCH_URL = 'https://api.twitch.tv/kraken/search/games'
 
-import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-import { SET_SEARCHED_GAMES } from '@/store/mutations'
-
 export default class GameSearch{
     constructor(){
         this.maxQueryMatches = 20
@@ -45,8 +42,7 @@ export default class GameSearch{
     }
     searchGames(query){
         return new Promise(resolve=>{
-            let results = [],
-                maxResults = 10
+            let results = []
 
             if(query.length == 0)
                 return resolve(results)

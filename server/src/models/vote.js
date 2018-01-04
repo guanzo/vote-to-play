@@ -41,7 +41,7 @@ module.exports = {
         var channels = db.get().collection('channels')
         
         //ensure channel document exists
-        let result = await addChannel(channelId, channelName, game);
+        await addChannel(channelId, channelName, game);
         return channels
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
                 .then(channel=>{
@@ -52,9 +52,7 @@ module.exports = {
                     delete channel.voteHistory
                     return channel
                 })
-                .catch(err=>{
-                    console.log(err)
-                })
+                .catch(console.log)
     },
     startVote({channelId, voteCategory, voteMode, createdAt}){
         var channels = db.get().collection('channels')
@@ -73,7 +71,7 @@ module.exports = {
             }
         )
     },
-    addVote({channelId, vote, userId, voteCategory}) {
+    addVote({channelId, vote, userId}) {
         var channels = db.get().collection('channels')
     
         /*

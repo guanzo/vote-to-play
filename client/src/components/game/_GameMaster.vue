@@ -3,7 +3,6 @@
 import game         from './Game'
 import unsupported  from './Unsupported'
 import store        from '@/store'
-import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
 
 //functional component that returns the game view,
 //and injects the "injectedComponent" prop

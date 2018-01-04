@@ -5,7 +5,7 @@
         <div class="image-wrapper flex-center" 
                 :class="{'default-vote': !hasSelectedCandidate}">
             <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
-                    <div v-if="!hasSelectedCandidate" class="header-img"><span class="icon-help"></span></div>
+                    <div v-if="!hasSelectedCandidate" class="header-img"><span class="icon-help" /></div>
                     <img v-else 
                         :src="selectedCandidate.img" 
                         :alt="selectedCandidate.name" 
@@ -29,7 +29,10 @@
 
 export default {
     name:'voter-header',
-    props:['hasSelectedCandidate','selectedCandidate'],
+    props:{
+        hasSelectedCandidate: Boolean,
+        selectedCandidate: Object
+    },
     data(){
         return {
             imgLeavingX: 0,

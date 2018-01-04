@@ -1,11 +1,11 @@
 <template>
     <div class="live-config-settings flex-center flex-column has-text-centered">
-        <span @click="showIntro" class="icon-help-circled"></span>
+        <span @click="showIntro" class="icon-help-circled" />
         <div class="vote-category field m-b-5" :data-intro="introVoteCategory">
             <label class="label">Vote Category</label>
             <div class="control flex-center flex-column">
                 <label v-for="voteCategory in voteCategorys" class="radio m-b-5" :key="voteCategory">
-                    <input type="radio" v-model="selectedVoteCategory" :value="voteCategory"  name="vote-category">
+                    <input type="radio" v-model="selectedVoteCategory" :value="voteCategory" name="vote-category">
                     {{ voteCategory }}
                 </label>
             </div>
@@ -14,7 +14,7 @@
             <div class="vote-mode field m-b-5" :data-intro="introVoteMode">
                 <label class="label">Vote Mode</label>
                 <div class="control flex-center flex-column">
-                    <label v-for="voteMode in voteModes" class="radio m-b-5"  :key="voteMode">
+                    <label v-for="voteMode in voteModes" class="radio m-b-5" :key="voteMode">
                         <input type="radio" 
                             v-model="selectedVoteMode" 
                             :value="voteMode"
@@ -37,7 +37,7 @@
                 Start a vote
             </button>
         </template>
-        <unsupported v-else-if="selectedGame !== null"></unsupported>
+        <unsupported v-else-if="selectedGame !== null" />
     </div>
 </template>
 

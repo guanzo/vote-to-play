@@ -3,13 +3,13 @@
 <div class="vote-results">
     <div class="top-votes overlay-background" ref="topvotes">
         <transition name="fade">
-            <div v-if="topAggregatedVotes.length"  key="results" >
+            <div v-if="topAggregatedVotes.length" key="results" >
                 <div class="is-size-5 has-text-centered">Results</div>
-                <vote-table :votes="topAggregatedVotes"></vote-table>
+                <vote-table :votes="topAggregatedVotes" />
             </div>
             <div v-else class="no-results" key="noresults">
                 <div>Waiting for votes...</div>
-                <vote-loading></vote-loading>
+                <vote-loading />
             </div>
         </transition>
         
@@ -20,7 +20,7 @@
             <vote-table 
                 v-if="userAggregatedVote.length" 
                 :votes="userAggregatedVote"
-            ></vote-table>
+            />
         </div>
     </transition>
 </div>

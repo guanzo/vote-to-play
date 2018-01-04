@@ -7,18 +7,18 @@
                 :splashTransition="splashTransition" 
                 :selectedCandidate="selectedCandidate"
                 @transitionDone="endSplashTransition"
-            ></Splash>
+             />
             <VoterHeader
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :selectedCandidate="selectedCandidate"
                 :class="isInvisible"
-            ></VoterHeader>
+             />
             <CandidateGrid 
                 v-bind="$attrs"
                 :candidates="votableCandidates"
 				:filteredCandidates="votableFilteredCandidates"
                 :class="[isInvisible, 'candidate-grid light']"
-            ></CandidateGrid>
+             />
             <VoterControls
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :hasSubmittedVote="hasSubmittedVote"
@@ -26,11 +26,11 @@
                 :class="isInvisible" 
                 @submitVote="startSplashTransition"
             >
-                <slot name="controls"></slot>
+                <slot name="controls" />
             </VoterControls> 
         </div>
     </transition>
-    <VoteResults></VoteResults>
+    <VoteResults />
 </div>
 
 </template>
@@ -57,7 +57,11 @@ var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 export default {
     name: 'voter',
     inheritAttrs: false,
-    props:['candidates','filteredCandidates','whitelistedCandidates'],
+    props:{
+        candidates: Array,
+        filteredCandidates: Array,
+        whitelistedCandidates: Array
+    },
     data(){
         return {
             splashTransition: this.splashTransitionDefaults()

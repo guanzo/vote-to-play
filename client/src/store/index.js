@@ -99,7 +99,7 @@ export const actions = {
             votes: [],
         })
     },
-    [MUTATIONS.SET_AUTH]( {state,commit}, payload ){
+    [MUTATIONS.SET_AUTH]( {commit}, payload ){
         commit(MUTATIONS.SET_AUTH, payload)
         socket.connect(process.env.SERVER_URL, payload)
     },

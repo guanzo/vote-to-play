@@ -11,7 +11,7 @@ function verifyToken(socket,next){
     if(!token)
         return next(new Error('no token provided'));
     
-    jwt.verify(token, secret, (err, decoded)=>{
+    jwt.verify(token, secret, (err)=>{
         if (err)
             next(new Error('Failed to authenticate token.'));
         else 
@@ -41,14 +41,14 @@ module.exports = (server) => {
 		
         socket.on(e.VOTES_ADD,async data=>{
             let result = await voteModel.addVote(data)
-            if(result.modifiedCount == 0)
+            if(result.modifiedCount === 0)
                 return;
             
             let { channelId, vote, userId } = data
             io.to(channelId).emit(e.VOTES_ADD, { vote, userId } )
         })
         
-        if(query.role == 'broadcaster'){
+        if(query.role === 'broadcaster'){
 
             socket.on(e.VOTES_START,data=>{
                 voteModel.startVote(data)

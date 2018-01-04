@@ -4,7 +4,7 @@
             {{ channelName }} has limited the voting pool
         </div>
         <slot v-if="!hideControls">
-            <div></div><!-- spacing helper -->
+            <div /><!-- spacing helper -->
         </slot>
         <div v-if="!isAnonymousUser" class="control m-l-a">
             <button 
@@ -31,7 +31,11 @@ const { VOTE_MODE_STREAMER } = require('@shared/constants')
 export default {
     name: 'voter-controls',
     mixins:[VoteSimulation],
-    props:['hasSelectedCandidate','hasSubmittedVote','vote'],
+    props:{
+        hasSelectedCandidate: Boolean,
+        hasSubmittedVote: Boolean,
+        vote: String
+    },
     data(){
         return {
             isLoading: false,

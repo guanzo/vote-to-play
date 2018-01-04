@@ -1,7 +1,7 @@
 <template>
     <div class="whitelist-controls field is-grouped is-grouped-multiline">
-		<hearthstone-deck v-if="isHearthstone"></hearthstone-deck>
-        <slot></slot>
+		<hearthstone-deck v-if="isHearthstone" />
+        <slot />
         <div class="buttons control">
             <div class="help m-b-5">{{ validationMsg }}</div>
             <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
@@ -19,12 +19,15 @@
 import { SAVE_GAME_WHITELIST } from '@/store/actions'
 import { delayPromise } from '@/util'
 import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
-import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import hearthstoneDeck from './HearthstoneDeck'
 
 export default {
     name:'whitelist-controls',
-    props:['tempWhitelist','voteCategory','hasUnsavedChanges'],
+    props:{
+        tempWhitelist: Array,
+        voteCategory: String,
+        hasUnsavedChanges: Boolean
+    },
     data(){
         return {
             isLoading: false

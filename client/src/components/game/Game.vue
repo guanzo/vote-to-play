@@ -30,7 +30,7 @@
                 </template>
             </component>
             <div v-else class="absolute-center">
-                <loading dark class="absolute-center"></loading>
+                <loading dark class="absolute-center" />
             </div>
             
         </transition> 
@@ -57,7 +57,10 @@ import { delayPromise } from '@/util'
 
 export default {
     name: 'game',
-    props:['injectedComponent','voteCategory'],
+    props:{
+        injectedComponent: Object,
+        voteCategory: String
+    },
     data(){
         return {
             isLoading: false,

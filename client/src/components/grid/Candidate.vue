@@ -18,7 +18,10 @@
 
 export default {
     name:'candidate',
-    props:['candidate','showNameInGrid'],
+    props:{
+        candidate: Object,
+        showNameInGrid: Boolean
+    },
     data:()=>({
         title:''
     }),

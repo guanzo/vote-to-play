@@ -2,14 +2,14 @@
 <div class="live-config">
     <tabs>
         <tab name="Settings">
-            <settings></settings>
+            <settings />
         </tab>
         <tab name="Vote">
-            <vote-info></vote-info>
-            <vote-results></vote-results>
+            <vote-info />
+            <vote-results />
         </tab>
     </tabs>
-    <heartstone-notification></heartstone-notification>
+    <heartstone-notification />
 </div>
 </template>
 

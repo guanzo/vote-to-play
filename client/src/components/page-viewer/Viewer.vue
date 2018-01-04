@@ -1,7 +1,7 @@
 <template>
     <div class="viewer">
         <div class="viewer-header">
-            <test-util></test-util>
+            <test-util />
             <transition name="fade">
                 <div v-if="showExpandTip" class="expand-tip overlay-background">
                     {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
@@ -15,7 +15,7 @@
                     v-if="voteCategory"  
                     :injectedComponent="voter" 
                     :voteCategory="voteCategory"
-                ></game-master>
+                 />
             </div>
         </transition>
     </div>

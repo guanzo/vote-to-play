@@ -9,7 +9,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import GameSearch from './util/twitchGameSearch'
-import whitelistMixin,{ saveArrayState, processArrays } from './util/whitelistMixin';
+import whitelistMixin,{ processArrays } from './util/whitelistMixin';
 import { gameOptions, gameMixin, FILTER_MODE_NONE } from './util/gameMixin'
 
 const engine = new GameSearch();

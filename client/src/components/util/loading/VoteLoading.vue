@@ -1,6 +1,6 @@
 <template>
     <div class='vote-loading'>
-        <div class='vote-loading__square' v-for="n in 7" :key="n"></div>
+        <div class='vote-loading__square' v-for="n in 7" :key="n" />
     </div>
 </template>
 

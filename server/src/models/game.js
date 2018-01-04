@@ -1,6 +1,4 @@
 var db = require('../db.js')
-var ObjectID = require('mongodb').ObjectID
-const e = require('../../../shared/constants')
 
 module.exports = {
     saveHearthstoneDecks({channelId, decks}) {

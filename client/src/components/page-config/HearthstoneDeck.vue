@@ -8,7 +8,7 @@
             <div class="control">
                 <span class="select">
                     <select v-model="selectedDeckName" required>
-                        <option v-for="(option,i) in deckOptions"
+                        <option v-for="option in deckOptions"
                             :value="option"
                             :key="option"
                         >{{ option }}</option>
@@ -19,7 +19,7 @@
                 <div class="control">
                     <span class="select">
                         <select v-model="selectedClass" required>
-                            <option v-for="(option,i) in originalClasses" 
+                            <option v-for="option in originalClasses" 
                                 :value="option"
                                 :key="option"
                             >{{ option }}</option>

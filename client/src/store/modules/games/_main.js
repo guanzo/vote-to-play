@@ -38,7 +38,7 @@ export const actions = {
 
 export const getters = {
     supportedGames(state){
-        return  _.map(state,'gameName')
+        return  _.map(state,'gameName').sort((a,b)=>a.localeCompare(b))
     },
     selectedGameModule(state,getters,rootState){
         return _.find(state, game =>{

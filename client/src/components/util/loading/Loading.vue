@@ -2,7 +2,7 @@
     <div class="vtp-loading" :class="isLight ? 'light':'dark'">
         <div class="vtp-loader vtp-square vtp-switch">
             <div class="vtp-block">
-                <div class="vtp-box"></div>
+                <div class="vtp-box" />
             </div>
         </div>
   </div>

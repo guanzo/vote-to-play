@@ -64,7 +64,6 @@ export default {
             if(this.votableCandidates.length == 0)
                 return;
 
-            let votes = this.maxSimulationVotes
             let candidatePool = Math.min(25, this.votableCandidates.length);
             let intervalID = setInterval(()=>{
 

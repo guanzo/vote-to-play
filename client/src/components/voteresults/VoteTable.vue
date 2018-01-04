@@ -3,13 +3,13 @@
         <thead>
             <tr>
                 <td class="rank">Rank</td>
-                <td></td>
-                <td></td>
+                <td />
+                <td />
                 <td class="count">Votes</td>
             </tr>
         </thead>
-        <transition-group class="vote-list" name="vote-list" tag="tbody" v-on:before-leave="beforeLeave">
-            <tr v-for="(vote,i) in votes"  class="vote-item" :key="vote.vote">
+        <transition-group class="vote-list" name="vote-list" tag="tbody" @before-leave="beforeLeave">
+            <tr v-for="vote in votes" class="vote-item" :key="vote.vote">
                 <td class="rank">{{ vote.rank }}</td>
                 <td class="vote-image">
                     <div v-if="displayImages" class="image-wrapper">

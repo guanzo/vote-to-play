@@ -1,7 +1,7 @@
 <template>
 <transition name="fade">
     <div v-if="showNotification" class="notification is-info">
-        <button @click="onClose" class="delete"></button>
+        <button @click="onClose" class="delete" />
         <strong>Playing Hearthstone?</strong>
         <div>You can add custom decks in the extension settings.</div>
     </div>

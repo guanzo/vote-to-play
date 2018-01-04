@@ -17,7 +17,10 @@
 
 export default {
     name:'splash',
-    props:['splashTransition','selectedCandidate'],
+    props:{
+        splashTransition: Object,
+        selectedCandidate: Object
+    },
     data(){
         return {
             splashImg: null

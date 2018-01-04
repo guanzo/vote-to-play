@@ -9,9 +9,18 @@
 <script>
     export default {
         props: {
-            id: { default: null },
-            name: { required: true },
-            direction: { default: 'none' }
+            id: { 
+                default: null,
+                type: String
+            },
+            name: { 
+                required: true,
+                type: String 
+            },
+            direction: { 
+                default: 'none',
+                type: String 
+            }
         },
         data: () => ({
             isActive: false,

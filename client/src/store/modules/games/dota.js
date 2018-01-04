@@ -41,7 +41,7 @@ const dota = _.merge({
         },
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
+        [ACTIONS.GET_CANDIDATES]({commit}){
 			return gameApi.fetch('/dota')
             .then((response)=>{
                 let candidates = _(response.data).map((val,id)=>{
