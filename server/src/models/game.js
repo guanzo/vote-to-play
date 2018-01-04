@@ -21,8 +21,10 @@ module.exports = {
 			{ channelId: 1, 'whitelist.All Games': 1 }
 		).toArray()
 		console.log('channels that need fix: ' + channelsToFix.length)
-		if(channelsToFix.length === 0)
+		if(channelsToFix.length === 0){
+			console.log('nothing to fix')
 			return;
+		}
 		var namesThatNeedIDs = [];
 
 		channelsToFix.forEach(({ whitelist })=>{
