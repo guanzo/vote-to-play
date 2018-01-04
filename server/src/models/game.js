@@ -17,7 +17,7 @@ module.exports = {
 		console.log('fixing all games')
 		var channels = db.get().collection('channels')
 		var channelsToFix = await channels.find(
-			{ 'whitelist.All Games':{ $elemMatch:{ id:{ $exists: true } } } },
+			{ 'whitelist.All Games':{ $elemMatch:{ id:{ $exists: false } } } },
 			{ channelId: 1, 'whitelist.All Games': 1 }
 		).toArray()
 		if(channelsToFix.length === 0){
