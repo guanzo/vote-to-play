@@ -2,7 +2,6 @@
     <div @mouseover="checkNameOverflow()" 
 		:title="title" 
 		class="candidate"
-		:class="{'name-is-shown': showNameInGrid}"
         :key="candidate.name"
     >
         <div class="image-wrapper">
@@ -52,9 +51,6 @@ export default {
     transition: .3s;
 	//transition: 5s;
     cursor: pointer;
-	&.name-is-shown{
-		margin: 3px;
-	}
     .candidate-name {
         max-width: 100%;
         padding: 0px 2px;
