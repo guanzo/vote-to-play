@@ -50,6 +50,4 @@ db.connect().then(()=>{
     server.listen(port, () => {
         console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
 	});
-	const gameModel = require('./models/game')
-	gameModel.fixAllGames()
 })
