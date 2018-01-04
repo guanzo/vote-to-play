@@ -44,7 +44,9 @@ export const getters = {
         return _.find(state, game =>{
             return game.gameName == rootState.voteCategory
         })
-    },
+	},
+	//used when streamer is editing whitelist, and is able to manually select current game
+	//therefore i need to retrieve module by name, instead of using selectedGameModule
     gameModuleByName: state => gameName => {
         return _.find(state,game=>game.gameName == gameName)
     }

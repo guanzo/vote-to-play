@@ -17,14 +17,14 @@ module.exports = {
 		console.log('fixing all games')
 		var channels = db.get().collection('channels')
 		var channelsToFix = await channels.find(
-			{ 'whitelist.All Games':{ $elemMatch:{ id:{ $exists: false } } } },
+			{ 'whitelist.All Games':{ $elemMatch:{ id:{ $exists: true } } } },
 			{ channelId: 1, 'whitelist.All Games': 1 }
 		).toArray()
-		console.log('channels that need fix: ' + channelsToFix.length)
 		if(channelsToFix.length === 0){
 			console.log('nothing to fix')
 			return;
-		}
+		}else
+			console.log('channels that need fix: ' + channelsToFix.length)
 		var namesThatNeedIDs = [];
 
 		channelsToFix.forEach(({ whitelist })=>{
@@ -51,7 +51,7 @@ module.exports = {
 		channelsToFix.forEach(({ channelId, whitelist })=>{
 			let allGames = whitelist['All Games']
 			allGames.forEach(game=>{
-				game.id = nameIdMap[game.name]
+				game.id = parseInt(nameIdMap[game.name])
 			})
 			channels.updateOne({ channelId },{ $set:{ 'whitelist.All Games': allGames } })
 		})

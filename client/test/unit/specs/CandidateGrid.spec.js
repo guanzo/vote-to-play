@@ -1,6 +1,6 @@
 import CandidateGrid from '@/components/grid/CandidateGrid'
 import { 
-	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE, FILTER_MODE_NONE 
+	FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE 
 } from '@/store/modules/games/util/gameMixin'
 
 let candidates = [{ name: 'yo' },{ name: 'hi'},{ name: 'yoyo' },{ name: 'hihi'}];
