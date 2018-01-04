@@ -21,6 +21,12 @@
                             </select>
                         </div>
                     </div>
+					<div class="control show-names flex-center">
+						<label class="checkbox">
+						<input v-model="showNameInGrid" type="checkbox">
+						Show names
+						</label>
+					</div>
                 </template>
             </component>
             <div v-else class="absolute-center">
@@ -34,7 +40,7 @@
 <script>
 
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-import { GET_CANDIDATES } from '@/store/actions'
+import { GET_CANDIDATES, TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 import loading from '@/components/util/loading/Loading'
 import { delayPromise } from '@/util'
 /**
@@ -55,7 +61,7 @@ export default {
     data(){
         return {
             isLoading: false,
-            delayDuration: 750,
+			delayDuration: 750
         }
     },
     computed:{
@@ -71,13 +77,22 @@ export default {
 			let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
 			let filteredCandidates = 	getters[this.namespace+'/filteredCandidates']
-			let { gameOptions } = this.game
+			let { gameOptions, filters } = this.game
             return {
+                voteCategory: this.voteCategory,
                 candidates: this.candidates,
                 filteredCandidates,
 				whitelistedCandidates,
 				gameOptions,
-                voteCategory: this.voteCategory
+				filters,
+            }
+		},
+        showNameInGrid: {
+            get () {
+                return this.game.gameOptions.showNameInGrid
+            },
+            set (value) {
+                this.$store.commit(this.namespace+'/'+TOGGLE_SHOW_NAME_IN_GRID, value)
             }
         },
         isAllGames(){
@@ -139,6 +154,9 @@ export default {
         height: auto;
         display: block;
     }
+	.voter .show-names label:hover{
+		color: #eee;
+	}
 }
 /**
 Base img dimensions are targeted towards the viewer route.
@@ -147,11 +165,19 @@ Depending on the route, these dimensions are scaled from the base.
 General rules:
 -Vertical images must be scaled down considerably in .voter-header and .vote-results
 -Images are larger than base in .white-list
--Images are smaller than base in .voter-header 
+-Images are smaller than base in .voter-header && .vote-results
 */
 @mixin scale-img-size($width, $height, $scale: 1){
-    width: $width * $scale;
-    height: $height * $scale;
+    .image-wrapper{
+		width: $width * $scale;
+    	height: $height * $scale;
+	}
+}
+//used to limit candidate names length to force ellipsis on text overflow
+@mixin scale-candidate-size($width, $scale: 1){
+	.candidate{
+		max-width: $width * $scale;
+	}
 }
 
 
@@ -159,20 +185,15 @@ General rules:
     
     $w: 72px;
     $h: 100px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .voter-header .image-wrapper{
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+
+    .voter-header{
         @include scale-img-size($w,$h,.75);
     }
     .vote-form{
         overflow: hidden;
         flex: 1; //ensure always full width, so the div doesn't jump around when querying
-    }
-    .candidate{
-        max-width: $w;
-        font-size: 12px;
-        margin: 3px;
     }
 }
 
@@ -180,17 +201,20 @@ General rules:
     //original 292x160
     $w: 125px;
     $h: 68px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    } 
-    .voter-header .image-wrapper{
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .voter-header{
         @include scale-img-size($w,$h,0.75);
     }
-    .vote-results .image-wrapper {
+    .voter-results {
         @include scale-img-size($w,$h,0.5);
     }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.25);
+    .whitelist{
+		$scale: 1.25;
+        @include scale-img-size($w,$h,$scale);
+		@include scale-candidate-size($w,$scale);
     }
     .splash-img-container img.splash-img{
         object-fit: contain;
@@ -206,11 +230,13 @@ General rules:
     //64x36
     $w: 64px;
     $h: 36px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.15);
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    .whitelist{
+		$scale: 1.15;
+        @include scale-img-size($w,$h,$scale);
+		@include scale-candidate-size($w,$scale);
     }
 }
 .hearthstone{
@@ -221,16 +247,13 @@ General rules:
         width: 100%;
         object-fit: cover;
     }
-    .candidate-grid{
-        justify-content: center;
-    }
-    .image-wrapper {
-        @include scale-img-size($w,$h);
-    }
-    .voter-header .image-wrapper{
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .voter-header{
         @include scale-img-size($w,$h,.6);
     }
-    .vote-results .image-wrapper {
+    .voter-results {
         @include scale-img-size($w,$h,.4);
     }    
 }
@@ -238,11 +261,13 @@ General rules:
     //original 75x75
     $w: 55px;
     $h: 55px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.2);
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    .whitelist{
+		$scale: 1.2;
+        @include scale-img-size($w,$h,$scale);
+		@include scale-candidate-size($w,$scale);
     }
     
 }
@@ -250,27 +275,33 @@ General rules:
     //120x120 original
     $w: 45px;
     $h: 45px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.15);
+   
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .whitelist{
+		$scale: 1.15;
+        @include scale-img-size($w,$h,$scale);
+		@include scale-candidate-size($w,$scale);
     }
 }
 .overwatch{
     $w: 58px;
     $h: 100px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .voter-header .image-wrapper{
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .voter-header{
         @include scale-img-size($w,$h,.75);
     }
-    .vote-results .image-wrapper {
+    .voter-results {
         @include scale-img-size($w,$h,.5);
     }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h,1.25);
+    .whitelist{
+		$scale: 1.25;
+        @include scale-img-size($w,$h,$scale);
+		@include scale-candidate-size($w,$scale);
     }
     select{
         text-transform: capitalize;
@@ -280,24 +311,18 @@ General rules:
     //160x100 original
     $w: 80px;
     $h: 50px;
-    .image-wrapper{
-        @include scale-img-size($w,$h);
-    }
-    .voter-header .image-wrapper{
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .voter-header{
         @include scale-img-size($w,$h,.85);
     }
-    .vote-results .image-wrapper {
+    .voter-results {
         @include scale-img-size($w,$h,.85);
-    }
-    .whitelist .image-wrapper{
-        @include scale-img-size($w,$h);
     }
     .splash-img-container img.splash-img{
         object-fit: contain;
-    }
-    .candidate{
-        max-width: $w;
-        font-size: .85rem;
     }
 }
 

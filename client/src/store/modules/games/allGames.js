@@ -10,7 +10,7 @@ import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import GameSearch from './util/twitchGameSearch'
 import whitelistMixin,{ saveArrayState, processArrays } from './util/whitelistMixin';
-import { gameOptions, FILTER_MODE_NONE } from './util/gameMixin'
+import { gameOptions, gameMixin, FILTER_MODE_NONE } from './util/gameMixin'
 
 const engine = new GameSearch();
 
@@ -18,7 +18,7 @@ export const NAMESPACE = 'All Games'
 export const BOX_ART_WIDTH = 72;
 export const BOX_ART_HEIGHT = 100;
 
-const modifiedMixin = _.merge({},whitelistMixin,
+const modifiedWhitelistMixin = _.merge({},whitelistMixin,
     {
         mutations:{
             removeUnsavedChanges(state){
@@ -131,7 +131,7 @@ const allGames = _.merge({
             return getters.candidates
         },
     }
-},modifiedMixin)
+},gameMixin,modifiedWhitelistMixin)
 
 //twitch allows you to give custom dimensions
 function setImage(d){

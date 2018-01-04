@@ -40,8 +40,8 @@ export default {
     mixins:[smoothHeight],
     props:{
         candidates: Array,
-        filteredCandidates: Array,
-		whitelist: Array,
+		filteredCandidates: Array,
+		filters: Array,
 		gameOptions:{
 			type: Object,
 			default: gameOptions()
@@ -86,9 +86,9 @@ export default {
 		}
 	},
 	watch:{
-		filteredCandidates(){
+		filters(){
 			this.resetPagination();
-		}
+		},
 	},
     mounted(){
         this.$registerElement({
@@ -134,6 +134,8 @@ $dark: #333;
     position: relative;
     display: flex;
     flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -159,7 +161,8 @@ $dark: #333;
     opacity: 0;
 }
 .grid-leave-active {
-    position: absolute !important;
+	position: absolute !important;
+	z-index: 100;
 }
 
 </style>

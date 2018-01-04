@@ -1,7 +1,8 @@
+import gameApi from '@/api/game'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters } from './util/gameMixin'
+import { gameOptions, gameMixin } from './util/gameMixin'
 
 export const NAMESPACE = 'Dota 2'
 
@@ -41,11 +42,7 @@ const dota = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({state, rootState, commit}){
-            return axios.get(process.env.SERVER_URL+'/api/dota',{
-                headers:{
-                    'Authorization': rootState.token,
-                }
-            })
+			return gameApi.fetch('/dota')
             .then((response)=>{
                 let candidates = _(response.data).map((val,id)=>{
 					val.id = id
@@ -62,7 +59,6 @@ const dota = _.merge({
         candidates(state){
             return state.candidates
 		},
-		...filterGetters,
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 return activeFilters.every(({id,vmodel,options})=>{
@@ -74,6 +70,6 @@ const dota = _.merge({
             })
         },
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 
 export default dota

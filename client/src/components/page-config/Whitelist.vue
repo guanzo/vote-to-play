@@ -3,13 +3,13 @@
 <div class="whitelist">
     <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success"></span></h5>
     <candidate-grid 
+		v-bind="$attrs"
         :candidates="tempWhitelist"
         :filteredCandidates="tempWhitelist"
-        :gameOptions="gameOptions"
         :noResults="noResults"
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
-        class="whitelist-grid dark"
+        class="dark"
     ></candidate-grid>
 
     <div class="whitelist-tools flex-center m-t-10 m-b-10">
@@ -23,13 +23,12 @@
 
     <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger"></span></h5>
     <candidate-grid 
+		v-bind="$attrs"
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
-        :gameOptions="gameOptions"
-		:filterMode="filterMode"
         :beforeLeave="beforeLeave"
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
-        class="candidate-grid dark m-b-25"
+        class="dark m-b-25"
     ></candidate-grid>
     <whitelist-controls 
         :voteCategory="voteCategory" 
@@ -51,7 +50,7 @@ import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 export default {
     name:'whitelist',
     inheritAttrs: false,
-    props:['voteCategory',],
+    props:['voteCategory'],
     data(){
         return {
             noResults: "You haven't whitelisted any candidates. Click on the candidates to whitelist them."
@@ -62,8 +61,6 @@ export default {
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
 		namespace(){     return this.game.gameName },
-		gameOptions(){	 return this.game.gameOptions },
-        filterMode(){	 return this.game.filterMode },
         tempWhitelist(){ return this.game.tempWhitelist },
         tempBlacklist(){ return this.game.tempBlacklist },
         candidates(){
@@ -98,16 +95,12 @@ export default {
         },
 		//allGames && hearthstone compatibility
 		//these games can change their candidates dynamically 
-        'candidates'(candidates){
+        candidates(candidates){
             this.$store.dispatch(this.namespace+'/partition');
         },
     },
     created(){
         window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
-	},
-	mounted(){
-		
-		console.log(this)
 	},
     destroyed(){
         window.removeEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
@@ -128,12 +121,14 @@ export default {
             let msg = 'You have unsaved changes'
             e.returnValue = msg
             return msg
-        },//keep element in its original place when swapping between white/black lists
+        },//fade out element in place when swapping between white/black lists
         beforeLeave(el){
-            //getComputedStyle has low performance
-            let marginTop = 2;
-            el.style.top = (el.offsetTop - marginTop) + 'px'
-            el.style.left = el.offsetLeft + 'px'
+            //getComputedStyle has low performance, just hardcode margin
+			let marginTop = 2;
+			let top = (el.offsetTop - marginTop)+'px';
+			let left = el.offsetLeft+'px'
+			//assign all at once to prevent unnecessary reflows
+			Object.assign(el.style, { left, top })
         }
     },
     components:{
@@ -148,12 +143,9 @@ export default {
 
 .whitelist{
     padding: 15px;
-    .candidate-grid{
-        //min-height: 250px;
-        align-items: flex-start;
-        align-content: flex-start;
-        transition: .5s;
-    }
+	.candidate-grid{
+		max-height: 450px;
+	}
     .whitelist-tools{
         > * {
             flex: 1 1 30%;

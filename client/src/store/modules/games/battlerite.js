@@ -3,7 +3,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters } from './util/gameMixin'
+import { gameOptions, gameMixin } from './util/gameMixin'
 
 
 export const NAMESPACE = 'Battlerite'
@@ -64,7 +64,6 @@ const battlerite = _.merge({
         candidates(state){
             return state.candidates
 		},
-		...filterGetters,
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
@@ -78,6 +77,6 @@ const battlerite = _.merge({
             })
         },
     }
-},whitelistMixin)
+},gameMixin, whitelistMixin)
 
 export default battlerite

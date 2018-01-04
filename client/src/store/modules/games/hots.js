@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters } from './util/gameMixin'
+import { gameOptions, gameMixin } from './util/gameMixin'
 
 
 export const NAMESPACE = 'Heroes of the Storm'
@@ -72,7 +72,6 @@ const hots = _.merge({
         candidates(state){
             return state.candidates
         },
-		...filterGetters,
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
@@ -88,6 +87,6 @@ const hots = _.merge({
             })
         },
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 
 export default hots

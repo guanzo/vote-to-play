@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, FILTER_MODE_NONE } from './util/gameMixin'
+import { gameOptions, gameMixin, FILTER_MODE_NONE } from './util/gameMixin'
 
 export const NAMESPACE = 'Hearthstone'
 
@@ -141,6 +141,6 @@ const hearthstone = _.merge({
         //no op
         filteredCandidates: (state,getters)=>getters.candidates,
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 
 export default hearthstone

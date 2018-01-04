@@ -1,10 +1,8 @@
 <template>
-    
     <div class="whitelist-controls field is-grouped is-grouped-multiline">
-        <slot>
-            <hearthstone-deck v-if="isHearthstone"></hearthstone-deck>
-        </slot>
-        <div class="buttons">
+		<hearthstone-deck v-if="isHearthstone"></hearthstone-deck>
+        <slot></slot>
+        <div class="buttons control">
             <div class="help m-b-5">{{ validationMsg }}</div>
             <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
             <button @click="onSaveGameWhitelist" 
@@ -14,7 +12,6 @@
 
         </div>
     </div>
-
 </template>
 
 <script>
@@ -69,11 +66,14 @@ export default {
 <style lang="scss" scoped>
 
 .whitelist-controls{
+	//hearthstone has a label that interferes with vertical alignment
     align-items: flex-end;
     .buttons{
-        transition: 0.15s;
         margin-left: auto;
         position: relative;
+		.button{
+			transition: 0.15s;
+		}
         .help{
             position: absolute;
             right: 0;

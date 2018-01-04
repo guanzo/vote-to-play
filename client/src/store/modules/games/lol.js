@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters } from './util/gameMixin'
+import { gameOptions, gameMixin } from './util/gameMixin'
 
 
 export const NAMESPACE = 'League of Legends'
@@ -65,7 +65,6 @@ const lol = _.merge({
         candidates(state){
             return state.candidates
         },
-		...filterGetters,
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
@@ -79,5 +78,5 @@ const lol = _.merge({
             })
         },
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 export default lol

@@ -29,7 +29,7 @@ describe('CandidateGrid.vue', () => {
 			filterMode: FILTER_MODE_HIGHLIGHT
 		}
         const vm = mockComponent(gameOptions)
-		let children = vm.$el.children
+		let children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(candidates.length)
         expect(children[0].className).to.include('filtered-in')
         expect(children[1].className).to.include('filtered-in')
@@ -42,7 +42,7 @@ describe('CandidateGrid.vue', () => {
 			filterMode: FILTER_MODE_REMOVE
 		}
         const vm = mockComponent(gameOptions)
-        let children = vm.$el.children
+        let children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(filteredCandidates.length)
 	})
 
@@ -72,5 +72,22 @@ describe('CandidateGrid.vue', () => {
 		expect(pageButton).to.be.null
 	})
 
+	it('hasPaginatedGrid: true, shows next page on paginate',done=>{
+		let gameOptions = {
+			filterMode: FILTER_MODE_REMOVE,
+			hasPaginatedGrid: true
+		}
+		let pageSize = 2
+		const vm = mockComponent(gameOptions, pageSize)
+		vm.onPaginate()
+		//wait for transition
+		setTimeout(()=>{
+			let children = vm.$el.querySelectorAll('.candidate')
+			expect(children.length).to.equal(filteredCandidates.length)
+			let pageButton = vm.$el.querySelector('.show-more')
+			expect(pageButton).to.be.null
+			done()
+		},100)
+	})
 })
 

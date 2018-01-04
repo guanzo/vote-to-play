@@ -1,8 +1,8 @@
 /**
  * EARLIER DESIGN IS BITING ME IN THE ASS
  * Originally, i saved game whitelist as array of strings
- * Now, b/c of allGames and world of tanks, i'm going to start
- * saving whitelists as array of objects, with id && name properties.
+ * Now, b/c of allGames and world of tanks (they can have duplicate candidate names) 
+ * i'm going to start saving whitelists as array of objects, with id && name properties.
  * I'll need to check if elements in whitelistedNames are strings or objects
  * and code accordingly
  * The database will eventually fix itself, as users update their whitelist
@@ -14,7 +14,7 @@
 function getWhitelistContainsCandidateIteratee(whitelistedNames){
 	return isArrayOfStrings(whitelistedNames)
 			? d => whitelistedNames.includes(d.name)
-			: d => whitelistedNames.some(b=>b.name == d.name)
+			: d => whitelistedNames.some(b=>b.id == d.id)
 	
 }
 
@@ -70,23 +70,19 @@ export const actions = {
             tempWhitelist: partition[0],
             tempBlacklist: partition[1]
         })
-        commit('partition',{
-            tempWhitelist: partition[0],
-            tempBlacklist: partition[1]
-        }) 
     },
 }
 
 export const getters = {
-    whitelistedCandidates({whitelistedNames},{candidates}, rootState){
+    whitelistedCandidates({whitelistedNames},{candidates}){
 		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
 		return candidates.filter(iteratee)
 	},
-    filteredBlacklist(state,{candidates,filteredCandidates}){
-        return _.intersectionBy(candidates, filteredCandidates,'id')
+    filteredBlacklist({tempBlacklist},{filteredCandidates}){
+        return _.intersectionBy(tempBlacklist, filteredCandidates,'id')
     },
     hasUnsavedChanges(state, getters){
-        return !_.isEmpty(_.xorBy(getters.whitelistedCandidates, state.tempWhitelist,'name'))
+        return !_.isEmpty(_.xorBy(getters.whitelistedCandidates, state.tempWhitelist,'id'))
     }
 }
 

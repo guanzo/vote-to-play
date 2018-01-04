@@ -1,3 +1,4 @@
+import { TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 
 //3 filtering modes
 //default, leaves non-matched candidates in place, but darkens them
@@ -24,9 +25,16 @@ export function gameOptions(customOptions){
 	}
 }
 
-export const filterGetters = {
-	activeFilters(state){
-		return state.filters.filter(isFilterActive)
+export const gameMixin = {
+	mutations:{
+		[TOGGLE_SHOW_NAME_IN_GRID](state,value){
+			state.gameOptions.showNameInGrid = value;
+		}
+	},
+	getters:{
+		activeFilters(state){
+			return state.filters.filter(isFilterActive)
+		}
 	}
 }
 

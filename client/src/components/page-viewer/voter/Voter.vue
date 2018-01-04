@@ -131,13 +131,12 @@ export default {
 <style lang="scss" scoped>
 
 .voter{
-    height: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
+    height: 100%;
     width: 100%;
     .vote-form{
-        
         position: relative;
         padding: 15px;
         max-height: 100%;
@@ -153,7 +152,6 @@ export default {
         grid-row-gap: 15px;   
         .candidate-grid{
             grid-area: main;
-            align-items: center;
         }     
         .invisible{
             opacity: 0;

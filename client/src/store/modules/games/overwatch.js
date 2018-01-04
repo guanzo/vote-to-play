@@ -1,7 +1,7 @@
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters } from './util/gameMixin'
+import { gameOptions, gameMixin } from './util/gameMixin'
 
 
 import heroes from '@/assets/json/overwatch_heroes'
@@ -53,7 +53,6 @@ const ow = _.merge({
         candidates(state){
             return state.candidates
         },
-		...filterGetters,
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 let result = true;
@@ -67,6 +66,6 @@ const ow = _.merge({
             })
         },
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 
 export default ow

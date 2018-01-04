@@ -1,7 +1,8 @@
+import gameApi from '@/api/game'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
-import { gameOptions, filterGetters, FILTER_MODE_REMOVE } from './util/gameMixin'
+import { gameOptions, gameMixin, FILTER_MODE_REMOVE } from './util/gameMixin'
 
 export const NAMESPACE = 'World of Tanks'
 
@@ -84,11 +85,7 @@ const worldoftanks = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({rootState, commit}){
-			return axios.get(process.env.SERVER_URL+'/api/worldoftanks',{
-                headers:{
-                    'Authorization': rootState.token,
-                }
-            })
+			return gameApi.fetch('/worldoftanks')
             .then((response)=>{
                 let candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
@@ -100,7 +97,6 @@ const worldoftanks = _.merge({
         candidates(state){
             return state.candidates
         },
-		...filterGetters,
         filteredCandidates({candidates, vehicleNations},{activeFilters}){
 			let nationsInverted = _.invert(vehicleNations)
             let data = candidates.filter(candidate=>{
@@ -120,6 +116,6 @@ const worldoftanks = _.merge({
 			return data
         },
     }
-},whitelistMixin)
+},gameMixin,whitelistMixin)
 
 export default worldoftanks

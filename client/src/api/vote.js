@@ -4,6 +4,9 @@ import * as MUTATIONS from '@/store/mutations'
 const e = require('@shared/socket-events')
 
 
+/**
+ * Handles anything vote related
+ */
 export default {
     addVote(data){
         socket.get().emit(e.VOTES_ADD,data)

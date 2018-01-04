@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="onAddDeck" class="customize-hearthstone">
+    <form @submit.prevent="onAddDeck" class="customize-hearthstone control">
         <div class="field-labels">
             <label class="label">Customize Decks</label>
             <div v-show="isDuplicate" class="help is-danger">Duplicate deck</div>

@@ -5,7 +5,18 @@ const e = require('@shared/socket-events')
 
 import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 
+/**
+ * Handles game specific requests
+ */
 export default {
+	fetch(resource){
+		let { token } = store.state
+		return axios.get(process.env.SERVER_URL+'/api'+resource,{
+			headers:{
+				'Authorization': token,
+			}
+		})
+	},
     addHearthstoneDeck(data){
         socket.get().emit(e.HEARTHSTONE_DECKS_EDIT,data)
     },
@@ -17,8 +28,6 @@ export default {
             store.commit(HEARTHSTONE+'/'+MUTATIONS.SET_HEARTHSTONE_DECKS, decks)
     
         });
-        
-    
     }
 }
 
