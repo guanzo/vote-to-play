@@ -20,7 +20,7 @@ module.exports = {
 			{ 'whitelist.All Games':{ $elemMatch:{ id:{ $exists: false } } } },
 			{ channelId: 1, 'whitelist.All Games': 1 }
 		).toArray()
-		
+		console.log('channels that need fix: ' + channelsToFix.length)
 		var namesThatNeedIDs = [];
 
 		channelsToFix.forEach(({ whitelist })=>{
