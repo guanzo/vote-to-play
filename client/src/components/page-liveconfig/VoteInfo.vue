@@ -4,7 +4,6 @@
             <tbody>
                 <tr><td>Category</td><td>{{ currentVote.voteCategory }}</td></tr>
                 <tr><td>Mode</td><td>{{ currentVote.voteMode }}</td></tr>
-                <tr v-show="currentVote.votes.length"><td>Total votes</td><td>{{ currentVote.votes.length }}</td></tr>
             </tbody>
         </table>
     </div>

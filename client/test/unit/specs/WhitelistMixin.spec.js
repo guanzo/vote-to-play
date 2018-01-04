@@ -1,4 +1,4 @@
-import whitelistMixin,{ mutations,actions,  getters } from '@/store/modules/games/util/whitelistMixin'
+import { mutations,actions,  getters } from '@/store/modules/games/util/whitelistMixin'
 
 function mockCandidates(){
     return [{ name: 'axe' },{ name: 'mirana' },{ name: 'toad' },]
@@ -9,7 +9,7 @@ describe('whitelistMixin',()=>{
 
 
         it('swaps candidate between white/black list',()=>{
-            let [axe,mirana,toad] = mockCandidates()
+            let [mirana,toad] = mockCandidates()
             let state = {
                 tempWhitelist:[mirana],
                 tempBlacklist:[toad],

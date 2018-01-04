@@ -5,6 +5,7 @@
         <transition name="fade">
             <div v-if="topAggregatedVotes.length" key="results" >
                 <div class="is-size-5 has-text-centered">Results</div>
+                <div class="m-t-5 m-b-5 has-text-centered">Total votes: {{ currentVote.votes.length }}</div>
                 <vote-table :votes="topAggregatedVotes" />
             </div>
             <div v-else class="no-results" key="noresults">
