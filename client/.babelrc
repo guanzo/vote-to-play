@@ -1,15 +1,24 @@
 {
-  "presets": [
-    ["env", {
-      "modules": false
-    }],
-    "stage-2"
-  ],
-  "plugins": ["transform-runtime","transform-vue-jsx"],
-  "env": {
-    "test": {
-      "presets": ["env", "stage-2"],
-      "plugins": ["istanbul"]
-    }
-  }
+	"presets": [
+		["env", {
+		"modules": false
+		}],
+		"stage-2"
+	],
+	"plugins": [
+		["transform-runtime", {
+				"helpers": false,
+				"polyfill": false,
+				"regenerator": false,
+				"moduleName": "babel-runtime"
+			}
+		],
+		"transform-vue-jsx"
+		],
+	"env": {
+		"test": {
+		"presets": ["env", "stage-2"],
+		"plugins": ["istanbul"]
+		}
+	}
 }

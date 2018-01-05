@@ -30,6 +30,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
   },
   plugins: [
+	//new webpack.IgnorePlugin(/core-js/),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
@@ -47,12 +48,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     ),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
     new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            dead_code: true,
-            unused: true,
-            side_effects: true,
-            warnings: false
-        },
+        compress: false,
+		mangle: false,
         output: { beautify: true },
       sourceMap: config.build.productionSourceMap,
       parallel: true
@@ -112,18 +109,14 @@ const webpackConfig = merge(baseWebpackConfig, {
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'assets',
-        /*chunks: ["app"],*/
-        minChunks: function (module, count) {
-          return (
-            module.resource &&
-            /\.(png|jpe?g|gif|svg|json)(\?.*)?$/.test(module.resource)
-          )
-        }
-      }),
+	new webpack.optimize.ModuleConcatenationPlugin(),
+	new webpack.optimize.CommonsChunkPlugin({
+		name: 'vendor',
+		minChunks(module, count) {
+			var context = module.context;
+			return context && context.indexOf('node_modules') >= 0;
+		},
+	}),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
@@ -133,12 +126,12 @@ const webpackConfig = merge(baseWebpackConfig, {
     // This instance extracts shared chunks from code splitted chunks and bundles them
     // in a separate chunk, similar to the vendor chunk
     // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-    new webpack.optimize.CommonsChunkPlugin({
+    /* new webpack.optimize.CommonsChunkPlugin({
       name: 'app',
       async: 'vendor-async',
       children: true,
       minChunks: 3
-    }),
+    }), */
 
     // copy custom static assets
     new CopyWebpackPlugin([
