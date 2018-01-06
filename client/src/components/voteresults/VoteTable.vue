@@ -42,7 +42,7 @@ export default {
         },
         //no images for live config, or if vote category is all games
         displayImages(){
-            if(this.$route.path.includes('liveconfig') || this.namespace == ALL_GAMES)
+            if(this.$route.path.includes('liveconfig') || this.namespace === ALL_GAMES)
                 return false;
             return true
         }
@@ -50,13 +50,13 @@ export default {
 	methods:{
         getCandidateImage(name){
             let candidate = _.find(this.candidates,candidate=>{
-                return candidate.name.toLowerCase() == name.toLowerCase()
+                return candidate.name.toLowerCase() === name.toLowerCase()
             })
             return candidate ? candidate.img : ''
         },
         beforeLeave(tr){
             //td widths collapse during list-leave b/c of position: absolute.
-            for(var td of tr.children){
+            for(let td of tr.children){
                 td.style.width = td.offsetWidth + 'px'
             }
         }

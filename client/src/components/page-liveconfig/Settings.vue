@@ -48,7 +48,7 @@ import { START_NEW_VOTE } from '@/store/actions'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { delayPromise } from '@/util'
-var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /*
 2 ways to start a vote:
@@ -93,10 +93,10 @@ export default {
             set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
         hasInvalidVoteMode(){
-            return this.selectedVoteMode == VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length == 0;
+            return this.selectedVoteMode === VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length === 0;
         },
         isSupportedGame(){
-            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory == ALL_GAMES
+            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory === ALL_GAMES
         },
         startVoteBtnClass(){
             if(this.isLoading)
@@ -148,7 +148,7 @@ export default {
                 tooltipClass:'vtp-tooltip',
                 showBullets: false
             })
-            .onbeforechange(function(el) {
+            .onbeforechange(el => {
                 let padding = 40
                 window.scrollTo(0,el.offsetTop - padding)
             })

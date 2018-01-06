@@ -14,7 +14,7 @@
 function getWhitelistContainsCandidateIteratee(whitelistedNames){
 	return isArrayOfStrings(whitelistedNames)
 			? d => whitelistedNames.includes(d.name)
-			: d => whitelistedNames.some(b=>b.id == d.id)
+			: d => whitelistedNames.some(b=>b.id === d.id)
 	
 }
 
@@ -37,7 +37,7 @@ export const mutations = {
         state.tempWhitelist = [...candidates]
     },
     swap(state,{ candidate, toArray, fromArray }){
-		let index = _.findIndex(fromArray,d=>d.name == candidate.name)
+		let index = _.findIndex(fromArray,d=>d.name === candidate.name)
         fromArray.splice(index,1)
         toArray.push(candidate)
 		processArrays(fromArray,toArray, state.gameOptions)

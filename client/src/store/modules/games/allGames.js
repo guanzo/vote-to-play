@@ -23,12 +23,12 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
         mutations:{
             removeUnsavedChanges(state){
                 let removed = _.remove(state.tempWhitelist,a=> {
-                    return !state.whitelistedNames.some(b=>b.name == a.name)
+                    return !state.whitelistedNames.some(b=>b.name === a.name)
                 })
                 state.tempBlacklist.push(...removed)
                 
                 removed = _.remove(state.tempBlacklist,a=> {
-                    return state.whitelistedNames.some(b=>b.name == a.name)
+                    return state.whitelistedNames.some(b=>b.name === a.name)
                 })
                 state.tempWhitelist.push(...removed)
                 processArrays(state.tempWhitelist,state.tempBlacklist, state.gameOptions)
@@ -40,7 +40,7 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
         actions:{
             //called on every game search, don't overwrite current tempWhitelist
             partition({commit, state, getters}){
-                var partition = {
+                let partition = {
                     tempBlacklist: getters.candidates
                 }
                 if(!state.tempWhitelist.length)

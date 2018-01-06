@@ -1,5 +1,5 @@
 
-var socket;
+let socket;
 const e = require('@shared/socket-events')
 
 import vote from './vote'

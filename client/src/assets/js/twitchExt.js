@@ -2,25 +2,14 @@
 import store from '@/store'
 import { SET_AUTH, SET_GAME } from '@/store/mutations'
 
-//testing on localhost window, and not inside twitch iframe
-//i need to join a room so that i can cast votes locally
-if(!inIframe() && process.env.NODE_ENV == 'development'){
-    let token = process.env.TEST_TOKEN
-    let role = 'broadcaster'
-    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
-}
 
-var authed = false;
-window.Twitch.ext.onAuthorized(async function(auth) {
-    if(authed){
-        return;
-    }
-    authed = true;
-    //adds token to every request sent thru axios
-    var parts = auth.token.split(".");
-    var payload = JSON.parse(window.atob(parts[1]));
-    var role = payload.role
-    var [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
+let timeoutId = null;
+
+window.Twitch.ext.onAuthorized(async (auth) => {
+    let parts = auth.token.split(".");
+    let payload = JSON.parse(window.atob(parts[1]));
+    let role = payload.role
+    let [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
 	//console.log(payload)
 	//console.log(auth)
@@ -36,45 +25,39 @@ window.Twitch.ext.onAuthorized(async function(auth) {
         role 
     })
 
-    setTimeout(()=>pollSelectedGame(auth.channelId))
-    
-    /* window.Twitch.ext.listen('broadcast', function (topic, contentType, message) {
-        console.log(arguments)
-    });
-
-    window.Twitch.ext.send('broadcast', 'application/json',{test:'hi'}); */
-
+	clearTimeout(timeoutId)
+    timeoutId = setTimeout(()=>pollSelectedGame(auth.channelId))
 });
 
-
-function pollSelectedGame(channelId, pollInterval = 4000){
-    getSelectedGame(channelId)
-    .then((game)=>{
-        let storeGame = store.state.selectedGame
-        if(game != storeGame)
-            store.commit(SET_GAME, game)
-        setTimeout(()=>pollSelectedGame(channelId),pollInterval)
-    })
+//testing on localhost window, and not inside twitch iframe
+//i need to join a room so that i can cast votes locally
+if(!inIframe() && process.env.NODE_ENV === 'development'){
+    let token = process.env.TEST_TOKEN
+    let role = 'broadcaster'
+    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
 }
 
-function getSelectedGame(channelId){
-    return axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
+async function pollSelectedGame(channelId, pollInterval = 4000){
+    let game = await getSelectedGame(channelId)
+	let storeGame = store.state.selectedGame
+	if(game !== storeGame)
+		store.commit(SET_GAME, game)
+	timeoutId = setTimeout(()=>pollSelectedGame(channelId),pollInterval)
+}
+
+async function getSelectedGame(channelId){
+    let response = await axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
         headers:{
-            'Accept': 'application/vnd.twitchtv.v5+json',
-            'Client-ID':EXTENSION_CLIENT_ID,
+            Accept: 'application/vnd.twitchtv.v5+json',
+            'Client-ID': EXTENSION_CLIENT_ID,
         }
-    })
-    .then((response)=>{
-        let game = response.data.game
-        return game
-    })
+	})
+	return response.data.game
 }
 
-window.Twitch.ext.onError(function (err) {
-    console.error(err);
-});
+window.Twitch.ext.onError(console.error);
 
-function inIframe () {
+function inIframe() {
     try {
         return window.self !== window.top;
     } catch (e) {
@@ -83,7 +66,7 @@ function inIframe () {
 }
 
 function getChannelName(channelId){
-    return axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`,{
+    return axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`, {
         headers:{
             'Client-Id':EXTENSION_CLIENT_ID,
         }

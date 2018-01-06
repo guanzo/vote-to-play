@@ -62,7 +62,7 @@ export default {
             return this.allAggregatedVotes.slice(0, this.maxResults)
         },
         userAggregatedVote(){
-            return this.allAggregatedVotes.filter(vote=>vote.vote == this.userVote)
+            return this.allAggregatedVotes.filter(vote=>vote.vote === this.userVote)
         }
     },
     mounted(){

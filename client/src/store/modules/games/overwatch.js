@@ -6,7 +6,7 @@ import { gameOptions, gameMixin } from './util/gameMixin'
 
 import heroes from '@/assets/json/overwatch_heroes'
 
-var candidates = _(heroes).map(candidate=>{
+let candidates = _(heroes).map(candidate=>{
     candidate.img = candidate.avatar
     candidate.imgSplash = cl.url("overwatch/splash/" + candidate.name.replace(/ /g,'') + `_splash.jpg`);
     return candidate
@@ -55,14 +55,12 @@ const ow = _.merge({
         },
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
-                let result = true;
-                activeFilters.forEach(({id,vmodel,options})=>{
-                    if(id == 'name')
-                        result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-                    else if(id == 'role' && vmodel !== options[0])
-                        result = result && candidate.type === vmodel
+                return activeFilters.every(({id,vmodel,options})=>{
+                    if(id === 'name')
+                        return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
+                    else if(id === 'role' && vmodel !== options[0])
+                        return candidate.type === vmodel
                 })
-                return result
             })
         },
     }

@@ -48,7 +48,7 @@ export default {
     watch:{
         //show tip if votes are reset, user may or may not have voted.
         'currentVote.votes'(){
-            if(this.currentVote.votes.length == 0)
+            if(this.currentVote.votes.length === 0)
                 this.showExpandTip = true;
         },
         hasSubmittedVote(){

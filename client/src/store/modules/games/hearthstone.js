@@ -95,7 +95,7 @@ const hearthstone = _.merge({
         [MUTATIONS.SET_HEARTHSTONE_DECKS](state, decks){
 			//assign needed properties from existing decks, such as imgSplash
             decks = decks.map(deck=>{
-                let candidate = state.candidates.find(d=>d.name == deck.class)
+                let candidate = state.candidates.find(d=>d.name === deck.class)
                 return Object.assign({},candidate, deck)
             })
             state.decks = decks
@@ -120,7 +120,7 @@ const hearthstone = _.merge({
             let validWhitelistNames = _.intersection(whitelistedNames,
                     [...originalClasses, ...deckClasses])
             
-            if(validWhitelistNames.length == whitelistedNames.length)
+            if(validWhitelistNames.length === whitelistedNames.length)
                 return;
 
             let gameWhitelist = {

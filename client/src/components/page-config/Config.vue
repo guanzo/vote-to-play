@@ -47,7 +47,7 @@
 import whitelist from './Whitelist'
 import GameMaster from '@/components/game/_GameMaster'
 
-var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 export default {
     name: 'config',

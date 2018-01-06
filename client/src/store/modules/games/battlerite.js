@@ -66,14 +66,12 @@ const battlerite = _.merge({
 		},
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
-                let result = true;
-                activeFilters.forEach(({id,vmodel,options})=>{
-                    if(id == 'name')
-                        result = result && candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-                    else if(id == 'role' && vmodel !== options[0])
-                        result = result && candidate.class == vmodel
+                return activeFilters.every(({id,vmodel,options})=>{
+                    if(id === 'name')
+                        return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
+                    else if(id === 'role' && vmodel !== options[0])
+                        return candidate.class === vmodel
                 })
-                return result
             })
         },
     }

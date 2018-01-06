@@ -43,7 +43,7 @@ import CandidateGrid from '@/components/grid/CandidateGrid'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
 
-var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /**
  * Intended behavior:

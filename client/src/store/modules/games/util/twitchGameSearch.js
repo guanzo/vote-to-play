@@ -44,7 +44,7 @@ export default class GameSearch{
         return new Promise(resolve=>{
             let results = []
 
-            if(query.length == 0)
+            if(query.length === 0)
                 return resolve(results)
 
             this.engine.search(query,

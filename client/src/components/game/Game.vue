@@ -99,7 +99,7 @@ export default {
             }
         },
         isAllGames(){
-            return this.namespace == ALL_GAMES
+            return this.namespace === ALL_GAMES
         },
     },
     watch:{

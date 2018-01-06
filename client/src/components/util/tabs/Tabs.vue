@@ -53,7 +53,7 @@
                 return this.tabs.find(tab => tab.hash === hash);
             },
             findTabIndex(hash) {
-                return this.tabs.findIndex(tab=>tab.hash == hash)
+                return this.tabs.findIndex(tab=>tab.hash === hash)
             },
             selectTab(selectedTabHash) {
                 const selectedTab = this.findTab(selectedTabHash);

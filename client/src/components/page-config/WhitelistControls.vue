@@ -41,7 +41,7 @@ export default {
             return this.hasUnsavedChanges ? 'You have unsaved changes' : ''
         },
         isHearthstone(){
-            return this.voteCategory == HEARTHSTONE
+            return this.voteCategory === HEARTHSTONE
         }
     },
     methods:{

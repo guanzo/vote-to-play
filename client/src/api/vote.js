@@ -32,10 +32,10 @@ export default {
         
         let maxCalls = 1000;
         let interval = 1250;
-        var throttle = throttledQueue(maxCalls, interval);
+        let throttle = throttledQueue(maxCalls, interval);
 
         socket.get().on(e.VOTES_ADD, vote => {
-            throttle(function(){
+            throttle(()=>{
                 store.commit(MUTATIONS.ADD_VOTE, vote)
             })
         });

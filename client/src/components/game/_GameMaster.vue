@@ -10,9 +10,9 @@ import store        from '@/store'
 export default {
     functional: true,
     render(createElement, context){
-        var { voteCategory, injectedComponent } = context.props
+        let { voteCategory, injectedComponent } = context.props
         let supportedGames = store.getters.supportedGames
-        var component;
+        let component;
         
         if(supportedGames.includes(voteCategory))
             component = game

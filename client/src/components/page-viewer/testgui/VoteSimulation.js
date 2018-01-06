@@ -3,7 +3,7 @@
 
 import { VOTE, START_NEW_VOTE } from '@/store/actions'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-var { VOTE_MODE_VIEWER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER } = require('@shared/constants')
 
 export default {
     data(){
@@ -31,13 +31,13 @@ export default {
             return this.$store.getters[this.game.gameName+'/whitelistedCandidates']
         },
         votableCandidates(){
-            if(this.voteMode == VOTE_MODE_VIEWER)
+            if(this.voteMode === VOTE_MODE_VIEWER)
                 return this.candidates
             else
                 return this.whitelistedCandidates
         },
         isAllGames(){
-            return this.game.gameName == ALL_GAMES
+            return this.game.gameName === ALL_GAMES
         },
     },
     watch:{
@@ -47,7 +47,7 @@ export default {
 
             if(this.votes.length >= this.maxSimulationVotes){
                 this.$store.dispatch(START_NEW_VOTE)
-            }else if(this.votes.length == 0){
+            }else if(this.votes.length === 0){
                 clearInterval(this.intervalID)
                 this.intervalID = this.simulateVotes()
             }
@@ -61,7 +61,7 @@ export default {
     },
     methods:{
         simulateVotes(){
-            if(this.votableCandidates.length == 0)
+            if(this.votableCandidates.length === 0)
                 return;
 
             let candidatePool = Math.min(25, this.votableCandidates.length);

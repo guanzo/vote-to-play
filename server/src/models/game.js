@@ -5,11 +5,10 @@ module.exports = {
         var channels = db.get().collection('channels')
         return channels.updateOne({ channelId },{ $set: { hearthstoneDecks: decks} })
     },
-    getHearthstoneDecks(channelId) {
+    async getHearthstoneDecks(channelId) {
         var channels = db.get().collection('channels')
-        return channels.findOne({ channelId },{ 'hearthstoneDecks': 1 , '_id': 0})
-                .then(result=>{
-                    return result.hearthstoneDecks
-                })
+        let result = await channels.findOne({ channelId },{ 'hearthstoneDecks': 1 , '_id': 0})
+        return result.hearthstoneDecks
+                
 	},
 }

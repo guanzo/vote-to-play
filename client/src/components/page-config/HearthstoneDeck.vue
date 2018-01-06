@@ -97,7 +97,7 @@ export default {
                 return stringsAllEqual(className, this.newDeck.name)
             }) !== undefined
 
-            return this.selectedDeckName == ADD_NEW_DECK && isExistingClass
+            return this.selectedDeckName === ADD_NEW_DECK && isExistingClass
         },
         newDeck(){
             return {
@@ -118,7 +118,7 @@ export default {
         },
         onDeleteDeck(){
             let decks = this.decks.slice();
-            let index = decks.findIndex(d=>d.name == this.selectedDeckName)
+            let index = decks.findIndex(d=>d.name === this.selectedDeckName)
             decks.splice(index,1)
             this.setDecks(decks)
         },

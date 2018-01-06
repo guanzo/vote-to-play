@@ -29,7 +29,7 @@ export default {
     },
     watch:{
         selectedGame(){
-            if(this.selectedGame == HEARTHSTONE)
+            if(this.selectedGame === HEARTHSTONE)
                 this.notify()
             else
                 this.shouldNotify = false;
@@ -42,7 +42,7 @@ export default {
     },
     methods:{
         notify(){
-            var hasInformed = localStorage.getItem(notifiedHearthstoneDecks)
+            let hasInformed = localStorage.getItem(notifiedHearthstoneDecks)
             if(hasInformed)
                 return;
             this.shouldNotify = true;

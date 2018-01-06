@@ -38,6 +38,12 @@ module.exports = {
 		// 'vue/no-unused-vars': 'error'
 		"vue/name-property-casing": ["error", "kebab-case"],
 		'vue/attribute-hyphenation': [2,'never'],
+		"eqeqeq": 1,
+		"no-var": 1,
+		"require-await": 1,
+		"yoda": 1,
+		"prefer-arrow-callback": 1,
+		"object-shorthand": 1,
 		"vue/max-attributes-per-line":0,
 		"vue/order-in-components": 0,
 		"vue/html-indent": 0,

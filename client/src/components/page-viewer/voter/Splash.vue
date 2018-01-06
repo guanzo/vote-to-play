@@ -33,7 +33,7 @@ export default {
                 return;
             }
 
-            var img = new Image();
+            let img = new Image();
             img.onload = ()=>{
                 this.splashTransition.splashImgIsLoaded = true
                 this.splashImg = img.src

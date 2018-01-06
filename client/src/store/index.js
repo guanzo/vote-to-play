@@ -5,9 +5,9 @@ import socket from '@/api/socket'
 import voteApi from '@/api/vote'
 import games from './modules/games/_main'
 
-const IS_DEVELOPMENT = process.env.NODE_ENV == 'development'
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 
-var { VOTE_MODE_VIEWER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER } = require('@shared/constants')
 
 
 //potential values will be same as selectedGame, with the addition of "All Games"
@@ -107,7 +107,7 @@ export const actions = {
 
 export const getters = {
     userVote(state){
-        let userVote = state.currentVote.votes.find(vote=>vote.userId == state.userId)
+        let userVote = state.currentVote.votes.find(vote=>vote.userId === state.userId)
         if( !_.isUndefined(userVote) )
             return userVote.vote
         else
@@ -117,7 +117,7 @@ export const getters = {
         if(state.TESTING.unlimitedVotes)
             return false
         else
-            return getters.userVote != null
+            return getters.userVote !== null
     },
     hasSelectedCandidate(state){
         return !_.isEmpty(state.selectedCandidate);

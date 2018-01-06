@@ -62,9 +62,9 @@ const dota = _.merge({
         filteredCandidates({candidates}, {activeFilters}){
             return candidates.filter(candidate=>{
                 return activeFilters.every(({id,vmodel,options})=>{
-                    if(id == 'name')
+                    if(id === 'name')
                         return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-                    else if(id == 'role' && vmodel !== options[0])
+                    else if(id === 'role' && vmodel !== options[0])
 						return candidate.roles.includes(vmodel)
                 })
             })

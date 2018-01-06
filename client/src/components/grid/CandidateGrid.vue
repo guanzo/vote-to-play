@@ -107,7 +107,7 @@ export default {
         filterHighlightClass(candidate){
             if(!this.hasActiveFilter || this.gameOptions.filterMode !== FILTER_MODE_HIGHLIGHT)
                 return ''
-            return this.filteredCandidates.find(d=>d.name == candidate.name)
+            return this.filteredCandidates.find(d=>d.name === candidate.name)
                     ? 'filtered-in': 'filtered-out'
 		},
 		onPaginate(){
