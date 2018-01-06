@@ -4,8 +4,8 @@
         <p>If you would like to suggest any features, please feel free to email me.</p>
         <h3 class="title is-4">Usage</h3>
         <p>
-            If you want viewers to vote on game characters, make sure you set the game in your stream information.<br>
-            For example, if you want viewers to vote on a Dota 2 hero, make sure to set Dota 2 as the game on Twitch, and click <example v-html="startVoteExample" />
+            If you want viewers to vote on game characters, set the game in your stream information.<br>
+            For example, if you want viewers to vote on a Dota 2 hero, set Dota 2 as the game on Twitch, and click <example v-html="startVoteExample" />
         </p>
 		<p>
             If you want viewers to vote on games, select

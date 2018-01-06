@@ -8,7 +8,8 @@ let timeoutId = null;
 window.Twitch.ext.onAuthorized(async (auth) => {
     let parts = auth.token.split(".");
     let payload = JSON.parse(window.atob(parts[1]));
-    let role = payload.role
+	let role = payload.role
+	let { channelId, token, userId } = auth
     let [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
 
 	//console.log(payload)
@@ -17,11 +18,11 @@ window.Twitch.ext.onAuthorized(async (auth) => {
     //send game to server to set vote category 
     //in case this is the first visit to a channel that doesn't exist in the database
     store.dispatch(SET_AUTH, { 
-        channelId: auth.channelId, 
+        channelId, 
         channelName, 
         game,
-        token: auth.token, 
-        userId: auth.userId, 
+        token, 
+        userId, 
         role 
     })
 

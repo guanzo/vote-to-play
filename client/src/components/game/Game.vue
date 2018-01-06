@@ -211,7 +211,7 @@ General rules:
     .voter-header{
         @include scale-img-size($w,$h,0.75);
     }
-    .voter-results {
+    .vote-results {
         @include scale-img-size($w,$h,0.5);
     }
     .whitelist{
@@ -256,7 +256,7 @@ General rules:
     .voter-header{
         @include scale-img-size($w,$h,.6);
     }
-    .voter-results {
+    .vote-results {
         @include scale-img-size($w,$h,.4);
     }    
 }
@@ -298,7 +298,7 @@ General rules:
     .voter-header{
         @include scale-img-size($w,$h,.75);
     }
-    .voter-results {
+    .vote-results {
         @include scale-img-size($w,$h,.5);
     }
     .whitelist{
@@ -321,7 +321,7 @@ General rules:
     .voter-header{
         @include scale-img-size($w,$h,.85);
     }
-    .voter-results {
+    .vote-results {
         @include scale-img-size($w,$h,.85);
     }
     .splash-img-container img.splash-img{
