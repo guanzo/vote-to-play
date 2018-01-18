@@ -7,7 +7,7 @@ describe('store',()=>{
     
     describe('mutations',()=>{
         
-        var selectedCandidateResetTest = () => {
+        let selectedCandidateResetTest = () => {
             const state = { selectedCandidate: { name:'yo' } }
             mutations[MUTATIONS.SET_GAME](state, {game: ''})
             expect(Object.keys(state.selectedCandidate).length).to.equal(0)
@@ -42,7 +42,7 @@ describe('store',()=>{
 
     describe('gameModule',()=>{
         let gameModules = _.omit(mainGameModule.modules,'All Games')
-        var types = gameModuleRequiredProperties();
+        let types = gameModuleRequiredProperties();
 
         _.each(gameModules,(gameModule)=>{
             it(gameModule.state.gameName + ' implements the game interface',()=>{
@@ -55,7 +55,7 @@ describe('store',()=>{
 })
 
 function comparePropertyTypes(source,target) {
-    for (var property in source) {
+    for (let property in source) {
         if (source.hasOwnProperty(property)) {
 
             expect(target).to.have.property(property)
@@ -65,7 +65,7 @@ function comparePropertyTypes(source,target) {
 
             if(Array.isArray(sourceValue))
                 expect(targetValue).to.be.an('array', `Property '${property}'`)
-            else if (typeof sourceValue == "object")
+            else if (typeof sourceValue === "object")
                 comparePropertyTypes(sourceValue, targetValue);
             else
                 expect(typeof targetValue).to.equal(sourceValue, `Property '${property}'`)

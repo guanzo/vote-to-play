@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div 
-                :style="{visibility: hasWhitelistWarning ? 'visible':'hidden'}" 
+                :style="{visibility: showWhitelistWarning ? 'visible':'hidden'}" 
                 class="help is-danger m-b-5">
                 You must create a whitelist to use this mode
             </div>
@@ -74,7 +74,7 @@ export default {
             introVoteCategory:"Select a character vote or a twitch game vote.",
             introVoteMode:"Free-for-all vs. whitelisted votes. You can configure the whitelist in the extension settings.",
             introStartVote:'Start a new vote with your selected options. Starting a vote clears the current vote.',
-            hasWhitelistWarning: false,
+            showWhitelistWarning: false,
             isLoading: false
         }
     },
@@ -101,7 +101,7 @@ export default {
         startVoteBtnClass(){
             if(this.isLoading)
                 return 'is-success is-loading'
-            else if(this.hasWhitelistWarning)
+            else if(this.showWhitelistWarning)
                 return 'is-danger'
             else
                 return ''
@@ -126,7 +126,7 @@ export default {
             
             this.$store.dispatch(START_NEW_VOTE)
 
-            this.hasWhitelistWarning = false;
+            this.showWhitelistWarning = false;
             this.isLoading = true
             await delayPromise(1000)
             this.isLoading = false
@@ -135,13 +135,12 @@ export default {
             if(autochangeVoteMode)
                 this.selectedVoteMode = VOTE_MODE_VIEWER
 
-            this.hasWhitelistWarning = true;
+            this.showWhitelistWarning = true;
             await delayPromise(5000)
-            this.hasWhitelistWarning = false
+            this.showWhitelistWarning = false
             
         },
         showIntro(){
-
             introJs()
             .setOptions({
                 tooltipPosition:'bottom-middle-aligned',

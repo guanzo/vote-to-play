@@ -5,7 +5,8 @@ import { SET_AUTH, SET_GAME } from '@/store/mutations'
 
 let timeoutId = null;
 
-window.Twitch.ext.onAuthorized(async (auth) => {
+//fires on load && when user grants permission
+window.Twitch.ext.onAuthorized(async auth => {
     let parts = auth.token.split(".");
     let payload = JSON.parse(window.atob(parts[1]));
 	let role = payload.role
@@ -66,13 +67,11 @@ function inIframe() {
     }
 }
 
-function getChannelName(channelId){
-    return axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`, {
+async function getChannelName(channelId){
+    let response = await axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`, {
         headers:{
             'Client-Id':EXTENSION_CLIENT_ID,
         }
-    }).then((response)=>{
-        let channelName = response.data.data[0].display_name;
-        return channelName
     })
+	return response.data.data[0].display_name
 }

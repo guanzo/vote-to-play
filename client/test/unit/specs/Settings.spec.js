@@ -2,7 +2,7 @@ import Settings from '@/components/page-liveconfig/Settings'
 import { SET_GAME } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { state, mutations, getters, actions, modules } from '@/store'
-var { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 const unsupportedGame = 'werwetds'
 function mockStore(selectedGame, voteCategory){
@@ -64,7 +64,7 @@ describe('Settings.vue', () => {
             games[game].whitelistedNames = []
             vm.selectedVoteMode = VOTE_MODE_STREAMER
             vm.startVote()
-            expect(vm.hasWhitelistWarning).to.be.true
+            expect(vm.showWhitelistWarning).to.be.true
         })
         it('allows whitelist mode if whitelist is not empty',()=>{
             let vm = createInstance()
@@ -72,7 +72,7 @@ describe('Settings.vue', () => {
             games[game].whitelistedNames = ['axe']
             vm.selectedVoteMode = VOTE_MODE_STREAMER
             vm.startVote()
-            expect(vm.hasWhitelistWarning).to.be.false
+            expect(vm.showWhitelistWarning).to.be.false
         })
         it(`vote mode auto changes to viewer mode if mode was originally streamer 
             and voteCategory is changed to one without a whitelist`,done=>{

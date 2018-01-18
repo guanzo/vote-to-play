@@ -21,3 +21,5 @@ Have a game suggestion? Leave a comment!
 * Multiple voting modes
 * Whitelisting votable candidates
 
+
+This application can be found on the Twitch extensions list.
