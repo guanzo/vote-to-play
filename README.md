@@ -1,5 +1,5 @@
 # Vote to Play
-A twitch extension that allows viewers to vote on what the streamer should play. 
+A Twitch extension that allows viewers to vote on what the streamer should play. 
 For variety streamers, viewers can also vote on any Twitch supported game.
 
 ### Supported Games
