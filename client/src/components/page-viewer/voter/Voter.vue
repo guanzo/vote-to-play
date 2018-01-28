@@ -162,8 +162,22 @@ export default {
             pointer-events: none;
         }
     }
+    //wrap user vote on overflow
     .vote-results{
         margin-left: 15px;
+        display: flex;
+        flex-flow: column wrap-reverse;
+        align-items: flex-start;
+        align-content: flex-start;
+        max-height: 100%;
+        /deep/ .top-votes,
+        /deep/ .user-vote {
+            width: 350px;
+            max-width: 350px;
+        }
+        /deep/ .user-vote {
+            z-index: -1;
+        }
     }
 }
 
