@@ -5,7 +5,9 @@
         <transition name="fade">
             <div v-if="topAggregatedVotes.length" key="results" >
                 <div class="is-size-5 has-text-centered">Results</div>
-                <div class="m-t-5 m-b-5 has-text-centered">Total votes: {{ currentVote.votes.length }}</div>
+                <div class="m-t-5 m-b-5 has-text-centered">
+                    Total votes: {{ currentVote.votes.length }}
+                </div>
                 <vote-table :votes="topAggregatedVotes" />
             </div>
             <div v-else class="no-results" key="noresults">
@@ -13,7 +15,6 @@
                 <vote-loading />
             </div>
         </transition>
-        
     </div>
     <transition name="fade-vertical">
         <div v-if="userVote" class="user-vote overlay-background">
@@ -68,6 +69,7 @@ export default {
     mounted(){
         this.$registerElement({
             el: this.$refs.topvotes,
+            hideOverflow: true
         })
     },
     components:{
@@ -98,12 +100,11 @@ export default {
 }
 
 .top-votes, .user-vote {
-    padding: 15px;
+    padding: 10px;
 }
 
 .top-votes {
     position: relative;
-    overflow: hidden;
     margin-bottom: 15px;
     //transition: height 1s;
 }

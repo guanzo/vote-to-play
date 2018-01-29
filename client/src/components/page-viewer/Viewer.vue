@@ -129,30 +129,28 @@ $header-element-size: 35px;
         padding: 5px 7.5px;
         margin-right: 15px;
     }
-    
     .overlay-background {
         background: rgba(0,0,0,0.85);
     }
-    
-    ::-webkit-scrollbar-track
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
-        background-color: rgba(0,0,0,0.75);
+    ::-webkit-scrollbar {
+        width: 14px;
+        height: 18px;
     }
-
-    ::-webkit-scrollbar
-    {
-        width: 8px;
-        height: 8px;
-        background-color: rgba(0,0,0,0.75);
-    }
-
-    ::-webkit-scrollbar-thumb
-    {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    ::-webkit-scrollbar-thumb {
+        height: 6px;
+        border: 4px solid rgba(0, 0, 0, 0);
+        background-clip: padding-box;
+        border-radius: 8px;
         background-color: #555;
+        -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.3), inset 1px 1px 0px rgba(0, 0, 0, 0.3);
+    }
+    ::-webkit-scrollbar-button {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
     }
 }
 

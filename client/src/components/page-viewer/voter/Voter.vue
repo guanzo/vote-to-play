@@ -162,21 +162,17 @@ export default {
             pointer-events: none;
         }
     }
-    //wrap user vote on overflow
+    //scroll topvotes when height overflow
     .vote-results{
         margin-left: 15px;
         display: flex;
-        flex-flow: column wrap-reverse;
-        align-items: flex-start;
-        align-content: flex-start;
+        flex-direction: column;
         max-height: 100%;
-        /deep/ .top-votes,
-        /deep/ .user-vote {
-            width: 350px;
-            max-width: 350px;
-        }
-        /deep/ .user-vote {
-            z-index: -1;
+        /deep/ .top-votes {
+            overflow-y: auto;
+            > div {
+                overflow: hidden;
+            }
         }
     }
 }

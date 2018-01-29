@@ -1,26 +1,28 @@
 <template>
-    <table>
-        <thead>
-            <tr>
-                <td class="rank">Rank</td>
-                <td />
-                <td />
-                <td class="count">Votes</td>
-            </tr>
-        </thead>
-        <transition-group class="vote-list" name="vote-list" tag="tbody" @before-leave="beforeLeave">
-            <tr v-for="vote in votes" class="vote-item" :key="vote.vote">
-                <td class="rank">{{ vote.rank }}</td>
-                <td class="vote-image">
-                    <div v-if="displayImages" class="image-wrapper">
-                        <img :src="getCandidateImage(vote.vote)">
-                    </div>
-                </td>
-                <td class="vote-name">{{ vote.vote }}</td> 
-                <td class="count">{{ vote.count }}</td> 
-            </tr>
-        </transition-group>
-    </table>
+    <div class="vote-table">
+        <table>
+            <thead>
+                <tr>
+                    <td class="rank">Rank</td>
+                    <td />
+                    <td />
+                    <td class="count">Votes</td>
+                </tr>
+            </thead>
+            <transition-group class="vote-list" name="vote-list" tag="tbody">
+                <tr v-for="vote in votes" class="vote-item" :key="vote.vote">
+                    <td class="rank">{{ vote.rank }}</td>
+                    <td class="vote-image">
+                        <div v-if="displayImages" class="image-wrapper">
+                            <img :src="getCandidateImage(vote.vote)">
+                        </div>
+                    </td>
+                    <td class="vote-name">{{ vote.vote }}</td> 
+                    <td class="count">{{ vote.count }}</td> 
+                </tr>
+            </transition-group>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -54,18 +56,16 @@ export default {
             })
             return candidate ? candidate.img : ''
         },
-        beforeLeave(tr){
-            //td widths collapse during list-leave b/c of position: absolute.
-            for(let td of tr.children){
-                td.style.width = td.offsetWidth + 'px'
-            }
-        }
 	},
 }
 
 </script>
 
 <style lang="scss" scoped>
+
+.vote-table{
+    position: relative;
+}
 
 table {
     width: 100%;
@@ -105,7 +105,6 @@ table {
     transform: translateY(30px);
 }
 .vote-list-leave-active {
-    width: 320px;
     position: absolute;
 }
 </style>

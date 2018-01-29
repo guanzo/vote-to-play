@@ -61,7 +61,7 @@ const lol = _.merge({
         
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES]: async function({commit}){
+        async [ACTIONS.GET_CANDIDATES]({commit}){
 			let result = await axios.get(VERSION_URL)
 			let { champion: championVersion, profileicon: iconVersion } = result.data.n
 
