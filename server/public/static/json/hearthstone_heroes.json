@@ -1,0 +1,65 @@
+[
+	 {
+		"id": "Druid",
+		"name": "Druid",
+		"title": "Malfurion Stormrage",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-malfurion.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Druid_splash.jpg"
+	},
+	{
+		"id": "Hunter",
+		"name": "Hunter",
+		"title": "Rexxar",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-rexxar.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Hunter_splash.jpg"
+	},
+	{
+		"id": "Mage",
+		"name": "Mage",
+		"title": "Jaina Proudmoore",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-jaina.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Mage_splash.jpg"
+	},
+	{
+		"id": "Paladin",
+		"name": "Paladin",
+		"title": "Uther Lightbringer",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-uther.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Paladin_splash.jpg"
+	},
+	{
+		"id": "Priest",
+		"name": "Priest",
+		"title": "Anduin Wrynn",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-anduin.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Priest_splash.jpg"
+	},
+	{
+		"id": "Rogue",
+		"name": "Rogue",
+		"title": "Valeera Sanguinar",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-valeera.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Rogue_splash.jpg"
+	},
+	{
+		"id": "Shaman",
+		"name": "Shaman",
+		"title": "Thrall",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-thrall.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Shaman_splash.jpg"
+	},
+	{
+		"id": "Warlock",
+		"name": "Warlock",
+		"title": "Gul'dan",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-guldan.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Warlock_splash.jpg"
+	},
+	{
+		"id": "Warrior",
+		"name": "Warrior",
+		"title": "Garrosh Hellscream",
+		"img": "https://us.battle.net/hearthstone/static/images/game-guide/heroes/artwork-garrosh.jpg",
+		"imgSplash": "https://votetoplay.guanzo.io/static/images/hearthstone/splash/Warrior_splash.jpg"
+	}
+]

@@ -1,18 +1,8 @@
+import gameApi from '@/api/game'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 import { gameOptions, gameMixin } from './util/gameMixin'
-
-
-import heroes from '@/assets/json/overwatch_heroes'
-
-let candidates = _(heroes).map(candidate=>{
-    candidate.img = candidate.avatar
-    candidate.imgSplash = cl.url("overwatch/splash/" + candidate.name.replace(/ /g,'') + `_splash.jpg`);
-    return candidate
-}).sortBy('name').value()
-
-let roles = _(candidates).map(d=>d.type).uniq().sort().value()
 
 export const NAMESPACE = 'Overwatch'
 
@@ -23,31 +13,41 @@ const ow = _.merge({
         candidateNomenclature: 'hero',
         className: 'overwatch',
 		gameOptions: gameOptions({ maxVoteResults: 3 }),
-        candidates,
+        candidates: [],
         filters:[
             {
                 id:'name',
-                type: 'text',
+                type:'text',
                 vmodel:'',
                 placeholder: 'Search hero name'
             },
             {
                 id:'role',
-                type: 'select',
+                type:'select',
                 vmodel:'Role',
-                options:[
-                    'Role',
-                    ...roles
-                ]
+                options:['Role']
             }
         ]
     },
-    mutations:{//ensure it conforms to game module expected properties
-        [MUTATIONS.SET_CANDIDATES](){},
+    mutations:{
+        [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
+			state.candidates = candidates
+		},
+        [MUTATIONS.SET_FILTERS](state, { candidates }){
+            let roles = _(candidates).map(d=>d.type).uniq().sort().value()
+            state.filters[1].options.push(...roles)
+        },
         
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES](){}
+        [ACTIONS.GET_CANDIDATES]({commit}){
+			return gameApi.fetchJson('overwatch_heroes.json')
+            .then((response)=>{
+                let candidates = response.data
+                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
+                commit(MUTATIONS.SET_FILTERS,{ candidates })
+			})
+		}
     },
     getters:{
         candidates(state){

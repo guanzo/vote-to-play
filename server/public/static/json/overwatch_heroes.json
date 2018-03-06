@@ -1,207 +1,233 @@
 [
-  {
-    "id": "ana",
-    "name": "Ana",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000013B.png",
-    "type": "support",
-    "difficulty": 3,
-    "description": "Female Snake"
-  },
-  {
-    "id": "bas",
-    "name": "Bastion",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000015.png",
-    "type": "defense",
-    "difficulty": 1,
-    "description": "Leftclick machine"
-  },
-  {
-    "id": "bri",
-    "name": "Brigitte",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/hero/brigitte/hero-select-portrait.png",
-    "type": "support",
-    "difficulty": 1,
-  },
-  {
-    "id": "dva",
-    "name": "D-Va",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000007A.png",
-    "type": "tank",
-    "difficulty": 2,
-    "description": "Gamer chick"
-  },
-  {
-    "id": "gen",
-    "name": "Genji",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000029.png",
-    "type": "offense",
-    "difficulty": 3,
-    "description": "Swordsman extraordinaire"
-  },
-  {
-    "id": "han",
-    "name": "Hanzo",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000005.png",
-    "type": "defense",
-    "difficulty": 3,
-    "description": "Warm sake? Veeeeeeery good!"
-  },
-  {
-    "id": "jun",
-    "name": "Junkrat",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000065.png",
-    "type": "defense",
-    "difficulty": 2,
-    "description": "BOOM"
-  },
-  {
-    "id": "luc",
-    "name": "Lucio",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000079.png",
-    "type": "support",
-    "difficulty": 2,
-    "description": "Stuck in 90s"
-  },
-  {
-    "id": "mcc",
-    "name": "McCree",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000042.png",
-    "type": "offense",
-    "difficulty": 2,
-    "description": "Where's Jolly Jumper?"
-  },
-  {
-    "id": "mei",
-    "name": "Mei",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E00000000000DD.png",
-    "type": "defense",
-    "difficulty": 3,
-    "description": "Cold hearted bitch"
-  },
-  {
-    "id": "mer",
-    "name": "Mercy",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000004.png",
-    "type": "support",
-    "difficulty": 1,
-    "description": "Female Jesus"
-  },
-  {
-    "id": "moi",
-    "name": "Moira",
-    "avatar": "https://d1u1mce87gyfbn.cloudfront.net/hero/moira/hero-select-portrait.png",
-    "type": "support",
-    "difficulty": 1
-  },
-  {
-    "id": "pha",
-    "name": "Pharah",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000008.png",
-    "type": "offense",
-    "difficulty": 1,
-    "description": "Bring an umbrella"
-  },
-  {
-    "id": "rea",
-    "name": "Reaper",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000002.png",
-    "type": "offense",
-    "difficulty": 1,
-    "description": "Dark hombre"
-  },
-  {
-    "id": "rei",
-    "name": "Reinhardt",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000007.png",
-    "type": "tank",
-    "difficulty": 1,
-    "description": "Too old for this shit"
-  },
-  {
-    "id": "roa",
-    "name": "Roadhog",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000040.png",
-    "type": "tank",
-    "difficulty": 1,
-    "description": "What do you mean, fat?"
-  },
-  {
-    "id": "sol",
-    "name": "Soldier 76",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000006E.png",
-    "type": "offense",
-    "difficulty": 1,
-    "description": "Cyclop wannabe"
-  },
-  {
-    "id": "som",
-    "name": "Sombra",
-    "avatar": "https://d1u1mce87gyfbn.cloudfront.net/hero/sombra/hero-select-portrait.png",
-    "type": "offense",
-    "difficulty": 1
-  },
-  {
-    "id": "sym",
-    "name": "Symmetra",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000016.png",
-    "type": "support",
-    "difficulty": 2,
-    "description": "Non-politically correct"
-  },
-  {
-    "id": "tor",
-    "name": "Torbjorn",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000006.png",
-    "type": "defense",
-    "difficulty": 2,
-    "description": "Totally not engineer"
-  },
-  {
-    "id": "tra",
-    "name": "Tracer",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000003.png",
-    "type": "offense",
-    "difficulty": 2,
-    "description": "Blinkablink!"
-  },
-  {
-    "id": "wid",
-    "name": "Widowmaker",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000000A.png",
-    "type": "defense",
-    "difficulty": 2,
-    "description": "Spawn camper"
-  },
-  {
-    "id": "win",
-    "name": "Winston",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000009.png",
-    "type": "tank",
-    "difficulty": 2,
-    "description": "Beast wannabe"
-  },
-  {
-    "id": "zar",
-    "name": "Zarya",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000068.png",
-    "type": "tank",
-    "difficulty": 3,
-    "description": "Taste the rainbow!"
-  },
-  {
-    "id": "zen",
-    "name": "Zenyatta",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000020.png",
-    "type": "support",
-    "difficulty": 3,
-    "description": "LOLSupport"
-  },
-  {
-    "id": "doom",
-    "name": "Doomfist",
-    "avatar": "https://blzgdapipro-a.akamaihd.net/hero/doomfist/hero-select-portrait.png",
-    "type": "offense",
-    "difficulty": 3,
-    "description": "Hulk Smash"
-  }
+    {
+        "id": 0,
+        "name": "Ana",
+        "type": "support",
+        "difficulty": 3,
+        "description": "Female Snake",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000013B.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Ana_splash.jpg"
+    },
+    {
+        "id": 1,
+        "name": "Bastion",
+        "type": "defense",
+        "difficulty": 1,
+        "description": "Leftclick machine",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000015.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Bastion_splash.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Brigitte",
+        "type": "support",
+        "difficulty": 1,
+        "img": "https://blzgdapipro-a.akamaihd.net/hero/brigitte/hero-select-portrait.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Brigitte_splash.jpg"
+    },
+    {
+        "id": 3,
+        "name": "D-Va",
+        "type": "tank",
+        "difficulty": 2,
+        "description": "Gamer chick",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000007A.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/D-Va_splash.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Doomfist",
+        "type": "offense",
+        "difficulty": 3,
+        "description": "Hulk Smash",
+        "img": "https://blzgdapipro-a.akamaihd.net/hero/doomfist/hero-select-portrait.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Doomfist_splash.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Genji",
+        "type": "offense",
+        "difficulty": 3,
+        "description": "Swordsman extraordinaire",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000029.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Genji_splash.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Hanzo",
+        "type": "defense",
+        "difficulty": 3,
+        "description": "Warm sake? Veeeeeeery good!",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000005.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Hanzo_splash.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Junkrat",
+        "type": "defense",
+        "difficulty": 2,
+        "description": "BOOM",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000065.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Junkrat_splash.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Lucio",
+        "type": "support",
+        "difficulty": 2,
+        "description": "Stuck in 90s",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000079.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Lucio_splash.jpg"
+    },
+    {
+        "id": 9,
+        "name": "McCree",
+        "type": "offense",
+        "difficulty": 2,
+        "description": "Where's Jolly Jumper?",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000042.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/McCree_splash.jpg"
+    },
+    {
+        "id": 10,
+        "name": "Mei",
+        "type": "defense",
+        "difficulty": 3,
+        "description": "Cold hearted bitch",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E00000000000DD.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Mei_splash.jpg"
+    },
+    {
+        "id": 11,
+        "name": "Mercy",
+        "type": "support",
+        "difficulty": 1,
+        "description": "Female Jesus",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000004.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Mercy_splash.jpg"
+    },
+    {
+        "id": 12,
+        "name": "Moira",
+        "type": "support",
+        "difficulty": 1,
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/moira/hero-select-portrait.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Moira_splash.jpg"
+    },
+    {
+        "id": 13,
+        "name": "Pharah",
+        "type": "offense",
+        "difficulty": 1,
+        "description": "Bring an umbrella",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000008.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Pharah_splash.jpg"
+    },
+    {
+        "id": 14,
+        "name": "Reaper",
+        "type": "offense",
+        "difficulty": 1,
+        "description": "Dark hombre",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000002.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Reaper_splash.jpg"
+    },
+    {
+        "id": 15,
+        "name": "Reinhardt",
+        "type": "tank",
+        "difficulty": 1,
+        "description": "Too old for this shit",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000007.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Reinhardt_splash.jpg"
+    },
+    {
+        "id": 16,
+        "name": "Roadhog",
+        "type": "tank",
+        "difficulty": 1,
+        "description": "What do you mean, fat?",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000040.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Roadhog_splash.jpg"
+    },
+    {
+        "id": 17,
+        "name": "Soldier 76",
+        "type": "offense",
+        "difficulty": 1,
+        "description": "Cyclop wannabe",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000006E.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Soldier76_splash.jpg"
+    },
+    {
+        "id": 18,
+        "name": "Sombra",
+        "type": "offense",
+        "difficulty": 1,
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/sombra/hero-select-portrait.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Sombra_splash.jpg"
+    },
+    {
+        "id": 19,
+        "name": "Symmetra",
+        "type": "support",
+        "difficulty": 2,
+        "description": "Non-politically correct",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000016.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Symmetra_splash.jpg"
+    },
+    {
+        "id": 20,
+        "name": "Torbjorn",
+        "type": "defense",
+        "difficulty": 2,
+        "description": "Totally not engineer",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000006.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Torbjorn_splash.jpg"
+    },
+    {
+        "id": 21,
+        "name": "Tracer",
+        "type": "offense",
+        "difficulty": 2,
+        "description": "Blinkablink!",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000003.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Tracer_splash.jpg"
+    },
+    {
+        "id": 22,
+        "name": "Widowmaker",
+        "type": "defense",
+        "difficulty": 2,
+        "description": "Spawn camper",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000000A.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Widowmaker_splash.jpg"
+    },
+    {
+        "id": 23,
+        "name": "Winston",
+        "type": "tank",
+        "difficulty": 2,
+        "description": "Beast wannabe",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000009.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Winston_splash.jpg"
+    },
+    {
+        "id": 24,
+        "name": "Zarya",
+        "type": "tank",
+        "difficulty": 3,
+        "description": "Taste the rainbow!",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000068.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Zarya_splash.jpg"
+    },
+    {
+        "id": 25,
+        "name": "Zenyatta",
+        "type": "support",
+        "difficulty": 3,
+        "description": "LOLSupport",
+        "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000020.png",
+        "imgSplash": "https://localhost/static/images/overwatch/splash/Zenyatta_splash.jpg"
+    }
 ]

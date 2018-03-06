@@ -85,7 +85,7 @@ const worldoftanks = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-			return gameApi.fetch('/worldoftanks')
+			return gameApi.fetch('worldoftanks')
             .then((response)=>{
                 let candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })

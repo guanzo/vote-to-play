@@ -1,8 +1,8 @@
+import gameApi from '@/api/game'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 import { gameOptions, gameMixin } from './util/gameMixin'
-
 
 export const NAMESPACE = 'Heroes of the Storm'
 
@@ -60,7 +60,7 @@ const hots = _.merge({
 					val.id = val.PrimaryName
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
-                    val.imgSplash = cl.url("hots/splash/" + val.ImageURL + `_splash.jpg`);
+                    val.imgSplash = gameApi.getImagePath("hots/splash/" + val.ImageURL + `_splash.jpg`);
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })

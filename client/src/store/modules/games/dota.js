@@ -17,17 +17,15 @@ const dota = _.merge({
         filters:[
             {
                 id:'name',
-                type: 'text',
+                type:'text',
                 vmodel:'',
-                placeholder: 'Search hero name'
+                placeholder:'Search hero name'
             },
             {
                 id:'role',
-                type: 'select',
+                type:'select',
                 vmodel:'Role',
-                options:[
-                    'Role'
-                ]
+                options:['Role']
             }
         ]
     },
@@ -42,12 +40,12 @@ const dota = _.merge({
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-			return gameApi.fetch('/dota')
+			return gameApi.fetch('dota')
             .then((response)=>{
                 let candidates = _(response.data).map((val,id)=>{
 					val.id = id
-                    val.img = cl.url(`dota/portraits/${id}_full.png`);
-                    val.imgSplash = cl.url(`dota/splash/${id}_splash.jpg`);
+                    val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`);
+                    val.imgSplash = gameApi.getImagePath(`dota/splash/${id}_splash.jpg`);
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
