@@ -36,6 +36,7 @@ if (process.env.NODE_ENV === 'production'){
         app
         )
     port = 443
+    app.use(express.static(path.resolve(__dirname, '../public')));
 }
 
 app.use(bodyParser.urlencoded({ extended: false }));

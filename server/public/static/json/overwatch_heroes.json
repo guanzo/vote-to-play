@@ -16,6 +16,13 @@
     "description": "Leftclick machine"
   },
   {
+    "id": "bri",
+    "name": "Brigitte",
+    "avatar": "https://blzgdapipro-a.akamaihd.net/hero/brigitte/hero-select-portrait.png",
+    "type": "support",
+    "difficulty": 1,
+  },
+  {
     "id": "dva",
     "name": "D-Va",
     "avatar": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000007A.png",
