@@ -8,7 +8,7 @@ export const NAMESPACE = 'Hearthstone'
 //important for this to be after the namespace export
 import gameApi from '@/api/game'
 //name and title are reversed b/c ppl refer to them by "class" and not actual "name"
-const hearthstone = _.merge({
+const hearthstone = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -26,13 +26,14 @@ const hearthstone = _.merge({
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
 			state.candidates = candidates
+			console.log(state.candidates)
 		},
         [MUTATIONS.SET_HEARTHSTONE_DECKS](state, decks){
 			//assign needed properties from existing decks, such as imgSplash
             decks = decks.map(deck=>{
-                let candidate = state.candidates.find(d=>d.name === deck.class)
+				let candidate = state.candidates.find(d=>d.name === deck.class)
                 return Object.assign({},candidate, deck)
-            })
+			})
             state.decks = decks
         }
     },
@@ -82,6 +83,6 @@ const hearthstone = _.merge({
         //no op
         filteredCandidates: (state,getters)=>getters.candidates,
     }
-},gameMixin,whitelistMixin)
+})
 
 export default hearthstone

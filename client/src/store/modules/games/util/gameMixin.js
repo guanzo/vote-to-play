@@ -1,3 +1,7 @@
+/**
+ * Defines base functionality for all games.
+ */
+
 import { TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 
 //3 filtering modes

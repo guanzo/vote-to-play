@@ -7,7 +7,7 @@ import { gameOptions, gameMixin, FILTER_MODE_REMOVE } from './util/gameMixin'
 export const NAMESPACE = 'World of Tanks'
 
 
-const worldoftanks = _.merge({
+const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -33,25 +33,19 @@ const worldoftanks = _.merge({
                 id:'tier',
                 type: 'select',
                 vmodel:'Tier',
-                options:[
-                    'Tier'
-                ]
+                options:['Tier']
             },
             {
                 id:'nation',
                 type: 'select',
                 vmodel:'Nation',
-                options:[
-                    'Nation'
-                ]
+                options:['Nation']
             },
             {
                 id:'type',
                 type: 'select',
                 vmodel:'Type',
-                options:[
-                    'Type'
-                ]
+                options:['Type']
             }
 		],
 		vehicleNations: {
@@ -113,6 +107,6 @@ const worldoftanks = _.merge({
 			})
         },
     }
-},gameMixin,whitelistMixin)
+})
 
 export default worldoftanks

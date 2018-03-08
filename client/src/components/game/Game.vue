@@ -79,7 +79,7 @@ export default {
         propsObj(){
 			let getters = this.$store.getters
             let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
-			let filteredCandidates = 	getters[this.namespace+'/filteredCandidates']
+			let filteredCandidates    =	getters[this.namespace+'/filteredCandidates']
 			let { gameOptions, filters } = this.game
             return {
                 voteCategory: this.voteCategory,
@@ -123,16 +123,17 @@ export default {
     },
     methods:{
         async fetchCandidates(){
-            if(!this.candidates.length && !this.isLoading){
-                this.isLoading = true;
-
-                await Promise.all([
-                    this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
-                    delayPromise(this.delayDuration)
-                ])
-                this.isLoading = false
-                
+            if(this.candidates.length || this.isLoading){
+                console.log('returning')
+                return;
             }
+
+            this.isLoading = true
+            await Promise.all([
+                this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
+                delayPromise(this.delayDuration)
+            ])
+            this.isLoading = false
         },
     },
     components:{

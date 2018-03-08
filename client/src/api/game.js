@@ -33,7 +33,6 @@ export default {
     setListeners(){
         socket.get().on(e.HEARTHSTONE_DECKS, decks => {
             store.commit(HEARTHSTONE+'/'+MUTATIONS.SET_HEARTHSTONE_DECKS, decks)
-    
         });
     }
 }

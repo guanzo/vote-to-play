@@ -8,7 +8,7 @@ import { gameOptions, gameMixin } from './util/gameMixin'
 
 export const NAMESPACE = 'Battlerite'
 
-const battlerite = _.merge({
+const battlerite = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: 'Battlerite',
@@ -27,9 +27,7 @@ const battlerite = _.merge({
                 id:'role',
                 type: 'select',
                 vmodel:'Class',
-                options:[
-                    'Class'
-                ]
+                options:['Class']
             }
         ]
     },
@@ -75,6 +73,6 @@ const battlerite = _.merge({
             })
         },
     }
-},gameMixin, whitelistMixin)
+})
 
 export default battlerite

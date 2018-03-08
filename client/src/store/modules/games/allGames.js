@@ -63,7 +63,7 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
 )
 
 
-const allGames = _.merge({
+const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
     namespaced: true,
     state:{
         gameName: NAMESPACE,
@@ -131,7 +131,7 @@ const allGames = _.merge({
             return getters.candidates
         },
     }
-},gameMixin,modifiedWhitelistMixin)
+})
 
 //twitch allows you to give custom dimensions
 function setImage(d){

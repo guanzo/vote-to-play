@@ -25,7 +25,7 @@ function getSplashImageUrl(imageName){
 	return IMG_SPLASH_BASE_URL + imageName + '_0.jpg'
 }
 
-const lol = _.merge({
+const lol = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -44,9 +44,7 @@ const lol = _.merge({
                 id:'role',
                 type: 'select',
                 vmodel:'Role',
-                options:[
-                    'Role'
-                ]
+                options:['Role']
             }
         ]
     },
@@ -93,5 +91,5 @@ const lol = _.merge({
             })
         },
     }
-},gameMixin,whitelistMixin)
+})
 export default lol

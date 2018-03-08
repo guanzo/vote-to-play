@@ -8,7 +8,7 @@ export const NAMESPACE = 'Heroes of the Storm'
 
 const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portraits/'
 
-const hots = _.merge({
+const hots = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -27,17 +27,13 @@ const hots = _.merge({
                 id:'role',
                 type: 'select',
                 vmodel:'Group',
-                options:[
-                    'Group'
-                ]
+                options:['Group']
             },
             {
                 id:'role2',
                 type: 'select',
                 vmodel:'Subgroup',
-                options:[
-                    'Subgroup'
-                ]
+                options:['Subgroup']
             }
         ]
     },
@@ -85,6 +81,6 @@ const hots = _.merge({
             })
         },
     }
-},gameMixin,whitelistMixin)
+})
 
 export default hots

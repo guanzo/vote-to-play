@@ -6,7 +6,7 @@ import { gameOptions, gameMixin } from './util/gameMixin'
 
 export const NAMESPACE = 'Dota 2'
 
-const dota = _.merge({
+const dota = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
@@ -68,6 +68,6 @@ const dota = _.merge({
             })
         },
     }
-},gameMixin,whitelistMixin)
+})
 
 export default dota
