@@ -6,7 +6,7 @@
         "difficulty": 3,
         "description": "Female Snake",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000013B.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Ana_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Ana_splash.jpg"
     },
     {
         "id": 1,
@@ -15,7 +15,7 @@
         "difficulty": 1,
         "description": "Leftclick machine",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000015.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Bastion_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Bastion_splash.jpg"
     },
     {
         "id": 2,
@@ -23,7 +23,7 @@
         "type": "support",
         "difficulty": 1,
         "img": "https://blzgdapipro-a.akamaihd.net/hero/brigitte/hero-select-portrait.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Brigitte_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Brigitte_splash.jpg"
     },
     {
         "id": 3,
@@ -32,7 +32,7 @@
         "difficulty": 2,
         "description": "Gamer chick",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000007A.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/D-Va_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/D-Va_splash.jpg"
     },
     {
         "id": 4,
@@ -41,7 +41,7 @@
         "difficulty": 3,
         "description": "Hulk Smash",
         "img": "https://blzgdapipro-a.akamaihd.net/hero/doomfist/hero-select-portrait.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Doomfist_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Doomfist_splash.jpg"
     },
     {
         "id": 5,
@@ -50,7 +50,7 @@
         "difficulty": 3,
         "description": "Swordsman extraordinaire",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000029.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Genji_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Genji_splash.jpg"
     },
     {
         "id": 6,
@@ -59,7 +59,7 @@
         "difficulty": 3,
         "description": "Warm sake? Veeeeeeery good!",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000005.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Hanzo_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Hanzo_splash.jpg"
     },
     {
         "id": 7,
@@ -68,7 +68,7 @@
         "difficulty": 2,
         "description": "BOOM",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000065.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Junkrat_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Junkrat_splash.jpg"
     },
     {
         "id": 8,
@@ -77,7 +77,7 @@
         "difficulty": 2,
         "description": "Stuck in 90s",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000079.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Lucio_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Lucio_splash.jpg"
     },
     {
         "id": 9,
@@ -86,7 +86,7 @@
         "difficulty": 2,
         "description": "Where's Jolly Jumper?",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000042.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/McCree_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/McCree_splash.jpg"
     },
     {
         "id": 10,
@@ -95,7 +95,7 @@
         "difficulty": 3,
         "description": "Cold hearted bitch",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E00000000000DD.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Mei_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Mei_splash.jpg"
     },
     {
         "id": 11,
@@ -104,7 +104,7 @@
         "difficulty": 1,
         "description": "Female Jesus",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000004.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Mercy_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Mercy_splash.jpg"
     },
     {
         "id": 12,
@@ -112,7 +112,7 @@
         "type": "support",
         "difficulty": 1,
         "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/moira/hero-select-portrait.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Moira_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Moira_splash.jpg"
     },
     {
         "id": 13,
@@ -121,7 +121,7 @@
         "difficulty": 1,
         "description": "Bring an umbrella",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000008.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Pharah_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Pharah_splash.jpg"
     },
     {
         "id": 14,
@@ -130,7 +130,7 @@
         "difficulty": 1,
         "description": "Dark hombre",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000002.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Reaper_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Reaper_splash.jpg"
     },
     {
         "id": 15,
@@ -139,7 +139,7 @@
         "difficulty": 1,
         "description": "Too old for this shit",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000007.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Reinhardt_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Reinhardt_splash.jpg"
     },
     {
         "id": 16,
@@ -148,7 +148,7 @@
         "difficulty": 1,
         "description": "What do you mean, fat?",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000040.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Roadhog_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Roadhog_splash.jpg"
     },
     {
         "id": 17,
@@ -157,7 +157,7 @@
         "difficulty": 1,
         "description": "Cyclop wannabe",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000006E.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Soldier76_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Soldier76_splash.jpg"
     },
     {
         "id": 18,
@@ -165,7 +165,7 @@
         "type": "offense",
         "difficulty": 1,
         "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/sombra/hero-select-portrait.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Sombra_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Sombra_splash.jpg"
     },
     {
         "id": 19,
@@ -174,7 +174,7 @@
         "difficulty": 2,
         "description": "Non-politically correct",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000016.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Symmetra_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Symmetra_splash.jpg"
     },
     {
         "id": 20,
@@ -183,7 +183,7 @@
         "difficulty": 2,
         "description": "Totally not engineer",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000006.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Torbjorn_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Torbjorn_splash.jpg"
     },
     {
         "id": 21,
@@ -192,7 +192,7 @@
         "difficulty": 2,
         "description": "Blinkablink!",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000003.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Tracer_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Tracer_splash.jpg"
     },
     {
         "id": 22,
@@ -201,7 +201,7 @@
         "difficulty": 2,
         "description": "Spawn camper",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000000A.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Widowmaker_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Widowmaker_splash.jpg"
     },
     {
         "id": 23,
@@ -210,7 +210,7 @@
         "difficulty": 2,
         "description": "Beast wannabe",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000009.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Winston_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Winston_splash.jpg"
     },
     {
         "id": 24,
@@ -219,7 +219,7 @@
         "difficulty": 3,
         "description": "Taste the rainbow!",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000068.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Zarya_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Zarya_splash.jpg"
     },
     {
         "id": 25,
@@ -228,6 +228,6 @@
         "difficulty": 3,
         "description": "LOLSupport",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000020.png",
-        "imgSplash": "https://localhost/static/images/overwatch/splash/Zenyatta_splash.jpg"
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Zenyatta_splash.jpg"
     }
 ]
