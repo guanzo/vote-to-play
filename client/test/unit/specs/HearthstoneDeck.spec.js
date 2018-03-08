@@ -6,11 +6,13 @@ import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 
 describe('HearthstoneDeck.vue', ()=>{
     let deck = {
-        class: 'Warrior',
+		class: 'Warrior',
+        id: 'Dragon Warrior',
         name: 'Dragon Warrior'
     }
-
-    store.state.games[HEARTHSTONE].decks.push(deck)
+	let hearthstoneModule = store.state.games[HEARTHSTONE]
+	hearthstoneModule.decks.push(deck)
+	hearthstoneModule.candidates.push({ name:'Warrior' })
 
     const Constructor = Vue.extend(HearthstoneDeck)
     const vm = new Constructor({

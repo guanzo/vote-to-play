@@ -19,7 +19,7 @@ module.exports = function (config) {
         //'https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js',
         '../../static/js/runtime.js',
         '../../static/js/core.min.js',
-        '../../static/js/lodash.min.js',,
+        '../../static/js/lodash.min.js',
         '../../static/js/axios.min.js',
         '../../static/js/bloodhound.min.js',
         '../../static/js/socket.io.js',
