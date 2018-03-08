@@ -123,11 +123,6 @@ export default {
     },
     methods:{
         async fetchCandidates(){
-            if(this.candidates.length || this.isLoading){
-                console.log('returning')
-                return;
-            }
-
             this.isLoading = true
             await Promise.all([
                 this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
