@@ -26,14 +26,8 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
     mutations:{
         [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
 			state.candidates = candidates
-			console.log(state.candidates)
 		},
         [MUTATIONS.SET_HEARTHSTONE_DECKS](state, decks){
-			//assign needed properties from existing decks, such as imgSplash
-            decks = decks.map(deck=>{
-				let candidate = state.candidates.find(d=>d.name === deck.class)
-                return Object.assign({},candidate, deck)
-			})
             state.decks = decks
         }
     },
@@ -56,18 +50,19 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
         },//User may delete a deck that's in the whitelist. If so, update whitelist
         ensureWhitelistInSync({state, dispatch},decks){
             let { candidates, whitelistedNames } = state
-            let originalClasses = candidates.map(d=>d.name)
-            let deckClasses = decks.map(d=>d.name)
 
-            let validWhitelistNames = _.intersection(whitelistedNames,
-                    [...originalClasses, ...deckClasses])
-            
+            let validWhitelistNames = _.intersectionBy(
+										whitelistedNames,
+										[...candidates, ...decks],
+										'name'
+										)
+										
             if(validWhitelistNames.length === whitelistedNames.length)
-                return;
-
+				return;
+				
             let gameWhitelist = {
                 voteCategory: NAMESPACE,
-                names: validWhitelistNames.map(d=>({name:d}))
+                names: validWhitelistNames
             }
             dispatch(ACTIONS.SAVE_GAME_WHITELIST, gameWhitelist,{ root: true } )
 
@@ -75,6 +70,11 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
     },
     getters:{
         candidates({candidates, decks}){
+			//assign needed properties from existing decks, such as imgSplash
+            decks = decks.map(deck=>{
+				let candidate = candidates.find(d=>d.name === deck.class)
+                return Object.assign({},candidate, deck)
+			})
             return _.sortBy([...candidates, ...decks],'name')
         },
         hasCustomDecks({ decks }){
