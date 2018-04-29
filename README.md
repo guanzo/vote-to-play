@@ -10,7 +10,9 @@ For variety streamers, viewers can also vote on any Twitch supported game.
 * Battlerite
 * Overwatch
 * World of Tanks
+* World of Warships
 * Hearthstone (supports deck customization)
+
 
 Have a game suggestion? Leave a comment!
 
