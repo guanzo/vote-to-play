@@ -16,7 +16,7 @@ export default {
     },    
     saveGameWhitelist(data){
         socket.get().emit(e.WHITELIST_EDIT,data)
-    },  
+    },				
     setListeners(){
         /**
          * Retrieves initial state of stream. should only fire once per page load

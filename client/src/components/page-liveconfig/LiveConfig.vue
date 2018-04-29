@@ -39,10 +39,11 @@ export default {
 <style lang="scss" scoped>
 
 .live-config{
-    padding: 5px;
-    color: #333;
-    height: 100%;
     position: relative;
+    flex: 1;
+    padding: 5px;
+    background: $white-bis;
+    color: #333;
     /deep/ .tabs{
         margin-bottom: 1rem;
     }

@@ -88,6 +88,7 @@ export default {
 <style lang="scss" scoped>
 
 .config {
+    background: $white-bis;
     color: #333;
     padding: 15px;
     p{

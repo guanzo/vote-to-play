@@ -4,15 +4,15 @@ import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 import { gameOptions, gameMixin, FILTER_MODE_REMOVE } from './util/gameMixin'
 
-export const NAMESPACE = 'World of Tanks'
+export const NAMESPACE = 'World of Warships'
 
 
-const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
+const worldofwarships = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
     state: { 
         gameName: NAMESPACE,
-        candidateNomenclature: 'tank',
-        className: 'world-of-tanks',
+        candidateNomenclature: 'ship',
+        className: 'world-of-warships',
 		gameOptions: gameOptions({ 
 			showNameInGrid: true,
 			filterMode: FILTER_MODE_REMOVE,
@@ -27,7 +27,7 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type: 'text',
                 vmodel:'',
-                placeholder: 'Search tank name'
+                placeholder: 'Search warship name'
             },
             {
                 id:'tier',
@@ -48,18 +48,17 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
                 options:['Type']
             }
 		],
-		vehicleNations: {
+		shipNations: {
+			"commonwealth": "Commonwealth",
 			"italy": "Italy",
 			"usa": "U.S.A.",
-			"czech": "Czechoslovakia",
-			"poland": "Poland",
+			"pan_asia": "Pan-Asia",
 			"france": "France",
-			"sweden": "Sweden",
 			"ussr": "U.S.S.R.",
-			"china": "China",
+			"germany": "Germany",
 			"uk": "U.K.",
 			"japan": "Japan",
-			"germany": "Germany"
+			"poland": "Poland"
 		}
     },
     mutations:{
@@ -70,7 +69,7 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
             let tiers = _(candidates).map(d=>d.tier).uniq().sort((a,b)=>a-b).value()
 			state.filters[1].options.push(...tiers)
 
-            let nations = Object.values(state.vehicleNations).sort()
+            let nations = Object.values(state.shipNations).sort()
 			state.filters[2].options.push(...nations)
 			
             let types = _(candidates).map(d=>d.type).uniq().sort().value()
@@ -80,7 +79,7 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-			return gameApi.fetch('worldoftanks')
+			return gameApi.fetch('worldofwarships')
             .then((response)=>{
                 let candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
@@ -92,8 +91,8 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
         candidates(state){
             return state.candidates
         },
-        filteredCandidates({candidates, vehicleNations},{activeFilters}){
-			let nationsInverted = _.invert(vehicleNations)
+        filteredCandidates({candidates, shipNations},{activeFilters}){
+			let nationsInverted = _.invert(shipNations)
             return candidates.filter(candidate=>{
                 return activeFilters.every(({id,vmodel,options})=>{
                     if(id === 'name')
@@ -110,4 +109,4 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
     }
 })
 
-export default worldoftanks
+export default worldofwarships

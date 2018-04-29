@@ -145,7 +145,7 @@ export default {
 .whitelist{
     padding: 15px;
 	.candidate-grid{
-		max-height: 450px;
+		max-height: 400px;
 	}
     .whitelist-tools{
         > * {

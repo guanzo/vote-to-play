@@ -10,7 +10,7 @@
             <button 
                 @click="submitVote" 
                 :disabled="!hasSelectedCandidate" 
-                class="button"
+                class="button is-small"
                 :class="{ 'is-loading': isLoading }"
             >
             Vote</button>

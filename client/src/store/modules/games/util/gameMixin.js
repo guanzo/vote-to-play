@@ -3,6 +3,7 @@
  */
 
 import { TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
+import { RESET_FILTERS } from '@/store/mutations'
 
 //3 filtering modes
 //default, leaves non-matched candidates in place, but darkens them
@@ -33,6 +34,15 @@ export const gameMixin = {
 	mutations:{
 		[TOGGLE_SHOW_NAME_IN_GRID](state,value){
 			state.gameOptions.showNameInGrid = value;
+		},
+		[RESET_FILTERS](state){
+			state.filters.forEach(filter => {
+				if (filter.type === 'text')
+					filter.vmodel = ''
+				else if (filter.type === 'select') {
+					filter.vmodel = filter.options[0]
+				}
+			})
 		}
 	},
 	getters:{

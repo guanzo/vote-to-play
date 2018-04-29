@@ -6,20 +6,26 @@
                 :is="injectedComponent" 
                 v-bind="propsObj"
             >
-
                 <template slot="controls">
                     <div v-for="filter in game.filters" class="control" :key="filter.id">
                         <input v-if="filter.type == 'text'" 
                                 v-model.trim="filter.vmodel" 
                                 :placeholder="filter.placeholder"
-                                class="input" 
+                                class="input is-small" 
                                 maxlength="50"
                         >
-                        <div v-else-if="filter.type == 'select'" class="select">
+                        <div v-else-if="filter.type == 'select'" class="select is-small">
                             <select v-model="filter.vmodel">
-                                <option v-for="role in filter.options" :key="role">{{ role }}</option>
+                                <option v-for="option in filter.options" :key="option">
+                                    {{ option }}
+                                </option>
                             </select>
                         </div>
+                    </div>
+                    <div v-if="game.filters.length" class="control" >
+                        <button @click="onResetFilters" class="button is-small is-outlined">
+                            Reset filters
+                        </button>
                     </div>
 					<div class="control show-names flex-center">
 						<label class="checkbox">
@@ -41,6 +47,7 @@
 
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES, TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
+import { RESET_FILTERS } from '@/store/mutations'
 import loading from '@/components/util/loading/Loading'
 import { delayPromise } from '@/util'
 /**
@@ -114,6 +121,8 @@ export default {
             this.fetchCandidates()
         },
         'game.filters.0.vmodel'(query = ''){
+            // The vote category "All Games" is the only category 
+            // where candidates are dynamically fetched
             if(this.isAllGames && query.length > 0)
                 this.$store.dispatch(this.namespace+'/searchGames',query)
         }, 
@@ -130,6 +139,9 @@ export default {
             ])
             this.isLoading = false
         },
+        onResetFilters() {
+            this.$store.commit(this.namespace+'/'+RESET_FILTERS)
+        }
     },
     components:{
         loading
@@ -307,7 +319,7 @@ General rules:
     }
 }
 .world-of-tanks{
-    //160x100 original
+    //160 x 100 original
     $w: 80px;
     $h: 50px;
     
@@ -319,6 +331,24 @@ General rules:
     }
     .vote-results {
         @include scale-img-size($w,$h,.85);
+    }
+    .splash-img-container img.splash-img{
+        object-fit: contain;
+    }
+}
+.world-of-warships{
+    //214 x 143 original
+    $w: 107px;
+    $h: 71.5px;
+    
+    @include scale-img-size($w,$h);
+    @include scale-candidate-size($w);
+    
+    .voter-header{
+        @include scale-img-size($w,$h,.85);
+    }
+    .vote-results {
+        @include scale-img-size($w,$h,.75);
     }
     .splash-img-container img.splash-img{
         object-fit: contain;

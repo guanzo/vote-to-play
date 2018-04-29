@@ -10,6 +10,7 @@ export const ADD_VOTE = 'ADD_VOTE'
 export const START_NEW_VOTE = 'START_NEW_VOTE'
 export const SET_CANDIDATES = 'SET_CANDIDATES'
 export const SET_FILTERS = 'SET_FILTERS'
+export const RESET_FILTERS = 'RESET_FILTERS'
 
 export const SELECT_CANDIDATE ='SELECT_CANDIDATE'
 

@@ -4,12 +4,11 @@
         <slot />
         <div class="buttons control">
             <div class="help m-b-5">{{ validationMsg }}</div>
-            <button @click="onCancel" class="button is-danger is-outlined">Cancel</button>
+            <button @click="onCancel" class="button is-small is-danger is-outlined">Cancel</button>
             <button @click="onSaveGameWhitelist" 
                 :class="[validationColor, {'is-loading':isLoading}]" 
-                class="button"
+                class="button is-small"
             >Save</button>
-
         </div>
     </div>
 </template>

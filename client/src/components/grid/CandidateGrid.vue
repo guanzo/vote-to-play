@@ -160,8 +160,9 @@ $dark: #333;
     opacity: 0;
 }
 .grid-leave-active {
+    transition: 0.1s;
 	position: absolute !important;
-	z-index: 100;
+	z-index: -1;
 }
 
 </style>
