@@ -60,14 +60,9 @@ export const mutations = {
         state.voteMode = voteMode
     },
     [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
-        /** v1.4 COMPATIBILITY */
-        if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
-            state.voteCategory = state.selectedGame
-            state.voteMode = VOTE_MODE_VIEWER
-        }else{
-            state.voteCategory = currentVote.voteCategory
-            state.voteMode = currentVote.voteMode
-        }
+        
+        state.voteCategory = currentVote.voteCategory
+        state.voteMode = currentVote.voteMode
         Object.assign(state.currentVote,currentVote)
         state.selectedCandidate = {}
     },

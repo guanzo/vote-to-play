@@ -23,12 +23,7 @@ export default {
          */
         socket.get().on(e.VOTES, currentVote => {
             store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
-    
-            /** v1.4 COMPATIBILITY */
-            if(currentVote.hasOwnProperty('voteType') || !currentVote.hasOwnProperty('voteMode')){
-                store.dispatch("START_NEW_VOTE")
-            }
-        });
+        })
         
         let maxCalls = 1000;
         let interval = 1250;
@@ -38,12 +33,12 @@ export default {
             throttle(()=>{
                 store.commit(MUTATIONS.ADD_VOTE, vote)
             })
-        });
+        })
     
         socket.get().on(e.VOTES_START, currentVote => {
             delete currentVote.channelId
             store.commit(MUTATIONS.SET_CURRENT_VOTE, currentVote)
-        });
+        })
     
         socket.get().on(e.WHITELIST, whitelist => {
             store.commit(MUTATIONS.SET_WHITELIST, whitelist )

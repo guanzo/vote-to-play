@@ -46,9 +46,6 @@ module.exports = {
                 .findOne({ channelId },{ voteHistory:{ $slice: 1 } })
                 .then(channel=>{
                     channel.currentVote = channel.voteHistory[0]
-                    /** v1.4 COMPATIBILITY */
-                    if(!channel.whitelist)
-                        channel.whitelist = {}
                     delete channel.voteHistory
                     return channel
                 })

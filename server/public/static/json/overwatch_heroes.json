@@ -115,6 +115,14 @@
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Moira_splash.jpg"
     },
     {
+        "id": 26,
+        "name": "Orisa",
+        "type": "tank",
+        "difficulty": 2,
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/orisa/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Orisa_splash.jpg"
+    },
+    {
         "id": 13,
         "name": "Pharah",
         "type": "offense",
@@ -211,6 +219,15 @@
         "description": "Beast wannabe",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000009.png",
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Winston_splash.jpg"
+    },
+    {
+        "id": 27,
+        "name": "Wrecking Ball",
+        "type": "tank",
+        "difficulty": 3,
+        "description": "Beast wannabe",
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/wrecking-ball/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Hammond_splash.jpg"
     },
     {
         "id": 24,

@@ -1,30 +1,23 @@
 const axios = require('axios')
 const _ = require('lodash')
 const cache = require('memory-cache');
-/**
- * Makes api calls on behalf of browser, to circumvent cors
- */
-function getDotaHeroes(){
-	return axios.get('https://www.dota2.com/jsfeed/heropickerdata').then(res=>res.data)
-}
 
 const WARGAMING_API_KEY = process.env.WORLD_OF_TANKS_API_KEY
-const limit = 100;
-const cache_expire = 86400000;//1 day
+const PAGE_LIMIT = 100;
+const CACHE_EXPIRE = 86400000;//1 day
 
-/**
- * Get all tanks, and cache for a day. 
- */
-async function getWorldOfTanksData(){
-	const API_URL = `https://api.worldoftanks.com/wot/encyclopedia/vehicles/`
-	const FIELDS = 'name,nation,short_name,tag,tank_id,tier,type,images.big_icon'
-	const WOT_CACHE_KEY = 'worldoftanks'
-	let data = cache.get(WOT_CACHE_KEY)
-	if(data === null){
-		data = await requestWargamingData(API_URL, FIELDS, parseTank);
-		cache.put(WOT_CACHE_KEY, data, cache_expire)
-	}
-	return data;
+const WOT_OPTIONS = {
+	url: `https://api.worldoftanks.com/wot/encyclopedia/vehicles/`,
+	fields: 'name,nation,short_name,tag,tank_id,tier,type,images.big_icon',
+	cacheKey: 'worldoftanks',
+	parseDataCb: parseTank
+}
+
+const WOW_OPTIONS = {
+	url: 'https://api.worldofwarships.com/wows/encyclopedia/ships/',
+	fields: 'name,nation,ship_id,tier,type,images',
+	cacheKey: 'worldofwarships',
+	parseDataCb: parseShip
 }
 
 function parseTank(val, key) {
@@ -34,22 +27,6 @@ function parseTank(val, key) {
 	val.imgSplash = null;
 	delete val.tank_id 
 	return val
-}
-
-/**
- * Get all ships, and cache for a day. 
- */
-async function getWorldOfWarshipsData() {
-
-	const API_URL = 'https://api.worldofwarships.com/wows/encyclopedia/ships/'
-	const FIELDS = 'name,nation,ship_id,tier,type,images'
-	const WOW_CACHE_KEY = 'worldofwarships'
-	let data = cache.get(WOW_CACHE_KEY)
-	if(data === null){
-		data = await requestWargamingData(API_URL, FIELDS, parseShip);
-		cache.put(WOW_CACHE_KEY, data, cache_expire)
-	}
-	return data;
 }
 
 function parseShip(val, key) {
@@ -63,6 +40,15 @@ function parseShip(val, key) {
 	return val
 }
 
+async function getWargamingData({ url, fields, cacheKey, parseDataCb }) {
+	let data = cache.get(cacheKey)
+	if(data === null){
+		data = await requestWargamingData(url, fields, parseDataCb);
+		cache.put(cacheKey, data, CACHE_EXPIRE)
+	}
+	return data;
+}
+
 async function requestWargamingData(url, fields, parseItem){
 	let totalPages = 0;
 	let currentPage = 1;
@@ -73,13 +59,14 @@ async function requestWargamingData(url, fields, parseItem){
 			params:{
 				application_id: WARGAMING_API_KEY,
 				fields,
-				limit,
+				PAGE_LIMIT,
 				page_no: page
 			}
 		})
 		totalPages = response.data.meta.page_total
-			let items = _(response.data.data).map(parseItem).value()
-			data.push(...items)
+		let items = _(response.data.data).map(parseItem).value()
+		data.push(...items)
+		return
 	}
 	//get page total from first request, then request the rest
 	await requestPage(currentPage)
@@ -99,25 +86,24 @@ async function requestWargamingData(url, fields, parseItem){
 	return _(data).orderBy('tier',['desc']).uniqBy('name').value()
 }
 
+/**
+ * Makes api calls on behalf of browser, to circumvent cors
+ */
+function getDotaHeroes(){
+	return axios.get('https://www.dota2.com/jsfeed/heropickerdata').then(res=>res.data)
+}
+
 module.exports = (app) => {
-	//v1.7 compatibility
-    app.get('/api/heroes/dota', async (req, res) => {
-		let data = await getDotaHeroes();
-		res.send(data)
-	})
-	
     app.get('/api/dota', async (req, res) => {
 		let data = await getDotaHeroes();
 		res.send(data)
 	})
-
     app.get('/api/worldoftanks', async (req, res) => {
-        let data = await getWorldOfTanksData();
+        let data = await getWargamingData(WOT_OPTIONS);
 		res.send(data)
 	})
     app.get('/api/worldofwarships', async (req, res) => {
-        let data = await getWorldOfWarshipsData();
+        let data = await getWargamingData(WOW_OPTIONS);
 		res.send(data)
 	})
-	
 }

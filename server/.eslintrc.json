@@ -13,6 +13,6 @@
 		"node/no-unpublished-require": "warn",
 		"no-console": 0,
 		"eqeqeq": ["error","smart"],
-		"no-mixed-spaces-and-tabs": 0,
+		"no-mixed-spaces-and-tabs": 0
     }
 }

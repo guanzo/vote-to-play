@@ -10,7 +10,7 @@ export const NAMESPACE = 'Battlerite'
 
 const battlerite = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
-    state: { 
+    state: {
         gameName: 'Battlerite',
         candidateNomenclature: 'champion',
         className: 'battlerite',
@@ -42,13 +42,13 @@ const battlerite = _.merge({},gameMixin,whitelistMixin,{
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-            return axios.get('https://www.battlerite.com/api/champions/get')
+            return axios.get('https://arena.battlerite.com/api/champions/get')
             .then((response)=>{
-                
+
                 let candidates = _(response.data).map((val)=>{
                     val.img = val.icon
 					val.imgSplash = val.image
-					
+
 					delete val.icon
 					delete val.image
                     return val

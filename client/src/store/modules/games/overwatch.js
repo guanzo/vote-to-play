@@ -8,7 +8,7 @@ export const NAMESPACE = 'Overwatch'
 
 const ow = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
-    state: { 
+    state: {
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
         className: 'overwatch',
@@ -37,7 +37,6 @@ const ow = _.merge({},gameMixin,whitelistMixin,{
             let roles = _(candidates).map(d=>d.type).uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
-        
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){

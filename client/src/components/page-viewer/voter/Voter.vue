@@ -3,8 +3,8 @@
 <div class="voter">
     <transition name="fade-vertical" @afterLeave="afterUiLeave">
         <div v-show="showUI" class="vote-form overlay-background">
-            <Splash 
-                :splashTransition="splashTransition" 
+            <Splash
+                :splashTransition="splashTransition"
                 :selectedCandidate="selectedCandidate"
                 @transitionDone="endSplashTransition"
              />
@@ -13,7 +13,7 @@
                 :selectedCandidate="selectedCandidate"
                 :class="isInvisible"
              />
-            <CandidateGrid 
+            <CandidateGrid
                 v-bind="$attrs"
                 :candidates="votableCandidates"
 				:filteredCandidates="votableFilteredCandidates"
@@ -23,11 +23,11 @@
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :hasSubmittedVote="hasSubmittedVote"
                 :vote="selectedCandidate.name"
-                :class="isInvisible" 
+                :class="isInvisible"
                 @submitVote="startSplashTransition"
             >
                 <slot name="controls" />
-            </VoterControls> 
+            </VoterControls>
         </div>
     </transition>
     <VoteResults />
@@ -110,7 +110,7 @@ export default {
             this.splashTransition = this.splashTransitionDefaults()
         },
         splashTransitionDefaults(){
-            let duration = 4000
+            let duration = 2500
             return {
                 isActive: false,
                 hideVoteUI: false,
@@ -153,10 +153,10 @@ export default {
             "header"
             "main"
             "footer";
-        grid-row-gap: 15px;   
+        grid-row-gap: 15px;
         .candidate-grid{
             grid-area: main;
-        }     
+        }
         .invisible{
             opacity: 0;
             pointer-events: none;

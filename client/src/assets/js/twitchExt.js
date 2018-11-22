@@ -11,20 +11,24 @@ window.Twitch.ext.onAuthorized(async auth => {
     let payload = JSON.parse(window.atob(parts[1]));
 	let role = payload.role
 	let { channelId, token, userId } = auth
-    let [channelName, game] = await Promise.all([getChannelName(auth.channelId), getSelectedGame(auth.channelId)])
+	const promises = [
+		getChannelName(auth.channelId),
+		getSelectedGame(auth.channelId)
+	]
+    let [channelName, game] = await Promise.all(promises)
 
 	//console.log(payload)
 	//console.log(auth)
     store.commit(SET_GAME, game)
-    //send game to server to set vote category 
+    //send game to server to set vote category
     //in case this is the first visit to a channel that doesn't exist in the database
-    store.dispatch(SET_AUTH, { 
-        channelId, 
-        channelName, 
+    store.dispatch(SET_AUTH, {
+        channelId,
+        channelName,
         game,
-        token, 
-        userId, 
-        role 
+        token,
+        userId,
+        role
     })
 
 	clearTimeout(timeoutId)

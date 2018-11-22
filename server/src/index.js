@@ -15,7 +15,13 @@ var db = require('./db.js')
 
 //console.log(process.env);
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
-console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
+//console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
+
+const { NODE_ENV, TWITCH_EXTENSION_SECRET } = process.env
+
+if (!NODE_ENV || !TWITCH_EXTENSION_SECRET) {
+	throw new Error('Missing env variables!')
+}
 
 app.use(cors({ credentials: true, origin: true }))
 let server;
@@ -47,7 +53,7 @@ voteRouter(server);
 dataRouter(app)
 
 db.connect().then(()=>{
-    
+
     server.listen(port, () => {
         console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
 	});
