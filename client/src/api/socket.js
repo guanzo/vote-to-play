@@ -7,7 +7,10 @@ import game from './game'
 
 export default {
     connect(url,data){
-        socket = io(url,{ query: data })
+		if (socket && socket.connected) {
+			socket.disconnect()
+		}
+        socket = io(url, { query: data })
 
         vote.setListeners()
         game.setListeners()
@@ -15,7 +18,7 @@ export default {
 		socket.on('connect',()=>{
 			socket.emit(e.CHANNELS_JOIN,data)
 		})
-		
+
         socket.on('error',console.error)
     },
     get(){

@@ -1,5 +1,5 @@
-import * as MUTATIONS from './mutations'
-import * as ACTIONS from './actions'
+import * as M from './mutations'
+import * as A from './actions'
 
 import socket from '@/api/socket'
 import voteApi from '@/api/vote'
@@ -41,61 +41,61 @@ export const state = {
 }
 
 export const mutations = {
-    [MUTATIONS.SET_AUTH]( state, payload ){
+    [M.SET_AUTH]( state, payload ){
         state.isAuthed = true;
         state.token = payload.token;
         state.channelId = payload.channelId
         state.channelName = payload.channelName
         state.userId = payload.userId
     },
-    [MUTATIONS.SET_GAME]( state, game ){
+    [M.SET_GAME]( state, game ){
         state.selectedGame = game
         state.selectedCandidate = {}
     },
-    [MUTATIONS.SET_VOTE_CATEGORY]( state, voteCategory ){
+    [M.SET_VOTE_CATEGORY]( state, voteCategory ){
         state.voteCategory = voteCategory
         state.selectedCandidate = {}
     },
-    [MUTATIONS.SET_VOTE_MODE]( state, voteMode ){
+    [M.SET_VOTE_MODE]( state, voteMode ){
         state.voteMode = voteMode
     },
-    [MUTATIONS.SET_CURRENT_VOTE]( state, currentVote ){
-        
+    [M.SET_CURRENT_VOTE]( state, currentVote ){
+
         state.voteCategory = currentVote.voteCategory
         state.voteMode = currentVote.voteMode
         Object.assign(state.currentVote,currentVote)
         state.selectedCandidate = {}
     },
-    [MUTATIONS.ADD_VOTE]( state, vote ){
+    [M.ADD_VOTE]( state, vote ){
         state.currentVote.votes.push(vote)
     },
-    [MUTATIONS.SELECT_CANDIDATE]( state, candidate ){
+    [M.SELECT_CANDIDATE]( state, candidate ){
         state.selectedCandidate = candidate
     },
-    [MUTATIONS.TOGGLE_VOTE_SIMULATION]( state, payload ){
+    [M.TOGGLE_VOTE_SIMULATION]( state, payload ){
         state.TESTING.isSimulating = payload
     },
 }
 
 export const actions = {
-    [ACTIONS.VOTE]( {state}, payload ){
+    [A.VOTE]( {state}, payload ){
         voteApi.addVote({
             channelId: state.channelId,
             vote: payload.vote,
             userId: payload.userId
         });
     },
-    [ACTIONS.START_NEW_VOTE]( {state} ){
-        voteApi.startVote({ 
-            channelId: state.channelId, 
-            voteCategory: state.voteCategory, 
+    [A.START_NEW_VOTE]( {state} ){
+        voteApi.startVote({
+            channelId: state.channelId,
+            voteCategory: state.voteCategory,
             voteMode: state.voteMode,
             createdAt: new Date(),
             votes: [],
         })
     },
-    [MUTATIONS.SET_AUTH]( {commit}, payload ){
-        commit(MUTATIONS.SET_AUTH, payload)
+    [M.SET_AUTH]( {commit}, payload ){
+        commit(M.SET_AUTH, payload)
         socket.connect(process.env.SERVER_URL, payload)
     },
 }
@@ -119,7 +119,7 @@ export const getters = {
     },
     /*
     Twitch Docs:
-    An opaque ID that begins with “A” is a logged-out user and should not be persisted. 
+    An opaque ID that begins with “A” is a logged-out user and should not be persisted.
     It will change every time the logged-out user loads your extension.
 
     They are NOT ALLOWED to vote.
@@ -134,7 +134,7 @@ export const modules = {
 }
 
 const store = new Vuex.Store({
-    state, 
+    state,
     mutations,
     actions,
     getters,

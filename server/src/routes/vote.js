@@ -31,7 +31,7 @@ module.exports = (server) => {
 
         socket.on(e.CHANNELS_JOIN,async data=>{
             let { channelId } = data
-            socket.join(channelId)
+			socket.join(channelId)
             let channel = await voteModel.getChannel(data)
             socket.emit(e.VOTES,channel.currentVote)
             socket.emit(e.WHITELIST,channel.whitelist)

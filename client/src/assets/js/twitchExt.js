@@ -6,7 +6,9 @@ import { SET_AUTH, SET_GAME } from '@/store/mutations'
 let timeoutId = null;
 
 //fires on load && when user grants permission
-window.Twitch.ext.onAuthorized(async auth => {
+window.Twitch.ext.onAuthorized(onAuthorizedCb)
+
+async function onAuthorizedCb(auth) {
     let parts = auth.token.split(".");
     let payload = JSON.parse(window.atob(parts[1]));
 	let role = payload.role
@@ -32,8 +34,8 @@ window.Twitch.ext.onAuthorized(async auth => {
     })
 
 	clearTimeout(timeoutId)
-    timeoutId = setTimeout(()=>pollSelectedGame(auth.channelId))
-});
+	timeoutId = setTimeout(()=>pollSelectedGame(auth.channelId))
+}
 
 //testing on localhost window, and not inside twitch iframe
 //i need to join a room so that i can cast votes locally
