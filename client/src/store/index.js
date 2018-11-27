@@ -82,7 +82,7 @@ export const mutations = {
 		if (newVoteId !== currentVoteId) {
 			return
 		}
-		
+
 		// Update existing votes
 		for (const voteObj of currentVotes) {
 			const { vote } = voteObj

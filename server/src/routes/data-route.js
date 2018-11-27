@@ -20,12 +20,15 @@ const WOW_OPTIONS = {
 	parseDataCb: parseShip
 }
 
+const DOTA_CACHE_KEY = 'dota'
+const LOL_CACHE_KEY = 'lol'
+
 function parseTank(val, key) {
 	val.id = parseInt(key);
 	val.name = val.short_name;
 	val.img = val.images.big_icon.replace(/^http/,'https');
 	val.imgSplash = null;
-	delete val.tank_id 
+	delete val.tank_id
 	return val
 }
 
@@ -36,7 +39,7 @@ function parseShip(val, key) {
 	}
 	val.img = val.images.small.replace(/^http/,'https')
 	val.imgSplash = val.images.large.replace(/^http/,'https')
-	delete val.ship_id 
+	delete val.ship_id
 	return val
 }
 
@@ -81,7 +84,7 @@ async function requestWargamingData(url, fields, parseItem){
 
 	//https://mail.google.com/mail/u/0/#inbox/1609c0cbff89f272
 	//Matthew Brozusky:
-	//"A majority of streamers for this game focus on higher tier tanks (tier 8-10) 
+	//"A majority of streamers for this game focus on higher tier tanks (tier 8-10)
 	//so filtering by tier would be the best option for you last question."
 	return _(data).orderBy('tier',['desc']).uniqBy('name').value()
 }
@@ -89,13 +92,55 @@ async function requestWargamingData(url, fields, parseItem){
 /**
  * Makes api calls on behalf of browser, to circumvent cors
  */
-function getDotaHeroes(){
-	return axios.get('https://www.dota2.com/jsfeed/heropickerdata').then(res=>res.data)
+async function getDotaData(){
+	let data = cache.get(DOTA_CACHE_KEY)
+	if(data === null){
+		data = await axios.get('https://www.dota2.com/jsfeed/heropickerdata').then(res=>res.data)
+		cache.put(DOTA_CACHE_KEY, data, CACHE_EXPIRE)
+	}
+	return data
+}
+
+async function getLolData () {
+	let data = cache.get(LOL_CACHE_KEY)
+	if(data === null){
+		data = await fetchLolData()
+		cache.put(LOL_CACHE_KEY, data, CACHE_EXPIRE)
+	}
+	return data
+}
+
+async function fetchLolData () {
+	const API_BASE_URL = 'https://ddragon.leagueoflegends.com/'
+	const VERSION_URL = API_BASE_URL + 'realms/na.json'
+	const CDN_BASE_URL = API_BASE_URL + 'cdn/'
+
+	const championDataUrl = (apiVersion) => {
+		return `${CDN_BASE_URL}${apiVersion}/data/en_US/champion.json`
+	}
+	const imgUrl = (apiVersion, name) => {
+		return `${CDN_BASE_URL}${apiVersion}/img/champion/${name}`
+	}
+
+	let resp = await axios.get(VERSION_URL)
+	const { champion: championVersion, profileicon: iconVersion } = resp.data.n
+
+	resp = await axios.get(championDataUrl(championVersion))
+	const candidates = _(resp.data.data).map((val)=>{
+		val.name = val.id;
+		val.img = imgUrl(iconVersion, val.image.full)
+		return val
+	}).sortBy('name').value()
+	return candidates
 }
 
 module.exports = (app) => {
     app.get('/api/dota', async (req, res) => {
-		let data = await getDotaHeroes();
+		let data = await getDotaData();
+		res.send(data)
+	})
+    app.get('/api/lol', async (req, res) => {
+		let data = await getLolData();
 		res.send(data)
 	})
     app.get('/api/worldoftanks', async (req, res) => {

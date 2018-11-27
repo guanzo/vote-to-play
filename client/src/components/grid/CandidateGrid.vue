@@ -6,7 +6,9 @@
         name="grid"
         @before-leave="beforeLeave"
     >
-        <candidate v-for="candidate in candidatesToShow"
+        <component
+            :is="candidateComponent"
+            v-for="candidate in candidatesToShow"
             :candidate="candidate"
             :showNameInGrid="gameOptions.showNameInGrid"
             @click.native="selectCandidate(candidate)"
@@ -25,9 +27,8 @@
 </template>
 
 <script>
-import candidate from './Candidate'
-import { SELECT_CANDIDATE } from '@/store/mutations'
-import smoothHeight from 'vue-smooth-height'
+import Candidate from './Candidate'
+import smoothReflow from 'vue-smooth-reflow'
 import {
 	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE
 } from '@/store/modules/games/util/gameMixin'
@@ -36,9 +37,16 @@ const INITIAL_PAGE = 1;
 
 export default {
     name:'candidate-grid',
-    mixins:[smoothHeight],
+    mixins:[smoothReflow],
     props:{
         candidates: Array,
+        candidateComponent: {
+            type: Object,
+            default: Candidate
+        },
+        selectCandidate: {
+            type: Function
+        },
 		filteredCandidates: Array,
 		filters: Array,
 		gameOptions:{
@@ -90,25 +98,19 @@ export default {
 		},
 	},
     mounted(){
-        this.$registerElement({
-            el: this.$el,
-            hideOverflow: true,
-        })
+        this.$smoothReflow()
     },
     methods:{
 		//v1.7 compatibility. all-games saved in whitelist won't have id
 		getCandidateKey(candidate){
 			return candidate.id || candidate.name
 		},
-        selectCandidate(candidate){
-            this.$store.commit(SELECT_CANDIDATE, candidate)
-            this.$emit('selectCandidate',candidate)
-        },
         filterHighlightClass(candidate){
-            if(!this.hasActiveFilter || this.gameOptions.filterMode !== FILTER_MODE_HIGHLIGHT)
+            if(!this.hasActiveFilter ||
+                this.gameOptions.filterMode !== FILTER_MODE_HIGHLIGHT)
                 return ''
-            return this.filteredCandidates.find(d=>d.name === candidate.name)
-                    ? 'filtered-in': 'filtered-out'
+            const isFiltered = this.filteredCandidates.find(d=>d.name === candidate.name)
+            return isFiltered ? 'filtered-in': 'filtered-out'
 		},
 		onPaginate(){
 			this.page++;
@@ -118,7 +120,7 @@ export default {
 		}
     },
     components:{
-        candidate
+        Candidate
     }
 }
 

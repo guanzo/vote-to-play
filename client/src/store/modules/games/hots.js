@@ -21,7 +21,7 @@ const hots = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type: 'text',
                 vmodel:'',
-                placeholder: 'Search hero name'
+                placeholder: 'Search name'
             },
             {
                 id:'role',

@@ -5,7 +5,6 @@ import { NAMESPACE as NS_HS } from '@/store/modules/games/hearthstone'
 import {
 	SET_AUTH,
 	SET_GAME,
-	SET_CURRENT_VOTE,
 	ADD_VOTE,
 	SET_WHITELIST,
 	SET_HEARTHSTONE_DECKS
@@ -43,7 +42,7 @@ window.Twitch.ext.listen('broadcast', listenCb)
 
 function listenCb (target, contentType, message) {
 	const { type, data } = JSON.parse(message)
-	cl(type, data, 'ewewwerere')
+	cl(type, data, 'ewewwesertfrere')
 	switch (type) {
 		case events.VOTES_ADD:
 			store.commit(ADD_VOTE, data)

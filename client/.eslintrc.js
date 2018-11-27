@@ -27,7 +27,6 @@ module.exports = {
 		"io": false,
 		"axios": false,
 		"Bloodhound": false,
-		"throttledQueue": false,
 		"introJs": false,
 		"cl": false,
 		"process":false,

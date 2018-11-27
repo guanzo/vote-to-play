@@ -12,14 +12,14 @@ const ow = _.merge({},gameMixin,whitelistMixin,{
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
         className: 'overwatch',
-		gameOptions: gameOptions({ maxVoteResults: 3 }),
+		gameOptions: gameOptions(),
         candidates: [],
         filters:[
             {
                 id:'name',
                 type:'text',
                 vmodel:'',
-                placeholder: 'Search hero name'
+                placeholder: 'Search heroes'
             },
             {
                 id:'role',

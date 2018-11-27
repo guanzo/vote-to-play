@@ -1,22 +1,27 @@
 const axios = require('axios')
-const RateLimiter = require('limiter').RateLimiter
+const createDebug = require('debug')
 
 const voteModel = require('../models/vote-model')
 const gameModel = require('../models/game-model')
 const jwt = require('jsonwebtoken');
 const e = require('../../../shared/pubsub-events')
 
-const { TWITCH_EXTENSION_SECRET, TWITCH_CLIENT_ID } = process.env
+const { TWITCH_EXTENSION_SECRET, TWITCH_CLIENT_ID, NODE_ENV } = process.env
 const secret = Buffer.from(TWITCH_EXTENSION_SECRET, 'base64')
 
 axios.defaults.headers.common['Client-Id'] = TWITCH_CLIENT_ID
+
+const debug = createDebug('vtp')
+if (NODE_ENV !== 'production') {
+	createDebug.enable('vtp')
+}
 
 const cl = console.log
 const PUBSUB_BASE_URL = 'https://api.twitch.tv/extensions/message'
 const BROADCAST_TARGET = 'broadcast'
 // Only rate limit voting.
-// Docs say 1 msg/sec, go with 1 msg/1.25 sec to be safe
-const PUBSUB_MSG_INTERVAL = 1250
+// Docs say 1 msg/sec, go with 1 msg/1.5 sec to be safe
+const PUBSUB_MSG_INTERVAL = 1500
 // Docs say 5 kib, go with 4.5kib to be safe
 const MAX_PAYLOAD_SIZE = 1024 * 4.5
 
@@ -27,7 +32,8 @@ const channelVotes = new Map()
 function getChannelVote (channelId) {
 	if (!channelVotes.has(channelId)) {
 		channelVotes.set(channelId, {
-			limiter: new RateLimiter(1, PUBSUB_MSG_INTERVAL),
+			lastSendDate: null,
+			flushTimeoutId: null,
 			votes: {} // key = vote, val = count
 		})
 	}
@@ -87,9 +93,7 @@ async function sendPubSubMessage (channelId, message, res) {
 	try {
 		pubSubResp = await axios.post(url, data, config)
 		const h = pubSubResp.headers
-		cl('---------rate limit ----------')
-		cl(h['ratelimit-ratelimitermessagesbychannel-limit'])
-		cl(h['ratelimit-ratelimitermessagesbychannel-remaining'])
+		debug('remaining: ' + h['ratelimit-ratelimitermessagesbychannel-remaining'])
 	} catch (e) {
 		cl(e)
 		if (res) {
@@ -149,27 +153,44 @@ async function addVote (req, res) {
 
 function queueVote (channelId, vote, userId, voteId) {
 	const channelVote = getChannelVote(channelId)
-	const { votes, limiter } = channelVote
+	const { votes, lastSendDate, flushTimeoutId } = channelVote
 	if (!(vote in votes)) {
 		votes[vote] = 1
 	} else {
 		votes[vote]++
 	}
-	console.log('queuedVote')
-	console.log(JSON.stringify(votes, null, 4))
-	limiter.removeTokens(1, function(err, remainingRequests) {
-		console.log('limiter fired, remaining: ' + remainingRequests)
-		// Flush pending votes
-		const votesToSend = channelVote.votes
-		channelVote.votes = {}
 
-		const message = JSON.stringify({
-			type: e.VOTES_ADD,
-			data: { votes: votesToSend, voteId }
-		})
-		sendPubSubMessage(channelId, message)
-	});
+	clearTimeout(flushTimeoutId)
+	channelVote.flushTimeoutId = setTimeout(() => {
+		debug('sendPubSubVote b/c flush timed out')
+		sendPubSubVote(channelId, channelVote, voteId)
+	}, PUBSUB_MSG_INTERVAL)
+
+	const canSend = !lastSendDate || (new Date() - lastSendDate) > PUBSUB_MSG_INTERVAL
+
+	if (canSend) {
+		debug('sendPubSubVote b/c canSend=true')
+		sendPubSubVote(channelId, channelVote, voteId)
+	}
+}
+
 	// TODO: make sure payload isn't larger than 5 kib
+function sendPubSubVote (channelId, channelVote, voteId) {
+	// Flush pending votes
+	const votesToSend = channelVote.votes
+	if (Object.keys(votesToSend).length === 0) {
+		debug('no votes to send, returning')
+		return
+	}
+	channelVote.votes = {}
+
+	const message = JSON.stringify({
+		type: e.VOTES_ADD,
+		data: { votes: votesToSend, voteId }
+	})
+
+	channelVote.lastSendDate = new Date()
+	sendPubSubMessage(channelId, message)
 }
 
 async function editWhitelist (req, res) {
@@ -201,6 +222,7 @@ async function editHearthstoneDecks (req, res) {
 
 function broadcasterOnly (req, res, next) {
 	const { channelId } = req.params
+	// Use real twitch user Id instead of opaque twitch Id
 	const { user_id, role } = req.decodedJwt
 	if (channelId === user_id && role === 'broadcaster') {
 		next()
@@ -279,11 +301,10 @@ module.exports = (server, app) => {
 };
 
 async function addFakeVote (req, res) {
-	const { channelId } = req.params
-	const { userId, vote } = req.body
-
+	const channelId = '23435553'
+	const { userId, vote, voteId } = req.body
 	let result = await voteModel.addFakeVote(channelId, vote, userId)
-	console.log(result)
+	//console.log(result)
 	if(result.modifiedCount === 0) {
 		return res.sendStatus(422)
 	}
@@ -292,6 +313,6 @@ async function addFakeVote (req, res) {
 	// 	type: e.VOTES_ADD,
 	// 	data: { vote, userId }
 	// })
-	queueVote(channelId, { vote, userId })
+	queueVote(channelId, vote, userId, voteId)
 	res.sendStatus(200)
 }

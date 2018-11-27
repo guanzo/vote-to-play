@@ -20,7 +20,7 @@ export const FILTER_MODE_NONE = 'NONE'
  */
 export function gameOptions(customOptions){
 	return {
-		maxVoteResults: 5,//how many candidates to show in vote results
+		maxVoteResults: 3,//how many candidates to show in vote results
 		showNameInGrid: false,//display candidate name in grid
 		filterMode: FILTER_MODE_HIGHLIGHT,
 		hasPaginatedGrid: false,//can only be true if filterMode is remove

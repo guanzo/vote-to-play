@@ -3,11 +3,16 @@
         <div class="viewer-header">
             <test-util />
             <transition name="fade">
-                <div v-if="showExpandTip" class="expand-tip overlay-background">
+                <div v-if="notifyNewVote" class="expand-tip viewer-ui-block">
                     {{ channelName }} wants your vote! <span v-if="!isExpanded">Click the icon to proceed.</span>
                 </div>
             </transition>
-            <img @click="toggleUI" :class="{reveal: showLogo}" class="logo" :src="logoUrl" alt="logo">
+            <div
+                class="logo viewer-ui-block"
+                @click="toggleUI"
+                :class="logoClass">
+                <img :src="logoUrl" alt="logo">
+            </div>
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
@@ -32,7 +37,7 @@ export default {
     data(){
         return {
             isExpanded: false,
-            showExpandTip: false,
+            notifyNewVote: false,
             logoUrl: require("@/assets/images/logos/dotavoter-logo-red-sm.png"),
             voter
         }
@@ -43,24 +48,30 @@ export default {
         ]),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         showLogo(){
-            return this.isExpanded || this.showExpandTip
+            return this.isExpanded || this.notifyNewVote
+        },
+        logoClass () {
+            return {
+                reveal: this.showLogo,
+                pulse: this.notifyNewVote,
+            }
         }
     },
     watch:{
         //show tip if votes are reset, user may or may not have voted.
         'currentVote.votes'(){
             if(this.currentVote.votes.length === 0)
-                this.showExpandTip = true;
+                this.notifyNewVote = true
         },
         hasSubmittedVote(){
             if(this.hasSubmittedVote)
-                this.showExpandTip = false;
+                this.notifyNewVote = false
         }
     },
     methods:{
         toggleUI(){
             this.isExpanded = !this.isExpanded
-            this.showExpandTip = false;
+            this.notifyNewVote = false
         }
     },
     components:{
@@ -92,14 +103,20 @@ $twitch-overlay-bot-height: 80px;
 $header-element-size: 35px;
 
 .viewer{
-    padding: $twitch-overlay-top-height 15px $twitch-overlay-bot-height 15px;
+    padding: $twitch-overlay-top-height $viewer-ui-gap $twitch-overlay-bot-height $viewer-ui-gap;
     max-height: 100%;
     display: flex;
     flex-direction: column;
+
+    .viewer-ui-block {
+        background: rgba(0,0,0,0.85);
+        border-radius: 2px;
+    }
+
     .viewer-header{
         height: $header-element-size;
         min-height: $header-element-size;
-        margin-bottom: 15px;
+        margin-bottom: $viewer-ui-gap;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -113,14 +130,14 @@ $header-element-size: 35px;
         .toggle-vote-simulation{
             background: grey;
             padding: 0px 5px;
-            margin-right: 15px;
+            margin-right: $viewer-ui-gap;
         }
     }
     .viewer-body{
         flex: 1;
         display: flex;
         justify-content: flex-end;
-        overflow: hidden;//firefox fix//firefox fix
+        overflow: hidden;//firefox fix
         > * {
             flex: 1;
         }
@@ -128,10 +145,7 @@ $header-element-size: 35px;
     .expand-tip {
         height: $header-element-size;
         padding: 5px 7.5px;
-        margin-right: 15px;
-    }
-    .overlay-background {
-        background: rgba(0,0,0,0.85);
+        margin-right: $viewer-ui-gap;
     }
     ::-webkit-scrollbar {
         width: 14px;
@@ -156,5 +170,26 @@ $header-element-size: 35px;
 }
 
 
-
+@keyframes pulse {
+    100% {
+        top: -6px;
+        right: -6px;
+        bottom: -6px;
+        left: -6px;
+        opacity: 0;
+    }
+}
+.pulse {
+    position: relative;
+}
+.pulse:before {
+    content: '';
+    position: absolute;
+    border: #333 solid 3px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    animation: pulse 1s infinite;
+}
 </style>

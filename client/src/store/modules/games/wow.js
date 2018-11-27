@@ -27,7 +27,7 @@ const worldofwarships = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type: 'text',
                 vmodel:'',
-                placeholder: 'Search warship name'
+                placeholder: 'Search name'
             },
             {
                 id:'tier',

@@ -73,7 +73,7 @@ table {
         padding: 3px;
     }
     tr{
-        transition: all 1s;
+        transition: all .5s;
         td{
             vertical-align: middle;
         }

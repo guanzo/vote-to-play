@@ -78,7 +78,6 @@ function saveGameWhitelist (whitelist) {
 }
 
 function onVoteStart (currentVote) {
-	cl('on vote start!')
 	store.commit(M.SET_CURRENT_VOTE, currentVote)
 	store.commit(M.SET_USER_VOTE, null)
 }

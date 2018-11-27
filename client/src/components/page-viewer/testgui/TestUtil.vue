@@ -7,7 +7,11 @@
             Simulate Votes:
             <input type="checkbox" v-model="isSimulating">
         </div>
-        <button @click="resetVote">reset vote</button>
+        <input v-model.number="numFakeVotes" type="number" class="input is-small">
+        <button @click="addFakeVotes" class="button is-small">
+            Add {{ numFakeVotes }} fake vote
+        </button>
+        <button @click="resetVote" class="button is-small">reset vote</button>
     </div>
 </template>
 
@@ -26,7 +30,8 @@ export default {
             selectedGameModel: 'Dota 2',
             intervalID: 0,
             maxSimulationVotes: 200,
-            voteDelay: 150
+            voteDelay: 150,
+            numFakeVotes: 1
         }
     },
     computed:{
@@ -103,22 +108,37 @@ export default {
             voteApi.startVote()
         },
         simulateVotes(){
+	        const { voteId } = this.$store.state.currentVote
+            const intervalID = setInterval(()=>{
+                this.addFakeVote(voteId)
+            },50)
+            return intervalID
+        },
+        async addFakeVotes () {
+	        const { voteId } = this.$store.state.currentVote
+            let num = this.numFakeVotes
+            while (num-- > 0) {
+                this.addFakeVote(voteId)
+                await timeout(5)
+            }
+        },
+        addFakeVote (voteId) {
             if(this.votableCandidates.length === 0)
                 return;
 			const { userId, channelId } = this
             const candidatePool = Math.min(25, this.votableCandidates.length);
-            const intervalID = setInterval(()=>{
-                const candidateIndex = randIntBetween(0, candidatePool-1)
-                const candidateName = this.votableCandidates[candidateIndex].name
-                const url = `channels/${channelId}/fakevotes`
-				API.post(url, { userId, vote: candidateName })
-            },250)
-            return intervalID
-        },
+            const candidateIndex = randIntBetween(0, candidatePool-1)
+            const candidateName = this.votableCandidates[candidateIndex].name
+            const url = `channels/${channelId}/fakevotes`
+            API.post(url, { userId, vote: candidateName, voteId })
+        }
     },
 }
 function randIntBetween(min,max){
     return Math.floor(Math.random()*(max-min+1)+min);
+}
+function timeout(ms) {
+    return new Promise(r => setTimeout(r, ms))
 }
 </script>
 
@@ -126,12 +146,16 @@ function randIntBetween(min,max){
 
 .test-util{
     display: flex;
+    margin-right: auto;
     > * {
         margin: 0px 5px;
     }
     .toggle-vote-simulation{
         background: grey;
         padding: 3px;
+    }
+    input[type="number"] {
+        width: 40px;
     }
 }
 

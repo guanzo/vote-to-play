@@ -13,7 +13,9 @@
                 class="button is-small"
                 :class="{ 'is-loading': isLoading }"
             >
-            Vote</button>
+            Vote
+            <span v-if="selectedVote">&nbsp;for {{ selectedVote }}</span>
+            </button>
         </div>
         <div class="tag is-warning m-l-a" v-else>
             You must login to vote
@@ -32,7 +34,7 @@ export default {
     props:{
         hasSelectedCandidate: Boolean,
         hasSubmittedVote: Boolean,
-        vote: String
+        selectedVote: String
     },
     data(){
         return {
@@ -68,9 +70,9 @@ export default {
             }
             this.isLoading = true
 
-            const { userId, vote } = this
+            const { userId, selectedVote } = this
             try {
-                await voteApi.addVote(userId, vote)
+                await voteApi.addVote(userId, selectedVote)
             } catch (e) {
                 this.isLoading = false
                 return
@@ -83,15 +85,15 @@ export default {
 </script>
 
 <style lang="scss">
-
+$input-max-width: 100px;
 .vote-controls{
     grid-area: footer;
     position: relative;
     //display: flex;
     //justify-content: space-between;
     transition: .5s;
-    select {
-        width: 120px;
+    select, input[type="text"] {
+        max-width: $input-max-width;
     }
 	.whitelist-tip{
 		width: 100%;

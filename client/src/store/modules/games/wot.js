@@ -27,7 +27,7 @@ const worldoftanks = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type: 'text',
                 vmodel:'',
-                placeholder: 'Search tank name'
+                placeholder: 'Search tanks'
             },
             {
                 id:'tier',

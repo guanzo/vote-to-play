@@ -1,6 +1,6 @@
 import gameApi from '@/api/game-api'
-import * as MUTATIONS from '@/store/mutations'
-import * as ACTIONS from '@/store/actions'
+import * as M from '@/store/mutations'
+import * as A from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
 import { gameOptions, gameMixin } from './util/gameMixin'
 
@@ -19,7 +19,7 @@ const dota = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type:'text',
                 vmodel:'',
-                placeholder:'Search hero name'
+                placeholder:'Search heroes'
             },
             {
                 id:'role',
@@ -30,27 +30,27 @@ const dota = _.merge({},gameMixin,whitelistMixin,{
         ]
     },
     mutations:{
-        [MUTATIONS.SET_CANDIDATES](state,{ candidates }){
+        [M.SET_CANDIDATES](state,{ candidates }){
             state.candidates = candidates
         },
-        [MUTATIONS.SET_FILTERS](state, { candidates }){
+        [M.SET_FILTERS](state, { candidates }){
             const roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
     },
     actions:{
-        [ACTIONS.GET_CANDIDATES]({commit}){
-			return gameApi.fetch('dota')
-            .then((response)=>{
-                const candidates = _(response.data).map((val,id)=>{
-					val.id = id
-                    val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`);
-                    val.imgSplash = gameApi.getImagePath(`dota/splash/${id}_splash.jpg`);
-                    return val
-                }).sortBy('name').value()
-                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
-                commit(MUTATIONS.SET_FILTERS,{ candidates })
-            })
+        async [A.GET_CANDIDATES]({commit}){
+			const resp = await gameApi.fetch('dota')
+			
+			const candidates = _(resp.data).map((val,id)=>{
+				val.id = id
+				val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`);
+				val.imgSplash = gameApi.getImagePath(`dota/splash/${id}_splash.jpg`);
+				return val
+			}).sortBy('name').value()
+
+			commit(M.SET_CANDIDATES,{ candidates })
+			commit(M.SET_FILTERS,{ candidates })
         }
     },
     getters:{

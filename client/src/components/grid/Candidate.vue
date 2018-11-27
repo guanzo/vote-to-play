@@ -8,7 +8,9 @@
             <img :src="candidate.img" :alt="candidate.name">
         </div>
         <div v-if="showNameInGrid" class="candidate-name">
-            <div ref="name" class="ellipsis">{{ candidate.name }}</div>
+            <div ref="name" class="overflow-ellipsis">
+                {{ candidate.name }}
+            </div>
         </div>
     </div>
 </template>
@@ -48,8 +50,7 @@ export default {
     flex-direction: column;
     align-items: center;
     margin: 2px;
-    transition: .3s;
-	//transition: 5s;
+    transition: .25s;
     cursor: pointer;
     .candidate-name {
         max-width: 100%;
@@ -75,4 +76,5 @@ export default {
         transition: opacity 0.3s;
     }
 }
+
 </style>

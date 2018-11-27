@@ -12,6 +12,7 @@
                                 v-model.trim="filter.vmodel"
                                 :placeholder="filter.placeholder"
                                 class="input is-small"
+                                type="text"
                                 maxlength="50"
                         >
                         <div v-else-if="filter.type == 'select'" class="select is-small">
@@ -24,7 +25,7 @@
                     </div>
                     <div v-if="game.filters.length" class="control" >
                         <button @click="onResetFilters" class="button is-small is-outlined">
-                            Reset filters
+                            Clear
                         </button>
                     </div>
 					<div class="control show-names flex-center">
@@ -165,9 +166,12 @@ export default {
         height: auto;
         display: block;
     }
-	.voter .show-names label:hover{
-		color: #eee;
-	}
+	.voter .show-names {
+        font-size: 0.75rem;
+        label:hover{
+            color: #eee;
+        }
+    }
 }
 /**
 Base img dimensions are targeted towards the viewer route.

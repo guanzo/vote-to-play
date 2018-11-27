@@ -18,7 +18,6 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
 		gameOptions: gameOptions({
 			showNameInGrid: true,
 			filterMode: FILTER_MODE_NONE,
-			maxVoteResults: 3
 		}),
         candidates: [],
         decks:[],

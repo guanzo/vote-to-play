@@ -21,7 +21,7 @@ const battlerite = _.merge({},gameMixin,whitelistMixin,{
                 id:'name',
                 type: 'text',
                 vmodel:'',
-                placeholder: 'Search champion name'
+                placeholder: 'Search name'
             },
             {
                 id:'role',

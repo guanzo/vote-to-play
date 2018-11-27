@@ -1,7 +1,7 @@
 <template>
 <div class="voter">
     <transition name="fade-vertical">
-        <div v-show="showUI" class="vote-form overlay-background">
+        <div v-show="showUI" class="vote-form viewer-ui-block">
             <VoterHeader
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :selectedCandidate="selectedCandidate"
@@ -10,20 +10,22 @@
             <CandidateGrid
                 v-bind="$attrs"
                 :candidates="votableCandidates"
+                :candidateComponent="CandidateVote"
+                :selectCandidate="selectCandidate"
 				:filteredCandidates="votableFilteredCandidates"
                 :class="[isInvisible, 'candidate-grid light']"
-             />
+            />
             <VoterControls
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :hasSubmittedVote="hasSubmittedVote"
-                :vote="selectedCandidate.name"
+                :selectedVote="selectedCandidate.name"
                 :class="isInvisible"
             >
                 <slot name="controls" />
             </VoterControls>
         </div>
     </transition>
-    <VoteResults />
+    <VoteResults class="results"/>
 </div>
 
 </template>
@@ -32,9 +34,11 @@
 
 import VoterHeader from './VoterHeader'
 import CandidateGrid from '@/components/grid/CandidateGrid'
+import CandidateVote from '@/components/grid/CandidateVote'
 import VoterControls from './VoterControls'
 import VoteResults from '@/components/voteresults/VoteResults'
 
+import { SELECT_CANDIDATE } from '@/store/mutations'
 const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /**
@@ -52,6 +56,11 @@ export default {
         filteredCandidates: Array,
         whitelistedCandidates: Array
     },
+    data () {
+        return {
+            CandidateVote
+        }
+    },
     computed:{
         ...Vuex.mapState(['selectedCandidate','voteMode']),
         ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
@@ -68,6 +77,20 @@ export default {
 			return _.intersectionBy(this.votableCandidates, this.filteredCandidates,'id')
 		}
     },
+    methods: {
+        selectCandidate(candidate){
+            const { name } = this.selectedCandidate
+            const toSelect = name === candidate.name
+                ? {} // Default value of no selection
+                : candidate
+
+            this.$store.commit(SELECT_CANDIDATE, toSelect)
+
+            if (toSelect !== {}) {
+                this.$emit('selectCandidate', toSelect)
+            }
+        },
+    },
     components:{
         VoterHeader,
         CandidateGrid,
@@ -79,16 +102,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .voter{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "vote-form results";
     align-items: flex-start;
     justify-content: flex-end;
+    grid-column-gap: $viewer-ui-gap;
     height: 100%;
     width: 100%;
     .vote-form{
+        grid-area: vote-form;
         position: relative;
-        padding: 15px;
+        padding: $viewer-ui-gap;
         max-height: 100%;
         min-height: 300px;
         min-width: 450px;
@@ -99,9 +127,11 @@ export default {
             "header"
             "main"
             "footer";
-        grid-row-gap: 15px;
+        grid-row-gap: $viewer-ui-gap;
         .candidate-grid{
             grid-area: main;
+            // give space for selected candidates to scale up
+            padding: 10px;
         }
         .invisible{
             opacity: 0;
@@ -110,16 +140,7 @@ export default {
     }
     //scroll topvotes when height overflow
     .vote-results{
-        margin-left: 15px;
-        display: flex;
-        flex-direction: column;
-        max-height: 100%;
-        /deep/ .top-votes {
-            overflow-y: auto;
-            > div {
-                overflow: hidden;
-            }
-        }
+        grid-area: results;
     }
 }
 

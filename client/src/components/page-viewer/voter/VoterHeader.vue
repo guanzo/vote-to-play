@@ -1,11 +1,12 @@
 <template>
-
 <div class="voter-header is-size-5 flex-center">
     <div class="flex-center">
         <div class="image-wrapper flex-center"
                 :class="{'default-vote': !hasSelectedCandidate}">
             <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
-                    <div v-if="!hasSelectedCandidate" class="header-img"><span class="icon-help" /></div>
+                    <div v-if="!hasSelectedCandidate" class="header-img">
+                        <span class="icon-help"/>
+                    </div>
                     <img v-else
                         :src="selectedCandidate.img"
                         :alt="selectedCandidate.name"
@@ -14,7 +15,7 @@
                     >
             </transition>
         </div>
-        <div class="ellipsis" >
+        <div class="header-name" >
             <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
                 <div v-if="!hasSelectedCandidate" class="header-name">Your Vote</div>
                 <div v-else :key="selectedCandidate.name" class="header-name">{{ selectedCandidate.name }}</div>
@@ -22,7 +23,6 @@
         </div>
     </div>
 </div>
-
 </template>
 
 <script>
@@ -97,9 +97,8 @@ export default {
     .image-wrapper{
         margin-right: 10px;
     }
-    .ellipsis{
-        flex: 1;
-        overflow: visible;
+    .header-name{
+        white-space: nowrap;
     }
 }
 

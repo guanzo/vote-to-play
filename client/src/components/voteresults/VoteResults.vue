@@ -1,27 +1,23 @@
 <template>
-<div class="vote-results">
-    <div class="top-votes overlay-background" ref="topvotes">
-        <transition name="fade">
-            <div v-if="topAggregatedVotes.length" key="results" >
-                <div class="is-size-5 has-text-centered">Results</div>
-                <div class="m-t-5 m-b-5 has-text-centered">
-                    Total votes: {{ currentVote.votes.length }}
-                </div>
-                <vote-table :votes="topAggregatedVotes" />
+<div class="vote-results viewer-ui-block">
+    <transition name="fade">
+        <div v-if="topAggregatedVotes.length" class="top-results" key="results">
+            <div class="info-bar">
+                Total votes: {{ totalVotes }}
             </div>
-            <div v-else class="no-results" key="noresults">
-                <div>Waiting for votes...</div>
-                <vote-loading />
+            <vote-table :votes="topAggregatedVotes" />
+            <div class="action-bar">
+                <button
+                    v-if="showToggleVotesBtn"
+                    @click="toggleSeeAllVotes"
+                    class="button is-small">
+                    {{ seeAllVotes ? 'See top votes' : 'See all votes' }}
+                </button>
             </div>
-        </transition>
-    </div>
-    <transition name="fade-vertical">
-        <div v-if="userVote" class="user-vote overlay-background">
-            <div class="is-size-5 has-text-centered">Your Vote</div>
-            <vote-table
-                v-if="userAggregatedVote.length"
-                :votes="userAggregatedVote"
-            />
+        </div>
+        <div v-else class="no-results" key="noresults">
+            <div>Waiting for votes...</div>
+            <vote-loading />
         </div>
     </transition>
 </div>
@@ -32,11 +28,16 @@
 import voteLoading from '@/components/util/loading/VoteLoading'
 import loading from '@/components/util/loading/Loading'
 import voteTable from './VoteTable'
-import smoothHeight from 'vue-smooth-height'
+import smoothReflow from 'vue-smooth-reflow'
 
 export default {
     name: 'vote-results',
-    mixins:[smoothHeight],
+    mixins:[smoothReflow],
+    data () {
+        return {
+            seeAllVotes: false
+        }
+    },
     computed:{
         ...Vuex.mapState(['currentVote', 'userVote']),
         ...Vuex.mapGetters(['selectedGameModule']),
@@ -50,10 +51,24 @@ export default {
                 })
                 .value()
         },
+        totalVotes () {
+            const { votes } = this.currentVote
+            return votes.reduce((memo, voteObj) => {
+                return memo + voteObj.count
+            }, 0)
+        },
         maxResults(){
             if(!this.selectedGameModule)
-                return 5;
-            return this.selectedGameModule.gameOptions.maxVoteResults
+                return 3
+            if (this.seeAllVotes) {
+                return this.rankedVotes.length
+            } else {
+                return this.selectedGameModule.gameOptions.maxVoteResults
+            }
+        },
+        showToggleVotesBtn () {
+            const { rankedVotes, maxResults } = this
+            return rankedVotes.length > maxResults || this.seeAllVotes
         },
         topAggregatedVotes(){
             return this.rankedVotes.slice(0, this.maxResults)
@@ -65,10 +80,14 @@ export default {
         }
     },
     mounted(){
-        this.$registerElement({
-            el: this.$refs.topvotes,
-            hideOverflow: true
+        this.$smoothReflow({
+            el: '.top-results'
         })
+    },
+    methods: {
+        toggleSeeAllVotes () {
+            this.seeAllVotes = !this.seeAllVotes
+        }
     },
     components:{
         voteTable,
@@ -81,32 +100,43 @@ export default {
 <style lang="scss" scoped>
 
 .vote-results{
-    min-width: 300px;
-    flex: 0 0 300px;
     position: relative;
+    display: flex;
+    max-height: 100%;
+    min-height: 0;
+    font-size: 0.9rem;
     .fade-leave-active {
         position: absolute;
     }
 }
 
+.top-results {
+    flex: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto;
+    .info-bar {
+        padding: 10px 0px;
+        text-align: center;
+    }
+    .vote-table {
+        overflow-y: auto;
+        padding: 0 5px;
+    }
+    .action-bar {
+        padding: 10px;
+    }
+}
+
 .no-results {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
     &.fade-leave-active {
         width: calc(100% - 30px);
     }
 }
-
-.top-votes, .user-vote {
-    padding: 10px;
-}
-
-.top-votes {
-    position: relative;
-    margin-bottom: 15px;
-    //transition: height 1s;
-}
-
 
 </style>

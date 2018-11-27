@@ -8,7 +8,7 @@
         :filteredCandidates="tempWhitelist"
         :noResults="noResults"
         :beforeLeave="beforeLeave"
-        @selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
+        :selectCandidate="c=>swap(c,tempBlacklist,tempWhitelist)"
         class="dark"
      />
 
@@ -27,7 +27,7 @@
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
         :beforeLeave="beforeLeave"
-        @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
+        :selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="dark m-b-25"
      />
     <whitelist-controls

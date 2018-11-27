@@ -4,7 +4,7 @@
         <tab name="Settings">
             <settings />
         </tab>
-        <tab name="Vote">
+        <tab name="Votes">
             <vote-info />
             <vote-results />
         </tab>
@@ -41,7 +41,7 @@ export default {
 .live-config{
     position: relative;
     flex: 1;
-    padding: 5px;
+    padding: 5px 0px;
     background: $white-bis;
     color: #333;
     /deep/ .tabs{
