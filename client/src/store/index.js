@@ -1,8 +1,5 @@
 import * as M from './mutations'
-import * as A from './actions'
 
-import socket from '@/api/socket'
-import voteApi from '@/api/vote'
 import games from './modules/games/_main'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
@@ -16,6 +13,8 @@ const voteCategory = null;
 const voteMode = VOTE_MODE_VIEWER
 
 export const state = {
+    isAuthed: false,
+    token: null,
     channelId: -1,
     channelName: 'The broadcaster',
     userId: -1,
@@ -24,15 +23,13 @@ export const state = {
     //potential values will be same as selectedGame, with the addition of "All Games"
     voteCategory,
     voteMode,
-    selectedCandidate:{},
+	selectedCandidate:{},
+	userVote: null,
     currentVote:{
         votes:[],
         voteCategory,
         voteMode,
-        createdAt: null,
     },
-    isAuthed: false,
-    token: null,
     TESTING:{
         IS_DEVELOPMENT,
         isSimulating: false && IS_DEVELOPMENT,
@@ -58,16 +55,46 @@ export const mutations = {
     },
     [M.SET_VOTE_MODE]( state, voteMode ){
         state.voteMode = voteMode
-    },
+	},
+	// REMEMBER that a pubsub message for a vote can trigger
+	// before the initiate state is fetched, so instead of
+	// overwriting the currentVote, merge and increment.
+	// Make sure to check the Id of the current vote, to see
+	// if you should merge, or overwrite.
     [M.SET_CURRENT_VOTE]( state, currentVote ){
-
+		state.currentVote.votes = []
+        state.selectedCandidate = {}
         state.voteCategory = currentVote.voteCategory
         state.voteMode = currentVote.voteMode
-        Object.assign(state.currentVote,currentVote)
-        state.selectedCandidate = {}
+		Object.assign(state.currentVote, currentVote)
+	},
+	[M.SET_USER_VOTE]( state, userVote ){
+		state.userVote = userVote
     },
-    [M.ADD_VOTE]( state, vote ){
-        state.currentVote.votes.push(vote)
+    [M.ADD_VOTE]( state, payload ){
+		const { currentVote } = state
+		const currentVoteId = currentVote.voteId
+		// Is an array of obj, { vote, count }
+		const currentVotes = currentVote.votes
+		// Is an obj with key=vote, val=count
+		const newVotes = payload.votes
+		const newVoteId = payload.voteId
+		if (newVoteId !== currentVoteId) {
+			return
+		}
+		
+		// Update existing votes
+		for (const voteObj of currentVotes) {
+			const { vote } = voteObj
+			if (vote in newVotes) {
+				voteObj.count += newVotes[vote]
+				delete newVotes[vote]
+			}
+		}
+		// Add new votes
+		for (const [vote, count] of Object.entries(newVotes)) {
+			currentVotes.push({ vote, count })
+		}
     },
     [M.SELECT_CANDIDATE]( state, candidate ){
         state.selectedCandidate = candidate
@@ -77,42 +104,22 @@ export const mutations = {
     },
 }
 
-export const actions = {
-    [A.VOTE]( {state}, payload ){
-        voteApi.addVote({
-            channelId: state.channelId,
-            vote: payload.vote,
-            userId: payload.userId
-        });
-    },
-    [A.START_NEW_VOTE]( {state} ){
-        voteApi.startVote({
-            channelId: state.channelId,
-            voteCategory: state.voteCategory,
-            voteMode: state.voteMode,
-            createdAt: new Date(),
-            votes: [],
-        })
-    },
-    [M.SET_AUTH]( {commit}, payload ){
-        commit(M.SET_AUTH, payload)
-        socket.connect(process.env.SERVER_URL, payload)
-    },
-}
-
 export const getters = {
-    userVote(state){
-        let userVote = state.currentVote.votes.find(vote=>vote.userId === state.userId)
-        if( !_.isUndefined(userVote) )
-            return userVote.vote
-        else
-            return null;
-    },
-    hasSubmittedVote(state,getters){
+    // userVote(state){
+	// 	const { userId } = state
+	// 	const { votes } = state.currentVote
+    //     const userVote = votes.find(vote => vote.userId === userId)
+
+	// 	if( !_.isUndefined(userVote) )
+    //         return userVote.vote
+    //     else
+    //         return null;
+    // },
+    hasSubmittedVote(state){
         if(state.TESTING.unlimitedVotes)
             return false
         else
-            return getters.userVote !== null
+            return state.userVote !== null
     },
     hasSelectedCandidate(state){
         return !_.isEmpty(state.selectedCandidate);
@@ -136,7 +143,6 @@ export const modules = {
 const store = new Vuex.Store({
     state,
     mutations,
-    actions,
     getters,
     modules
 })

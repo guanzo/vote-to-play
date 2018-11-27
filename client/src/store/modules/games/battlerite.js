@@ -36,7 +36,7 @@ const battlerite = _.merge({},gameMixin,whitelistMixin,{
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.class).uniq().sort().value()
+            const roles = _(candidates).map(d=>d.class).uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
     },
@@ -45,7 +45,7 @@ const battlerite = _.merge({},gameMixin,whitelistMixin,{
             return axios.get('https://arena.battlerite.com/api/champions/get')
             .then((response)=>{
 
-                let candidates = _(response.data).map((val)=>{
+                const candidates = _(response.data).map((val)=>{
                     val.img = val.icon
 					val.imgSplash = val.image
 

@@ -19,7 +19,7 @@
                 <div class="control">
                     <span class="select">
                         <select v-model="selectedClass" required>
-                            <option v-for="option in originalClasses" 
+                            <option v-for="option in originalClasses"
                                 :value="option"
                                 :key="option"
                             >{{ option }}</option>
@@ -27,27 +27,27 @@
                     </span>
                 </div>
                 <div class="control">
-                    <input class="input" 
+                    <input class="input"
                         required
-                        v-model.trim="deckName" 
+                        v-model.trim="deckName"
                         placeholder="Deck name"
                         maxlength="50"
                     >
                 </div>
                 <div class="control">
-                    <button class="button is-success" 
-                        type="submit" 
-                        :class="{'is-warning': isDuplicate,'is-loading': isLoading}" 
+                    <button class="button is-success"
+                        type="submit"
+                        :class="{'is-warning': isDuplicate,'is-loading': isLoading}"
                         :disabled="isDuplicate">
                         Add
                     </button>
                 </div>
             </template>
             <div v-else class="control">
-                <button class="button is-danger" 
+                <button class="button is-danger"
                     @click="onDeleteDeck"
                     type="button"
-                    :class="{'is-loading':isLoading}" 
+                    :class="{'is-loading':isLoading}"
                     >
                     Delete
                 </button>
@@ -58,9 +58,8 @@
 
 <script>
 
-import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
-import { SET_HEARTHSTONE_DECKS } from '@/store/actions'
-import { delayPromise } from '@/util'
+import gameApi from '@/api/game-api'
+import { NAMESPACE as NS_HS } from '@/store/modules/games/hearthstone'
 
 const ADD_NEW_DECK = 'New Deck'
 
@@ -75,14 +74,14 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(HEARTHSTONE,{
+        ...Vuex.mapState(NS_HS,{
             decks:          s=>s.decks,
             candidates:     s=>s.candidates,
             originalClasses:s=>s.candidates.map(d=>d.name),
             deckClasses:    s=>s.decks.map(d=>d.name),
-        }), 
+        }),
         allClasses(){
-            return this.$store.getters[HEARTHSTONE+'/candidates'].map(d=>d.name)
+            return this.$store.getters[NS_HS+'/candidates'].map(d=>d.name)
         },
         deckOptions(){
             return [ADD_NEW_DECK, ...this.deckClasses]
@@ -91,9 +90,9 @@ export default {
             return this.deckClasses.includes(this.selectedDeckName)
         },//cannot create a duplicate deck, or have a deck with same class && name as an original class
         isDuplicate(){
-            let existingClasses = [...this.originalClasses, ...this.deckClasses]
+            const existingClasses = [...this.originalClasses, ...this.deckClasses]
 
-            let isExistingClass = existingClasses.find(className=>{
+            const isExistingClass = existingClasses.find(className=>{
                 return stringsAllEqual(className, this.newDeck.name)
             }) !== undefined
 
@@ -112,23 +111,30 @@ export default {
     },
     methods:{
         onAddDeck(){
-            let decks = this.decks.slice();
+            const decks = this.decks.slice();
             decks.push(this.newDeck)
             this.setDecks(decks)
         },
         onDeleteDeck(){
-            let decks = this.decks.slice();
-            let index = decks.findIndex(d=>d.name === this.selectedDeckName)
+            const decks = this.decks.slice();
+            const index = decks.findIndex(d=>d.name === this.selectedDeckName)
             decks.splice(index,1)
             this.setDecks(decks)
         },
         async setDecks(decks){
-            this.$store.dispatch(HEARTHSTONE+'/'+SET_HEARTHSTONE_DECKS, decks )
-            this.resetSelectedDeck()
-
             this.isLoading = true
-            await delayPromise(750)
-            this.isLoading = false
+            decks = decks.map(d => _.pick(d,'id','class','name'))
+
+            try {
+                await gameApi.setHearthstoneDecks(decks)
+            } catch (e) {
+                cl(e)
+                return
+            } finally {
+                this.isLoading = false
+                this.resetSelectedDeck()
+            }
+            this.$store.dispatch(`${NS_HS}/ensureWhitelistInSync`, decks )
         },
         resetSelectedDeck(){
             this.selectedDeckName = ADD_NEW_DECK

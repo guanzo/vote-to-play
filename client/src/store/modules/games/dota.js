@@ -1,4 +1,4 @@
-import gameApi from '@/api/game'
+import gameApi from '@/api/game-api'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
@@ -8,7 +8,7 @@ export const NAMESPACE = 'Dota 2'
 
 const dota = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
-    state: { 
+    state: {
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
 		className: 'dota',
@@ -34,7 +34,7 @@ const dota = _.merge({},gameMixin,whitelistMixin,{
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
+            const roles = _(candidates).map(d=>d.roles).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
     },
@@ -42,7 +42,7 @@ const dota = _.merge({},gameMixin,whitelistMixin,{
         [ACTIONS.GET_CANDIDATES]({commit}){
 			return gameApi.fetch('dota')
             .then((response)=>{
-                let candidates = _(response.data).map((val,id)=>{
+                const candidates = _(response.data).map((val,id)=>{
 					val.id = id
                     val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`);
                     val.imgSplash = gameApi.getImagePath(`dota/splash/${id}_splash.jpg`);

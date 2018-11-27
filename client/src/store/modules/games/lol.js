@@ -53,19 +53,19 @@ const lol = _.merge({},gameMixin,whitelistMixin,{
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.tags).flatMap().uniq().sort().value()
+            const roles = _(candidates).map(d=>d.tags).flatMap().uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
         
     },
     actions:{
         async [ACTIONS.GET_CANDIDATES]({commit}){
-			let result = await axios.get(VERSION_URL)
-			let { champion: championVersion, profileicon: iconVersion } = result.data.n
+			const result = await axios.get(VERSION_URL)
+			const { champion: championVersion, profileicon: iconVersion } = result.data.n
 
             return axios.get(getChampionData(championVersion))
             .then((response)=>{
-                let candidates = _(response.data.data).map((val)=>{
+                const candidates = _(response.data.data).map((val)=>{
                     val.name = val.id;
 					val.img = getProfileImageUrl(iconVersion, val.image.full)
 					val.imgSplash = getSplashImageUrl(val.name)

@@ -17,8 +17,8 @@
                             <img :src="getCandidateImage(vote.vote)">
                         </div>
                     </td>
-                    <td class="vote-name">{{ vote.vote }}</td> 
-                    <td class="count">{{ vote.count }}</td> 
+                    <td class="vote-name">{{ vote.vote }}</td>
+                    <td class="count">{{ vote.count }}</td>
                 </tr>
             </transition-group>
         </table>
@@ -51,7 +51,7 @@ export default {
     },
 	methods:{
         getCandidateImage(name){
-            let candidate = _.find(this.candidates,candidate=>{
+            const candidate = _.find(this.candidates,candidate=>{
                 return candidate.name.toLowerCase() === name.toLowerCase()
             })
             return candidate ? candidate.img : ''
@@ -71,7 +71,7 @@ table {
     width: 100%;
     td {
         padding: 3px;
-    }        
+    }
     tr{
         transition: all 1s;
         td{

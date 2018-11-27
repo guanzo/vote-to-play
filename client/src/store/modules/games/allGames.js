@@ -40,7 +40,7 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
         actions:{
             //called on every game search, don't overwrite current tempWhitelist
             partition({commit, state, getters}){
-                let partition = {
+                const partition = {
                     tempBlacklist: getters.candidates
                 }
                 if(!state.tempWhitelist.length)
@@ -97,15 +97,15 @@ const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-            let limit = 30;
+            const limit = 30;
             return axios.get(`https://api.twitch.tv/kraken/games/top?limit=${limit}`,{
                 headers:{
                             'Client-ID':EXTENSION_CLIENT_ID,
                         }
                 })
                 .then(res=>{
-                    let topGames = res.data.top.map(d=>{
-                        let game = d.game
+                    const topGames = res.data.top.map(d=>{
+                        const game = d.game
                         setImage(game)
                         return game
                     })
@@ -114,7 +114,7 @@ const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
                 })
         },
         async searchGames({commit},query){
-			let results = await engine.searchGames(query)
+			const results = await engine.searchGames(query)
             results.forEach(setImage)
             commit(MUTATIONS.SET_SEARCHED_GAMES, results)
         }

@@ -6,6 +6,7 @@ export const SET_VOTE_MODE = 'SET_VOTE_MODE'
 
 export const SET_AUTH = 'SET_AUTH';
 export const SET_CURRENT_VOTE = 'SET_CURRENT_VOTE'
+export const SET_USER_VOTE = 'SET_USER_VOTE'
 export const ADD_VOTE = 'ADD_VOTE'
 export const START_NEW_VOTE = 'START_NEW_VOTE'
 export const SET_CANDIDATES = 'SET_CANDIDATES'

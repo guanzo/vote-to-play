@@ -2,13 +2,13 @@
 
 <div class="voter-header is-size-5 flex-center">
     <div class="flex-center">
-        <div class="image-wrapper flex-center" 
+        <div class="image-wrapper flex-center"
                 :class="{'default-vote': !hasSelectedCandidate}">
             <transition name="fade" @leave="reflowTransition" @enter="reflowTransition">
                     <div v-if="!hasSelectedCandidate" class="header-img"><span class="icon-help" /></div>
-                    <img v-else 
-                        :src="selectedCandidate.img" 
-                        :alt="selectedCandidate.name" 
+                    <img v-else
+                        :src="selectedCandidate.img"
+                        :alt="selectedCandidate.name"
                         :key="selectedCandidate.name"
                         class="header-img"
                     >
@@ -49,8 +49,8 @@ export default {
          */
         reflowTransition(el){
             this.$nextTick(()=>{
-                let enteringX = el.getBoundingClientRect().x
-                let leavingX = this.getLeavingElementX(el)
+                const enteringX = el.getBoundingClientRect().x
+                const leavingX = this.getLeavingElementX(el)
                 el.style.transitionProperty = 'none';
                 el.style.transform = `translateX(${leavingX - enteringX}px) translateZ(0) scale(1.0, 1.0)`
                 el.offsetHeight

@@ -1,17 +1,17 @@
 <template>
     <div class="game" :class="game.className">
         <transition :duration="delayDuration" name="fade">
-            <component 
-                v-if="!isLoading" 
-                :is="injectedComponent" 
+            <component
+                v-if="!isLoading"
+                :is="injectedComponent"
                 v-bind="propsObj"
             >
                 <template slot="controls">
                     <div v-for="filter in game.filters" class="control" :key="filter.id">
-                        <input v-if="filter.type == 'text'" 
-                                v-model.trim="filter.vmodel" 
+                        <input v-if="filter.type == 'text'"
+                                v-model.trim="filter.vmodel"
                                 :placeholder="filter.placeholder"
-                                class="input is-small" 
+                                class="input is-small"
                                 maxlength="50"
                         >
                         <div v-else-if="filter.type == 'select'" class="select is-small">
@@ -38,8 +38,8 @@
             <div v-else class="absolute-center">
                 <loading dark class="absolute-center" />
             </div>
-            
-        </transition> 
+
+        </transition>
     </div>
 </template>
 
@@ -49,14 +49,14 @@ import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES, TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 import { RESET_FILTERS } from '@/store/mutations'
 import loading from '@/components/util/loading/Loading'
-import { delayPromise } from '@/util'
+import { timeout } from '@/util'
 /**
  * Generic component that serves all supported games.
- * 
+ *
  * voteCategory is either fed by
  * -Viewer: set by the streamer's selected game in dashboard
  * -Config: streamer is configuring whitelist
- * 
+ *
  * injected Component is either
  * -Voter.vue
  * -Whitelist.vue
@@ -71,7 +71,7 @@ export default {
     data(){
         return {
             isLoading: false,
-			delayDuration: 750
+			delayDuration: 500
         }
     },
     computed:{
@@ -80,14 +80,14 @@ export default {
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
         namespace() { return this.game.gameName   },
-        candidates(){ 
+        candidates(){
             return this.$store.getters[this.namespace+'/candidates']
         },
         propsObj(){
-			let getters = this.$store.getters
-            let whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
-			let filteredCandidates    =	getters[this.namespace+'/filteredCandidates']
-			let { gameOptions, filters } = this.game
+			const { getters } = this.$store
+            const whitelistedCandidates = getters[this.namespace+'/whitelistedCandidates']
+			const filteredCandidates    =	getters[this.namespace+'/filteredCandidates']
+			const { gameOptions, filters } = this.game
             return {
                 voteCategory: this.voteCategory,
                 candidates: this.candidates,
@@ -121,11 +121,11 @@ export default {
             this.fetchCandidates()
         },
         'game.filters.0.vmodel'(query = ''){
-            // The vote category "All Games" is the only category 
+            // The vote category "All Games" is the only category
             // where candidates are dynamically fetched
             if(this.isAllGames && query.length > 0)
                 this.$store.dispatch(this.namespace+'/searchGames',query)
-        }, 
+        },
     },
     created(){
         this.fetchCandidates()
@@ -135,7 +135,7 @@ export default {
             this.isLoading = true
             await Promise.all([
                 this.$store.dispatch(this.namespace+'/'+GET_CANDIDATES),
-                delayPromise(this.delayDuration)
+                timeout(this.delayDuration)
             ])
             this.isLoading = false
         },
@@ -193,7 +193,7 @@ General rules:
 
 
 .all-games {
-    
+
     $w: 72px;
     $h: 100px;
     @include scale-img-size($w,$h);
@@ -212,10 +212,10 @@ General rules:
     //original 292x160
     $w: 125px;
     $h: 68px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .voter-header{
         @include scale-img-size($w,$h,0.75);
     }
@@ -241,7 +241,7 @@ General rules:
     //64x36
     $w: 64px;
     $h: 36px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
     .whitelist{
@@ -260,19 +260,19 @@ General rules:
     }
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .voter-header{
         @include scale-img-size($w,$h,.6);
     }
     .vote-results {
         @include scale-img-size($w,$h,.4);
-    }    
+    }
 }
 .heroes-of-the-storm{
     //original 75x75
     $w: 55px;
     $h: 55px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
     .whitelist{
@@ -280,16 +280,16 @@ General rules:
         @include scale-img-size($w,$h,$scale);
 		@include scale-candidate-size($w,$scale);
     }
-    
+
 }
 .league-of-legends{
     //120x120 original
     $w: 45px;
     $h: 45px;
-   
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .whitelist{
 		$scale: 1.15;
         @include scale-img-size($w,$h,$scale);
@@ -299,10 +299,10 @@ General rules:
 .overwatch{
     $w: 58px;
     $h: 100px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .voter-header{
         @include scale-img-size($w,$h,.75);
     }
@@ -322,10 +322,10 @@ General rules:
     //160 x 100 original
     $w: 80px;
     $h: 50px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .voter-header{
         @include scale-img-size($w,$h,.85);
     }
@@ -340,10 +340,10 @@ General rules:
     //214 x 143 original
     $w: 107px;
     $h: 71.5px;
-    
+
     @include scale-img-size($w,$h);
     @include scale-candidate-size($w);
-    
+
     .voter-header{
         @include scale-img-size($w,$h,.85);
     }

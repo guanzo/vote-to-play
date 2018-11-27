@@ -1,4 +1,4 @@
-import gameApi from '@/api/game'
+import gameApi from '@/api/game-api'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
@@ -9,11 +9,11 @@ export const NAMESPACE = 'World of Warships'
 
 const worldofwarships = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
-    state: { 
+    state: {
         gameName: NAMESPACE,
         candidateNomenclature: 'ship',
         className: 'world-of-warships',
-		gameOptions: gameOptions({ 
+		gameOptions: gameOptions({
 			showNameInGrid: true,
 			filterMode: FILTER_MODE_REMOVE,
 			hasPaginatedGrid: true,
@@ -66,22 +66,22 @@ const worldofwarships = _.merge({},gameMixin,whitelistMixin,{
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let tiers = _(candidates).map(d=>d.tier).uniq().sort((a,b)=>a-b).value()
+            const tiers = _(candidates).map(d=>d.tier).uniq().sort((a,b)=>a-b).value()
 			state.filters[1].options.push(...tiers)
 
-            let nations = Object.values(state.shipNations).sort()
+            const nations = Object.values(state.shipNations).sort()
 			state.filters[2].options.push(...nations)
-			
-            let types = _(candidates).map(d=>d.type).uniq().sort().value()
+
+            const types = _(candidates).map(d=>d.type).uniq().sort().value()
             state.filters[3].options.push(...types)
         },
-        
+
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
 			return gameApi.fetch('worldofwarships')
             .then((response)=>{
-                let candidates = response.data
+                const candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
                 commit(MUTATIONS.SET_FILTERS,{ candidates })
             })
@@ -92,7 +92,7 @@ const worldofwarships = _.merge({},gameMixin,whitelistMixin,{
             return state.candidates
         },
         filteredCandidates({candidates, shipNations},{activeFilters}){
-			let nationsInverted = _.invert(shipNations)
+			const nationsInverted = _.invert(shipNations)
             return candidates.filter(candidate=>{
                 return activeFilters.every(({id,vmodel,options})=>{
                     if(id === 'name')

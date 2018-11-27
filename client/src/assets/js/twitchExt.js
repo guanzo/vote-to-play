@@ -1,60 +1,79 @@
 
 import store from '@/store'
-import { SET_AUTH, SET_GAME } from '@/store/mutations'
-
-
-let timeoutId = null;
+import voteApi from '@/api/vote-api'
+import { NAMESPACE as NS_HS } from '@/store/modules/games/hearthstone'
+import {
+	SET_AUTH,
+	SET_GAME,
+	SET_CURRENT_VOTE,
+	ADD_VOTE,
+	SET_WHITELIST,
+	SET_HEARTHSTONE_DECKS
+} from '@/store/mutations'
+const events = require('@shared/pubsub-events')
 
 //fires on load && when user grants permission
-window.Twitch.ext.onAuthorized(onAuthorizedCb)
+window.Twitch.ext.onAuthorized(async auth => {
+    const parts = auth.token.split(".")
+    const payload = JSON.parse(window.atob(parts[1]))
+	const { role } = payload
+	const { channelId, token, userId } = auth
 
-async function onAuthorizedCb(auth) {
-    let parts = auth.token.split(".");
-    let payload = JSON.parse(window.atob(parts[1]));
-	let role = payload.role
-	let { channelId, token, userId } = auth
 	const promises = [
-		getChannelName(auth.channelId),
-		getSelectedGame(auth.channelId)
+		getChannelName(channelId),
+		getSelectedGame(channelId)
 	]
-    let [channelName, game] = await Promise.all(promises)
+	const [channelName, game] = await Promise.all(promises)
 
-	//console.log(payload)
-	//console.log(auth)
     store.commit(SET_GAME, game)
-    //send game to server to set vote category
-    //in case this is the first visit to a channel that doesn't exist in the database
-    store.dispatch(SET_AUTH, {
+    // Send the current game to server to set vote category
+    // in case this is the first visit to a channel that doesn't exist in the database
+    store.commit(SET_AUTH, {
         channelId,
         channelName,
-        game,
         token,
         userId,
         role
     })
+})
 
-	clearTimeout(timeoutId)
-	timeoutId = setTimeout(()=>pollSelectedGame(auth.channelId))
+// Prevent duplicate listeners due to HMR
+window.Twitch.ext.unlisten('broadcast', listenCb)
+window.Twitch.ext.listen('broadcast', listenCb)
+
+function listenCb (target, contentType, message) {
+	const { type, data } = JSON.parse(message)
+	cl(type, data, 'ewewwerere')
+	switch (type) {
+		case events.VOTES_ADD:
+			store.commit(ADD_VOTE, data)
+			break
+		case events.VOTES_START:
+			voteApi.onVoteStart(data)
+			break
+		case events.WHITELIST:
+			store.commit(SET_WHITELIST, data)
+			break
+		case events.HEARTHSTONE_DECKS:
+			store.commit(`${NS_HS}/${SET_HEARTHSTONE_DECKS}`, data)
+			break
+	}
+	//TODO: ADD to votes array
 }
 
-//testing on localhost window, and not inside twitch iframe
-//i need to join a room so that i can cast votes locally
-if(!inIframe() && process.env.NODE_ENV === 'development'){
-    let token = process.env.TEST_TOKEN
-    let role = 'broadcaster'
-    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
-}
+window.Twitch.ext.onContext((context, changed) => {
+	if (!changed.includes('game')) {
+		return
+	}
+	const { game } = context
+    store.commit(SET_GAME, game)
+})
 
-async function pollSelectedGame(channelId, pollInterval = 4000){
-    let game = await getSelectedGame(channelId)
-	let storeGame = store.state.selectedGame
-	if(game !== storeGame)
-		store.commit(SET_GAME, game)
-	timeoutId = setTimeout(()=>pollSelectedGame(channelId),pollInterval)
-}
+window.Twitch.ext.onError(console.error);
 
-async function getSelectedGame(channelId){
-    let response = await axios.get(`https://api.twitch.tv/kraken/channels/${channelId}`,{
+async function getSelectedGame (channelId) {
+	const url = `https://api.twitch.tv/kraken/channels/${channelId}`
+    const response = await axios.get(url,{
         headers:{
             Accept: 'application/vnd.twitchtv.v5+json',
             'Client-ID': EXTENSION_CLIENT_ID,
@@ -63,7 +82,24 @@ async function getSelectedGame(channelId){
 	return response.data.game
 }
 
-window.Twitch.ext.onError(console.error);
+async function getChannelName (channelId) {
+	const url = `https://api.twitch.tv/helix/users?id=${channelId}`
+    const response = await axios.get(url, {
+        headers:{
+            'Client-Id':EXTENSION_CLIENT_ID,
+        }
+    })
+	return response.data.data[0].display_name
+}
+
+
+//testing on localhost window, and not inside twitch iframe
+//i need to join a room so that i can cast votes locally
+if(!inIframe() && process.env.NODE_ENV === 'development'){
+    const token = process.env.TEST_TOKEN
+    const role = 'broadcaster'
+    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
+}
 
 function inIframe() {
     try {
@@ -71,13 +107,4 @@ function inIframe() {
     } catch (e) {
         return true;
     }
-}
-
-async function getChannelName(channelId){
-    let response = await axios.get(`https://api.twitch.tv/helix/users?id=${channelId}`, {
-        headers:{
-            'Client-Id':EXTENSION_CLIENT_ID,
-        }
-    })
-	return response.data.data[0].display_name
 }

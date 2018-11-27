@@ -9,12 +9,12 @@ describe('whitelistMixin',()=>{
 
 
         it('swaps candidate between white/black list',()=>{
-            let [mirana,toad] = mockCandidates()
-            let state = {
+            const [mirana,toad] = mockCandidates()
+            const state = {
                 tempWhitelist:[mirana],
                 tempBlacklist:[toad],
             }
-            let params = {
+            const params = {
                 candidate: mirana,
                 toArray: state.tempBlacklist,
                 fromArray: state.tempWhitelist
@@ -24,12 +24,12 @@ describe('whitelistMixin',()=>{
             expect(state.tempBlacklist).to.have.members([mirana,toad])
         })
         it('swaps all candidates between white/black list',()=>{
-            let [axe,mirana,toad] = mockCandidates()
-            let state = {
+            const [axe,mirana,toad] = mockCandidates()
+            const state = {
                 tempWhitelist:[mirana,axe],
                 tempBlacklist:[toad],
             }
-            let params = {
+            const params = {
                 toArray: state.tempBlacklist,
                 fromArray: state.tempWhitelist
             }
@@ -38,8 +38,8 @@ describe('whitelistMixin',()=>{
             expect(state.tempBlacklist).to.have.members([axe,mirana,toad])
         })
         it('removes unsaved changes',()=>{
-            let [axe,mirana,toad] = mockCandidates()
-            let state = {
+            const [axe,mirana,toad] = mockCandidates()
+            const state = {
                 whitelistedNames:['axe','toad'],
                 tempWhitelist:[axe,mirana],
                 tempBlacklist:[toad],
@@ -50,9 +50,9 @@ describe('whitelistMixin',()=>{
         })
     })
     describe('actions',()=>{
-        let [axe,mirana,toad] = mockCandidates()
+        const [axe,mirana,toad] = mockCandidates()
 
-        let store = new Vuex.Store({
+        const store = new Vuex.Store({
             state: {
                 candidates: [axe,mirana,toad],
                 whitelistedNames:['axe','mirana'],
@@ -72,10 +72,10 @@ describe('whitelistMixin',()=>{
     describe('getters',()=>{
         describe('whitelistedCandidates',()=>{
             it('correctly filters for whitelisted candidates',()=>{
-                let candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
-                let whitelistedNames = ['mirana','bob']
+                const candidates = [{ name: 'axe' },{ name: 'mirana' },{ name: 'bob' }]
+                const whitelistedNames = ['mirana','bob']
 
-                let result = getters.whitelistedCandidates({ whitelistedNames },{candidates})
+                const result = getters.whitelistedCandidates({ whitelistedNames },{candidates})
 
                 expect(result).to.have.members(candidates.slice(1))
             })

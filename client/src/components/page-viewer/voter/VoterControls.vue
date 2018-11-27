@@ -7,9 +7,9 @@
             <div /><!-- spacing helper -->
         </slot>
         <div v-if="!isAnonymousUser" class="control m-l-a">
-            <button 
-                @click="submitVote" 
-                :disabled="!hasSelectedCandidate" 
+            <button
+                @click="submitVote"
+                :disabled="!hasSelectedCandidate"
                 class="button is-small"
                 :class="{ 'is-loading': isLoading }"
             >
@@ -23,14 +23,12 @@
 
 <script>
 
-import VoteSimulation from '@/components/page-viewer/testgui/VoteSimulation'
-import { VOTE } from '@/store/actions'
+import voteApi from '@/api/vote-api'
 import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
 const { VOTE_MODE_STREAMER } = require('@shared/constants')
 
 export default {
     name: 'voter-controls',
-    mixins:[VoteSimulation],
     props:{
         hasSelectedCandidate: Boolean,
         hasSubmittedVote: Boolean,
@@ -42,7 +40,9 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['userId','voteCategory','voteMode','channelName']),
+        ...Vuex.mapState([
+            'userId','voteCategory','voteMode', 'channelId', 'channelName'
+        ]),
         ...Vuex.mapGetters(['isAnonymousUser']),
         preventVote(){
             return this.hasSubmittedVote || this.isLoading
@@ -55,19 +55,27 @@ export default {
 		}
     },
     watch:{
-        hasSubmittedVote(val){
-            if(val)
-                this.isLoading = false;
+        hasSubmittedVote (){
+            if(this.hasSubmittedVote) {
+                this.isLoading = false
+            }
         }
     },
     methods:{
-        submitVote(){
-            if(this.preventVote)
-                return;
-                
-            this.isLoading = true;
-            this.$store.dispatch(VOTE, { vote: this.vote, userId: this.userId })
-            this.$emit('submitVote')
+        async submitVote (){
+            if(this.preventVote) {
+                return
+            }
+            this.isLoading = true
+
+            const { userId, vote } = this
+            try {
+                await voteApi.addVote(userId, vote)
+            } catch (e) {
+                this.isLoading = false
+                return
+            }
+            this.$emit('submittedVote')
         },
     }
 }

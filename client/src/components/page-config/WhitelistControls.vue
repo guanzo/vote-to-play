@@ -5,8 +5,8 @@
         <div class="buttons control">
             <div class="help m-b-5">{{ validationMsg }}</div>
             <button @click="onCancel" class="button is-small is-danger is-outlined">Cancel</button>
-            <button @click="onSaveGameWhitelist" 
-                :class="[validationColor, {'is-loading':isLoading}]" 
+            <button @click="onSaveGameWhitelist"
+                :class="[validationColor, {'is-loading':isLoading}]"
                 class="button is-small"
             >Save</button>
         </div>
@@ -15,8 +15,7 @@
 
 <script>
 
-import { SAVE_GAME_WHITELIST } from '@/store/actions'
-import { delayPromise } from '@/util'
+import voteApi from '@/api/vote-api'
 import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 import hearthstoneDeck from './HearthstoneDeck'
 
@@ -48,14 +47,19 @@ export default {
             this.$emit('cancel')
         },
         async onSaveGameWhitelist(){
-            let gameWhitelist = {
+            this.isLoading = true
+
+            const gameWhitelist = {
                 voteCategory: this.voteCategory,
                 names: this.tempWhitelist
             }
-            this.$store.dispatch(SAVE_GAME_WHITELIST, gameWhitelist )
-            this.isLoading = true
-            await delayPromise(750)
-            this.isLoading = false
+            try {
+                await voteApi.saveGameWhitelist(gameWhitelist)
+            } catch (e) {
+                cl(e)
+            } finally {
+                this.isLoading = false
+            }
         }
     },
     components:{

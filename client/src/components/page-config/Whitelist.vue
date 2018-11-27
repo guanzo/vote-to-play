@@ -2,7 +2,7 @@
 
 <div class="whitelist">
     <h5 class="subtitle">Whitelist <span class="icon-ok has-text-success" /></h5>
-    <candidate-grid 
+    <candidate-grid
 		v-bind="$attrs"
         :candidates="tempWhitelist"
         :filteredCandidates="tempWhitelist"
@@ -22,7 +22,7 @@
     </div>
 
     <h5 class="subtitle">Blacklist <span class="icon-cancel has-text-danger" /></h5>
-    <candidate-grid 
+    <candidate-grid
 		v-bind="$attrs"
         :candidates="tempBlacklist"
         :filteredCandidates="filteredBlacklist"
@@ -30,9 +30,9 @@
         @selectCandidate="c=>swap(c,tempWhitelist,tempBlacklist)"
         class="dark m-b-25"
      />
-    <whitelist-controls 
-        :voteCategory="voteCategory" 
-        :tempWhitelist="tempWhitelist" 
+    <whitelist-controls
+        :voteCategory="voteCategory"
+        :tempWhitelist="tempWhitelist"
         :hasUnsavedChanges="hasUnsavedChanges"
         @cancel="commit('removeUnsavedChanges')"
     >
@@ -95,7 +95,7 @@ export default {
             immediate: true
         },
 		//allGames && hearthstone compatibility
-		//these games can change their candidates dynamically 
+		//these games can change their candidates dynamically
         candidates(){
             this.$store.dispatch(this.namespace+'/partition');
         },
@@ -119,15 +119,15 @@ export default {
         warnUnsavedChanges(e){
             if(!this.hasUnsavedChanges)
                 return;
-            let msg = 'You have unsaved changes'
+            const msg = 'You have unsaved changes'
             e.returnValue = msg
             return msg
         },//fade out element in place when swapping between white/black lists
         beforeLeave(el){
             //getComputedStyle has low performance, just hardcode margin
-			let marginTop = 2;
-			let top = (el.offsetTop - marginTop)+'px';
-			let left = el.offsetLeft+'px'
+			const marginTop = 2;
+			const top = (el.offsetTop - marginTop)+'px';
+			const left = el.offsetLeft+'px'
 			//assign all at once to prevent unnecessary reflows
 			Object.assign(el.style, { left, top })
         }

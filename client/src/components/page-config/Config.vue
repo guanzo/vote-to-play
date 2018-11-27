@@ -1,7 +1,10 @@
 <template>
 	<div class="config">
         <h3 class="title">Thanks for installing Vote to Play!</h3>
-        <p>If you would like to suggest any features, please feel free to email me.</p>
+        <p>
+            If you would like to suggest any features, please feel free to
+            email me at guanzo91@gmail.com.
+        </p>
         <h3 class="title is-4">Usage</h3>
         <p>
             If you want viewers to vote on game characters, set the game in your stream information.<br>
@@ -17,9 +20,9 @@
         <p>Remember, you also get to vote!</p>
         <h3 class="title is-4">Settings</h3>
         <p>By default, viewers can vote on any candidate in the pool.<br>If you want viewers to vote only on specific candidates, you can configure that here. Make sure to save your changes.</p>
-        <p>You can toggle between 
+        <p>You can toggle between
             <example v-html="radioBtnSample( VOTE_MODE_VIEWER )" />
-            and 
+            and
             <example v-html="radioBtnSample( VOTE_MODE_STREAMER )" />
             under <example class="tag is-medium"><b>Vote Mode</b></example>
             on your Live Dashboard.
@@ -31,11 +34,11 @@
                 </option>
             </select>
         </div>
-        
+
         <div class="box">
-            <game-master 
-                v-if="voteCategory" 
-                :injectedComponent="whitelist" 
+            <game-master
+                v-if="voteCategory"
+                :injectedComponent="whitelist"
                 :voteCategory="selectedVoteCategory"
              />
         </div>
@@ -67,7 +70,7 @@ export default {
         },
     },
     watch:{
-        //change game when streamer does, 
+        //change game when streamer does,
         //cannot be computed property to also allow streamer to change game thru select
         voteCategory(newCategory){
             this.selectedVoteCategory = newCategory

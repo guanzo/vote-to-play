@@ -5,7 +5,6 @@
     "vsicons.projectDetection.autoReload": true,
     "editor.renderWhitespace": "none",
     "files.exclude": {
-        "**/node_modules/": true,
         "client/.postcssrc.js": true,
         "**/package-lock.json": true,
         "**/.gitignore": true,
@@ -36,11 +35,5 @@
     "editor.minimap.enabled": false,
     "vsicons.dontShowNewVersionMessage": true,
     "window.zoomLevel": 0,
-    "eslint.options": { 
-        "configFile": "./.eslintrc.json" 
-    },
-    "eslint.workingDirectories": [
-        "./server"
-    ],
 	"editor.insertSpaces": false
 }

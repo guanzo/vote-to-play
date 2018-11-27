@@ -1,6 +1,4 @@
-import * as MUTATIONS from '@/store/mutations'
-import * as ACTIONS from '@/store/actions'
-import voteApi from '@/api/vote'
+import { SET_WHITELIST } from '@/store/mutations'
 
 import allGames,    { NAMESPACE as NS_AG }      from './allGames'
 import battlerite,  { NAMESPACE as NS_BR }      from './battlerite'
@@ -13,28 +11,15 @@ import wot,   		{ NAMESPACE as NS_WOT }     from './wot'
 import wow,   		{ NAMESPACE as NS_WOW }     from './wow'
 
 export const mutations = {
-    [MUTATIONS.SET_WHITELIST](state, whitelist){
+    [SET_WHITELIST](state, whitelist){
         _.each(state,game=>{
-            let gameName = game.gameName;
+			const gameName = game.gameName
             if(whitelist[gameName])
                 game.whitelistedNames = whitelist[gameName]
             else
                 game.whitelistedNames = []
         })
     }
-}
-
-export const actions = {
-    [ACTIONS.SAVE_GAME_WHITELIST]( {rootState}, gameWhitelist ){
-		let { voteCategory, names } = gameWhitelist
-		let props = ['id','name']
-		//i dont want to fetch img for each game dynamically, just save the img link
-		if(voteCategory === NS_AG)
-			props.push('img')
-		
-		gameWhitelist.names = names.map(d=>_.pick(d,props))
-        voteApi.saveGameWhitelist({ channelId: rootState.channelId, gameWhitelist })
-    },
 }
 
 export const getters = {
@@ -53,9 +38,9 @@ export const getters = {
     }
 }
 
-//don't add a "state" property,
-//since modules are added to the state automatically,
-//i need the state to ONLY be games and nothing else.
+// Don't add a "state" property,
+// Since modules are added to the state automatically,
+// I need the state to ONLY be games so I can iterate
 export default {
     modules:{
         [NS_AG]:    allGames,
@@ -69,6 +54,5 @@ export default {
         [NS_WOW]:   wow,
     },
     mutations,
-    actions,
     getters
 }

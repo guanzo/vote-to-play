@@ -42,6 +42,7 @@ module.exports = {
 		"no-var": 1,
 		"require-await": 1,
 		"yoda": 1,
+		"prefer-const": 1,
 		"prefer-arrow-callback": 1,
 		"object-shorthand": 1,
 		"vue/max-attributes-per-line":0,

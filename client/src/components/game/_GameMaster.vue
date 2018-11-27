@@ -10,16 +10,16 @@ import store        from '@/store'
 export default {
     functional: true,
     render(createElement, context){
-        let { voteCategory, injectedComponent } = context.props
-        let supportedGames = store.getters.supportedGames
-        let component;
-        
+        const { voteCategory, injectedComponent } = context.props
+        const supportedGames = store.getters.supportedGames
+        let component
+
         if(supportedGames.includes(voteCategory))
             component = game
         else
             component = unsupported
-            
-        return createElement(component,{
+
+        return createElement(component, {
             props:{
                 injectedComponent,
                 voteCategory

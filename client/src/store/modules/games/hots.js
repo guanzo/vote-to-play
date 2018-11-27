@@ -1,4 +1,4 @@
-import gameApi from '@/api/game'
+import gameApi from '@/api/game-api'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
@@ -10,7 +10,7 @@ const IMG_BASE_URL = 'https://d1i1jxrdh2kvwy.cloudfront.net/Images/Heroes/Portra
 
 const hots = _.merge({},gameMixin,whitelistMixin,{
     namespaced: true,
-    state: { 
+    state: {
         gameName: NAMESPACE,
         candidateNomenclature: 'hero',
 		className: 'heroes-of-the-storm',
@@ -42,9 +42,9 @@ const hots = _.merge({},gameMixin,whitelistMixin,{
             state.candidates = candidates
         },
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.Group).uniq().sort().value()
+            const roles = _(candidates).map(d=>d.Group).uniq().sort().value()
             state.filters[1].options.push(...roles)
-			let roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
+			const roles2 = _(candidates).map(d=>d.SubGroup).uniq().sort().value()
             state.filters[2].options.push(...roles2)
         },
     },
@@ -52,7 +52,7 @@ const hots = _.merge({},gameMixin,whitelistMixin,{
         [ACTIONS.GET_CANDIDATES]({commit}){
             return axios.get('https://api.hotslogs.com/Public/Data/Heroes')
             .then((response)=>{
-                let candidates = _(response.data).map((val)=>{
+                const candidates = _(response.data).map((val)=>{
 					val.id = val.PrimaryName
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';

@@ -1,13 +1,34 @@
 <template>
 	<div id="app">
-		<router-view />
+		<router-view v-if="isAuthed && selectedGame"/>
 	</div>
 </template>
 
 <script>
 
+import voteApi from '@/api/vote-api'
 export default {
     name: 'app',
+    data () {
+        return {
+            hasFetchedInitialState: false
+        }
+    },
+    computed: {
+        ...Vuex.mapState(['isAuthed', 'selectedGame']),
+        canFetchInitialState () {
+            return this.isAuthed && this.selectedGame
+        }
+    },
+    watch: {
+        canFetchInitialState () {
+            if (this.hasFetchedInitialState) {
+                return
+            }
+            this.hasFetchedInitialState = true
+            voteApi.getInitialState()
+        }
+    },
 }
 </script>
 
@@ -23,7 +44,7 @@ body {
 
 #app {
     color: #eee;
-    display: flex; 
+    display: flex;
     flex-direction: column;
     height:100%;
     width:100%;

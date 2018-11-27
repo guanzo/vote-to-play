@@ -20,8 +20,8 @@ const Constructor = Vue.extend(Settings)
 describe('Settings.vue', () => {
 
     it('does not change vote category when game is set on page load', (done) => {
-        let game = 'Dota 2'
-        let voteCategory = game
+        const game = 'Dota 2'
+        const voteCategory = game
         const vm = new Constructor({
             store: mockStore(null, voteCategory)
         }).$mount()
@@ -34,9 +34,9 @@ describe('Settings.vue', () => {
         },0)
     })
     it('changes vote category when game is changed during broadcast', done => {
-        let game = 'Dota 2'
-        let voteCategory = game
-        let newGame = 'Overwatch'
+        const game = 'Dota 2'
+        const voteCategory = game
+        const newGame = 'Overwatch'
         const vm = new Constructor({
             store: mockStore(game, voteCategory)
         }).$mount()
@@ -49,8 +49,8 @@ describe('Settings.vue', () => {
         },0)
     })
     describe('Setting Whitelist Mode',()=>{
-        let game = 'Dota 2'
-        let voteCategory = game
+        const game = 'Dota 2'
+        const voteCategory = game
 
         function createInstance(){
             return new Constructor({
@@ -59,16 +59,16 @@ describe('Settings.vue', () => {
         }
 
         it('disallows whitelist mode if whitelist is empty',()=>{
-            let vm = createInstance()
-            let games = vm.$store.state.games
+            const vm = createInstance()
+            const games = vm.$store.state.games
             games[game].whitelistedNames = []
             vm.selectedVoteMode = VOTE_MODE_STREAMER
             vm.startVote()
             expect(vm.showWhitelistWarning).to.be.true
         })
         it('allows whitelist mode if whitelist is not empty',()=>{
-            let vm = createInstance()
-            let games = vm.$store.state.games
+            const vm = createInstance()
+            const games = vm.$store.state.games
             games[game].whitelistedNames = ['axe']
             vm.selectedVoteMode = VOTE_MODE_STREAMER
             vm.startVote()
@@ -76,10 +76,10 @@ describe('Settings.vue', () => {
         })
         it(`vote mode auto changes to viewer mode if mode was originally streamer 
             and voteCategory is changed to one without a whitelist`,done=>{
-            let vm = createInstance()
-            let games = vm.$store.state.games
+            const vm = createInstance()
+            const games = vm.$store.state.games
             vm.selectedVoteMode = VOTE_MODE_STREAMER
-            let gameNoWhitelist = 'Overwatch'
+            const gameNoWhitelist = 'Overwatch'
             games[gameNoWhitelist].whitelistedNames = []
             vm.$store.state.selectedGame = gameNoWhitelist
 
@@ -96,8 +96,8 @@ describe('Settings.vue', () => {
             store: mockStore(unsupportedGame, unsupportedGame)
         }).$mount()
         
-        let unsupportedComponent = vm.$el.querySelector('.game-unsupported')
-        let startButton = vm.$el.querySelector('.start-vote')
+        const unsupportedComponent = vm.$el.querySelector('.game-unsupported')
+        const startButton = vm.$el.querySelector('.start-vote')
         expect(unsupportedComponent).to.not.be.null
         expect(startButton).to.be.null
     })
@@ -106,7 +106,7 @@ describe('Settings.vue', () => {
         const vm = new Constructor({
             store: mockStore(unsupportedGame, ALL_GAMES)
         }).$mount()
-        let startButton = vm.$el.querySelector('.start-vote')
+        const startButton = vm.$el.querySelector('.start-vote')
 
         expect(startButton).to.not.be.null
     }) 

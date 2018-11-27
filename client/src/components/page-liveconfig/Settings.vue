@@ -15,23 +15,23 @@
                 <label class="label">Vote Mode</label>
                 <div class="control flex-center flex-column">
                     <label v-for="voteMode in voteModes" class="radio m-b-5" :key="voteMode">
-                        <input type="radio" 
-                            v-model="selectedVoteMode" 
+                        <input type="radio"
+                            v-model="selectedVoteMode"
                             :value="voteMode"
-                            name="vote-mode" 
+                            name="vote-mode"
                         >
                         {{ voteMode }}
                     </label>
                 </div>
             </div>
-            <div 
-                :style="{visibility: showWhitelistWarning ? 'visible':'hidden'}" 
+            <div
+                :style="{visibility: showWhitelistWarning ? 'visible':'hidden'}"
                 class="help is-danger m-b-5">
                 You must create a whitelist to use this mode
             </div>
-            <button @click="startVote" 
-                    :class="startVoteBtnClass" 
-                    class="start-vote button"  
+            <button @click="startVote"
+                    :class="startVoteBtnClass"
+                    class="start-vote button"
                     :data-intro="introStartVote"
             >
                 Start a vote
@@ -44,17 +44,17 @@
 <script>
 
 import unsupported from '@/components/game/Unsupported'
-import { START_NEW_VOTE } from '@/store/actions'
+import voteApi from '@/api/vote-api'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
-import { delayPromise } from '@/util'
+import { timeout } from '@/util'
 const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
 
 /*
 2 ways to start a vote:
 1. Click "start a vote"
-2. Change game during broadcast 
-    (b/c it would make no sense if current game was Dota, 
+2. Change game during broadcast
+    (b/c it would make no sense if current game was Dota,
         and you saw league heroes in the vote results)
 
 Vote type is implicitly set by the streamer's set game in twitch.
@@ -93,10 +93,12 @@ export default {
             set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
         hasInvalidVoteMode(){
-            return this.selectedVoteMode === VOTE_MODE_STREAMER && this.selectedGameModule.whitelistedNames.length === 0;
+            return this.selectedVoteMode === VOTE_MODE_STREAMER &&
+                this.selectedGameModule.whitelistedNames.length === 0;
         },
         isSupportedGame(){
-            return this.supportedGames.includes(this.selectedGame) || this.selectedVoteCategory === ALL_GAMES
+            return this.supportedGames.includes(this.selectedGame) ||
+                this.selectedVoteCategory === ALL_GAMES
         },
         startVoteBtnClass(){
             if(this.isLoading)
@@ -114,31 +116,39 @@ export default {
                 return;
             this.$store.commit(SET_VOTE_CATEGORY, newGame)
             //changes game, implicitly changing vote category
-            if(this.hasInvalidVoteMode)
+            if(this.hasInvalidVoteMode) {
                 this.ensureValidVoteMode(true)
-            this.$store.dispatch(START_NEW_VOTE)
+            }
+            voteApi.startVote()
         },
     },
     methods:{
         async startVote(){
-            if(this.hasInvalidVoteMode)
-                return this.ensureValidVoteMode();
-            
-            this.$store.dispatch(START_NEW_VOTE)
+            if(this.hasInvalidVoteMode) {
+                return this.ensureValidVoteMode()
+            }
 
-            this.showWhitelistWarning = false;
+            this.showWhitelistWarning = false
             this.isLoading = true
-            await delayPromise(1000)
-            this.isLoading = false
+
+            try {
+                await voteApi.startVote()
+            } catch (e) {
+                cl(e)
+            } finally {
+                this.isLoading = false
+            }
+
         },//autofix invalid whitelist mode when streamer changes game, b/c a new vote is forced
-        async ensureValidVoteMode(autochangeVoteMode = false){            
-            if(autochangeVoteMode)
+        async ensureValidVoteMode(autochangeVoteMode = false){
+            if(autochangeVoteMode) {
                 this.selectedVoteMode = VOTE_MODE_VIEWER
+            }
 
             this.showWhitelistWarning = true;
-            await delayPromise(5000)
+            await timeout(5000)
             this.showWhitelistWarning = false
-            
+
         },
         showIntro(){
             introJs()
@@ -148,7 +158,7 @@ export default {
                 showBullets: false
             })
             .onbeforechange(el => {
-                let padding = 40
+                const padding = 40
                 window.scrollTo(0,el.offsetTop - padding)
             })
             .start()
@@ -167,7 +177,7 @@ export default {
     min-height: 100%;
     .vote-category, .vote-mode{
         min-width: 150px;
-        
+
         input[type="radio"] {
             margin-top: -1px;
             vertical-align: middle;

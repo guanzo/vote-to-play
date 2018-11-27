@@ -29,7 +29,7 @@ export default class GameSearch{
                             }
                         })
                         .then(res=>{
-                            let games = res.data.games
+                            const games = res.data.games
                             return games !== null ? games : []
                         })
                 }

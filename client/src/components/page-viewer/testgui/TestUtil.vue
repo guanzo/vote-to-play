@@ -4,7 +4,7 @@
             <option v-for="game in games" :key="game">{{ game }}</option>
         </select>
         <div class="toggle-vote-simulation">
-            Simulate Votes: 
+            Simulate Votes:
             <input type="checkbox" v-model="isSimulating">
         </div>
         <button @click="resetVote">reset vote</button>
@@ -12,23 +12,51 @@
 </template>
 
 <script>
-
-
 import { TOGGLE_VOTE_SIMULATION, SET_GAME, SET_VOTE_CATEGORY } from '@/store/mutations'
 
-import { START_NEW_VOTE } from '@/store/actions'
+import API from '@/api/api'
+import voteApi from '@/api/vote-api'
+import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
+const { VOTE_MODE_VIEWER } = require('@shared/constants')
+
 export default {
     name: 'test-util',
     data(){
         return {
-            selectedGameModel: 'Dota 2'
+            selectedGameModel: 'Dota 2',
+            intervalID: 0,
+            maxSimulationVotes: 200,
+            voteDelay: 150
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','TESTING']),
+        ...Vuex.mapState([
+            'selectedGame','TESTING', 'userId','channelId', 'currentVote','voteMode'
+        ]),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },
         games(){
             return [...this.$store.getters.supportedGames, 'Unsupported']
+        },
+        votes(){
+            return this.currentVote.votes;
+        },
+        game(){
+            return this.$store.getters.selectedGameModule
+        },
+        candidates(){
+            return this.$store.getters[this.game.gameName+'/candidates']
+        },
+        whitelistedCandidates(){
+            return this.$store.getters[this.game.gameName+'/whitelistedCandidates']
+        },
+        votableCandidates(){
+            if(this.voteMode === VOTE_MODE_VIEWER)
+                return this.candidates
+            else
+                return this.whitelistedCandidates
+        },
+        isAllGames(){
+            return this.game.gameName === ALL_GAMES
         },
         isSimulating: {
             get () {
@@ -48,18 +76,51 @@ export default {
             }
         },
     },
+    watch:{
+        ['votes.length'](){
+            if(!this.isSimulating)
+                return;
+
+            if(this.votes.length >= this.maxSimulationVotes){
+                voteApi.startVote()
+            }else if(this.votes.length === 0){
+                clearInterval(this.intervalID)
+                this.intervalID = this.simulateVotes()
+            }
+        },
+        isSimulating(){
+            if(this.isSimulating)
+                this.intervalID = this.simulateVotes()
+            else
+                clearInterval(this.intervalID)
+        }
+    },
     methods:{
         toggleVoteSimulation(){
             this.$store.commit(TOGGLE_VOTE_SIMULATION)
         },
         resetVote(){
-            this.$store.dispatch(START_NEW_VOTE)
-        }
+            voteApi.startVote()
+        },
+        simulateVotes(){
+            if(this.votableCandidates.length === 0)
+                return;
+			const { userId, channelId } = this
+            const candidatePool = Math.min(25, this.votableCandidates.length);
+            const intervalID = setInterval(()=>{
+                const candidateIndex = randIntBetween(0, candidatePool-1)
+                const candidateName = this.votableCandidates[candidateIndex].name
+                const url = `channels/${channelId}/fakevotes`
+				API.post(url, { userId, vote: candidateName })
+            },250)
+            return intervalID
+        },
     },
 }
+function randIntBetween(min,max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 </script>
-
-
 
 <style lang="scss" scoped>
 

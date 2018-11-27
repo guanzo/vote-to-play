@@ -3,8 +3,8 @@ import {
 	FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE 
 } from '@/store/modules/games/util/gameMixin'
 
-let candidates = [{ name: 'yo' },{ name: 'hi'},{ name: 'yoyo' },{ name: 'hihi'}];
-let filteredCandidates = candidates.slice(0,3)
+const candidates = [{ name: 'yo' },{ name: 'hi'},{ name: 'yoyo' },{ name: 'hihi'}];
+const filteredCandidates = candidates.slice(0,3)
 
 
 function mockComponent(gameOptions, pageSize){
@@ -25,11 +25,11 @@ function mockComponent(gameOptions, pageSize){
 describe('CandidateGrid.vue', () => {
 	
     it(`filtermode: ${FILTER_MODE_HIGHLIGHT}, filtered grid should have correct class names`,()=>{
-        let gameOptions = {
+        const gameOptions = {
 			filterMode: FILTER_MODE_HIGHLIGHT
 		}
         const vm = mockComponent(gameOptions)
-		let children = vm.$el.querySelectorAll('.candidate')
+		const children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(candidates.length)
         expect(children[0].className).to.include('filtered-in')
         expect(children[1].className).to.include('filtered-in')
@@ -38,53 +38,53 @@ describe('CandidateGrid.vue', () => {
 	})
 	
     it(`filtermode: ${FILTER_MODE_REMOVE}, filtered grid should only contain matched candidates`,()=>{
-        let gameOptions = {
+        const gameOptions = {
 			filterMode: FILTER_MODE_REMOVE
 		}
         const vm = mockComponent(gameOptions)
-        let children = vm.$el.querySelectorAll('.candidate')
+        const children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(filteredCandidates.length)
 	})
 
 	it('hasPaginatedGrid: true, shows current page && page button if has more data',()=>{
-		let gameOptions = {
+		const gameOptions = {
 			filterMode: FILTER_MODE_REMOVE,
 			hasPaginatedGrid: true
 		}
-		let pageSize = 2
+		const pageSize = 2
 		const vm = mockComponent(gameOptions, pageSize)
-		let children = vm.$el.querySelectorAll('.candidate')
+		const children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(pageSize)
-		let pageButton = vm.$el.querySelector('.show-more')
+		const pageButton = vm.$el.querySelector('.show-more')
 		expect(pageButton).to.not.be.null
 	})
 	
 	it('hasPaginatedGrid: true, does not show page button if no more data',()=>{
-		let gameOptions = {
+		const gameOptions = {
 			filterMode: FILTER_MODE_REMOVE,
 			hasPaginatedGrid: true
 		}
-		let pageSize = filteredCandidates.length
+		const pageSize = filteredCandidates.length
 		const vm = mockComponent(gameOptions,pageSize)
-		let children = vm.$el.querySelectorAll('.candidate')
+		const children = vm.$el.querySelectorAll('.candidate')
 		expect(children.length).to.equal(pageSize)
-		let pageButton = vm.$el.querySelector('.show-more')
+		const pageButton = vm.$el.querySelector('.show-more')
 		expect(pageButton).to.be.null
 	})
 
 	it('hasPaginatedGrid: true, shows next page on paginate',done=>{
-		let gameOptions = {
+		const gameOptions = {
 			filterMode: FILTER_MODE_REMOVE,
 			hasPaginatedGrid: true
 		}
-		let pageSize = 2
+		const pageSize = 2
 		const vm = mockComponent(gameOptions, pageSize)
 		vm.onPaginate()
 		//wait for transition
 		setTimeout(()=>{
-			let children = vm.$el.querySelectorAll('.candidate')
+			const children = vm.$el.querySelectorAll('.candidate')
 			expect(children.length).to.equal(filteredCandidates.length)
-			let pageButton = vm.$el.querySelector('.show-more')
+			const pageButton = vm.$el.querySelector('.show-more')
 			expect(pageButton).to.be.null
 			done()
 		},100)

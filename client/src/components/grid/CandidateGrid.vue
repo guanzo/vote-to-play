@@ -1,16 +1,16 @@
 <template>
-    <transition-group 
-        v-if="candidatesToShow.length" 
+    <transition-group
+        v-if="candidatesToShow.length"
         class="candidate-grid"
-        tag="div" 
-        name="grid" 
+        tag="div"
+        name="grid"
         @before-leave="beforeLeave"
     >
         <candidate v-for="candidate in candidatesToShow"
             :candidate="candidate"
             :showNameInGrid="gameOptions.showNameInGrid"
             @click.native="selectCandidate(candidate)"
-            :class="filterHighlightClass(candidate)" 
+            :class="filterHighlightClass(candidate)"
             :key="getCandidateKey(candidate)"
         />
 		<div v-if="showPaginationButton" class="show-more" key="paginate">
@@ -28,8 +28,8 @@
 import candidate from './Candidate'
 import { SELECT_CANDIDATE } from '@/store/mutations'
 import smoothHeight from 'vue-smooth-height'
-import { 
-	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE 
+import {
+	gameOptions, FILTER_MODE_HIGHLIGHT, FILTER_MODE_REMOVE
 } from '@/store/modules/games/util/gameMixin'
 
 const INITIAL_PAGE = 1;
@@ -66,7 +66,7 @@ export default {
             return this.filteredCandidates.length < this.candidates.length
 		},
 		candidatesToShow(){
-			let { filterMode, hasPaginatedGrid } = this.gameOptions;
+			const { filterMode, hasPaginatedGrid } = this.gameOptions;
 			let candidates;
 			if(filterMode === FILTER_MODE_REMOVE)
 				candidates = this.filteredCandidates
@@ -74,13 +74,13 @@ export default {
 				candidates = this.candidates;
 
 			if(hasPaginatedGrid){
-				let size = this.page * this.pageSize;
+				const size = this.page * this.pageSize;
 				candidates = candidates.slice(0,size)
 			}
 			return candidates;
 		},
 		showPaginationButton(){
-			let size = this.page * this.pageSize;
+			const size = this.page * this.pageSize;
 			return this.gameOptions.hasPaginatedGrid && size < this.filteredCandidates.length;
 		}
 	},

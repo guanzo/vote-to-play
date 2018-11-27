@@ -1,13 +1,7 @@
 <template>
-
 <div class="voter">
-    <transition name="fade-vertical" @afterLeave="afterUiLeave">
+    <transition name="fade-vertical">
         <div v-show="showUI" class="vote-form overlay-background">
-            <Splash
-                :splashTransition="splashTransition"
-                :selectedCandidate="selectedCandidate"
-                @transitionDone="endSplashTransition"
-             />
             <VoterHeader
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :selectedCandidate="selectedCandidate"
@@ -24,7 +18,6 @@
                 :hasSubmittedVote="hasSubmittedVote"
                 :vote="selectedCandidate.name"
                 :class="isInvisible"
-                @submitVote="startSplashTransition"
             >
                 <slot name="controls" />
             </VoterControls>
@@ -37,7 +30,6 @@
 
 <script>
 
-import Splash from './Splash'
 import VoterHeader from './VoterHeader'
 import CandidateGrid from '@/components/grid/CandidateGrid'
 import VoterControls from './VoterControls'
@@ -49,8 +41,6 @@ const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
  * Intended behavior:
  * -only works for supported games
  * -user submits vote
- * -vote ui disappears, splash art appears
- * -after duration, splash art && voter div fades out
  * -vote ui reappears after the fade out (voter div still hidden)
  */
 
@@ -62,19 +52,11 @@ export default {
         filteredCandidates: Array,
         whitelistedCandidates: Array
     },
-    data(){
-        return {
-            splashTransition: this.splashTransitionDefaults()
-        }
-    },
     computed:{
         ...Vuex.mapState(['selectedCandidate','voteMode']),
         ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
         showUI(){
-            return !this.hasSubmittedVote || this.splashTransition.isActive
-        },
-        isInvisible(){
-            return { 'invisible': this.splashTransition.hideVoteUI }
+            return !this.hasSubmittedVote
         },
         votableCandidates(){
             if(this.voteMode === VOTE_MODE_VIEWER)
@@ -86,43 +68,7 @@ export default {
 			return _.intersectionBy(this.votableCandidates, this.filteredCandidates,'id')
 		}
     },
-    watch:{
-        hasSubmittedVote(hasSubmittedVote){
-            if(!hasSubmittedVote)
-                this.splashTransition = this.splashTransitionDefaults()
-        },
-        'splashTransition.splashImgIsLoaded'(isLoaded){
-            if(isLoaded)
-                this.splashTransition.hideVoteUI = true;
-        }
-	},
-    methods:{
-		//if candidate doesn't have imgSplash, skip transition all together
-        startSplashTransition(){
-            if(this.selectedCandidate.imgSplash)
-                this.splashTransition.isActive = true;
-        },
-        endSplashTransition(){
-            this.splashTransition.isActive = false
-        },
-        afterUiLeave(){
-            //prevents vote ui appearing while ui is transitioning out
-            this.splashTransition = this.splashTransitionDefaults()
-        },
-        splashTransitionDefaults(){
-            let duration = 2500
-            return {
-                isActive: false,
-                hideVoteUI: false,
-                splashImgIsLoaded: false,
-                splashClass: Math.random() < 0.5 ? 'animate-to-left' : 'animate-to-right',
-                splashStyle: { 'animation-duration': duration + 'ms' },
-                duration,
-            }
-        }
-    },
     components:{
-        Splash,
         VoterHeader,
         CandidateGrid,
         VoterControls,

@@ -7,7 +7,7 @@ describe('store',()=>{
     
     describe('mutations',()=>{
         
-        let selectedCandidateResetTest = () => {
+        const selectedCandidateResetTest = () => {
             const state = { selectedCandidate: { name:'yo' } }
             mutations[MUTATIONS.SET_GAME](state, {game: ''})
             expect(Object.keys(state.selectedCandidate).length).to.equal(0)
@@ -28,21 +28,21 @@ describe('store',()=>{
         describe('userVote',()=>{
             it('returns null if user has not voted',()=>{
                 const state = { userId: -1, currentVote: {votes:[ { userId: 5 } ] }}
-                let userVote = getters.userVote(state)
+                const userVote = getters.userVote(state)
                 expect(userVote).to.be.null
             })
             it('returns name of vote candidate if user has voted',()=>{
-                let vote = 'axe'
+                const vote = 'axe'
                 const state = { userId: -1, currentVote: {votes:[ { userId: -1, vote } ] }}
-                let userVote = getters.userVote(state)
+                const userVote = getters.userVote(state)
                 expect(userVote).to.equal(vote)
             })
         })
     })
 
     describe('gameModule',()=>{
-        let gameModules = _.omit(mainGameModule.modules,'All Games')
-        let types = gameModuleRequiredProperties();
+        const gameModules = _.omit(mainGameModule.modules,'All Games')
+        const types = gameModuleRequiredProperties();
 
         _.each(gameModules,(gameModule)=>{
             it(gameModule.state.gameName + ' implements the game interface',()=>{
@@ -55,13 +55,13 @@ describe('store',()=>{
 })
 
 function comparePropertyTypes(source,target) {
-    for (let property in source) {
+    for (const property in source) {
         if (source.hasOwnProperty(property)) {
 
             expect(target).to.have.property(property)
 
-            let sourceValue = source[property]//stringified type
-            let targetValue = target[property]//value
+            const sourceValue = source[property]//stringified type
+            const targetValue = target[property]//value
 
             if(Array.isArray(sourceValue))
                 expect(targetValue).to.be.an('array', `Property '${property}'`)

@@ -36,12 +36,12 @@ devConfigPromise.then(devConfig => {
   const spawn = require('cross-spawn')
   const runner = spawn('./node_modules/.bin/nightwatch', opts, { stdio: 'inherit' })
 
-  runner.on('exit', function (code) {
+  runner.on('exit', (code) => {
     server.close()
     process.exit(code)
   })
 
-  runner.on('error', function (err) {
+  runner.on('error', (err) => {
     server.close()
     throw err
   })

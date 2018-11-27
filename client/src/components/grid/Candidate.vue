@@ -1,6 +1,6 @@
 <template>
-    <div @mouseover="checkNameOverflow()" 
-		:title="title" 
+    <div @mouseover="checkNameOverflow()"
+		:title="title"
 		class="candidate"
         :key="candidate.name"
     >
@@ -28,7 +28,7 @@ export default {
         checkNameOverflow(){
             if(!this.$el)
                 return;
-            let el = this.$refs.name
+            const el = this.$refs.name
             if(el && this.isEllipsisActive(el))
                 this.title = this.candidate.name
         },
@@ -56,7 +56,7 @@ export default {
         padding: 0px 2px;
 		font-size: 0.75rem;
     }
-	
+
     &.filtered-out {
         filter: brightness(25%);
 	}

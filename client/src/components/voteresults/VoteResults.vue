@@ -1,5 +1,4 @@
 <template>
-
 <div class="vote-results">
     <div class="top-votes overlay-background" ref="topvotes">
         <transition name="fade">
@@ -19,14 +18,13 @@
     <transition name="fade-vertical">
         <div v-if="userVote" class="user-vote overlay-background">
             <div class="is-size-5 has-text-centered">Your Vote</div>
-            <vote-table 
-                v-if="userAggregatedVote.length" 
+            <vote-table
+                v-if="userAggregatedVote.length"
                 :votes="userAggregatedVote"
             />
         </div>
     </transition>
 </div>
-
 </template>
 
 <script>
@@ -40,12 +38,10 @@ export default {
     name: 'vote-results',
     mixins:[smoothHeight],
     computed:{
-        ...Vuex.mapState(['currentVote']),
-        ...Vuex.mapGetters(['userVote','selectedGameModule']),
-        allAggregatedVotes(){
+        ...Vuex.mapState(['currentVote', 'userVote']),
+        ...Vuex.mapGetters(['selectedGameModule']),
+        rankedVotes(){
             return _(this.currentVote.votes)
-                .countBy('vote')
-                .map((count, vote)=> ({ vote, count }))
                 .sortBy('count')
                 .reverse()
                 .map((vote,i)=>{
@@ -60,10 +56,12 @@ export default {
             return this.selectedGameModule.gameOptions.maxVoteResults
         },
         topAggregatedVotes(){
-            return this.allAggregatedVotes.slice(0, this.maxResults)
+            return this.rankedVotes.slice(0, this.maxResults)
         },
         userAggregatedVote(){
-            return this.allAggregatedVotes.filter(vote=>vote.vote === this.userVote)
+            return this.rankedVotes.filter(voteObj => {
+                return voteObj.vote === this.userVote
+            })
         }
     },
     mounted(){
@@ -83,7 +81,8 @@ export default {
 <style lang="scss" scoped>
 
 .vote-results{
-    flex: 0 0 350px;
+    min-width: 300px;
+    flex: 0 0 300px;
     position: relative;
     .fade-leave-active {
         position: absolute;

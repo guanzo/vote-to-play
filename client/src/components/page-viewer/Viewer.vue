@@ -11,9 +11,9 @@
         </div>
         <transition name="fade-vertical">
             <div v-show="isExpanded" class="viewer-body">
-                <game-master 
-                    v-if="voteCategory"  
-                    :injectedComponent="voter" 
+                <game-master
+                    v-if="voteCategory"
+                    :injectedComponent="voter"
                     :voteCategory="voteCategory"
                  />
             </div>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-
 
 import TestUtil from './testgui/TestUtil'
 import GameMaster from '@/components/game/_GameMaster'
@@ -39,7 +38,9 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame','voteCategory','currentVote','channelName','TESTING']),
+        ...Vuex.mapState([
+            'selectedGame','voteCategory','currentVote','channelName','TESTING'
+        ]),
         ...Vuex.mapGetters(['hasSubmittedVote']),
         showLogo(){
             return this.isExpanded || this.showExpandTip
@@ -75,7 +76,7 @@ export default {
     .logo {
         opacity: 0;
     }
-    &:hover .logo, 
+    &:hover .logo,
     .logo.reveal{
         opacity: 1;
     }

@@ -1,4 +1,4 @@
-import gameApi from '@/api/game'
+import gameApi from '@/api/game-api'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
@@ -34,7 +34,7 @@ const ow = _.merge({},gameMixin,whitelistMixin,{
 			state.candidates = candidates
 		},
         [MUTATIONS.SET_FILTERS](state, { candidates }){
-            let roles = _(candidates).map(d=>d.type).uniq().sort().value()
+            const roles = _(candidates).map(d=>d.type).uniq().sort().value()
             state.filters[1].options.push(...roles)
         },
     },
@@ -42,7 +42,7 @@ const ow = _.merge({},gameMixin,whitelistMixin,{
         [ACTIONS.GET_CANDIDATES]({commit}){
 			return gameApi.fetchJson('overwatch_heroes.json')
             .then((response)=>{
-                let candidates = response.data
+                const candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
                 commit(MUTATIONS.SET_FILTERS,{ candidates })
 			})

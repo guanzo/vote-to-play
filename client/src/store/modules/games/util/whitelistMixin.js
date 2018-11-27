@@ -37,19 +37,19 @@ export const mutations = {
         state.tempWhitelist = [...candidates]
     },
     swap(state,{ candidate, toArray, fromArray }){
-		let index = _.findIndex(fromArray,d=>d.name === candidate.name)
+		const index = _.findIndex(fromArray,d=>d.name === candidate.name)
         fromArray.splice(index,1)
         toArray.push(candidate)
 		processArrays(fromArray,toArray, state.gameOptions)
     },
     swapAll(state,{ toArray, fromArray }){
-        let candidates = fromArray.splice(0);
+        const candidates = fromArray.splice(0);
         toArray.push(...candidates)
         processArrays(fromArray,toArray, state.gameOptions)
     },
     removeUnsavedChanges(state){
-		let { whitelistedNames } = state
-		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+		const { whitelistedNames } = state
+		const iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
 
         let removed = _.remove(state.tempWhitelist,d=>!iteratee(d))
         state.tempBlacklist.push(...removed)
@@ -62,10 +62,10 @@ export const mutations = {
 
 export const actions = {
     partition({commit,state,getters}){
-		let { whitelistedNames } = state
-		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+		const { whitelistedNames } = state
+		const iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
 
-		let partition = _.partition(getters.candidates,iteratee)
+		const partition = _.partition(getters.candidates,iteratee)
         commit('partition',{
             tempWhitelist: partition[0],
             tempBlacklist: partition[1]
@@ -75,7 +75,7 @@ export const actions = {
 
 export const getters = {
     whitelistedCandidates({whitelistedNames},{candidates}){
-		let iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
+		const iteratee = getWhitelistContainsCandidateIteratee(whitelistedNames)
 		return candidates.filter(iteratee)
 	},
     filteredBlacklist({tempBlacklist},{filteredCandidates}){
@@ -95,7 +95,7 @@ export default {
 
 export function processArrays(fromArray, toArray, {sortBy = 'name', sortOrder = 'asc'} = {}){
     [fromArray, toArray].forEach(arr=>{
-        let processedArr = _(arr).uniqBy(c=>c.id || c.name).orderBy([sortBy],[sortOrder]).value()
+        const processedArr = _(arr).uniqBy(c=>c.id || c.name).orderBy([sortBy],[sortOrder]).value()
         arr.length = 0
         arr.push( ...processedArr )
     })

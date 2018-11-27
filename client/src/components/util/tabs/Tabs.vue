@@ -36,8 +36,8 @@
             activeTabHash(newTab,oldTab){
                 if(!oldTab)
                     return this.direction = 'none'
-                let newIndex = this.findTabIndex(newTab)
-                let oldIndex = this.findTabIndex(oldTab)
+                const newIndex = this.findTabIndex(newTab)
+                const oldIndex = this.findTabIndex(oldTab)
                 this.direction = (newIndex > oldIndex) ? 'right':'left'
             }
         },
@@ -45,7 +45,7 @@
             this.tabs = this.$children;
         },
         mounted() {
-            if (this.tabs.length) 
+            if (this.tabs.length)
                 this.selectTab(this.tabs[0].hash);
         },
         methods: {

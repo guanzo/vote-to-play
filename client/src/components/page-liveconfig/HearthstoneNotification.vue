@@ -42,11 +42,11 @@ export default {
     },
     methods:{
         notify(){
-            let hasInformed = localStorage.getItem(notifiedHearthstoneDecks)
+            const hasInformed = localStorage.getItem(notifiedHearthstoneDecks)
             if(hasInformed)
                 return;
             this.shouldNotify = true;
-            
+
         },
         onClose(){
             this.shouldNotify = false;
@@ -56,4 +56,3 @@ export default {
 }
 
 </script>
-
