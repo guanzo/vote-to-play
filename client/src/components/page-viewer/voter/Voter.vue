@@ -130,12 +130,6 @@ export default {
         grid-row-gap: $viewer-ui-gap;
         .candidate-grid{
             grid-area: main;
-            // give space for selected candidates to scale up
-            padding: 10px;
-        }
-        .invisible{
-            opacity: 0;
-            pointer-events: none;
         }
     }
     //scroll topvotes when height overflow
