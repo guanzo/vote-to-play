@@ -34,7 +34,6 @@ let port;
 if (process.env.NODE_ENV === 'production'){
     server = http.createServer(app);
     port = 8081
-    app.use(express.static(path.resolve(__dirname, '../public')));
 }else{
     server = https
         .createServer(
