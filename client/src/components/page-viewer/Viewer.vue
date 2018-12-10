@@ -110,7 +110,7 @@ $header-element-size: 35px;
 
     .viewer-ui-block {
         background: rgba(0,0,0,0.85);
-        border-radius: 2px;
+        border-radius: 4px;
     }
 
     .viewer-header{
@@ -123,6 +123,7 @@ $header-element-size: 35px;
         .logo{
             width: $header-element-size;
             height: $header-element-size;
+            overflow: hidden;
             cursor: pointer;
             transition: 0.35s;
             -webkit-backface-visibility: hidden;

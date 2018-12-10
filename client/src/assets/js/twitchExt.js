@@ -42,7 +42,7 @@ window.Twitch.ext.listen('broadcast', listenCb)
 
 function listenCb (target, contentType, message) {
 	const { type, data } = JSON.parse(message)
-	cl(type, data, 'ewewwesertfrere')
+	//cl(type, data, 'ewewwesertfrere')
 	switch (type) {
 		case events.VOTES_ADD:
 			store.commit(ADD_VOTE, data)
@@ -57,7 +57,6 @@ function listenCb (target, contentType, message) {
 			store.commit(`${NS_HS}/${SET_HEARTHSTONE_DECKS}`, data)
 			break
 	}
-	//TODO: ADD to votes array
 }
 
 window.Twitch.ext.onContext((context, changed) => {

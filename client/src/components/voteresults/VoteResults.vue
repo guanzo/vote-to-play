@@ -7,12 +7,12 @@
             </div>
             <vote-table :votes="topAggregatedVotes" />
             <div class="action-bar">
-                <button
+                <a
                     v-if="showToggleVotesBtn"
                     @click="toggleSeeAllVotes"
-                    class="button is-small">
-                    {{ seeAllVotes ? 'See top votes' : 'See all votes' }}
-                </button>
+                    class="toggle-votes-list">
+                    {{ seeAllVotes ? 'View top votes' : 'View all votes' }}
+                </a>
             </div>
         </div>
         <div v-else class="no-results" key="noresults">
@@ -124,7 +124,11 @@ export default {
         padding: 0 5px;
     }
     .action-bar {
+        text-align: center;
         padding: 10px;
+    }
+    .toggle-votes-list {
+        color: #fafafa;
     }
 }
 
