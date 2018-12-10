@@ -101,6 +101,7 @@ export default {
 $twitch-overlay-top-height: 100px;
 $twitch-overlay-bot-height: 80px;
 $header-element-size: 35px;
+$overlay-border-radius: 4px;
 
 .viewer{
     padding: $twitch-overlay-top-height $viewer-ui-gap $twitch-overlay-bot-height $viewer-ui-gap;
@@ -110,7 +111,7 @@ $header-element-size: 35px;
 
     .viewer-ui-block {
         background: rgba(0,0,0,0.85);
-        border-radius: 4px;
+        border-radius: $overlay-border-radius;
     }
 
     .viewer-header{
@@ -123,10 +124,12 @@ $header-element-size: 35px;
         .logo{
             width: $header-element-size;
             height: $header-element-size;
-            overflow: hidden;
             cursor: pointer;
             transition: 0.35s;
             -webkit-backface-visibility: hidden;
+            img {
+                border-radius: $overlay-border-radius;
+            }
         }
         .toggle-vote-simulation{
             background: grey;
@@ -186,7 +189,8 @@ $header-element-size: 35px;
 .pulse:before {
     content: '';
     position: absolute;
-    border: #333 solid 3px;
+    border: #b71c1c solid 3px;
+    border-radius: $overlay-border-radius;
     top: 0;
     right: 0;
     bottom: 0;

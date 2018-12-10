@@ -29,7 +29,6 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
 		},
         [M.SET_HEARTHSTONE_DECKS](state, decks){
 			state.decks = decks
-			cl('state.decks', state.decks)
         }
     },
     actions:{
