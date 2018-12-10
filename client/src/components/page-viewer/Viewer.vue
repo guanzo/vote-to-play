@@ -106,6 +106,7 @@ $overlay-border-radius: 4px;
 .viewer{
     padding: $twitch-overlay-top-height $viewer-ui-gap $twitch-overlay-bot-height $viewer-ui-gap;
     max-height: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 
