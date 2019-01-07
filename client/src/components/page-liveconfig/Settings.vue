@@ -37,6 +37,7 @@
                 Start a vote
             </button>
         </template>
+        <nogame v-else-if="selectedGame === NO_GAME" />
         <unsupported v-else-if="selectedGame !== null" />
     </div>
 </template>
@@ -44,11 +45,12 @@
 <script>
 
 import unsupported from '@/components/game/Unsupported'
+import nogame from '@/components/game/NoGame'
 import voteApi from '@/api/vote-api'
 import { SET_VOTE_CATEGORY, SET_VOTE_MODE } from '@/store/mutations'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { timeout } from '@/util'
-const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER } = require('@shared/constants')
+const { VOTE_MODE_VIEWER, VOTE_MODE_STREAMER, NO_GAME } = require('@shared/constants')
 
 /*
 2 ways to start a vote:
@@ -63,13 +65,12 @@ Otherwise, vote type is toggled by streamer in live config
 Changing a game mid-broadcast will override current selected vote type
 */
 
-
-
 export default {
     name: 'settings',
     data(){
         return {
             VOTE_MODE_STREAMER,
+            NO_GAME,
             voteModes:[VOTE_MODE_VIEWER,VOTE_MODE_STREAMER],
             introVoteCategory:"Select a character vote or a twitch game vote.",
             introVoteMode:"Free-for-all vs. whitelisted votes. You can configure the whitelist in the extension settings.",
@@ -93,8 +94,10 @@ export default {
             set (voteMode) { this.$store.commit(SET_VOTE_MODE, voteMode) }
         },
         hasInvalidVoteMode(){
+            const { selectedGameModule } = this
             return this.selectedVoteMode === VOTE_MODE_STREAMER &&
-                this.selectedGameModule.whitelistedNames.length === 0;
+                selectedGameModule &&
+                selectedGameModule.whitelistedNames.length === 0
         },
         isSupportedGame(){
             return this.supportedGames.includes(this.selectedGame) ||
@@ -112,8 +115,9 @@ export default {
     watch:{
         selectedGame(newGame, oldGame){
             //do not start a vote on page load
-            if(oldGame === null)
-                return;
+            if(oldGame === null) {
+                return
+            }
             this.$store.commit(SET_VOTE_CATEGORY, newGame)
             //changes game, implicitly changing vote category
             if(this.hasInvalidVoteMode) {
@@ -166,6 +170,7 @@ export default {
     },
     components:{
         unsupported,
+        nogame
     }
 }
 

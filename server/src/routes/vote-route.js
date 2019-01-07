@@ -109,12 +109,14 @@ async function sendPubSubMessage (channelId, message, res) {
 async function getChannel (req, res) {
 	const { channelId } = req.params
 	const { channelName, game, userId } = req.query
+	const channel = await voteModel.getChannel(channelId, channelName, game)
+	// Allow getChannel to upsert a vote if channel doesn't exist,
+	// before querying the current vote.
 	const promises = [
-		voteModel.getChannel(channelId, channelName, game),
 		voteModel.getCurrentVote(channelId),
 		voteModel.getUserVote(channelId, userId)
 	]
-	const [channel, currentVote, userVote] = await Promise.all(promises)
+	const [currentVote, userVote] = await Promise.all(promises)
 	res.send({ ...channel, currentVote, userVote })
 }
 

@@ -18,7 +18,7 @@ async function getInitialState () {
 		userId
 	} = store.state
 
-	if (!channelId || !channelName || !game) {
+	if (!channelId || !channelName) {
 		throw new Error('Missing required data for fetching initial state.')
 	}
 

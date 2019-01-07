@@ -22,8 +22,6 @@ module.exports = function (config) {
         '../../static/js/lodash.min.js',
         '../../static/js/axios.min.js',
         '../../static/js/bloodhound.min.js',
-        '../../static/js/socket.io.js',
-        '../../static/js/throttled-queue.min.js',
         '../../static/js/intro.js',
         '../../static/js/vue.runtime.min.js',
         '../../static/js/vue-router.min.js',
@@ -36,7 +34,7 @@ module.exports = function (config) {
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true
-    },/* 
+    },/*
     coverageReporter: {
       dir: './coverage',
       reporters: [

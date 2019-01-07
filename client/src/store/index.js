@@ -4,13 +4,17 @@ import games from './modules/games/_main'
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 
-const { VOTE_MODE_VIEWER } = require('@shared/constants')
-
+const { VOTE_MODE_VIEWER, NO_GAME } = require('@shared/constants')
 
 //potential values will be same as selectedGame, with the addition of "All Games"
-const voteCategory = null;
+const voteCategory = null
 //free-for-all vs whitelisted votes
 const voteMode = VOTE_MODE_VIEWER
+
+// When user clears their game selection,
+// the twitch API channel game endpoint returns null
+// the twitch JS client context callback returns ''
+const hasNoGameSelection = game => game === null || game === ''
 
 export const state = {
     isAuthed: false,
@@ -46,10 +50,16 @@ export const mutations = {
         state.userId = payload.userId
     },
     [M.SET_GAME]( state, game ){
+		if (hasNoGameSelection(game)) {
+			game = NO_GAME
+		}
         state.selectedGame = game
         state.selectedCandidate = {}
     },
     [M.SET_VOTE_CATEGORY]( state, voteCategory ){
+		if (hasNoGameSelection(voteCategory)) {
+			voteCategory = NO_GAME
+		}
         state.voteCategory = voteCategory
         state.selectedCandidate = {}
     },

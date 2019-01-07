@@ -1,8 +1,11 @@
 <script>
 
-import game         from './Game'
-import unsupported  from './Unsupported'
-import store        from '@/store'
+import store from '@/store'
+import game from './Game'
+import unsupported from './Unsupported'
+import nogame from './NoGame'
+
+const { NO_GAME } = require('@shared/constants')
 
 //functional component that returns the game view,
 //and injects the "injectedComponent" prop
@@ -14,10 +17,13 @@ export default {
         const supportedGames = store.getters.supportedGames
         let component
 
-        if(supportedGames.includes(voteCategory))
+        if(supportedGames.includes(voteCategory)) {
             component = game
-        else
+        } else if (voteCategory === NO_GAME) {
+            component = nogame
+        } else {
             component = unsupported
+        }
 
         return createElement(component, {
             props:{
