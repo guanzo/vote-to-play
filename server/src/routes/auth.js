@@ -4,6 +4,12 @@ module.exports = app => {
 	app.use('/api',function (req, res, next) {
 		// check header or url parameters or post parameters for token
 		let authHeader = req.headers.authorization;
+		if (!authHeader) {
+			return res.status(403).send({
+				success: false,
+				message: 'No authorization header provided.'
+			})
+		}
 		const secret = Buffer.from(process.env.TWITCH_EXTENSION_SECRET, 'base64');
 		const token = authHeader.split(' ')[1]
 
