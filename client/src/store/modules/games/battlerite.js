@@ -47,7 +47,6 @@ const battlerite = _.merge({},gameMixin,whitelistMixin,{
 
                 const candidates = _(response.data).map((val)=>{
                     val.img = val.icon
-					val.imgSplash = val.image
 
 					delete val.icon
 					delete val.image

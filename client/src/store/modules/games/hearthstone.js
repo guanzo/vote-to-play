@@ -61,7 +61,7 @@ const hearthstone = _.merge({},gameMixin,whitelistMixin,{
     },
     getters:{
         candidates({ candidates, decks }){
-			//assign needed properties from existing decks, such as imgSplash
+			//assign needed properties from existing decks
             decks = decks.map(deck=>{
 				const candidate = candidates.find(d=>d.name === deck.class)
                 return Object.assign({},candidate, deck)

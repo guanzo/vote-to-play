@@ -9,6 +9,7 @@ import lol,         { NAMESPACE as NS_LOL }     from './lol'
 import overwatch,   { NAMESPACE as NS_OW }      from './overwatch'
 import wot,   		{ NAMESPACE as NS_WOT }     from './wot'
 import wow,   		{ NAMESPACE as NS_WOW }     from './wow'
+import apexLegends, { NAMESPACE as NS_APEX }     from './apexLegends'
 
 export const mutations = {
     [SET_WHITELIST](state, whitelist){
@@ -51,7 +52,8 @@ export default {
         [NS_LOL]:   lol,
         [NS_OW]:    overwatch,
         [NS_WOT]:   wot,
-        [NS_WOW]:   wow,
+		[NS_WOW]:   wow,
+		[NS_APEX]:  apexLegends
     },
     mutations,
     getters

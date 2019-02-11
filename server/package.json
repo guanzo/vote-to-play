@@ -2,10 +2,18 @@
 	"name": "votetoplay-server",
 	"version": "0.0.1",
 	"private": true,
+	"scripts": {
+		"dev": "nodemon src/",
+		"test": "mocha src/**/*.spec.js --recursive"
+	},
+	"nodemonConfig": {
+		"ignore": ["public/*"]
+	},
 	"dependencies": {
 		"axios": "^0.17.1",
 		"bluebird": "^3.5.0",
 		"body-parser": "^1.17.2",
+		"cheerio": "^1.0.0-rc.2",
 		"cors": "^2.8.4",
 		"cron": "^1.3.0",
 		"debug": "^4.1.0",
@@ -26,10 +34,6 @@
 		"eslint": "^4.14.0",
 		"eslint-plugin-node": "^5.2.1",
 		"mocha": "^4.0.1"
-	},
-	"scripts": {
-		"start": "nodemon src/",
-		"test": "mocha src/**/*.spec.js --recursive"
 	},
 	"engines": {
 		"node": ">=8.0.0"

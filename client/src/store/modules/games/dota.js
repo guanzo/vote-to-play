@@ -41,11 +41,10 @@ const dota = _.merge({},gameMixin,whitelistMixin,{
     actions:{
         async [A.GET_CANDIDATES]({commit}){
 			const resp = await gameApi.fetch('dota')
-			
+
 			const candidates = _(resp.data).map((val,id)=>{
 				val.id = id
-				val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`);
-				val.imgSplash = gameApi.getImagePath(`dota/splash/${id}_splash.jpg`);
+				val.img = gameApi.getImagePath(`dota/portraits/${id}_full.png`)
 				return val
 			}).sortBy('name').value()
 

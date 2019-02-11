@@ -56,7 +56,6 @@ const hots = _.merge({},gameMixin,whitelistMixin,{
 					val.id = val.PrimaryName
                     val.name = val.PrimaryName;
                     val.img = IMG_BASE_URL + val.ImageURL + '.png';
-                    val.imgSplash = gameApi.getImagePath("hots/splash/" + val.ImageURL + `_splash.jpg`);
                     return val
                 }).sortBy('name').value()
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })

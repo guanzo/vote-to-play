@@ -231,9 +231,6 @@ General rules:
         @include scale-img-size($w,$h,$scale);
 		@include scale-candidate-size($w,$scale);
     }
-    .splash-img-container img.splash-img{
-        object-fit: contain;
-    }
     select{
         text-transform: capitalize;
     }
@@ -336,9 +333,6 @@ General rules:
     .vote-results {
         @include scale-img-size($w,$h,.85);
     }
-    .splash-img-container img.splash-img{
-        object-fit: contain;
-    }
 }
 .world-of-warships{
     //214 x 143 original
@@ -354,9 +348,21 @@ General rules:
     .vote-results {
         @include scale-img-size($w,$h,.75);
     }
-    .splash-img-container img.splash-img{
-        object-fit: contain;
-    }
 }
 
+.apex-legends {
+    //652 x 730 original
+    $w: 652px;
+    $h: 730px;
+    $scale: 0.225;
+    @include scale-img-size($w, $h, $scale);
+    @include scale-candidate-size($w, $scale);
+
+    .voter-header{
+        @include scale-img-size($w, $h, 0.1);
+    }
+    .vote-results {
+        @include scale-img-size($w, $h, 0.1);
+    }
+}
 </style>

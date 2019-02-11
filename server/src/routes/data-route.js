@@ -1,6 +1,16 @@
+const fs = require('fs')
+const path = require('path')
+const { promisify } = require('util')
+
 const axios = require('axios')
+const cheerio = require('cheerio')
 const _ = require('lodash')
 const cache = require('memory-cache');
+
+const readFile = promisify(fs.readFile)
+const writeFile = promisify(fs.writeFile)
+
+const candidatesDir = path.resolve(__dirname, '../../public/static/json')
 
 const WARGAMING_API_KEY = process.env.WORLD_OF_TANKS_API_KEY
 const PAGE_LIMIT = 100;
@@ -22,12 +32,12 @@ const WOW_OPTIONS = {
 
 const DOTA_CACHE_KEY = 'dota'
 const LOL_CACHE_KEY = 'lol'
+const APEX_LEGENDS_CACHE_KEY = 'apexlegends'
 
 function parseTank(val, key) {
 	val.id = parseInt(key);
 	val.name = val.short_name;
 	val.img = val.images.big_icon.replace(/^http/,'https');
-	val.imgSplash = null;
 	delete val.tank_id
 	return val
 }
@@ -38,7 +48,6 @@ function parseShip(val, key) {
 		val.name = val.name.slice(1, -1) // Name comes surrounded by brackets
 	}
 	val.img = val.images.small.replace(/^http/,'https')
-	val.imgSplash = val.images.large.replace(/^http/,'https')
 	delete val.ship_id
 	return val
 }
@@ -134,6 +143,52 @@ async function fetchLolData () {
 	return candidates
 }
 
+async function getApexLegendsData () {
+	let data = cache.get(APEX_LEGENDS_CACHE_KEY)
+	if (data) {
+		return data
+	}
+
+	try {
+		data = await fetchApexLegendsData()
+	} catch (e) {
+		console.log(e)
+	}
+	const filePath = path.resolve(candidatesDir, 'apex_legends.json')
+
+	if (Array.isArray(data) && data.length > 0) {
+		await writeFile(filePath, JSON.stringify(data))
+	} else if (fs.existsSync(filePath)) {
+		const buffer = await readFile(filePath)
+		data = JSON.parse(buffer.toString())
+		// I'm retrieving candidates by scraping the DOM. The DOM could
+		// change over time, so save successful retrievals to disk, and
+		// retrieve the data from disk in case the DOM retrieval method fails.
+	}
+	cache.put(APEX_LEGENDS_CACHE_KEY, data, CACHE_EXPIRE)
+
+	return data
+}
+
+async function fetchApexLegendsData () {
+	const resp = await axios.get('https://www.ea.com/games/apex-legends/about/characters')
+	const $ = cheerio.load(resp.data)
+
+	const candidates = []
+
+	$('ea-tile[byline-text="apex-legends-character"]').each(function () {
+		const $this = $(this)
+		const img = $this.attr('media')
+		// The title-text attr is a name surrounded by html bold
+		// For ex: <b>Bangalore</b>
+		const nameHTML = $this.attr('title-text')
+		const name = cheerio.load(nameHTML).text()
+		candidates.push({ img, name, id: name })
+	})
+
+	return candidates
+}
+
 module.exports = (app) => {
     app.get('/api/dota', async (req, res) => {
 		let data = await getDotaData();
@@ -149,6 +204,10 @@ module.exports = (app) => {
 	})
     app.get('/api/worldofwarships', async (req, res) => {
         let data = await getWargamingData(WOW_OPTIONS);
+		res.send(data)
+	})
+    app.get('/api/apexlegends', async (req, res) => {
+        let data = await getApexLegendsData();
 		res.send(data)
 	})
 }
