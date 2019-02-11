@@ -14,7 +14,7 @@ View the extension on Twitch [here](https://www.twitch.tv/ext/0ms0a4rmjh6b7beixa
 * World of Tanks
 * World of Warships
 * Hearthstone (supports deck customization)
-
+* Apex Legends
 
 Have a game suggestion? Leave a comment!
 
