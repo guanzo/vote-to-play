@@ -7,6 +7,15 @@
         "description": "Female Snake",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E000000000013B.png",
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Ana_splash.jpg"
+	},
+    {
+        "id": 28,
+        "name": "Baptiste",
+        "type": "support",
+        "difficulty": 3,
+        "description": "Beast wannabe",
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/baptiste/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Hammond_splash.jpg"
     },
     {
         "id": 1,
