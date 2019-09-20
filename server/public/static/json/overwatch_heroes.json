@@ -9,6 +9,15 @@
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Ana_splash.jpg"
 	},
     {
+        "id": 29,
+        "name": "Ashe",
+        "type": "offense",
+        "difficulty": 3,
+        "description": "N/A",
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/ashe/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Hammond_splash.jpg"
+    },
+    {
         "id": 28,
         "name": "Baptiste",
         "type": "support",
@@ -166,6 +175,15 @@
         "description": "What do you mean, fat?",
         "img": "https://blzgdapipro-a.akamaihd.net/game/heroes/0x02E0000000000040.png",
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Roadhog_splash.jpg"
+    },
+    {
+        "id": 30,
+        "name": "Sigma",
+        "type": "tank",
+        "difficulty": 1,
+        "description": "N/A",
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/sigma/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Soldier76_splash.jpg"
     },
     {
         "id": 17,
