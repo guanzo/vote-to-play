@@ -15,16 +15,16 @@
 <body>
 	<div id="app"></div>
 	<script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
-  	<script src="js/sentry@5.14.1.js"></script>
-    <script src="js/runtime.js"></script>
-    <script src="js/core.min.js"></script>
-    <script src="js/lodash.min.js"></script>
-    <script src="js/axios.min.js"></script>
+	<script src="js/sentry@5.14.1.js"></script>
+	<script src="js/lodash@4.17.15.js"></script>
+	<script src="js/axios@0.19.2.js"></script>
     <script src="js/bloodhound.min.js"></script>
     <script src="js/intro.js"></script>
-    <script src="js/vue.runtime.min.js"></script>
-    <script src="js/vue-router.min.js"></script>
-	<script src="js/vuex.min.js"></script>
+	<% if(NODE_ENV === 'production') { %>
+	<script src="js/vue@2.6.11.js"></script>
+	<script src="js/vuex@3.1.3.js"></script>
+	<script src="js/vue-router@3.1.6.js"></script>
+    <% } %>
   <!-- built files will be auto injected -->
 </body>
 
