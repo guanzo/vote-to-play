@@ -1,5 +1,6 @@
 global.cl = console.log
 
+const Sentry = require('@sentry/node')
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -13,6 +14,11 @@ const https = require('https');
 const cors = require('cors');
 const path = require('path')
 var db = require('./db.js')
+
+Sentry.init({
+    dsn: 'https://cb098d4aef4e4ce386fd5e630998314e@sentry.io/5166821',
+    enabled: (process.env.NODE_ENV === 'production')
+})
 
 cl('process.env.NODE_ENV:', process.env.NODE_ENV);
 //cl('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);

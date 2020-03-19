@@ -12,6 +12,7 @@
 		]
 	},
 	"dependencies": {
+		"@sentry/node": "^5.14.2",
 		"axios": "^0.17.1",
 		"bluebird": "^3.5.0",
 		"body-parser": "^1.17.2",
