@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'production'){
         },
         app
         )
-    port = 7777
+    port = 8061
     app.use(express.static(path.resolve(__dirname, '../public')));
 }
 
