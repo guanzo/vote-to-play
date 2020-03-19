@@ -4,14 +4,6 @@
     "workbench.iconTheme": "vscode-icons",
     "vsicons.projectDetection.autoReload": true,
     "editor.renderWhitespace": "none",
-    "files.exclude": {
-        "client/.postcssrc.js": true,
-        "**/package-lock.json": true,
-        "**/.gitignore": true,
-        "client/dist": true,
-        "screenshots": true,
-        "**/.eslintrc": true
-    },
     "search.exclude": {
         "**/.git": true,
         "**/node_modules": true,
