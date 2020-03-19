@@ -1,17 +1,17 @@
 global.cl = console.log
 
 const Sentry = require('@sentry/node')
-const express = require('express');
+const express = require('express')
 require('express-async-errors')
-require('dotenv').config();
-const bodyParser = require('body-parser');
-const authRouter = require('./routes/auth');
-const voteRouter = require('./routes/vote-route');
-const dataRouter = require('./routes/data-route');
+require('dotenv').config()
+const bodyParser = require('body-parser')
+const authRouter = require('./routes/auth')
+const voteRouter = require('./routes/vote-route')
+const dataRouter = require('./routes/data-route')
 const fs = require('fs')
-const http = require('http');
-const https = require('https');
-const cors = require('cors');
+const http = require('http')
+const https = require('https')
+const cors = require('cors')
 const path = require('path')
 var db = require('./db.js')
 
@@ -20,27 +20,27 @@ Sentry.init({
     enabled: (process.env.NODE_ENV === 'production')
 })
 
-cl('process.env.NODE_ENV:', process.env.NODE_ENV);
-//cl('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
+cl('process.env.NODE_ENV:', process.env.NODE_ENV)
+// cl('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
 const { NODE_ENV, TWITCH_EXTENSION_SECRET } = process.env
 
 if (!NODE_ENV || !TWITCH_EXTENSION_SECRET) {
-	throw new Error('Missing env variables!')
+    throw new Error('Missing env variables!')
 }
 
 if (NODE_ENV !== 'production') {
-	cl('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
+    cl('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
 }
 
-const app = express();
+const app = express()
 // Code copied from https://sentry.io/for/express/
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler())
 app.use(cors({ credentials: true, origin: true }))
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 authRouter(app)
 voteRouter(app)
@@ -52,21 +52,21 @@ app.use(Sentry.Handlers.errorHandler())
 let server
 let port
 
-//uses nginx reverse proxy in production
-if (process.env.NODE_ENV === 'production'){
-    server = http.createServer(app);
+// uses nginx reverse proxy in production
+if (process.env.NODE_ENV === 'production') {
+    server = http.createServer(app)
     port = 8081
-}else{
+} else {
     server = https
         .createServer(
-        {   //self signed certs
-			key: fs.readFileSync(path.resolve(__dirname, '../../certs/private.key')),
-			cert: fs.readFileSync(path.resolve(__dirname, '../../certs/public.crt')),
-        },
-        app
+            { // self signed certs
+                key: fs.readFileSync(path.resolve(__dirname, '../../certs/private.key')),
+                cert: fs.readFileSync(path.resolve(__dirname, '../../certs/public.crt'))
+            },
+            app
         )
     port = 8061
-    app.use(express.static(path.resolve(__dirname, '../public')));
+    app.use(express.static(path.resolve(__dirname, '../public')))
 }
 
 async function init () {
