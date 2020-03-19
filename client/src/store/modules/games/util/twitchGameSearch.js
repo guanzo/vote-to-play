@@ -1,26 +1,26 @@
 
 const TWITCH_SEARCH_URL = 'https://api.twitch.tv/kraken/search/games'
 
-export default class GameSearch{
-    constructor(){
+export default class GameSearch {
+    constructor () {
         this.maxQueryMatches = 20
 
         this.engine = new Bloodhound({
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            datumTokenizer(datum){
+            datumTokenizer (datum) {
                 return Bloodhound.tokenizers.whitespace(datum.name)
             },
             identify: obj => obj._id,
             sufficient: 5,
-            remote:{
+            remote: {
                 url: TWITCH_SEARCH_URL,
-                prepare: (query, settings)=>{
+                prepare: (query, settings) => {
                     settings.url = settings.url + `?query=${query}`
                     return settings
                 },
                 rateLimitBy: 'throttle',
                 rateLimitWait: 500,
-                transport: (settings)=>{
+                transport: (settings) => {
                     return axios.get(settings.url,
                         {
                             headers: {
@@ -28,42 +28,42 @@ export default class GameSearch{
                                 'Client-ID': process.env.VUE_APP_EXTENSION_CLIENT_ID
                             }
                         })
-                        .then(res=>{
+                        .then(res => {
                             const games = res.data.games
                             return games !== null ? games : []
                         })
                 }
-            },
-        });
-
+            }
+        })
     }
-    addTopGames(topGames){
+
+    addTopGames (topGames) {
         this.engine.add(topGames)
     }
-    searchGames(query){
-        return new Promise(resolve=>{
+
+    searchGames (query) {
+        return new Promise(resolve => {
             let results = []
 
-            if(query.length === 0)
-                return resolve(results)
+            if (query.length === 0) { return resolve(results) }
 
             this.engine.search(query,
-                syncMatches=>{
-                    syncMatches = _.take(syncMatches,this.maxQueryMatches)
+                syncMatches => {
+                    syncMatches = _.take(syncMatches, this.maxQueryMatches)
                     results.push(...syncMatches)
-                    if(!this.willRequestRemote(syncMatches))
-                        resolve(results)
+                    if (!this.willRequestRemote(syncMatches)) { resolve(results) }
                 },
-                asyncMatches=>{
+                asyncMatches => {
                     this.engine.add(asyncMatches)
-                    asyncMatches = _.take(asyncMatches,this.maxQueryMatches)
+                    asyncMatches = _.take(asyncMatches, this.maxQueryMatches)
                     results.push(...asyncMatches)
-                    results = _.uniqBy(results,'name')
+                    results = _.uniqBy(results, 'name')
                     resolve(results)
                 })
         })
     }
-    willRequestRemote(syncMatches){
+
+    willRequestRemote (syncMatches) {
         return syncMatches.length < this.engine.sufficient
     }
 }

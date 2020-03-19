@@ -5,12 +5,12 @@
 import { TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 import { RESET_FILTERS } from '@/store/mutations'
 
-//3 filtering modes
-//default, leaves non-matched candidates in place, but darkens them
+// 3 filtering modes
+// default, leaves non-matched candidates in place, but darkens them
 export const FILTER_MODE_HIGHLIGHT = 'HIGHLIGHT'
-//removes non-matched candidates: world of tanks
+// removes non-matched candidates: world of tanks
 export const FILTER_MODE_REMOVE = 'REMOVE'
-//candidates are not filterable: all-games, hearthstone
+// candidates are not filterable: all-games, hearthstone
 export const FILTER_MODE_NONE = 'NONE'
 
 /**
@@ -18,43 +18,38 @@ export const FILTER_MODE_NONE = 'NONE'
  * Moba games such as dota, lol, hots, battlerite will use the default options.
  * Other games have custom options.
  */
-export function gameOptions(customOptions){
-	return {
-		maxVoteResults: 3,//how many candidates to show in vote results
-		showNameInGrid: false,//display candidate name in grid
-		filterMode: FILTER_MODE_HIGHLIGHT,
-		hasPaginatedGrid: false,//can only be true if filterMode is remove
-		sortBy: 'name', //how candidates are sorted by default
-		sortOrder: 'asc',//asc or desc. used by _.orderBy
-		...customOptions
-	}
+export function gameOptions (customOptions) {
+    return {
+        maxVoteResults: 3, // how many candidates to show in vote results
+        showNameInGrid: false, // display candidate name in grid
+        filterMode: FILTER_MODE_HIGHLIGHT,
+        hasPaginatedGrid: false, // can only be true if filterMode is remove
+        sortBy: 'name', // how candidates are sorted by default
+        sortOrder: 'asc', // asc or desc. used by _.orderBy
+        ...customOptions
+    }
 }
 
 export const gameMixin = {
-	mutations:{
-		[TOGGLE_SHOW_NAME_IN_GRID](state,value){
-			state.gameOptions.showNameInGrid = value;
-		},
-		[RESET_FILTERS](state){
-			state.filters.forEach(filter => {
-				if (filter.type === 'text')
-					filter.vmodel = ''
-				else if (filter.type === 'select') {
-					filter.vmodel = filter.options[0]
-				}
-			})
-		}
-	},
-	getters:{
-		activeFilters(state){
-			return state.filters.filter(isFilterActive)
-		}
-	}
+    mutations: {
+        [TOGGLE_SHOW_NAME_IN_GRID] (state, value) {
+            state.gameOptions.showNameInGrid = value
+        },
+        [RESET_FILTERS] (state) {
+            state.filters.forEach(filter => {
+                if (filter.type === 'text') { filter.vmodel = '' } else if (filter.type === 'select') {
+                    filter.vmodel = filter.options[0]
+                }
+            })
+        }
+    },
+    getters: {
+        activeFilters (state) {
+            return state.filters.filter(isFilterActive)
+        }
+    }
 }
 
-const isFilterActive = ({type,vmodel,options})=>{
-	if(type === 'text')
-		return vmodel.length > 0
-	else if(type === 'select')
-		return vmodel !== options[0]
+const isFilterActive = ({ type, vmodel, options }) => {
+    if (type === 'text') { return vmodel.length > 0 } else if (type === 'select') { return vmodel !== options[0] }
 }

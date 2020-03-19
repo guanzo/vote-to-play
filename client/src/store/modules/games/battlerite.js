@@ -1,76 +1,70 @@
 
-
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
-import whitelistMixin from './util/whitelistMixin';
+import whitelistMixin from './util/whitelistMixin'
 import { gameOptions, gameMixin } from './util/gameMixin'
-
 
 export const NAMESPACE = 'Battlerite'
 
-const battlerite = _.merge({},gameMixin,whitelistMixin,{
+const battlerite = _.merge({}, gameMixin, whitelistMixin, {
     namespaced: true,
     state: {
         gameName: 'Battlerite',
         candidateNomenclature: 'champion',
         className: 'battlerite',
-		gameOptions: gameOptions(),
+        gameOptions: gameOptions(),
         candidates: [],
-        filters:[
+        filters: [
             {
-                id:'name',
+                id: 'name',
                 type: 'text',
-                vmodel:'',
+                vmodel: '',
                 placeholder: 'Search name'
             },
             {
-                id:'role',
+                id: 'role',
                 type: 'select',
-                vmodel:'Class',
-                options:['Class']
+                vmodel: 'Class',
+                options: ['Class']
             }
         ]
     },
-    mutations:{
-        [MUTATIONS.SET_CANDIDATES](state, { candidates }){
+    mutations: {
+        [MUTATIONS.SET_CANDIDATES] (state, { candidates }) {
             state.candidates = candidates
         },
-        [MUTATIONS.SET_FILTERS](state, { candidates }){
-            const roles = _(candidates).map(d=>d.class).uniq().sort().value()
+        [MUTATIONS.SET_FILTERS] (state, { candidates }) {
+            const roles = _(candidates).map(d => d.class).uniq().sort().value()
             state.filters[1].options.push(...roles)
-        },
-    },
-    actions:{
-        [ACTIONS.GET_CANDIDATES]({commit}){
-            return axios.get('https://arena.battlerite.com/api/champions/get')
-            .then((response)=>{
-
-                const candidates = _(response.data).map((val)=>{
-                    val.img = val.icon
-
-					delete val.icon
-					delete val.image
-                    return val
-                }).sortBy('name').value()
-                commit(MUTATIONS.SET_CANDIDATES,{ candidates })
-                commit(MUTATIONS.SET_FILTERS,{ candidates })
-            })
         }
     },
-    getters:{
-        candidates(state){
+    actions: {
+        [ACTIONS.GET_CANDIDATES] ({ commit }) {
+            return axios.get('https://arena.battlerite.com/api/champions/get')
+                .then((response) => {
+                    const candidates = _(response.data).map((val) => {
+                        val.img = val.icon
+
+                        delete val.icon
+                        delete val.image
+                        return val
+                    }).sortBy('name').value()
+                    commit(MUTATIONS.SET_CANDIDATES, { candidates })
+                    commit(MUTATIONS.SET_FILTERS, { candidates })
+                })
+        }
+    },
+    getters: {
+        candidates (state) {
             return state.candidates
-		},
-        filteredCandidates({candidates}, {activeFilters}){
-            return candidates.filter(candidate=>{
-                return activeFilters.every(({id,vmodel,options})=>{
-                    if(id === 'name')
-                        return candidate.name.toLowerCase().includes(vmodel.toLowerCase())
-                    else if(id === 'role' && vmodel !== options[0])
-                        return candidate.class === vmodel
+        },
+        filteredCandidates ({ candidates }, { activeFilters }) {
+            return candidates.filter(candidate => {
+                return activeFilters.every(({ id, vmodel, options }) => {
+                    if (id === 'name') { return candidate.name.toLowerCase().includes(vmodel.toLowerCase()) } else if (id === 'role' && vmodel !== options[0]) { return candidate.class === vmodel }
                 })
             })
-        },
+        }
     }
 })
 

@@ -1,2 +1,2 @@
-//replaces VoteSimulation.js in production build
+// replaces VoteSimulation.js in production build
 export default {}

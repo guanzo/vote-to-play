@@ -11,7 +11,7 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            component: { template: '<div></div>'}
+            component: { template: '<div></div>' }
         },
         {
             path: '*/viewer.html',
@@ -24,7 +24,7 @@ export default new VueRouter({
         {
             path: '*/liveconfig.html',
             component: LiveConfig
-        },
+        }
     ],
     mode: 'history'
 })
