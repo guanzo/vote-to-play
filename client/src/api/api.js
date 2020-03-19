@@ -1,7 +1,6 @@
 import store from '@/store'
 
-const { SERVER_URL } = process.env
-const baseURL = `${SERVER_URL}/api`
+const baseURL = `${process.env.VUE_APP_API_URL}/api`
 const API = initAPI({ baseURL })
 
 function initAPI (config) {

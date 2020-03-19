@@ -3,6 +3,9 @@
 	"files.autoSave": "afterDelay",
     "workbench.iconTheme": "vscode-icons",
     "vsicons.projectDetection.autoReload": true,
+    "eslint.workingDirectories": [
+        { "mode": "auto" }
+    ],
     "editor.renderWhitespace": "none",
     "search.exclude": {
         "**/.git": true,
@@ -10,11 +13,6 @@
         "**/bundle.js": true,
         "**/tmp": true,
         "**/*.js.map": true,
-        "client/public/static/js/lib":true,
-        "client/build": true,
-        "client/test": true,
-        "client/static": true,
-        "server/public": true,
         "package-lock.json": true
     },
     "[vue]": {

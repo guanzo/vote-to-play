@@ -1,3 +1,4 @@
+import gameApi from '@/api/game-api'
 import * as MUTATIONS from '@/store/mutations'
 import * as ACTIONS from '@/store/actions'
 import whitelistMixin from './util/whitelistMixin';
@@ -49,14 +50,21 @@ const hots = _.merge({},gameMixin,whitelistMixin,{
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
-            return axios.get('https://api.hotslogs.com/Public/Data/Heroes')
+            // return axios.get('https://api.hotslogs.com/Public/Data/Heroes')
+            // .then((response)=>{
+            //     const candidates = _(response.data).map((val)=>{
+			// 		val.id = val.PrimaryName
+            //         val.name = val.PrimaryName;
+            //         val.img = IMG_BASE_URL + val.ImageURL + '.png';
+            //         return val
+            //     }).sortBy('name').value()
+            //     commit(MUTATIONS.SET_CANDIDATES,{ candidates })
+            //     commit(MUTATIONS.SET_FILTERS,{ candidates })
+			// })
+
+			return gameApi.fetch('hots')
             .then((response)=>{
-                const candidates = _(response.data).map((val)=>{
-					val.id = val.PrimaryName
-                    val.name = val.PrimaryName;
-                    val.img = IMG_BASE_URL + val.ImageURL + '.png';
-                    return val
-                }).sortBy('name').value()
+                const candidates = response.data
                 commit(MUTATIONS.SET_CANDIDATES,{ candidates })
                 commit(MUTATIONS.SET_FILTERS,{ candidates })
             })

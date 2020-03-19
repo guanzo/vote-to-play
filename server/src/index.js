@@ -1,3 +1,5 @@
+global.cl = console.log
+
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -12,9 +14,8 @@ const cors = require('cors');
 const path = require('path')
 var db = require('./db.js')
 
-//console.log(process.env);
-console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
-//console.log('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
+cl('process.env.NODE_ENV:', process.env.NODE_ENV);
+//cl('process.env.TWITCH_EXTENSION_SECRET:', process.env.TWITCH_EXTENSION_SECRET);
 
 const { NODE_ENV, TWITCH_EXTENSION_SECRET } = process.env
 
@@ -23,7 +24,7 @@ if (!NODE_ENV || !TWITCH_EXTENSION_SECRET) {
 }
 
 if (NODE_ENV !== 'production') {
-	console.log('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
+	cl('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
 }
 
 app.use(cors({ credentials: true, origin: true }))
@@ -38,8 +39,8 @@ if (process.env.NODE_ENV === 'production'){
     server = https
         .createServer(
         {   //self signed certs
-            key: fs.readFileSync(path.resolve(__dirname, '../ssl/key.pem')),
-            cert: fs.readFileSync(path.resolve(__dirname, '../ssl/cert.pem')),
+			key: fs.readFileSync(path.resolve(__dirname, '../../certs/private.key')),
+			cert: fs.readFileSync(path.resolve(__dirname, '../../certs/public.crt')),
         },
         app
         )
@@ -56,6 +57,6 @@ dataRouter(app)
 
 db.connect().then(()=>{
     server.listen(port, () => {
-        console.log(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
+        cl(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
 	});
 })

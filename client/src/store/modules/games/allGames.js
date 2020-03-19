@@ -3,7 +3,7 @@
  * Unlike all other game modules, I have to request candidates from twitch,
  * therefore there is no "filtering" of existing candidates, there is
  * only searching.
- * 
+ *
  */
 
 import * as MUTATIONS from '@/store/mutations'
@@ -26,7 +26,7 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
                     return !state.whitelistedNames.some(b=>b.name === a.name)
                 })
                 state.tempBlacklist.push(...removed)
-                
+
                 removed = _.remove(state.tempBlacklist,a=> {
                     return state.whitelistedNames.some(b=>b.name === a.name)
                 })
@@ -47,7 +47,7 @@ const modifiedWhitelistMixin = _.merge({},whitelistMixin,
                     partition.tempWhitelist = state.whitelistedNames
                 else
                     partition.tempWhitelist = state.tempWhitelist
-                commit('partition',partition) 
+                commit('partition',partition)
             },
         },
         getters:{
@@ -69,9 +69,9 @@ const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
         gameName: NAMESPACE,
         candidateNomenclature: 'game',
 		className: 'all-games',
-		gameOptions: gameOptions({ 
-			showNameInGrid: true, 
-			filterMode: FILTER_MODE_NONE 
+		gameOptions: gameOptions({
+			showNameInGrid: true,
+			filterMode: FILTER_MODE_NONE
 		}),
         topGames:[],
         searchedGames:[],
@@ -93,14 +93,14 @@ const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
 			searchedGames.forEach(c=>c.id = c._id)
 			state.searchedGames = searchedGames;
         },
-        
+
     },
     actions:{
         [ACTIONS.GET_CANDIDATES]({commit}){
             const limit = 30;
             return axios.get(`https://api.twitch.tv/kraken/games/top?limit=${limit}`,{
                 headers:{
-                            'Client-ID':EXTENSION_CLIENT_ID,
+                            'Client-ID': process.env.VUE_APP_EXTENSION_CLIENT_ID,
                         }
                 })
                 .then(res=>{
@@ -118,7 +118,7 @@ const allGames = _.merge({},gameMixin,modifiedWhitelistMixin,{
             results.forEach(setImage)
             commit(MUTATIONS.SET_SEARCHED_GAMES, results)
         }
-        
+
     },
     getters:{
         candidates(state, {searchGamesQuery}){
@@ -140,4 +140,3 @@ function setImage(d){
 }
 
 export default allGames
-

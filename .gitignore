@@ -53,10 +53,9 @@ node_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# ssl dev self signed certs
-ssl/
-
 /dist/
+
+.vscode
 
 # twitch developer rig project file
 Vote to Play.json

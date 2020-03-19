@@ -1,7 +1,7 @@
 import API from './api'
 import store from '@/store'
 
-const { SERVER_URL } = process.env
+const baseUrl = process.env.VUE_APP_API_URL
 
 /**
  * Handles game specific requests
@@ -11,10 +11,10 @@ export default {
 		return API.get(resource)
 	},
 	fetchJson(resource){
-		return axios.get(`${SERVER_URL}/static/json/${resource}`)
+		return axios.get(`${baseUrl}/static/json/${resource}`)
 	},
 	getImagePath(path){
-		return SERVER_URL + '/static/images/' + path
+		return baseUrl + '/static/images/' + path
 	},
 	async setHearthstoneDecks(decks) {
 		const { channelId } = store.state

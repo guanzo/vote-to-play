@@ -25,7 +25,7 @@ export default class GameSearch{
                         {
                             headers: {
                                 Accept: 'application/vnd.twitchtv.v5+json',
-                                'Client-ID': EXTENSION_CLIENT_ID
+                                'Client-ID': process.env.VUE_APP_EXTENSION_CLIENT_ID
                             }
                         })
                         .then(res=>{

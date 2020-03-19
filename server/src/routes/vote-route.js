@@ -16,7 +16,6 @@ if (NODE_ENV !== 'production') {
 	createDebug.enable('vtp')
 }
 
-const cl = console.log
 const PUBSUB_BASE_URL = 'https://api.twitch.tv/extensions/message'
 const BROADCAST_TARGET = 'broadcast'
 // Only rate limit voting.
@@ -306,7 +305,7 @@ async function addFakeVote (req, res) {
 	const channelId = '23435553'
 	const { userId, vote, voteId } = req.body
 	let result = await voteModel.addFakeVote(channelId, vote, userId)
-	//console.log(result)
+	//cl(result)
 	if(result.modifiedCount === 0) {
 		return res.sendStatus(422)
 	}

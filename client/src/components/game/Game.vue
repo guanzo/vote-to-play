@@ -1,47 +1,46 @@
 <template>
-    <div class="game" :class="game.className">
-        <transition :duration="delayDuration" name="fade">
-            <component
-                v-if="!isLoading"
-                :is="injectedComponent"
-                v-bind="propsObj"
-            >
-                <template slot="controls">
-                    <div v-for="filter in game.filters" class="control" :key="filter.id">
-                        <input v-if="filter.type == 'text'"
-                                v-model.trim="filter.vmodel"
-                                :placeholder="filter.placeholder"
-                                class="input is-small"
-                                type="text"
-                                maxlength="50"
-                        >
-                        <div v-else-if="filter.type == 'select'" class="select is-small">
-                            <select v-model="filter.vmodel">
-                                <option v-for="option in filter.options" :key="option">
-                                    {{ option }}
-                                </option>
-                            </select>
-                        </div>
+<div class="game" :class="game.className">
+    <transition :duration="delayDuration" name="fade">
+        <component
+            v-if="!isLoading"
+            :is="injectedComponent"
+            v-bind="propsObj"
+        >
+            <template slot="controls">
+                <div v-for="filter in game.filters" class="control" :key="filter.id">
+                    <input v-if="filter.type == 'text'"
+                            v-model.trim="filter.vmodel"
+                            :placeholder="filter.placeholder"
+                            class="input is-small"
+                            type="text"
+                            maxlength="50"
+                    >
+                    <div v-else-if="filter.type == 'select'" class="select is-small">
+                        <select v-model="filter.vmodel">
+                            <option v-for="option in filter.options" :key="option">
+                                {{ option }}
+                            </option>
+                        </select>
                     </div>
-                    <div v-if="game.filters.length" class="control" >
-                        <button @click="onResetFilters" class="button is-small is-outlined">
-                            Clear
-                        </button>
-                    </div>
-					<div class="control show-names flex-center">
-						<label class="checkbox">
-						<input v-model="showNameInGrid" type="checkbox">
-						Show names
-						</label>
-					</div>
-                </template>
-            </component>
-            <div v-else class="absolute-center">
-                <loading dark class="absolute-center" />
-            </div>
-
-        </transition>
-    </div>
+                </div>
+                <div v-if="game.filters.length" class="control" >
+                    <button @click="onResetFilters" class="button is-small is-outlined">
+                        Clear
+                    </button>
+                </div>
+                <div class="control show-names flex-center">
+                    <label class="checkbox">
+                    <input v-model="showNameInGrid" type="checkbox">
+                    Show names
+                    </label>
+                </div>
+            </template>
+        </component>
+        <div v-else class="absolute-center">
+            <loading dark class="absolute-center" />
+        </div>
+    </transition>
+</div>
 </template>
 
 <script>
@@ -51,8 +50,9 @@ import { GET_CANDIDATES, TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
 import { RESET_FILTERS } from '@/store/mutations'
 import loading from '@/components/util/loading/Loading'
 import { timeout } from '@/util'
+
 /**
- * Generic component that serves all supported games.
+ * Generic component that renders all supported games.
  *
  * voteCategory is either fed by
  * -Viewer: set by the streamer's selected game in dashboard
@@ -62,7 +62,6 @@ import { timeout } from '@/util'
  * -Voter.vue
  * -Whitelist.vue
  */
-
 export default {
     name: 'game',
     props:{
@@ -103,7 +102,8 @@ export default {
                 return this.game.gameOptions.showNameInGrid
             },
             set (value) {
-                this.$store.commit(this.namespace+'/'+TOGGLE_SHOW_NAME_IN_GRID, value)
+                const mutation = this.namespace+'/'+TOGGLE_SHOW_NAME_IN_GRID
+                this.$store.commit(mutation, value)
             }
         },
         isAllGames(){
@@ -112,9 +112,10 @@ export default {
     },
     watch:{
         isAuthed: {
-            handler(){//dota needs to access server
-                if(this.isAuthed)
+            handler(){
+                if(this.isAuthed) {
                     this.fetchCandidates()
+                }
             },
             immediate: false
         },
@@ -123,9 +124,11 @@ export default {
         },
         'game.filters.0.vmodel'(query = ''){
             // The vote category "All Games" is the only category
-            // where candidates are dynamically fetched
-            if(this.isAllGames && query.length > 0)
+            // where candidates are dynamically fetched when the user
+            // enters a filter.
+            if(this.isAllGames && query.length > 0) {
                 this.$store.dispatch(this.namespace+'/searchGames',query)
+            }
         },
     },
     created(){
@@ -197,7 +200,6 @@ General rules:
 
 
 .all-games {
-
     $w: 72px;
     $h: 100px;
     @include scale-img-size($w,$h);

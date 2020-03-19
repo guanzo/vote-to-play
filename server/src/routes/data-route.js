@@ -47,7 +47,7 @@ function parseShip(val, key) {
 	if (val.name.startsWith('[') && val.name.endsWith(']')) {
 		val.name = val.name.slice(1, -1) // Name comes surrounded by brackets
 	}
-	val.img = val.images.small.replace(/^http/,'https')
+	val.img = val.images.small
 	delete val.ship_id
 	return val
 }
@@ -75,6 +75,7 @@ async function requestWargamingData(url, fields, parseItem){
 				page_no: page
 			}
 		})
+		cl(response)
 		totalPages = response.data.meta.page_total
 		let items = _(response.data.data).map(parseItem).value()
 		data.push(...items)
@@ -143,6 +144,22 @@ async function fetchLolData () {
 	return candidates
 }
 
+async function getHotsData () {
+	const API_ORIGIN = 'https://www.hotslogs.com'
+	const HEROES__URL = `${API_ORIGIN}/api/Data/Heroes`
+	const IMG_BASE_URL = `${API_ORIGIN}/Images/Heroes/Portraits/`
+	
+	const res = await axios.get(HEROES__URL)
+	const candidates = _(res.data).map((val)=>{
+		val.id = val.PrimaryName
+			val.name = val.PrimaryName;
+			val.img = IMG_BASE_URL + val.ImageURL + '.png';
+			return val
+		}).sortBy('name').value()
+
+	return candidates
+}
+
 async function getApexLegendsData () {
 	let data = cache.get(APEX_LEGENDS_CACHE_KEY)
 	if (data) {
@@ -152,7 +169,7 @@ async function getApexLegendsData () {
 	try {
 		data = await fetchApexLegendsData()
 	} catch (e) {
-		console.log(e)
+		cl(e)
 	}
 	const filePath = path.resolve(candidatesDir, 'apex_legends.json')
 
@@ -196,6 +213,10 @@ module.exports = (app) => {
 	})
     app.get('/api/lol', async (req, res) => {
 		let data = await getLolData();
+		res.send(data)
+	})
+    app.get('/api/hots', async (req, res) => {
+		let data = await getHotsData();
 		res.send(data)
 	})
     app.get('/api/worldoftanks', async (req, res) => {

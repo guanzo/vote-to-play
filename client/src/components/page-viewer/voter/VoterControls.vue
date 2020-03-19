@@ -14,7 +14,9 @@
                 :class="{ 'is-loading': isLoading }"
             >
             Vote
-            <span v-if="selectedVote">&nbsp;for {{ selectedVote }}</span>
+            <span class="vote-for" v-if="selectedVote">
+                for {{ selectedVote }}
+            </span>
             </button>
         </div>
         <div class="tag is-warning m-l-a" v-else>
@@ -97,6 +99,9 @@ $input-max-width: 100px;
     }
 	.whitelist-tip{
 		width: 100%;
-	}
+    }
+    .vote-for {
+        margin-left: 3px;
+    }
 }
 </style>

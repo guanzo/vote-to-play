@@ -1,0 +1,42 @@
+@import 'variables.scss';
+@import 'transitions.scss';
+@import 'spacing-helpers.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+html{
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-width: 0px !important; //override bulma
+}
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.overflow-ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.flex-column {
+        flex-direction: column;
+    }
+}
+
+.absolute-center {
+    @include absolute-center;
+}
+
+.margin-center{
+    margin: 0 auto;
+}

@@ -40,6 +40,8 @@ window.Twitch.ext.onAuthorized(async auth => {
 window.Twitch.ext.unlisten('broadcast', listenCb)
 window.Twitch.ext.listen('broadcast', listenCb)
 
+// The backend writes to Twitch PubSub, which triggers
+// this callback.
 function listenCb (target, contentType, message) {
 	const { type, data } = JSON.parse(message)
 	//cl(type, data, 'ewewwesertfrere')
@@ -74,7 +76,7 @@ async function getSelectedGame (channelId) {
     const response = await axios.get(url,{
         headers:{
             Accept: 'application/vnd.twitchtv.v5+json',
-            'Client-ID': EXTENSION_CLIENT_ID,
+            'Client-ID': process.env.VUE_APP_EXTENSION_CLIENT_ID,
         }
 	})
 	return response.data.game
@@ -84,25 +86,8 @@ async function getChannelName (channelId) {
 	const url = `https://api.twitch.tv/helix/users?id=${channelId}`
     const response = await axios.get(url, {
         headers:{
-            'Client-Id':EXTENSION_CLIENT_ID,
+            'Client-Id': process.env.VUE_APP_EXTENSION_CLIENT_ID,
         }
     })
 	return response.data.data[0].display_name
-}
-
-
-//testing on localhost window, and not inside twitch iframe
-//i need to join a room so that i can cast votes locally
-if(!inIframe() && process.env.NODE_ENV === 'development'){
-    const token = process.env.TEST_TOKEN
-    const role = 'broadcaster'
-    store.dispatch(SET_AUTH, { channelId: -1, userId: -1, token, role, channelName: 'guanzo' })
-}
-
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
 }
