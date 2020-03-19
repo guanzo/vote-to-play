@@ -2,7 +2,7 @@ global.cl = console.log
 
 const Sentry = require('@sentry/node')
 const express = require('express');
-const app = express();
+require('express-async-errors')
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const authRouter = require('./routes/auth');
@@ -33,6 +33,7 @@ if (NODE_ENV !== 'production') {
 	cl('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
 }
 
+const app = express();
 // Code copied from https://sentry.io/for/express/
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler())
