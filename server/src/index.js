@@ -33,9 +33,23 @@ if (NODE_ENV !== 'production') {
 	cl('TWITCH_EXTENSION_SECRET', TWITCH_EXTENSION_SECRET)
 }
 
+// Code copied from https://sentry.io/for/express/
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler())
 app.use(cors({ credentials: true, origin: true }))
-let server;
-let port;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+authRouter(app)
+voteRouter(app)
+dataRouter(app)
+
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler())
+
+let server
+let port
 
 //uses nginx reverse proxy in production
 if (process.env.NODE_ENV === 'production'){
@@ -54,15 +68,11 @@ if (process.env.NODE_ENV === 'production'){
     app.use(express.static(path.resolve(__dirname, '../public')));
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-authRouter(app);
-voteRouter(server, app);
-dataRouter(app)
-
-db.connect().then(()=>{
+async function init () {
+    await db.connect()
     server.listen(port, () => {
-        cl(`Find the server at: https://localhost:${port}/`); // eslint-disable-line no-console
-	});
-})
+        cl(`Server running at: https://localhost:${port}/`)
+    })
+}
+
+init()

@@ -232,7 +232,7 @@ function broadcasterOnly (req, res, next) {
 	}
 }
 
-module.exports = (server, app) => {
+module.exports = (app) => {
 	const CHANNEL_ROUTE = '/api/channels/:channelId'
 
 	app.get(CHANNEL_ROUTE, getChannel)
