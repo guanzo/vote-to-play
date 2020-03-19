@@ -29,8 +29,7 @@
 		"lodash": "^4.17.4",
 		"memory-cache": "^0.2.0",
 		"mongodb": "^2.2.33",
-		"node-cleanup": "^2.1.2",
-		"socket.io": "^2.0.3"
+		"node-cleanup": "^2.1.2"
 	},
 	"devDependencies": {
 		"chai": "^4.1.2",

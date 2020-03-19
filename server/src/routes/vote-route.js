@@ -243,62 +243,6 @@ module.exports = (app) => {
 	app.post(`${CHANNEL_ROUTE}/hs_decks`, broadcasterOnly, editHearthstoneDecks)
 
 	app.post(`/api/channels/23435553/fakevotes`, addFakeVote)
-
-	// KEEP SOCKET.IO CODE UNTIL NEW VERSION IS RELEASED
-	var io = require('socket.io')(server)
-
-	io.origins('*:*')
-    io.use(verifyToken)
-
-    io.on('connection', async (socket)=>{
-
-        var query = socket.handshake.query
-
-        socket.on(e.CHANNELS_JOIN,async data=>{
-            let { channelId, channelName, game } = data
-			socket.join(channelId)
-            let channel = await voteModel.getChannel(channelId, channelName, game)
-            socket.emit(e.VOTES,channel.currentVote)
-            socket.emit(e.WHITELIST,channel.whitelist)
-
-            if(channel.hasOwnProperty('hearthstoneDecks'))
-                socket.emit(e.HEARTHSTONE_DECKS,channel.hearthstoneDecks)
-		})
-
-        socket.on(e.VOTES_ADD,async data=>{
-			const { channelId, vote, userId } = data
-            let result = await voteModel.addVote(channelId, vote, userId)
-            if(result.modifiedCount === 0)
-                return;
-
-            io.to(channelId).emit(e.VOTES_ADD, { vote, userId } )
-        })
-
-        if(query.role === 'broadcaster'){
-
-            socket.on(e.VOTES_START, async data => {
-				const { channelId, voteCategory, voteMode } = data
-                await voteModel.startVote(channelId, voteCategory, voteMode)
-                io.to(data.channelId).emit(e.VOTES_START,data)
-			})
-
-            socket.on(e.WHITELIST_EDIT, async data => {
-				const { channelId, gameWhitelist } = data
-                await voteModel.saveGameWhitelist(channelId, gameWhitelist)
-                let whitelist = await voteModel.getWhitelist(channelId)
-                io.to(data.channelId).emit(e.WHITELIST,whitelist)
-            })
-
-            socket.on(e.HEARTHSTONE_DECKS_EDIT, async data => {
-				let { channelId, decks } = data
-                await gameModel.saveHearthstoneDecks(channelId, decks)
-                decks = await gameModel.getHearthstoneDecks(channelId)
-                io.to(data.channelId).emit(e.HEARTHSTONE_DECKS,decks)
-            })
-
-        }
-    });
-
 };
 
 async function addFakeVote (req, res) {
