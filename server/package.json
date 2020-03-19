@@ -26,7 +26,7 @@
 		"http": "^0.0.0",
 		"https": "^1.0.0",
 		"jsonwebtoken": "^8.0.0",
-		"lodash": "^4.17.4",
+		"lodash": "^4.17.13",
 		"memory-cache": "^0.2.0",
 		"mongodb": "^2.2.33",
 		"node-cleanup": "^2.1.2"
