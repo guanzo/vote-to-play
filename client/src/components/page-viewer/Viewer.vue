@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import TestUtil from './testgui/TestUtil'
 import GameMaster from '@/components/game/_GameMaster'
@@ -43,10 +44,10 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState([
+        ...mapState([
             'selectedGame','voteCategory','currentVote','channelName','TESTING'
         ]),
-        ...Vuex.mapGetters(['hasSubmittedVote']),
+        ...mapGetters(['hasSubmittedVote']),
         showLogo(){
             return this.isExpanded || this.notifyNewVote
         },

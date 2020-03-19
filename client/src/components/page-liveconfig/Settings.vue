@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import unsupported from '@/components/game/Unsupported'
 import nogame from '@/components/game/NoGame'
@@ -80,8 +81,8 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
-        ...Vuex.mapGetters(['supportedGames','selectedGameModule']),
+        ...mapState(['selectedGame']),
+        ...mapGetters(['supportedGames','selectedGameModule']),
         voteCategorys(){
             return [this.selectedGame, ALL_GAMES]
         },

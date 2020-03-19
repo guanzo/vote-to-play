@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
 import { GET_CANDIDATES, TOGGLE_SHOW_NAME_IN_GRID } from '@/store/actions'
@@ -75,7 +76,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['isAuthed']),
+        ...mapState(['isAuthed']),
         game(){
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },

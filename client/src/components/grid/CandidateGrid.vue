@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import Candidate from './Candidate'
 import smoothReflow from 'vue-smooth-reflow'
 import {
@@ -42,7 +44,7 @@ export default {
         candidates: Array,
         candidateComponent: {
             type: Object,
-            default: Candidate
+            default: () => Candidate
         },
         selectCandidate: {
             type: Function
@@ -69,7 +71,7 @@ export default {
 		}
 	},
     computed:{
-        ...Vuex.mapState(['voteCategory','voteMode']),
+        ...mapState(['voteCategory','voteMode']),
         hasActiveFilter(){
             return this.filteredCandidates.length < this.candidates.length
 		},

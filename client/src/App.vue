@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 import voteApi from '@/api/vote-api'
 export default {
@@ -15,7 +16,7 @@ export default {
         }
     },
     computed: {
-        ...Vuex.mapState(['isAuthed', 'selectedGame']),
+        ...mapState(['isAuthed', 'selectedGame']),
         canFetchInitialState () {
             return this.isAuthed && this.selectedGame
         }

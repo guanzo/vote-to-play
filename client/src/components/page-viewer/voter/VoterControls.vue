@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import voteApi from '@/api/vote-api'
 import { NAMESPACE as ALL_GAMES }   from '@/store/modules/games/allGames'
@@ -44,10 +45,10 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState([
+        ...mapState([
             'userId','voteCategory','voteMode', 'channelId', 'channelName'
         ]),
-        ...Vuex.mapGetters(['isAnonymousUser']),
+        ...mapGetters(['isAnonymousUser']),
         preventVote(){
             return this.hasSubmittedVote || this.isLoading
         },

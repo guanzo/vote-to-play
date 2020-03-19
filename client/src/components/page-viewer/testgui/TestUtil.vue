@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import { TOGGLE_VOTE_SIMULATION, SET_GAME, SET_VOTE_CATEGORY } from '@/store/mutations'
+import { mapState } from 'vuex'
 
+import { TOGGLE_VOTE_SIMULATION, SET_GAME, SET_VOTE_CATEGORY } from '@/store/mutations'
 import API from '@/api/api'
 import voteApi from '@/api/vote-api'
 import { NAMESPACE as ALL_GAMES } from '@/store/modules/games/allGames'
@@ -35,7 +36,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState([
+        ...mapState([
             'selectedGame','TESTING', 'userId','channelId', 'currentVote','voteMode'
         ]),
         IS_DEVELOPMENT(){ return this.TESTING.IS_DEVELOPMENT },

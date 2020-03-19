@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import { NAMESPACE as HEARTHSTONE } from '@/store/modules/games/hearthstone'
 const notifiedHearthstoneDecks = 'notifiedHearthstoneDecks'
@@ -21,8 +22,8 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedGame']),
-        ...Vuex.mapGetters(HEARTHSTONE,['hasCustomDecks']),
+        ...mapState(['selectedGame']),
+        ...mapGetters(HEARTHSTONE,['hasCustomDecks']),
         showNotification(){
             return this.shouldNotify && !this.hasCustomDecks
         }

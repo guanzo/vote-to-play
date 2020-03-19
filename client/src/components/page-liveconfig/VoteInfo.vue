@@ -10,11 +10,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
     name:'vote-stats',
     computed:{
-        ...Vuex.mapState(['currentVote']),
+        ...mapState(['currentVote']),
     }
 }
 

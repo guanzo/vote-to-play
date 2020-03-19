@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 import gameApi from '@/api/game-api'
 import { NAMESPACE as NS_HS } from '@/store/modules/games/hearthstone'
@@ -74,7 +75,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(NS_HS,{
+        ...mapState(NS_HS,{
             decks:          s=>s.decks,
             candidates:     s=>s.candidates,
             originalClasses:s=>s.candidates.map(d=>d.name),

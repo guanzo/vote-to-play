@@ -5,7 +5,6 @@
             <VoterHeader
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :selectedCandidate="selectedCandidate"
-                :class="isInvisible"
              />
             <CandidateGrid
                 v-bind="$attrs"
@@ -13,13 +12,12 @@
                 :candidateComponent="CandidateVote"
                 :selectCandidate="selectCandidate"
 				:filteredCandidates="votableFilteredCandidates"
-                :class="[isInvisible, 'candidate-grid light']"
+                class="'candidate-grid light'"
             />
             <VoterControls
                 :hasSelectedCandidate="hasSelectedCandidate"
                 :hasSubmittedVote="hasSubmittedVote"
                 :selectedVote="selectedCandidate.name"
-                :class="isInvisible"
             >
                 <slot name="controls" />
             </VoterControls>
@@ -31,6 +29,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import VoterHeader from './VoterHeader'
 import CandidateGrid from '@/components/grid/CandidateGrid'
@@ -62,8 +61,8 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['selectedCandidate','voteMode']),
-        ...Vuex.mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
+        ...mapState(['selectedCandidate','voteMode']),
+        ...mapGetters(['hasSelectedCandidate','hasSubmittedVote']),
         showUI(){
             return !this.hasSubmittedVote
         },

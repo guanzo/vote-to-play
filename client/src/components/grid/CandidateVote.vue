@@ -9,6 +9,7 @@
 
 <script>
 // Adds functionality to selected candidates within the voting grid.
+import { mapState } from 'vuex'
 
 import Candidate from './Candidate'
 
@@ -19,7 +20,7 @@ export default {
         showNameInGrid: Boolean
     },
     computed: {
-        ...Vuex.mapState(['selectedCandidate']),
+        ...mapState(['selectedCandidate']),
         isSelected () {
             const { name } = this.selectedCandidate
             return name === this.candidate.name

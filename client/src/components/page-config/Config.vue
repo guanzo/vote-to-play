@@ -7,13 +7,16 @@
         </p>
         <h3 class="title is-4">Usage</h3>
         <p>
-            If you want viewers to vote on game characters, set the game in your stream information.<br>
-            For example, if you want viewers to vote on a Dota 2 hero, set Dota 2 as the game on Twitch, and click <example v-html="startVoteExample" />
+            If you want viewers to vote on game characters, set the game in
+            your stream information.<br>For example, if you want viewers to
+            vote on a Dota 2 hero, set Dota 2 as the game on Twitch, and
+            click <span v-html="startVoteExample" />
         </p>
 		<p>
             If you want viewers to vote on games, select
-            <example v-html="radioBtnSample('All Games')" />
-            under <example class="tag is-medium"><b>Vote Category</b></example>, and click <example v-html="startVoteExample" />
+            <span v-html="radioBtnSample('All Games')" />
+            under <span class="tag is-medium"><b>Vote Category</b></span>, and click
+            <span v-html="startVoteExample" />
         </p>
         <p>You can do all this on your Live Dashboard.</p>
         <p><b>Tip:</b> When you update the game on Twitch, a new vote automatically starts.</p>
@@ -21,10 +24,10 @@
         <h3 class="title is-4">Settings</h3>
         <p>By default, viewers can vote on any candidate in the pool.<br>If you want viewers to vote only on specific candidates, you can configure that here. Make sure to save your changes.</p>
         <p>You can toggle between
-            <example v-html="radioBtnSample( VOTE_MODE_VIEWER )" />
+            <span v-html="radioBtnSample( VOTE_MODE_VIEWER )" />
             and
-            <example v-html="radioBtnSample( VOTE_MODE_STREAMER )" />
-            under <example class="tag is-medium"><b>Vote Mode</b></example>
+            <span v-html="radioBtnSample( VOTE_MODE_STREAMER )" />
+            under <span class="tag is-medium"><b>Vote Mode</b></span>
             on your Live Dashboard.
         </p>
         <div class="select">
@@ -47,6 +50,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import whitelist from './Whitelist'
 import GameMaster from '@/components/game/_GameMaster'
 
@@ -64,7 +69,7 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['voteCategory']),
+        ...mapState(['voteCategory']),
         supportedGames(){
             return this.$store.getters.supportedGames
         },
@@ -97,7 +102,7 @@ export default {
     p{
         margin-bottom: 15px;
     }
-    example{
+    span{
         margin: 0px 5px;
         pointer-events: none;
     }

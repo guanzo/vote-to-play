@@ -9,11 +9,12 @@
 
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
     name:'game-unsupported',
     computed:{
-        ...Vuex.mapState(['selectedGame'])
+        ...mapState(['selectedGame'])
     }
 }
 

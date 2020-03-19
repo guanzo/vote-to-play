@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 
 import voteLoading from '@/components/util/loading/VoteLoading'
 import loading from '@/components/util/loading/Loading'
@@ -39,8 +40,8 @@ export default {
         }
     },
     computed:{
-        ...Vuex.mapState(['currentVote', 'userVote']),
-        ...Vuex.mapGetters(['selectedGameModule']),
+        ...mapState(['currentVote', 'userVote']),
+        ...mapGetters(['selectedGameModule']),
         rankedVotes(){
             return _(this.currentVote.votes)
                 .sortBy('count')

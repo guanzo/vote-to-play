@@ -1,6 +1,10 @@
-import * as M from './mutations'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
+import * as M from './mutations'
 import games from './modules/games/_main'
+
+Vue.use(Vuex)
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 
