@@ -23,7 +23,10 @@ module.exports = app => {
         jwt.verify(token, secret, function (err, decoded) {
             if (err) {
                 cl(err, 'did not verify')
-                return res.json({ success: false, message: 'Failed to authenticate token.' })
+                return res.status(403).json({
+                    success: false,
+                    message: 'Failed to authenticate token.'
+                })
             }
 
             req.decodedJwt = decoded
