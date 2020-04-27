@@ -4,7 +4,7 @@ var assert = require('assert')
 var nodeCleanup = require('node-cleanup')
 
 // Connection URL
-var productionUrl = 'mongodb://localhost:27017/votetoplay'
+var productionUrl = process.env.MONGO_URL
 
 var state = {
     db: null
