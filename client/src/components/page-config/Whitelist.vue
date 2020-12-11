@@ -47,92 +47,91 @@ import candidateGrid from '@/components/grid/CandidateGrid'
 import whitelistControls from './WhitelistControls'
 
 export default {
-    name:'whitelist',
+    name: 'whitelist',
     inheritAttrs: false,
-    props:{
+    props: {
         voteCategory: String
     },
-    data(){
+    data () {
         return {
             noResults: "You haven't whitelisted any candidates. Click on the candidates to whitelist them."
         }
     },
-    computed:{
-        game(){
+    computed: {
+        game () {
             return this.$store.getters.gameModuleByName(this.voteCategory)
         },
-		namespace(){     return this.game.gameName },
-        tempWhitelist(){ return this.game.tempWhitelist },
-        tempBlacklist(){ return this.game.tempBlacklist },
-        candidates(){
-            return this.$store.getters[this.namespace+'/candidates']
+        namespace () { return this.game.gameName },
+        tempWhitelist () { return this.game.tempWhitelist },
+        tempBlacklist () { return this.game.tempBlacklist },
+        candidates () {
+            return this.$store.getters[this.namespace + '/candidates']
         },
-        whitelistedCandidates(){
-            return this.$store.getters[this.namespace+'/whitelistedCandidates']
+        whitelistedCandidates () {
+            return this.$store.getters[this.namespace + '/whitelistedCandidates']
         },
-        filteredCandidates(){
-            return this.$store.getters[this.namespace+'/filteredCandidates']
+        filteredCandidates () {
+            return this.$store.getters[this.namespace + '/filteredCandidates']
         },
-        filteredBlacklist(){
-			return this.$store.getters[this.namespace+'/filteredBlacklist']
-		},
-        hasUnsavedChanges(){
-            return this.$store.getters[this.namespace+'/hasUnsavedChanges']
+        filteredBlacklist () {
+            return this.$store.getters[this.namespace + '/filteredBlacklist']
+        },
+        hasUnsavedChanges () {
+            return this.$store.getters[this.namespace + '/hasUnsavedChanges']
         }
     },
-    watch:{
-        //set initial whitelist, && each time user saves whitelist
-        whitelistedCandidates:{
-            handler(whitelistedCandidates){
-                this.commit('updateTempWhitelist',whitelistedCandidates)
+    watch: {
+        // set initial whitelist, && each time user saves whitelist
+        whitelistedCandidates: {
+            handler (whitelistedCandidates) {
+                this.commit('updateTempWhitelist', whitelistedCandidates)
             },
             immediate: true
         },
-        voteCategory:{
-            handler(){
-                this.$store.dispatch(this.namespace+'/partition');
+        voteCategory: {
+            handler () {
+                this.$store.dispatch(this.namespace + '/partition')
             },
             immediate: true
         },
-		//allGames && hearthstone compatibility
-		//these games can change their candidates dynamically
-        candidates(){
-            this.$store.dispatch(this.namespace+'/partition');
-        },
+        // allGames && hearthstone compatibility
+        // these games can change their candidates dynamically
+        candidates () {
+            this.$store.dispatch(this.namespace + '/partition')
+        }
     },
-    created(){
-        window.addEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
-	},
-    destroyed(){
-        window.removeEventListener('beforeunload',this.warnUnsavedChanges.bind(this))
+    created () {
+        window.addEventListener('beforeunload', this.warnUnsavedChanges.bind(this))
     },
-    methods:{
-        commit(mutation, payload){
-            this.$store.commit(this.namespace+'/'+mutation, payload)
+    destroyed () {
+        window.removeEventListener('beforeunload', this.warnUnsavedChanges.bind(this))
+    },
+    methods: {
+        commit (mutation, payload) {
+            this.$store.commit(this.namespace + '/' + mutation, payload)
         },
-        swap(candidate,toArray,fromArray){
-            this.commit('swap',{ candidate, toArray, fromArray })
+        swap (candidate, toArray, fromArray) {
+            this.commit('swap', { candidate, toArray, fromArray })
         },
-        swapAll(toArray, fromArray){
-            this.commit('swapAll',{ toArray, fromArray })
+        swapAll (toArray, fromArray) {
+            this.commit('swapAll', { toArray, fromArray })
         },
-        warnUnsavedChanges(e){
-            if(!this.hasUnsavedChanges)
-                return;
+        warnUnsavedChanges (e) {
+            if (!this.hasUnsavedChanges) { return }
             const msg = 'You have unsaved changes'
             e.returnValue = msg
             return msg
-        },//fade out element in place when swapping between white/black lists
-        beforeLeave(el){
-            //getComputedStyle has low performance, just hardcode margin
-			const marginTop = 2;
-			const top = (el.offsetTop - marginTop)+'px';
-			const left = el.offsetLeft+'px'
-			//assign all at once to prevent unnecessary reflows
-			Object.assign(el.style, { left, top })
+        }, // fade out element in place when swapping between white/black lists
+        beforeLeave (el) {
+            // getComputedStyle has low performance, just hardcode margin
+            const marginTop = 2
+            const top = (el.offsetTop - marginTop) + 'px'
+            const left = el.offsetLeft + 'px'
+            // assign all at once to prevent unnecessary reflows
+            Object.assign(el.style, { left, top })
         }
     },
-    components:{
+    components: {
         candidateGrid,
         whitelistControls
     }
