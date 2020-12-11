@@ -62,6 +62,15 @@
         "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Doomfist_splash.jpg"
     },
     {
+        "id": 31,
+        "name": "Echo",
+        "type": "offense",
+        "difficulty": 2,
+        "description": "Hulk Smash",
+        "img": "https://d1u1mce87gyfbn.cloudfront.net/hero/echo/hero-select-portrait.png",
+        "imgSplash": "https://votetoplay.guanzo.io/static/images/overwatch/splash/Doomfist_splash.jpg"
+    },
+    {
         "id": 5,
         "name": "Genji",
         "type": "offense",
