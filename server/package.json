@@ -29,7 +29,7 @@
 		"jsonwebtoken": "^8.0.0",
 		"lodash": "^4.17.4",
 		"memory-cache": "^0.2.0",
-		"mongodb": "^2.2.33",
+		"mongodb": "^3.1.13",
 		"node-cleanup": "^2.1.2"
 	},
 	"devDependencies": {
